@@ -1,0 +1,726 @@
+@use "utils" as *;
+@use "global" as *;
+
+.untitled-page {
+  &.mainContentSection {
+    display: flex;
+    flex-direction: column;
+    background: var(--src) center center / cover no-repeat;
+    background-color: rgb(255 255 255);
+    overflow: hidden;
+  }
+
+  .flexColumnContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 11px 0;
+    margin: 19px 6px 0 0;
+    max-width: 1434px;
+
+    @include sm {
+      align-items: center;
+      column-gap: 0;
+    }
+  }
+
+  .flexRowSearchResults {
+    display: flex;
+    gap: 0 11px;
+    margin: 0 0 0 auto;
+    width: 510px;
+    max-width: 85%;
+
+    @include xs {
+      align-items: center;
+      gap: 26px 12px;
+    }
+  }
+
+  .searchButton {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0 10px;
+    margin: 9px 0 1.5px;
+    min-width: 239px;
+    height: 40px;
+    background-color: rgb(255 255 255);
+    border-radius: 20px;
+    padding: 12px 24px 12px 16px;
+    outline: 1px solid rgb(217 217 217);
+    outline-offset: -0.5px;
+
+    @include xs {
+      margin-top: unset;
+      margin-right: unset;
+      margin-bottom: unset;
+      margin-left: unset;
+      width: 50%;
+      min-width: unset;
+    }
+  }
+
+  .searchButtonText {
+    margin: 6px 0 3px;
+    width: 112px;
+    height: 16px;
+    font: 400 16px/1 Inter, Helvetica, Arial, serif;
+    color: rgb(117 117 117);
+  }
+
+  .searchButtonIcon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .galleryImage1 {
+    margin: 0 0 0.5px;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+
+    @include xs {
+      margin-top: unset;
+      margin-right: unset;
+      margin-bottom: unset;
+      margin-left: unset;
+      width: 100%;
+      max-width: 50px;
+    }
+
+    @include xxs {
+      margin: 0 auto;
+    }
+  }
+
+  .galleryImage2 {
+    margin: 4px 0 6.5px;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    object-fit: cover;
+
+    @include xs {
+      margin-top: unset;
+      margin-right: unset;
+      margin-bottom: unset;
+      margin-left: unset;
+      width: 100%;
+      max-width: 40px;
+    }
+
+    @include xxs {
+      margin: 0 auto;
+    }
+  }
+
+  .infoColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 1px 0;
+    margin: 3.5px 0 0;
+    width: 87px;
+    min-width: 0;
+    height: 47px;
+
+    @include xs {
+      margin-top: unset;
+      margin-right: unset;
+      margin-bottom: unset;
+      margin-left: unset;
+      width: 100%;
+      min-width: unset;
+    }
+  }
+
+  .titleText {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 23px;
+    font: 600 16px/1.39 Inter, Helvetica, Arial, serif;
+    color: rgb(48 48 48);
+  }
+
+  .descriptionText {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 23px;
+    font: 400 16px/1.39 Inter, Helvetica, Arial, serif;
+    color: rgb(48 48 48);
+  }
+
+  .galleryImage3 {
+    margin: 1px 0 1.5px;
+    width: 48px;
+    height: 48px;
+    object-fit: cover;
+
+    @include xs {
+      margin-top: unset;
+      margin-right: unset;
+      margin-bottom: unset;
+      margin-left: unset;
+      width: 100%;
+      max-width: 48px;
+    }
+
+    @include xxs {
+      margin: 0 auto;
+    }
+  }
+
+  .flexRowContent {
+    display: flex;
+    justify-content: space-between;
+    gap: 0 10px;
+    width: 91.7%;
+
+    @include lg {
+      flex-direction: column;
+      align-items: center;
+      gap: 30px 10px;
+    }
+  }
+
+  .contentBox {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 340px;
+    min-width: 0;
+    background-color: rgb(174 177 224 / 90.1%);
+    box-shadow: inset 0 4px 4px 0 rgb(0 0 0 / 25%);
+
+    @include lg {
+      width: 100%;
+      min-width: unset;
+    }
+  }
+
+  .flexRowItems {
+    position: relative;
+    display: flex;
+    gap: 0 17px;
+    margin: 2px 0 351px 19px;
+
+    @include md {
+      margin: 2px auto 150px;
+    }
+
+    @include xs {
+      column-gap: 16px;
+      margin: 2px auto 80px;
+    }
+
+    @include tn {
+      column-gap: 8px;
+      margin: 2px auto 50px;
+    }
+  }
+
+  .flexColumnDashboard {
+    display: flex;
+    flex-direction: column;
+    margin: 43px 0 0;
+    width: 254px;
+    min-width: 0;
+  }
+
+  .dashboardImage {
+    display: flex;
+    align-items: center;
+    gap: 0 13px;
+    margin: 0 1px;
+    width: 99.21%;
+    height: 49px;
+
+    @include xl {
+      margin: 0 auto;
+    }
+
+    @include tn {
+      column-gap: 8px;
+    }
+  }
+
+  .image3 {
+    width: 49px;
+    height: 49px;
+    object-fit: cover;
+  }
+
+  .dashboardSubtitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 12px 0 13px;
+    width: 104px;
+    height: 24px;
+    font: 700 20px/1.2 Inter, Helvetica, Arial, serif;
+    color: rgb(255 255 255);
+    text-align: center;
+    letter-spacing: -0.4px;
+
+    @include xl {
+      margin: 12px auto 13px;
+    }
+
+    @include md {
+      font-size: 18px;
+    }
+
+    @include xxs {
+      font-size: 16px;
+    }
+  }
+
+  .flexColumnProfile {
+    display: flex;
+    gap: 0 14px;
+    margin: 45px 1px 0;
+    width: 99.21%;
+    height: 50px;
+
+    @include xl {
+      margin: 45px auto 0;
+    }
+
+    @include tn {
+      column-gap: 8px;
+    }
+  }
+
+  .profileImage {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+
+  .profileSubtitle {
+    display: flex;
+    align-items: center;
+    margin: 16.5px 0 9.5px;
+    width: 61px;
+    height: 24px;
+    font: 700 20px/1.2 Inter, Helvetica, Arial, serif;
+    color: rgb(255 255 255);
+    letter-spacing: -0.4px;
+
+    @include lg {
+      margin: 16.5px auto 9.5px;
+    }
+
+    @include md {
+      font-size: 18px;
+    }
+
+    @include xxs {
+      font-size: 16px;
+    }
+  }
+
+  .flexColumnOrders {
+    display: flex;
+    align-items: center;
+    gap: 0 14px;
+    margin: 54px 1px 0;
+    width: 99.21%;
+    height: 50px;
+
+    @include xl {
+      margin: 54px auto 0;
+    }
+
+    @include tn {
+      column-gap: 8px;
+      margin: 50px auto 0;
+    }
+  }
+
+  .ordersImage {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+
+  .ordersSubtitle {
+    display: flex;
+    align-items: center;
+    margin: 13.5px 0 12.5px;
+    width: 65px;
+    height: 24px;
+    font: 700 20px/1.2 Inter, Helvetica, Arial, serif;
+    color: rgb(255 255 255);
+    letter-spacing: -0.4px;
+
+    @include lg {
+      margin: 13.5px auto 12.5px;
+    }
+
+    @include md {
+      font-size: 18px;
+    }
+
+    @include xxs {
+      font-size: 16px;
+    }
+  }
+
+  .flexColumnAppointments {
+    display: flex;
+    align-items: center;
+    gap: 0 14px;
+    margin: 51px 1px 0;
+    width: 99.21%;
+    height: 50px;
+
+    @include xl {
+      margin: 51px auto 0;
+    }
+
+    @include tn {
+      column-gap: 8px;
+      margin: 50px auto 0;
+    }
+  }
+
+  .appointmentsImage {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+
+  .appointmentsSubtitle {
+    display: flex;
+    align-items: center;
+    margin: 13.5px 0 12.5px;
+    width: 134px;
+    height: 24px;
+    font: 700 20px/1.2 Inter, Helvetica, Arial, serif;
+    color: rgb(255 255 255);
+    letter-spacing: -0.4px;
+
+    @include md {
+      font-size: 18px;
+    }
+
+    @include xxs {
+      font-size: 16px;
+    }
+
+    @include tn {
+      margin: 13.5px auto 12.5px;
+    }
+  }
+
+  .flexColumnCustomizationHub {
+    display: flex;
+    align-items: center;
+    gap: 0 15px;
+    margin: 49px 0 0;
+    width: 100%;
+    height: 50px;
+
+    @include tn {
+      column-gap: 8px;
+    }
+  }
+
+  .customizationHubImage {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+  }
+
+  .customizationHubSubtitle {
+    display: flex;
+    align-items: center;
+    margin: 13.5px 0 12.5px;
+    width: 189px;
+    height: 24px;
+    font: 700 20px/1.2 Inter, Helvetica, Arial, serif;
+    color: rgb(255 255 255);
+    letter-spacing: -0.4px;
+
+    @include md {
+      font-size: 18px;
+    }
+
+    @include xxs {
+      font-size: 16px;
+    }
+  }
+
+  .flexColumnFabricStock {
+    display: flex;
+    align-items: center;
+    gap: 0 15px;
+    margin: 50px 1px 0;
+    width: 99.21%;
+    height: 49px;
+
+    @include xl {
+      margin: 50px auto 0;
+    }
+
+    @include tn {
+      column-gap: 8px;
+    }
+  }
+
+  .fabricStockImage {
+    width: 49px;
+    height: 49px;
+    object-fit: cover;
+  }
+
+  .fabricStockSubtitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 12.5px 0;
+    width: 118px;
+    height: 24px;
+    font: 700 20px/1.2 Inter, Helvetica, Arial, serif;
+    color: rgb(255 255 255);
+    text-align: center;
+    letter-spacing: -0.4px;
+
+    @include xl {
+      margin: 12.5px auto;
+    }
+
+    @include md {
+      font-size: 18px;
+    }
+
+    @include xxs {
+      font-size: 16px;
+    }
+  }
+
+  .galleryImage5 {
+    position: absolute;
+    inset: -70px 251px 943px 11px;
+    width: 78px;
+    height: 70px;
+
+    @include xs {
+      width: 43px;
+      height: 45px;
+    }
+  }
+
+  .flexRowSummary {
+    display: flex;
+    justify-content: space-between;
+    gap: 0 10px;
+    margin: 98px 0 647px;
+    width: 870px;
+    min-width: 0;
+
+    @include lg {
+      margin: 0;
+      width: 100%;
+      min-width: unset;
+    }
+
+    @include xxs {
+      flex-direction: column;
+      align-items: center;
+      gap: 30px 10px;
+    }
+  }
+
+  .summaryContentBox {
+    display: flex;
+    flex-direction: column;
+    width: 330px;
+    min-width: 0;
+    background-color: rgb(255 255 255);
+    box-shadow: 0 12px 4px 0 rgb(0 0 0 / 25%);
+
+    @include xxs {
+      width: 100%;
+      min-width: unset;
+    }
+  }
+
+  .flexColumnCurrentOrders {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px 0;
+    margin: 85px 94.5px 38px 93.5px;
+    width: 142px;
+    max-width: 85%;
+
+    @include lg {
+      margin: 85px auto 38px;
+    }
+
+    @include xs {
+      margin: 80px auto 38px;
+    }
+
+    @include xxs {
+      width: 85%;
+    }
+
+    @include tn {
+      margin: 50px auto 38px;
+    }
+  }
+
+  .currentOrdersHeroTitle {
+    display: flex;
+    justify-content: center;
+    margin: 0 15.5px;
+    width: 111px;
+    max-width: 85%;
+    height: 48px;
+    font: 700 40px/1.2 Inter, Helvetica, Arial, serif;
+    color: rgb(0 0 0);
+    text-align: center;
+    letter-spacing: -0.8px;
+
+    @include md {
+      align-items: flex-start;
+      font-size: 36px;
+    }
+
+    @include xxs {
+      font-size: 32px;
+    }
+
+    @include tn {
+      margin: 0 8px;
+    }
+  }
+
+  .currentOrdersSubtitle {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 24px;
+    font: 700 20px/1.2 Inter, Helvetica, Arial, serif;
+    color: rgb(0 0 0);
+    text-align: center;
+    letter-spacing: -0.4px;
+
+    @include md {
+      align-items: flex-start;
+      font-size: 18px;
+    }
+
+    @include xxs {
+      font-size: 16px;
+    }
+  }
+
+  .upcomingAppointmentsContentBox {
+    display: flex;
+    flex-direction: column;
+    width: 330px;
+    min-width: 0;
+    background-color: rgb(255 255 255);
+    box-shadow: 0 11px 4px 0 rgb(0 0 0 / 25%);
+
+    @include xxs {
+      width: 100%;
+      min-width: unset;
+    }
+  }
+
+  .flexColumnUpcomingAppointments {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 9px 46.5px 38px 47.5px;
+    width: 236px;
+    max-width: 85%;
+
+    @include md {
+      margin: 9px auto 38px;
+    }
+
+    @include xs {
+      margin: 9px 16px 38px;
+    }
+
+    @include xxs {
+      margin: 9px auto 38px;
+      width: 85%;
+    }
+  }
+
+  .upcomingAppointmentsImage {
+    margin: 0 81.5px 0 83.5px;
+    width: 71px;
+    max-width: 85%;
+    height: 75px;
+    object-fit: cover;
+
+    @include md {
+      margin: 0 32px;
+    }
+
+    @include sm {
+      margin: 0 auto;
+    }
+  }
+
+  .upcomingAppointmentsHeroTitle {
+    display: flex;
+    justify-content: center;
+    margin: 0 80.5px 0 79.5px;
+    width: 76px;
+    max-width: 85%;
+    height: 48px;
+    font: 700 40px/1.2 Inter, Helvetica, Arial, serif;
+    color: rgb(0 0 0);
+    text-align: center;
+    letter-spacing: -0.8px;
+
+    @include md {
+      align-items: flex-start;
+      margin: 0 32px;
+      font-size: 36px;
+    }
+
+    @include xs {
+      margin: 0 16px;
+    }
+
+    @include xxs {
+      font-size: 32px;
+    }
+
+    @include tn {
+      margin: 0 8px;
+    }
+  }
+
+  .upcomingAppointmentsSubtitle {
+    display: flex;
+    justify-content: center;
+    margin: 4px 0 0;
+    width: 100%;
+    height: 24px;
+    font: 700 20px/1.2 Inter, Helvetica, Arial, serif;
+    color: rgb(0 0 0);
+    text-align: center;
+    letter-spacing: -0.4px;
+
+    @include md {
+      align-items: flex-start;
+      font-size: 18px;
+    }
+
+    @include xxs {
+      font-size: 16px;
+    }
+  }
+}

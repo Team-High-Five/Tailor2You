@@ -1,0 +1,474 @@
+.tailor-dashboard.mainSection {
+  display: flex;
+  flex-direction: column;
+  background: var(--src) center center/100% 100% no-repeat;
+  background-color: white;
+  overflow: hidden;
+}
+.tailor-dashboard .searchAndImageDisplaySection {
+  display: flex;
+  flex-direction: column;
+  min-height: 93px;
+}
+.tailor-dashboard .imageDisplayWrapper {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.007);
+  border-radius: 15px 15px 0 0;
+}
+.tailor-dashboard .imageFlexRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0 10px;
+  margin: 11px 12px 5px;
+}
+.tailor-dashboard .displayImage {
+  width: 77px;
+  min-width: 0;
+}
+@media (max-width: 1199px) {
+  .tailor-dashboard .displayImage {
+    min-width: 50px;
+    min-height: 50px;
+  }
+}
+.tailor-dashboard .buttonContainerRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 0 10px;
+  width: 687px;
+  min-width: 0;
+}
+.tailor-dashboard .searchButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0 10px;
+  margin: 4px 0 8px;
+  width: 352px;
+  min-width: 100px;
+  background-color: white;
+  border-radius: 20px;
+  padding: 12px 14px 12px 16px;
+  outline: 1px solid #d9d9d9;
+  outline-offset: -0.5px;
+}
+.tailor-dashboard .searchButtonText {
+  margin: 3px 0 6px;
+  min-width: 0;
+  font: 400 16px/1 Inter, Helvetica, Arial, serif;
+  color: #757575;
+}
+.tailor-dashboard .searchButtonIcon {
+  width: 27px;
+  min-width: 0;
+}
+.tailor-dashboard .imageFlexRowSecondary {
+  display: flex;
+  justify-content: space-between;
+  gap: 0 10px;
+  width: 289px;
+  min-width: 0;
+}
+.tailor-dashboard .imageWrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 2px 0 0;
+  width: 50px;
+  min-width: 0;
+  background: var(--src) center center/100% 100% no-repeat;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+}
+@media (max-width: 1399px) {
+  .tailor-dashboard .imageWrapper {
+    min-width: 50px;
+    height: 0;
+    min-height: 50px;
+  }
+}
+@media (max-width: 1199px) {
+  .tailor-dashboard .imageWrapper {
+    margin: 4px 0 0;
+  }
+}
+@media (max-width: 479px) {
+  .tailor-dashboard .imageWrapper {
+    min-height: 52px;
+    padding: 0;
+  }
+}
+.tailor-dashboard .secondaryDisplayImage {
+  margin: 13px;
+  width: 24px;
+  height: 24px;
+}
+.tailor-dashboard .gridContentRow {
+  display: flex;
+  gap: 0 11px;
+  margin: 0 0 1.5px;
+  width: 198px;
+  min-width: 0;
+}
+.tailor-dashboard .cardFlexRow {
+  display: flex;
+  gap: 0 12px;
+  margin: 3.5px 0 0;
+  width: 139px;
+  min-width: 0;
+}
+.tailor-dashboard .gridCardImage {
+  margin: 0.5px 0 6.5px;
+  width: 40px;
+  min-width: 0;
+  border-radius: 20px;
+}
+@media (max-width: 1199px) {
+  .tailor-dashboard .gridCardImage {
+    margin: 4px 0 6.5px;
+    min-width: 40px;
+    min-height: 40px;
+  }
+}
+@media (max-width: 479px) {
+  .tailor-dashboard .gridCardImage {
+    min-width: 30px;
+    min-height: 20px;
+  }
+}
+.tailor-dashboard .cardDetailsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1px 0;
+  width: 87px;
+  min-width: 0;
+}
+@media (max-width: 767px) {
+  .tailor-dashboard .cardDetailsColumn {
+    display: none;
+  }
+}
+.tailor-dashboard .gridCardTitle {
+  display: flex;
+  align-items: center;
+  font: 600 16px/1.39 Inter, Helvetica, Arial, serif;
+  color: white;
+}
+.tailor-dashboard .gridCardDescription {
+  display: flex;
+  align-items: center;
+  font: 400 16px/1.39 Inter, Helvetica, Arial, serif;
+  color: #303030;
+}
+.tailor-dashboard .tertiaryDisplayImage {
+  margin: 0 0 2.5px;
+  width: 48px;
+  min-width: 0;
+}
+@media (max-width: 1199px) {
+  .tailor-dashboard .tertiaryDisplayImage {
+    min-width: 42px;
+  }
+}
+.tailor-dashboard .dashboardSection {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 1px;
+}
+.tailor-dashboard .dashboardContentRow {
+  display: flex;
+  margin: 17px 0 0;
+}
+.tailor-dashboard .dashboardImage {
+  width: 92px;
+  min-width: 92px;
+}
+.tailor-dashboard .dashboardColumn {
+  display: flex;
+  flex-direction: column;
+  width: 1348px;
+  min-width: 0;
+}
+.tailor-dashboard .dashboardWrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 0 17.66%;
+  width: 330px;
+  background-color: rgba(0, 0, 0, 0.203);
+  border-radius: 15px 15px 0 0;
+}
+@media (max-width: 479px) {
+  .tailor-dashboard .dashboardWrapper {
+    margin: 0 0 0 0%;
+  }
+}
+.tailor-dashboard .dashboardTitle {
+  display: flex;
+  justify-content: center;
+  margin: 29px 102px 32px 98px;
+  width: 130px;
+  height: 29px;
+  font: 800 24px/1.2 Inter, Helvetica, Arial, serif;
+  color: white;
+  text-align: center;
+}
+.tailor-dashboard .contentBoxContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.tailor-dashboard .coverImage {
+  position: absolute;
+  inset: 0;
+  width: 1348px;
+  height: 823px;
+}
+.tailor-dashboard .dashboardFlexRow {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  gap: 0 10px;
+  margin: 61px 0 601px 13.35%;
+  width: 896px;
+}
+@media (max-width: 1199px) {
+  .tailor-dashboard .dashboardFlexRow {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px 10px;
+    width: 0;
+    min-width: 564px;
+  }
+}
+@media (max-width: 767px) {
+  .tailor-dashboard .dashboardFlexRow {
+    min-width: 454px;
+  }
+}
+@media (max-width: 575px) {
+  .tailor-dashboard .dashboardFlexRow {
+    margin: 61px 0 601px 2.5%;
+  }
+}
+@media (max-width: 479px) {
+  .tailor-dashboard .dashboardFlexRow {
+    margin: 61px 0 601px 0%;
+    min-width: 310px;
+  }
+}
+.tailor-dashboard .dashboardBox {
+  display: flex;
+  flex-direction: column;
+  width: 262px;
+  min-width: 0;
+  background-color: white;
+  border-radius: 14px;
+  box-shadow: 6px 6px 54px 0 rgba(0, 0, 0, 0.05);
+}
+@media (max-width: 1199px) {
+  .tailor-dashboard .dashboardBox {
+    margin-top: unset;
+    margin-bottom: unset;
+    width: 100%;
+  }
+}
+.tailor-dashboard .statisticsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 29px 0;
+  margin: 16px;
+}
+.tailor-dashboard .statisticsFlexRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 0 10px;
+}
+.tailor-dashboard .statisticsDetailsColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 16px 0;
+  width: 89px;
+  min-width: 0;
+}
+.tailor-dashboard .totalOrderText {
+  margin: 0 7px 0 0;
+  font: 600 16px/1.37 "Nunito Sans", Helvetica, Arial, serif;
+  color: #202224;
+  letter-spacing: -0.2px;
+  opacity: 0.69;
+}
+.tailor-dashboard .totalOrderValue {
+  font: 700 28px/1.35 "Nunito Sans", Helvetica, Arial, serif;
+  color: #202224;
+  letter-spacing: 1px;
+}
+.tailor-dashboard .statisticsImage {
+  margin: 0 0 16px;
+  width: 60px;
+  min-width: 0;
+}
+.tailor-dashboard .weeklyComparisonRow {
+  display: flex;
+  gap: 0 8px;
+}
+.tailor-dashboard .weeklyComparisonImage {
+  width: 24px;
+  min-width: 0;
+}
+.tailor-dashboard .weeklyComparisonTextBox_box {
+  margin: 1px 0;
+  min-width: 0;
+}
+.tailor-dashboard .weeklyComparisonTextBox {
+  font: 600 16px/1.37 "Nunito Sans", Helvetica, Arial, serif;
+  color: black;
+}
+.tailor-dashboard .weeklyComparisonTextBox_span0 {
+  font: 600 1em/1.37 "Nunito Sans", Helvetica, Arial, serif;
+  color: #00b69b;
+}
+.tailor-dashboard .weeklyComparisonTextBox_span1 {
+  font: 600 1em/1.37 "Nunito Sans", Helvetica, Arial, serif;
+  color: #12153c;
+}
+.tailor-dashboard .weeklyComparisonTextBox_span2 {
+  font: 600 1em/1.37 "Nunito Sans", Helvetica, Arial, serif;
+  color: #606060;
+}
+.tailor-dashboard .contentBox {
+  display: flex;
+  flex-direction: column;
+  width: 262px;
+  min-width: 0;
+  background-color: white;
+  border-radius: 14px;
+  box-shadow: 6px 6px 54px 0 rgba(0, 0, 0, 0.05);
+}
+@media (max-width: 1199px) {
+  .tailor-dashboard .contentBox {
+    margin-top: unset;
+    margin-bottom: unset;
+    width: 100%;
+  }
+}
+.tailor-dashboard .flexCol {
+  display: flex;
+  flex-direction: column;
+  gap: 29px 0;
+  margin: 16px 14px 16px 16px;
+}
+.tailor-dashboard .flexRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 0 10px;
+  margin: 0 2px 0 0;
+}
+.tailor-dashboard .flexCol1 {
+  display: flex;
+  flex-direction: column;
+  gap: 16px 0;
+  width: 115px;
+  min-width: 0;
+}
+.tailor-dashboard .totalSalesText {
+  margin: 0 36px 0 0;
+  font: 600 16px/1.37 "Nunito Sans", Helvetica, Arial, serif;
+  color: #202224;
+  letter-spacing: -0.2px;
+  opacity: 0.69;
+}
+.tailor-dashboard .totalSalesValue {
+  font: 700 28px/1.35 "Nunito Sans", Helvetica, Arial, serif;
+  color: #202224;
+  letter-spacing: 1px;
+}
+.tailor-dashboard .salesStatisticsImage {
+  margin: 0 0 16px;
+  width: 60px;
+  min-width: 0;
+}
+.tailor-dashboard .flexRow1 {
+  display: flex;
+  gap: 0 8px;
+}
+.tailor-dashboard .salesComparisonImage {
+  width: 24px;
+  min-width: 0;
+}
+.tailor-dashboard .comparisonStatisticsTextBox_box {
+  margin: 1px 0;
+  min-width: 0;
+}
+.tailor-dashboard .comparisonStatisticsTextBox {
+  font: 600 16px/1.37 "Nunito Sans", Helvetica, Arial, serif;
+  color: black;
+}
+.tailor-dashboard .comparisonStatisticsTextBox_span0 {
+  font: 600 1em/1.37 "Nunito Sans", Helvetica, Arial, serif;
+  color: #f93c65;
+}
+.tailor-dashboard .comparisonStatisticsTextBox_span1 {
+  font: 600 1em/1.37 "Nunito Sans", Helvetica, Arial, serif;
+  color: #12153c;
+}
+.tailor-dashboard .comparisonStatisticsTextBox_span2 {
+  font: 600 1em/1.37 "Nunito Sans", Helvetica, Arial, serif;
+  color: #606060;
+}
+.tailor-dashboard .flexCol2 {
+  display: flex;
+  flex-direction: column;
+  gap: 29px 0;
+  margin: 16px;
+}
+.tailor-dashboard .flexRow2 {
+  display: flex;
+  gap: 0 25px;
+}
+.tailor-dashboard .flexCol3 {
+  display: flex;
+  flex-direction: column;
+  gap: 16px 0;
+  width: 145px;
+  min-width: 0;
+}
+.tailor-dashboard .totalAppointmentsText {
+  font: 600 16px/1.37 "Nunito Sans", Helvetica, Arial, serif;
+  color: #202224;
+  opacity: 0.69;
+}
+.tailor-dashboard .totalAppointmentsValue {
+  font: 700 28px/1.35 "Nunito Sans", Helvetica, Arial, serif;
+  color: #202224;
+  letter-spacing: 1px;
+}
+.tailor-dashboard .appointmentsStatisticsImage {
+  margin: 0 0 16px;
+  width: 60px;
+  min-width: 0;
+}
+.tailor-dashboard .appointmentsComparisonImage {
+  width: 24px;
+  min-width: 0;
+}
+.tailor-dashboard .appointmentsComparisonTextBox_box {
+  margin: 1px 0;
+  min-width: 0;
+}
+.tailor-dashboard .appointmentsComparisonTextBox {
+  font: 600 16px/1.37 "Nunito Sans", Helvetica, Arial, serif;
+  color: black;
+}
+.tailor-dashboard .appointmentsComparisonTextBox_span0 {
+  font: 600 1em/1.37 "Nunito Sans", Helvetica, Arial, serif;
+  color: #00b69b;
+}
+.tailor-dashboard .appointmentsComparisonTextBox_span1 {
+  font: 600 1em/1.37 "Nunito Sans", Helvetica, Arial, serif;
+  color: #12153c;
+}
+.tailor-dashboard .appointmentsComparisonTextBox_span2 {
+  font: 600 1em/1.37 "Nunito Sans", Helvetica, Arial, serif;
+  color: #606060;
+}
