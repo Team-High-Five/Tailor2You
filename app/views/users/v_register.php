@@ -26,7 +26,6 @@
             <label for="confirm_password">Confirm Password:</label>
             <input type="password" name="confirm_password" id="confirm_password" class="form-control" value = "<?php echo $data['confirm_password']?>">     
             <span class="form-invalid"><?php echo $data['confirm_password_err']?></span>
-
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Register</button>

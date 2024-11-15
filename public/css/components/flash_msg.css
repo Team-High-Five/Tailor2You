@@ -1,0 +1,23 @@
+/*flash message*/
+.msg-flash {
+    background-color: rgb(158, 198, 240);
+    color: #123b64;
+    padding: 20px;
+    border: 1px solid #123b64;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+
+ 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: 2s all;
+    animation: slide-in 0.5s ease-in-out;
+    animation-fill-mode: forwards;
+    animation-delay: 0.5s;
+    animation-iteration-count: 1;
+    animation-direction: normal;
+    animation-timing-function: ease-in-out;
+    animation-play-state: running;  
+    animation-fill-mode: forwards;
+   
+}

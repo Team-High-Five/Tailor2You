@@ -129,8 +129,7 @@ class Users extends Controller
                 $data['password_err'] = 'Please enter password';
             }
 
-            
-            
+    
 
             //make sure errors are empty
             if (empty($data['email_err']) && empty($data['password_err'])) {
