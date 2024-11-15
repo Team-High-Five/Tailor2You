@@ -1,0 +1,878 @@
+.tailor-profile.mainContent {
+  display: flex;
+  flex-direction: column;
+  background: var(--src) center center/100% 100% no-repeat;
+  background-color: white;
+  overflow: hidden;
+}
+.tailor-profile .navigationSection {
+  display: flex;
+  flex-direction: column;
+}
+.tailor-profile .searchContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.007);
+  border-radius: 15px 15px 0 0;
+}
+.tailor-profile .navMenu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0 10px;
+  margin: 10px 12px 5px;
+}
+.tailor-profile .brandLogo {
+  width: 77px;
+  min-width: 0;
+}
+.tailor-profile .searchProfileContainer {
+  display: flex;
+  gap: 0 22px;
+  width: 687px;
+  min-width: 0;
+}
+.tailor-profile .searchBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0 10px;
+  margin: 4px 0 8px;
+  min-width: 358px;
+  background-color: white;
+  border-radius: 20px;
+  padding: 12px 14px 12px 16px;
+  outline: 1px solid #d9d9d9;
+  outline-offset: -0.5px;
+}
+.tailor-profile .searchPlaceholder {
+  margin: 3px 0 6px;
+  min-width: 0;
+  font: 400 16px/1 Inter, Helvetica, Arial, serif;
+  color: #757575;
+}
+.tailor-profile .searchIcon {
+  width: 27px;
+  min-width: 0;
+}
+.tailor-profile .userProfileContainer {
+  display: flex;
+  margin: 2px 0 0;
+  width: 75px;
+  min-width: 0;
+}
+.tailor-profile .avatarWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 50px;
+  min-width: 0;
+  background: var(--src) center center/100% 100% no-repeat;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+}
+.tailor-profile .userAvatar {
+  margin: 13px;
+  width: 24px;
+}
+.tailor-profile .userInfoContainer {
+  display: flex;
+  gap: 0 12px;
+  margin: 3.5px 0 1.5px;
+  width: 139px;
+  min-width: 0;
+}
+.tailor-profile .statusIndicator {
+  margin: 0.5px 0 6.5px;
+  width: 40px;
+  min-width: 0;
+  border-radius: 20px;
+}
+.tailor-profile .userDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 1px 0;
+  width: 87px;
+  min-width: 0;
+}
+.tailor-profile .userTitle {
+  display: flex;
+  align-items: center;
+  font: 600 16px/1.39 Inter, Helvetica, Arial, serif;
+  color: white;
+}
+.tailor-profile .userDescription {
+  display: flex;
+  align-items: center;
+  font: 400 16px/1.39 Inter, Helvetica, Arial, serif;
+  color: #303030;
+}
+.tailor-profile .notificationBell {
+  margin: 0 0 4px;
+  width: 48px;
+  min-width: 0;
+}
+.tailor-profile .profileSection {
+  display: flex;
+  flex-direction: column;
+}
+.tailor-profile .profileWrapper {
+  display: flex;
+  gap: 0 1px;
+  margin: 18px 0 1px;
+}
+.tailor-profile .profileBackgroundImg {
+  width: 89px;
+  min-width: 89px;
+}
+.tailor-profile .profileFormWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 1350px;
+  min-width: 0;
+  background: var(--src) 0% 98.28%/110.22% no-repeat;
+  padding: 0;
+}
+@media (min-width: 1920px) and (max-width: 2999px) {
+  .tailor-profile .profileFormWrapper {
+    gap: 8px;
+    width: 1920px;
+  }
+}
+.tailor-profile .profileNavigation {
+  display: flex;
+  width: 64.44%;
+}
+@media (min-width: 1920px) and (max-width: 2999px) {
+  .tailor-profile .profileNavigation {
+    width: 100%;
+    padding: 0;
+  }
+}
+.tailor-profile .item {
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  min-width: 330px;
+  font: 800 24px/1.2 Inter, Helvetica, Arial, serif;
+  color: white;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.203);
+  border-radius: 15px 15px 0 0;
+  padding: 30.5px 8px;
+}
+@media (min-width: 1920px) and (max-width: 2999px) {
+  .tailor-profile .item {
+    margin-top: unset;
+    margin-right: unset;
+    margin-bottom: unset;
+    margin-left: unset;
+    width: 100%;
+  }
+}
+@media (max-width: 991px) {
+  .tailor-profile .item {
+    margin-top: unset;
+    margin-bottom: unset;
+    width: 100%;
+  }
+}
+.tailor-profile .item1 {
+  display: flex;
+  justify-content: center;
+  margin: 0 191px 0 0;
+  min-width: 349px;
+  font: 800 24px/1.2 Inter, Helvetica, Arial, serif;
+  color: black;
+  text-align: center;
+  background-color: rgba(101, 42, 197, 0.247);
+  border-radius: 15px 15px 0 0;
+  padding: 30.5px 8px;
+}
+@media (min-width: 1920px) and (max-width: 2999px) {
+  .tailor-profile .item1 {
+    margin-top: unset;
+    margin-right: unset;
+    margin-bottom: unset;
+    margin-left: unset;
+    width: 100%;
+  }
+}
+@media (max-width: 991px) {
+  .tailor-profile .item1 {
+    width: 100%;
+  }
+}
+.tailor-profile .formWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--src) center center/cover no-repeat;
+  padding: 0;
+}
+@media (min-width: 1920px) and (max-width: 2999px) {
+  .tailor-profile .formWrapper {
+    margin-top: unset;
+    margin-right: unset;
+    margin-bottom: unset;
+    margin-left: unset;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+}
+@media (max-width: 1199px) {
+  .tailor-profile .formWrapper {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+}
+.tailor-profile .formBody {
+  display: flex;
+  flex-direction: column;
+  margin: 34px auto 153px;
+  width: 83.63%;
+  background-color: #f5f6fa;
+  border-radius: 15px;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+}
+.tailor-profile .formGrid {
+  display: flex;
+  justify-content: space-between;
+  gap: 0 10px;
+  margin: 35px auto 25px;
+  width: 92.12%;
+}
+@media (max-width: 991px) {
+  .tailor-profile .formGrid {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px 10px;
+  }
+}
+.tailor-profile .leftColumn {
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 19px;
+  width: 227px;
+  min-width: 0;
+}
+@media (min-width: 1920px) and (max-width: 2999px) {
+  .tailor-profile .leftColumn {
+    width: 290px;
+    height: 600px;
+  }
+}
+@media (max-width: 991px) {
+  .tailor-profile .leftColumn {
+    margin-top: unset;
+    margin-bottom: unset;
+    width: 100%;
+  }
+}
+@media (max-width: 575px) {
+  .tailor-profile .leftColumn {
+    align-items: center;
+    gap: 8px;
+  }
+}
+.tailor-profile .userIdContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px 0;
+}
+@media (max-width: 575px) {
+  .tailor-profile .userIdContainer {
+    margin-top: unset;
+    margin-right: unset;
+    margin-bottom: unset;
+    margin-left: unset;
+    width: 100%;
+  }
+}
+.tailor-profile .userIdIcon {
+  width: 100%;
+}
+.tailor-profile .userIdText {
+  font: 700 16px/2.5 Poppins, Helvetica, Arial, serif;
+  color: black;
+  letter-spacing: 1.28px;
+}
+.tailor-profile .userIdText_span0 {
+  font: 700 1em/2.5 Poppins, Helvetica, Arial, serif;
+}
+.tailor-profile .userIdText_span1 {
+  font: 1em/2.5 Poppins, Helvetica, Arial, serif;
+}
+.tailor-profile .categoryContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px 0;
+  margin: 25px 0 0 29px;
+  width: 137.5px;
+}
+@media (max-width: 575px) {
+  .tailor-profile .categoryContainer {
+    margin-top: unset;
+    margin-right: unset;
+    margin-bottom: unset;
+    margin-left: unset;
+    width: 100%;
+  }
+}
+.tailor-profile .categoryHeading {
+  display: flex;
+  justify-content: flex-end;
+  width: 90.55%;
+  font: 700 16px/2.5 Poppins, Helvetica, Arial, serif;
+  color: black;
+  text-align: right;
+  letter-spacing: 1.28px;
+}
+.tailor-profile .categorySelectionGrid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.tailor-profile .maleCategory {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0 10px;
+  margin: 0 6.5px 0 0;
+}
+.tailor-profile .maleIcon {
+  width: 23px;
+  min-width: 0;
+}
+.tailor-profile .maleLabel {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+  font: 400 16px/2.5 Poppins, Helvetica, Arial, serif;
+  color: black;
+  text-align: center;
+  letter-spacing: 1.28px;
+}
+.tailor-profile .femaleCategory {
+  display: flex;
+  justify-content: space-between;
+  gap: 0 10px;
+  margin: 4px 0 0;
+}
+.tailor-profile .femaleIcon {
+  margin: 7px 0 10px;
+  width: 23px;
+  min-width: 0;
+}
+.tailor-profile .femaleLabel {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+  font: 400 16px/2.5 Poppins, Helvetica, Arial, serif;
+  color: black;
+  text-align: center;
+  letter-spacing: 1.28px;
+}
+.tailor-profile .bothCategory {
+  display: flex;
+  justify-content: space-between;
+  gap: 0 10px;
+  margin: 5px 21px 0 0;
+}
+.tailor-profile .bothIcon {
+  margin: 7px 0 10px;
+  width: 23px;
+  min-width: 0;
+}
+.tailor-profile .bothLabel {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+  font: 400 16px/2.5 Poppins, Helvetica, Arial, serif;
+  color: black;
+  text-align: center;
+  letter-spacing: 1.28px;
+}
+.tailor-profile .addLocationBtn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0 17px;
+  margin: 26px 29px 0 20px;
+  background-color: white;
+  border-radius: 8px;
+  padding: 3px 7px;
+  outline: 1px solid #484848;
+  outline-offset: -1px;
+}
+@media (max-width: 991px) {
+  .tailor-profile .addLocationBtn {
+    gap: 8px 17px;
+  }
+}
+@media (max-width: 575px) {
+  .tailor-profile .addLocationBtn {
+    margin-top: unset;
+    margin-right: unset;
+    margin-bottom: unset;
+    margin-left: unset;
+    width: 100%;
+  }
+}
+.tailor-profile .locationPinIcon {
+  margin: 10px 0 6px;
+  width: 25px;
+  min-width: 0;
+}
+@media (max-width: 991px) {
+  .tailor-profile .locationPinIcon {
+    margin-top: unset;
+    margin-right: unset;
+    margin-bottom: unset;
+    margin-left: unset;
+    width: 10%;
+  }
+}
+@media (max-width: 575px) {
+  .tailor-profile .locationPinIcon {
+    min-width: 10%;
+  }
+}
+.tailor-profile .addLocationText {
+  min-width: 0;
+  font: 400 16px/2.5 Poppins, Helvetica, Arial, serif;
+  color: black;
+  letter-spacing: 1.28px;
+}
+@media (max-width: 991px) {
+  .tailor-profile .addLocationText {
+    margin-top: unset;
+    margin-right: unset;
+    margin-bottom: unset;
+    margin-left: unset;
+    width: 100%;
+  }
+}
+.tailor-profile .rightColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 122px 0;
+  margin: 45px 0 0;
+  width: 768px;
+  min-width: 0;
+}
+@media (min-width: 1920px) and (max-width: 2999px) {
+  .tailor-profile .rightColumn {
+    width: 920px;
+  }
+}
+@media (max-width: 991px) {
+  .tailor-profile .rightColumn {
+    margin-top: unset;
+    margin-bottom: unset;
+    width: 100%;
+  }
+}
+.tailor-profile .formFieldsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 49px 0;
+  margin: 0 18px 0 0;
+}
+@media (max-width: 1199px) {
+  .tailor-profile .formFieldsContainer {
+    align-items: center;
+    -moz-column-gap: 8px;
+    column-gap: 8px;
+    width: 70%;
+  }
+}
+.tailor-profile .nameFieldsContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 0 10px;
+}
+@media (max-width: 1199px) {
+  .tailor-profile .nameFieldsContainer {
+    margin-top: unset;
+    margin-right: unset;
+    margin-bottom: unset;
+    margin-left: unset;
+    width: 100%;
+  }
+}
+@media (max-width: 575px) {
+  .tailor-profile .nameFieldsContainer {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px 10px;
+  }
+}
+.tailor-profile .firstNameField {
+  display: flex;
+  flex-direction: column;
+  gap: 9px 0;
+  width: 342px;
+  min-width: 0;
+}
+@media (max-width: 575px) {
+  .tailor-profile .firstNameField {
+    margin-top: unset;
+    margin-bottom: unset;
+    width: 100%;
+  }
+}
+.tailor-profile .firstNameLabel {
+  font: 400 16px/2.5 Poppins, Helvetica, Arial, serif;
+  color: black;
+  letter-spacing: 1.28px;
+}
+.tailor-profile .firstNameInput {
+  width: 342px;
+  height: 1px;
+  min-height: 1px;
+  background-color: black;
+}
+.tailor-profile .lastNameField {
+  display: flex;
+  flex-direction: column;
+  gap: 9px 0;
+  width: 342px;
+  min-width: 0;
+}
+@media (max-width: 575px) {
+  .tailor-profile .lastNameField {
+    margin-top: unset;
+    margin-bottom: unset;
+    width: 100%;
+  }
+}
+.tailor-profile .lastNameLabel {
+  font: 400 16px/2.5 Poppins, Helvetica, Arial, serif;
+  color: black;
+  letter-spacing: 1.28px;
+}
+.tailor-profile .lastNameInput {
+  width: 342px;
+  height: 1px;
+  min-height: 1px;
+  background-color: black;
+}
+.tailor-profile .contactFieldsContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 0 10px;
+}
+@media (max-width: 1199px) {
+  .tailor-profile .contactFieldsContainer {
+    margin-top: unset;
+    margin-right: unset;
+    margin-bottom: unset;
+    margin-left: unset;
+    width: 100%;
+  }
+}
+@media (max-width: 575px) {
+  .tailor-profile .contactFieldsContainer {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px 10px;
+  }
+}
+.tailor-profile .emailField {
+  display: flex;
+  flex-direction: column;
+  gap: 9px 0;
+  width: 342px;
+  min-width: 0;
+}
+@media (max-width: 575px) {
+  .tailor-profile .emailField {
+    margin-top: unset;
+    margin-bottom: unset;
+    width: 100%;
+  }
+}
+.tailor-profile .emailLabel {
+  font: 400 16px/2.5 Poppins, Helvetica, Arial, serif;
+  color: black;
+  letter-spacing: 1.28px;
+}
+.tailor-profile .emailInput {
+  width: 342px;
+  height: 1px;
+  min-height: 1px;
+  background-color: black;
+}
+.tailor-profile .phoneField {
+  display: flex;
+  flex-direction: column;
+  gap: 9px 0;
+  width: 342px;
+  min-width: 0;
+}
+@media (max-width: 575px) {
+  .tailor-profile .phoneField {
+    margin-top: unset;
+    margin-bottom: unset;
+    width: 100%;
+  }
+}
+.tailor-profile .phoneLabel {
+  font: 400 16px/2.5 Poppins, Helvetica, Arial, serif;
+  color: black;
+  letter-spacing: 1.28px;
+}
+.tailor-profile .phoneInput {
+  width: 342px;
+  height: 1px;
+  min-height: 1px;
+  background-color: black;
+}
+.tailor-profile .personalInfoContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 0 10px;
+}
+@media (max-width: 1199px) {
+  .tailor-profile .personalInfoContainer {
+    margin-top: unset;
+    margin-right: unset;
+    margin-bottom: unset;
+    margin-left: unset;
+    width: 100%;
+  }
+}
+@media (max-width: 575px) {
+  .tailor-profile .personalInfoContainer {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px 10px;
+  }
+}
+.tailor-profile .nicField {
+  display: flex;
+  flex-direction: column;
+  gap: 9px 0;
+  width: 342px;
+  min-width: 0;
+}
+@media (max-width: 575px) {
+  .tailor-profile .nicField {
+    margin-top: unset;
+    margin-bottom: unset;
+    width: 100%;
+  }
+}
+.tailor-profile .nicLabel {
+  font: 400 16px/2.5 Poppins, Helvetica, Arial, serif;
+  color: black;
+  letter-spacing: 1.28px;
+}
+.tailor-profile .nicInput {
+  width: 342px;
+  height: 1px;
+  min-height: 1px;
+  background-color: black;
+}
+.tailor-profile .birthDateField {
+  display: flex;
+  flex-direction: column;
+  gap: 4px 0;
+  width: 342px;
+  min-width: 0;
+}
+@media (max-width: 575px) {
+  .tailor-profile .birthDateField {
+    margin-top: unset;
+    margin-bottom: unset;
+    width: 100%;
+  }
+}
+.tailor-profile .birthDateLabelContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 0 10px;
+  margin: 0 6px 0 0;
+}
+.tailor-profile .birthDateLabel {
+  margin: 0 0 5px;
+  min-width: 0;
+  font: 400 16px/2.5 Poppins, Helvetica, Arial, serif;
+  color: black;
+  letter-spacing: 1.28px;
+}
+.tailor-profile .calendarIcon {
+  margin: 11px 0 0;
+  width: 37px;
+  min-width: 0;
+}
+.tailor-profile .birthDateInput {
+  width: 342px;
+  height: 1px;
+  min-height: 1px;
+  background-color: black;
+}
+.tailor-profile .additionalInfoContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 0 10px;
+  margin: 0 6px 0 0;
+}
+@media (max-width: 1199px) {
+  .tailor-profile .additionalInfoContainer {
+    margin-top: unset;
+    margin-right: unset;
+    margin-bottom: unset;
+    margin-left: unset;
+    width: 100%;
+  }
+}
+@media (max-width: 575px) {
+  .tailor-profile .additionalInfoContainer {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px 10px;
+  }
+}
+.tailor-profile .homeTownField {
+  display: flex;
+  flex-direction: column;
+  gap: 9px 0;
+  width: 342px;
+  min-width: 0;
+}
+@media (max-width: 575px) {
+  .tailor-profile .homeTownField {
+    margin-top: unset;
+    margin-bottom: unset;
+    width: 100%;
+  }
+}
+.tailor-profile .homeTownLabel {
+  font: 400 16px/2.5 Poppins, Helvetica, Arial, serif;
+  color: black;
+  letter-spacing: 1.28px;
+}
+.tailor-profile .homeTownInput {
+  width: 342px;
+  height: 1px;
+  min-height: 1px;
+  background-color: black;
+}
+.tailor-profile .bioField {
+  display: flex;
+  flex-direction: column;
+  gap: 9px 0;
+  width: 342px;
+  min-width: 0;
+}
+@media (max-width: 575px) {
+  .tailor-profile .bioField {
+    margin-top: unset;
+    margin-bottom: unset;
+    width: 100%;
+  }
+}
+.tailor-profile .bioLabel {
+  font: 400 16px/2.5 Poppins, Helvetica, Arial, serif;
+  color: black;
+  letter-spacing: 1.28px;
+}
+.tailor-profile .bioInput {
+  width: 342px;
+  height: 1px;
+  min-height: 1px;
+  background-color: black;
+}
+.tailor-profile .formActionContainer {
+  display: flex;
+  gap: 0 22px;
+  margin: 0 0 0 auto;
+  width: 426px;
+}
+@media (max-width: 575px) {
+  .tailor-profile .formActionContainer {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px 22px;
+    margin: 0 70px 0 auto;
+    width: 175px;
+  }
+}
+.tailor-profile .submitBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0 4px;
+  min-width: 244px;
+  background-color: #5917c1;
+  border-radius: 8px;
+  padding: 16.5px 8px;
+  outline: 1px solid #767676;
+  outline-offset: -1px;
+  transition-duration: 0.3s;
+  transition-property: background-color;
+}
+@media (max-width: 575px) {
+  .tailor-profile .submitBtn {
+    margin-top: unset;
+    margin-right: unset;
+    margin-bottom: unset;
+    margin-left: unset;
+    width: 100%;
+  }
+}
+.tailor-profile .submitBtn:hover {
+  background-color: #14011eff;
+}
+.tailor-profile .submitText {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1.5px 0;
+  min-width: 0;
+  font: 400 24px/1.2 "Rubik One", Helvetica, Arial, serif;
+  color: white;
+  text-align: center;
+  letter-spacing: 0.96px;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+.tailor-profile .submitIcon {
+  width: 32px;
+  min-width: 0;
+}
+.tailor-profile .resetBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 160px;
+  font: 400 24px/1.2 "Rubik One", Helvetica, Arial, serif;
+  color: white;
+  text-align: center;
+  background-color: #5917c1;
+  border-radius: 8px;
+  padding: 16.5px 40px;
+  outline: 1px solid #767676;
+  outline-offset: -1px;
+  letter-spacing: 0.96px;
+  text-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  transition-duration: 0.3s;
+  transition-property: background-color;
+}
+@media (max-width: 575px) {
+  .tailor-profile .resetBtn {
+    margin-top: unset;
+    margin-right: unset;
+    margin-bottom: unset;
+    margin-left: unset;
+    width: 100%;
+  }
+}
+.tailor-profile .resetBtn:hover {
+  background-color: #270135ff;
+}
