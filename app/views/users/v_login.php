@@ -1,4 +1,4 @@
-// Purpose: View for login page
+
 
 <?php require_once APPROOT . '/views/inc/header.php'; ?>
 <!-- top navigation -->
@@ -32,7 +32,7 @@
                     </a>
                     <a href="#">
                         <button class="google-btn">
-                            <img src="google_logo.png" alt="Google icon">
+                            <img src="../<?php APPROOT?>/public/img/google_logo.png" alt="Google icon">
                             Sign up with Google
                         </button>
                     </a>
@@ -40,7 +40,7 @@
                         <button class="create-account-btn">Create Account</button>
                     </a>
                 </form>
-                <?php flash('register_success'); ?>
+    
             </div>
         </div>
     </div>
