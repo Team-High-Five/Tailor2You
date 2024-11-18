@@ -86,7 +86,6 @@
   
   .actions button img {
     width: 24px;
-
     filter: invert(100%);
     transition: transform 0.2s ease;
   }

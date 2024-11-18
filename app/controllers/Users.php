@@ -1,11 +1,14 @@
 <?php
+require_once APPROOT . '/helpers/url_helper.php';
 
+require_once APPROOT . '/helpers/session_helper.php';
 class Users extends Controller
 {
 
     public function __construct()
     {
         $this->userModel = $this->model('M_Users');
+        $this->tailorModel = $this->model('M_Tailors');
     }
     public function register()
     {
@@ -117,6 +120,7 @@ class Users extends Controller
             }
 
             //check for user/email
+
             else if ($this->userModel->findUserByEmail($data['email'])) {
                 //user found
             } else {
@@ -163,7 +167,7 @@ class Users extends Controller
         $_SESSION['user_id'] = $user->id;
         $_SESSION['user_email'] = $user->email;
         $_SESSION['user_name'] = $user->name;
-        redirect('pages/index');
+        redirect('Tailors/index');
     }
     public function logout()
     {
