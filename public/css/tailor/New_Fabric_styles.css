@@ -1,0 +1,140 @@
+.add-new-fabric-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Ensures full viewport height */
+    padding: 20px;
+}
+.add-new-fabric-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+
+}
+
+/* Form Container */
+.form-container {
+    background-color: #fff;
+    width: 400px;
+    text-align: center;
+}
+
+/* Upload Section */
+.upload-section {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.upload-icon {
+    font-size: 40px;
+    color: #666;
+}
+
+.upload-text {
+    display: block;
+    margin-top: 10px;
+    color: #6c63ff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* Form Group */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input[type="text"]:focus {
+    border-color: #6c63ff;
+    outline: none;
+}
+
+/* Color Options */
+.color-options {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.color-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.color-circle.black {
+    background-color: black;
+}
+
+.color-circle.red {
+    background-color: red;
+}
+
+.color-circle.blue {
+    background-color: blue;
+}
+
+.color-circle.purple {
+    background-color: purple;
+}
+
+.color-circle.orange {
+    background-color: orange;
+}
+
+.color-circle.yellow {
+    background-color: yellow;
+}
+
+.color-circle:hover {
+    border-color: #6c63ff;
+}
+
+/* Submit Button */
+.submit-btn {
+    background-color: #6c63ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #5a52d1;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.submit-btn:active {
+    transform: scale(0.98);
+}

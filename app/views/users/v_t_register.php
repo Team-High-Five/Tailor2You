@@ -41,7 +41,7 @@
             </form>
         </div>
         <div class="image-section">
-            <img src="../<?php APPROOT?>/public/img/customer.jpeg" alt="Man Fashion">
+            <img src="../<?php APPROOT?>/public/img/Tailor_Reg.jpeg" alt="Man Fashion">
         </div>
     </div>
 </body>

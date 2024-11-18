@@ -1,104 +1,143 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-  }
 
-  
+/* Profile Form Container */
+.profile-form-container {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    justify-content: center;
+   
+}
 
-   /* Form container styles */
-   .form-container {
-      flex: 1;
-      padding: 20px 40px;
-      position: relative;
-  }
-  .tabs {
-      display: flex;
-      margin-bottom: 20px;
-  }
-  
-  /* Form styles */
-  .form {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-  }
-  .form label {
-      display: block;
-      font-size: 14px;
-      color: #333;
-      margin-bottom: 5px;
-  }
-  .form input[type="text"], .form input[type="email"], .form input[type="date"], .form input[type="number"], .form textarea {
-      width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 14px;
-  }
-  .form .profile-pic {
-      grid-column: span 2;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-  }
-  .form .profile-pic img {
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      background-color: #7f6ca0;
-  }
-  .form .radio-group {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-  }
-  .form .radio-group label {
-      font-size: 14px;
-      color: #333;
-  }
+/* Profile Form Styling */
+.profile-form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
 
-  /* Buttons */
-  .buttons {
-      grid-column: span 2;
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-top: 20px;
-  }
-  .buttons button {
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-      color: #fff;
-  }
-  .submit-btn {
-      background-color: #7f6ca0;
-  }
-  .reset-btn {
-      background-color: #ccc;
-      color: #333;
-  }
-  
-  .Section {
-    font-size: 24px;
+/* Profile Picture Section */
+.profile-pic {
+    grid-column: span 2;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-pic img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    cursor: pointer;
+    object-fit: cover;
+    border: 2px solid #6a1b9a;
+}
+
+.profile-pic label {
+    cursor: pointer;
+    display: inline-block;
+    margin-top: 10px;
+    color: #6a1b9a;
     font-weight: bold;
+}
+
+/* Form Labels */
+.profile-form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #333;
+}
+
+/* Form Inputs */
+.profile-form input[type="text"],
+.profile-form input[type="email"],
+.profile-form input[type="number"],
+.profile-form input[type="date"],
+.profile-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    transition: border-color 0.3s ease;
+}
+
+.profile-form input[type="text"]:focus,
+.profile-form input[type="email"]:focus,
+.profile-form input[type="number"]:focus,
+.profile-form input[type="date"]:focus,
+.profile-form textarea:focus {
+    border-color: #6a1b9a;
+    outline: none;
+}
+
+/* Radio Group Styling */
+.radio-group {
+    grid-column: span 2;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.radio-group label {
+    font-weight: normal;
+    color: #333;
+}
+
+/* Buttons Styling */
+.profile-form .buttons {
+    grid-column: span 2;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.profile-form .buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #fff;
+}
+
+.profile-form .submit-btn {
+    background-color: #6a1b9a;
     color: white;
     padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background-color 0.3s;
-  }
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
 
-  .Section:hover {
-    background-color: rgba(0, 0, 0, 0.6);
-  }
+.profile-form .reset-btn {
+    background-color: #ccc;
+    color: #333;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
 
-  .Active-icon {
-    background-color: black;
-    padding: 10px;
-    border-radius: 8px;
-  }
+.profile-form .submit-btn:hover {
+    background-color: #510a87;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-form .reset-btn:hover {
+    background-color: #b3b3b3;
+}
+
+.profile-form .submit-btn:active,
+.profile-form .reset-btn:active {
+    transform: scale(0.98);
+}

@@ -1,39 +1,30 @@
 <?php
 
-class M_Tailors
-{
+class M_Tailors {
     private $db;
-    public function __construct()
-    {
+
+    public function __construct() {
         $this->db = new Database;
     }
-    public function findTailorByEmail($email)
-    {
+    public function findTailorByEmail($email) {
         $this->db->query('SELECT * FROM tailors WHERE email = :email');
         $this->db->bind(':email', $email);
         $row = $this->db->single();
-        //check row
-        if ($this->db->rowCount() > 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return $row ? $row : false;
     }
-    public function login($email, $password)
-    {
+
+    public function login($email, $password) {
         $this->db->query('SELECT * FROM tailors WHERE email = :email');
         $this->db->bind(':email', $email);
         $row = $this->db->single();
-        $hashed_password = $row->password;
-        if (password_verify($password, $hashed_password)) {
+        if ($row && password_verify($password, $row->password)) {
             return $row;
         } else {
             return false;
         }
     }
 
-    public function register($data)
-    {
+    public function register($data) {
         $this->db->query('INSERT INTO tailors (first_name, last_name, email, password, phone_number, nic, birth_date, home_town, address) VALUES (:first_name, :last_name, :email, :password, :phone_number, :nic, :birth_date, :home_town, :address)');
         // Bind values
         $this->db->bind(':first_name', $data['first_name']);
@@ -47,10 +38,6 @@ class M_Tailors
         $this->db->bind(':address', $data['address']);
 
         // Execute
-        if ($this->db->execute()) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->db->execute();
     }
 }

@@ -8,10 +8,10 @@
   </a>
 </div>
   <div id="customer" class="sidebar-icon"><a href="<?php echo URLROOT ?>/Tailors/profileUpdate"><img src="../<?php APPROOT?>/public/img/Customer.png"></a></div>
-  <div id="purchase-order" class="sidebar-icon"><img src="../<?php APPROOT?>/public/img/Purchase_Order.png"></div>
+  <div id="purchase-order" class="sidebar-icon"><a href="<?php echo URLROOT ?>/Tailors/displayOrders"><img src="../<?php APPROOT?>/public/img/Purchase_Order.png"></a></div>
   <div id="calendar" class="sidebar-icon"><img src="../<?php APPROOT?>/public/img/Calendar.png"></div>
   <div id="adjust" class="sidebar-icon"><img src="../<?php APPROOT?>/public/img/Adjust.png"></div>
-  <div id="shopping-bag" class="sidebar-icon"><img src="../<?php APPROOT?>/public/img/Shopping_bag.png"></div>
+  <div id="shopping-bag" class="sidebar-icon"><a href="<?php echo URLROOT ?>/Tailors/displayFabricStock"><img src="../<?php APPROOT?>/public/img/Shopping_bag.png"></a></div>
 </div>
 
 <script>

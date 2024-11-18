@@ -5,6 +5,7 @@ require_once APPROOT . '/helpers/session_helper.php';
 
 class Tailors extends Controller
 {
+    private $tailorModel;
     public function __construct()
     {
         $this->tailorModel = $this->model('M_Tailors');
@@ -12,20 +13,55 @@ class Tailors extends Controller
 
     public function index()
     {
-        $_SESSION['currentPage'] = 'home';
+
         $data = [
-            'currentPage' => $_SESSION['currentPage']
+            'title' => 'Dashboard'
         ];
 
         $this->view('users/Tailor/v_t_dashboard', $data);
     }
     public function profileUpdate()
     {
-        $currentPage = 'profile';
+
         $data = [
-            'currentPage' => $currentPage
+            'title' => 'Profile Update'
         ];
         $this->view('users/Tailor/v_t_profile', $data);
+    }
+
+    public function displayFabricStock()
+    {
+
+        $data = [
+            'title' => 'Fabric Stock'
+        ];
+        $this->view('users/Tailor/v_t_fabric_stock', $data);
+    }
+
+    public function addNewFabric()
+    {
+        $data = [
+            'title' => 'Add New Fabric'
+        ];
+        $this->view('users/Tailor/v_t_add_new_fabric', $data);
+    }
+
+    public function displayOrders()
+    {
+
+        $data = [
+            'title' => 'Orders'
+        ];
+        $this->view('users/Tailor/v_t_order_list', $data);
+    }
+
+    public function displayOrderProgress()
+    {
+
+        $data = [
+            'title' => 'Order Progress'
+        ];
+        $this->view('users/Tailor/v_t_order_progress', $data);
     }
 
     public function tailorRegister()
@@ -61,7 +97,7 @@ class Tailors extends Controller
                 $data['email_err'] = 'Please enter email';
             } else {
                 // Check email
-                if ($this->tailorModel->findTailorByEmail($data['email'])) {
+                if ($this->model('M_Tailors')->findTailorByEmail($data['email'])) {
                     $data['email_err'] = 'Email is already taken';
                 }
             }
@@ -202,5 +238,4 @@ class Tailors extends Controller
             $this->view('users/v_createpassword', $data);
         }
     }
-
 }

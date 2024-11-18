@@ -1,197 +1,184 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-  }
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
 
-  body {
-    display: flex;
-    min-height: 100vh; /* Ensures full viewport height */
-    background-image: url('../../img/Tailor.png'); /* Replace with actual background URL */
-    background-size: cover; /* Covers full viewport */
-    background-position: center;
-    background-repeat: no-repeat;
-    color: #333;
-  }
+body {
+  display: flex;
+  min-height: 100vh; /* Ensures full viewport height */
+  background-image: url('../../img/Tailor.png'); /* Replace with actual background URL */
+  background-size: cover; /* Covers full viewport */
+  background-position: center;
+  background-repeat: no-repeat;
+  color: #333;
+}
 
-  /* Sidebar */
-  .sidebar {
-    width: 80px;
-    min-height: 100vh; /* Full viewport height, ensuring it doesn’t fall short */
-    background-color: #7a57d1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px 0;
-    color: white;
-    justify-content: space-around;
-  }
+/* Sidebar */
+.sidebar {
+  width: 80px;
+  min-height: 100vh; /* Full viewport height, ensuring it doesn’t fall short */
+  background-color: #7a57d1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  color: white;
+  justify-content: space-around;
+}
 
-  .sidebar img {
-    width: 40px;
-    margin-bottom: 5px;
-    cursor: pointer;
-  }
+.sidebar img {
+  width: 40px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
 
-  .sidebar-icon {
-    font-size: 24px;
-    margin: 20px 0;
-    cursor: pointer;
-    color: #ffffff;
-    padding: 10px;
-    border-radius: 8px;
-    transition: background-color 0.3s, color 0.3s;
-  }
-  
-  .sidebar-icon .active {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #fff;
-  }
-  
-  .sidebar-icon:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #fff;
-    cursor: pointer;
-  }
+.sidebar-icon {
+  font-size: 24px;
+  margin: 20px 0;
+  cursor: pointer;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 8px;
+  transition: background-color 0.3s, color 0.3s;
+}
 
-  /* Dashboard Content */
-  .Section-content{
-    flex: 1;
+.sidebar-icon.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
 
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(8px);
-  }
+.sidebar-icon:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  cursor: pointer;
+}
 
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 40px;
-  }
+/* Dashboard Content */
+.Section-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensures full viewport height */
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
 
-  .header h2 {
-    font-size: 2rem;
-  }
+}
 
-  .header .search-bar {
-    position: relative;
-    width: 250px;
-    display: flex;
-  }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
 
-  .header .search-bar input {
-    width: 100%;
-    padding: 8px 10px;
-    border-radius: 20px;
-    border: 1px solid #ccc;
-    outline: none;
-  }
+.header .main-title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #f3e3e3;
+  text-align: center;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-  .header .search-bar button {
-    position: absolute;
-    right: 5px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    color: #888;
-  }
+.header .search-bar {
+  position: relative;
+  width: 250px;
+  display: flex;
+}
 
-  .header .actions {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
+.header .search-bar input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  outline: none;
+}
 
-  .header .actions button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    color: #555;
-  }
+.header .search-bar button {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #888;
+}
 
-  .header .actions .user-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+.header .actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
 
-  .header .actions .user-info img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
+.header .actions button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #555;
+}
 
-  /* Stats Cards */
-  .stats {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-bottom: 40px;
-    padding: 20px;
-    border-radius: 10px;
-  }
+.header .actions .user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-  .card {
-    flex: 1;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
-    text-align: center;
-  }
+.header .actions .user-info img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
 
-  .card h3 {
-    font-size: 1.5rem;
-    color: #666;
-    margin-bottom: 10px;
-  }
+/* Stats Cards */
+.stats {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  padding: 20px;
+  border-radius: 10px;
+}
 
-  .card p {
-    font-size: 2rem;
-    margin-bottom: 10px;
-  }
+.card {
+  flex: 1;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  text-align: center;
+}
 
-  .card span {
-    font-size: 0.9rem;
-    color: #888;
-  }
+.card h3 {
+  font-size: 1.5rem;
+  color: #666;
+  margin-bottom: 10px;
+}
 
-  
-  /* Colors for different metrics */
-  .orders-card span {
-    color: #00c853;
-  }
-  
-  .sales-card span {
-    color: #d50000;
-  }
-  
-  .appointments-card span {
-    color: #00c853;
-  }
-  
-  .Section {
-    font-size: 24px;
-    font-weight: bold;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: background-color 0.3s;
-  }
+.card p {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
 
-  .Section:hover{
-    background-color: rgba(0, 0, 0, 0.6);
-  }
+.card span {
+  font-size: 0.9rem;
+  color: #888;
+}
 
-  .Hover-icon  {
-    background-color: black;
-    padding: 10px;
-    border-radius: 8px;
-  }
+/* Colors for different metrics */
+.orders-card span {
+  color: #00c853;
+}
+
+.sales-card span {
+  color: #d50000;
+}
+
+.appointments-card span {
+  color: #00c853;
+}

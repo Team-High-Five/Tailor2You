@@ -4,171 +4,233 @@ require_once APPROOT . '/helpers/url_helper.php';
 require_once APPROOT . '/helpers/session_helper.php';
 class Users extends Controller
 {
+    public $userModel;
+    public $tailorModel;
 
     public function __construct()
     {
-        $this->userModel = $this->model('M_Users');
         $this->tailorModel = $this->model('M_Tailors');
+        $this->userModel = $this->model('M_Users');
     }
-    public function register()
-    {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //process form
-            //sanitize post data
+    // public function register()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    //         //process form
+    //         //sanitize post data
 
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            //input data
-            $data = [
-                'name' => trim($_POST['name']),
-                'email' => trim($_POST['email']),
-                'password' => trim($_POST['password']),
-                'confirm_password' => trim($_POST['confirm_password']),
+    //         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    //         //input data
+    //         $data = [
+    //             'name' => trim($_POST['name']),
+    //             'email' => trim($_POST['email']),
+    //             'password' => trim($_POST['password']),
+    //             'confirm_password' => trim($_POST['confirm_password']),
 
-                'name_err' => '',
-                'email_err' => '',
-                'password_err' => '',
-                'confirm_password_err' => ''
-            ];
-            //Validate inputs
+    //             'name_err' => '',
+    //             'email_err' => '',
+    //             'password_err' => '',
+    //             'confirm_password_err' => ''
+    //         ];
+    //         //Validate inputs
 
-            //validate email
-            if (empty($data['email'])) {
-                $data['email_err'] = 'Please enter email';
-            } else {
-                //check email
-                if ($this->userModel->findUserByEmail($data['email'])) {
-                    $data['email_err'] = 'Email is already taken';
-                }
-            }
+    //         //validate email
+    //         if (empty($data['email'])) {
+    //             $data['email_err'] = 'Please enter email';
+    //         } else {
+    //             //check email
+    //             if ($this->userModel->findUserByEmail($data['email'])) {
+    //                 $data['email_err'] = 'Email is already taken';
+    //             }
+    //         }
 
-            //validate name
-            if (empty($data['name'])) {
-                $data['name_err'] = 'Please enter name';
-            }
+    //         //validate name
+    //         if (empty($data['name'])) {
+    //             $data['name_err'] = 'Please enter name';
+    //         }
 
-            //validate password
-            if (empty($data['password'])) {
-                $data['password_err'] = 'Please enter password';
-            } elseif (strlen($data['password']) < 6) {
-                $data['password_err'] = 'Password must be at least 6 characters';
-            }
+    //         //validate password
+    //         if (empty($data['password'])) {
+    //             $data['password_err'] = 'Please enter password';
+    //         } elseif (strlen($data['password']) < 6) {
+    //             $data['password_err'] = 'Password must be at least 6 characters';
+    //         }
 
-            //validate confirm password
-            if (empty($data['confirm_password'])) {
-                $data['confirm_password_err'] = 'Please confirm password';
-            } else {
-                if ($data['password'] != $data['confirm_password']) {
-                    $data['confirm_password_err'] = 'Passwords do not match';
-                }
-            }
-            //make sure errors are empty
-            if (empty($data['email_err']) && empty($data['name_err']) && empty($data['password_err']) && empty($data['confirm_password_err'])) {
-                //hash password
-                $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+    //         //validate confirm password
+    //         if (empty($data['confirm_password'])) {
+    //             $data['confirm_password_err'] = 'Please confirm password';
+    //         } else {
+    //             if ($data['password'] != $data['confirm_password']) {
+    //                 $data['confirm_password_err'] = 'Passwords do not match';
+    //             }
+    //         }
+    //         //make sure errors are empty
+    //         if (empty($data['email_err']) && empty($data['name_err']) && empty($data['password_err']) && empty($data['confirm_password_err'])) {
+    //             //hash password
+    //             $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
-                //register user
-                if ($this->userModel->register($data)) {
-                    //redirect to login page
-                    //create flash message
-                    flash('register_success', 'You are registered and can log in');
-                    redirect('users/login');
-                    
-                } else {
-                    die('Something went wrong');
-                }
-            } else {
-                //load view with errors
-                $this->view('users/v_register', $data);
-            }
-            $this->view('users/v_register', $data);
-        } else {
-            $data = [
-                'name' => '',
-                'email' => '',
-                'password' => '',
-                'confirm_password' => '',
-                'name_err' => '',
-                'email_err' => '',
-                'password_err' => '',
-                'confirm_password_err' => ''
-            ];
+    //             //register user
+    //             if ($this->userModel->register($data)) {
+    //                 //redirect to login page
+    //                 //create flash message
+    //                 flash('register_success', 'You are registered and can log in');
+    //                 redirect('users/login');
 
-            //load view
-            $this->view('users/v_register', $data);
-        }
-    }
+    //             } else {
+    //                 die('Something went wrong');
+    //             }
+    //         } else {
+    //             //load view with errors
+    //             $this->view('users/v_register', $data);
+    //         }
+    //         $this->view('users/v_register', $data);
+    //     } else {
+    //         $data = [
+    //             'name' => '',
+    //             'email' => '',
+    //             'password' => '',
+    //             'confirm_password' => '',
+    //             'name_err' => '',
+    //             'email_err' => '',
+    //             'password_err' => '',
+    //             'confirm_password_err' => ''
+    //         ];
+
+    //         //load view
+    //         $this->view('users/v_register', $data);
+    //     }
+    // }
+
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //process form
-            //sanitize post data
-
+            // Process form
+            // Sanitize post data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            //input data
+
+            // Input data
             $data = [
                 'email' => trim($_POST['email']),
                 'password' => trim($_POST['password']),
-
                 'email_err' => '',
-                'password_err' => ''
+                'password_err' => '',
             ];
-            //Validate inputs
 
-            //validate email
+            // Validate email
             if (empty($data['email'])) {
                 $data['email_err'] = 'Please enter email';
             }
-
-            //check for user/email
-
-            else if ($this->userModel->findUserByEmail($data['email'])) {
-                //user found
-            } else {
-                //user not found
-                $data['email_err'] = 'No user found';
+            elseif(!$this->tailorModel->findTailorByEmail($data['email'])) {
+                $data['email_err'] = 'No tailor found';
             }
 
-            //validate password
+            // Validate password
             if (empty($data['password'])) {
                 $data['password_err'] = 'Please enter password';
             }
 
-    
-
-            //make sure errors are empty
+            // Check for user/email
             if (empty($data['email_err']) && empty($data['password_err'])) {
-                //check and set logged in user
-                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
-                if ($loggedInUser) {
-                    //create session
-                    $this->createUserSession($loggedInUser);
-                } else {
+
+                $loggedInTailor = $this->tailorModel->login($data['email'], $data['password']);
+                if (!$loggedInTailor) {
+                    // Create tailor session
                     $data['password_err'] = 'Password incorrect';
-                    $this->view('users/v_login', $data);
+                } else {
+                    $this->createTailorSession($loggedInTailor);
                 }
-            } else {
-                //load view with errors
-                $this->view('users/v_login', $data);
             }
+            // Load view with errors
+            $this->view('users/v_login', $data);
         } else {
+            // Init data
             $data = [
                 'email' => '',
                 'password' => '',
                 'email_err' => '',
-                'password_err' => ''
+                'password_err' => '',
             ];
 
-            //load view
+            // Load view
             $this->view('users/v_login', $data);
         }
     }
-    public function createUserSession($user)
-    {
-        $_SESSION['user_id'] = $user->id;
-        $_SESSION['user_email'] = $user->email;
-        $_SESSION['user_name'] = $user->name;
-        redirect('Tailors/index');
-    }
+
+public function createTailorSession($tailor) {
+    // Set session variables for the logged-in tailor
+    $_SESSION['tailor_id'] = $tailor->tailor_id;
+    $_SESSION['tailor_email'] = $tailor->email;
+    $_SESSION['tailor_first_name'] = $tailor->first_name;
+    $_SESSION['tailor_last_name'] = $tailor->last_name;
+
+    // Redirect to the tailor's dashboard
+    redirect('tailors/index');
+}
+
+    // public function login()
+    // {
+    //     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    //         //process form
+    //         //sanitize post data
+
+    //         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    //         //input data
+    //         $data = [
+    //             'email' => trim($_POST['email']),
+    //             'password' => trim($_POST['password']),
+
+    //             'email_err' => '',
+    //             'password_err' => ''
+    //         ];
+    //         //Validate inputs
+
+    //         //validate email
+    //         if (empty($data['email'])) {
+    //             $data['email_err'] = 'Please enter email';
+    //         }
+
+    //         //check for user/email
+
+    //         else if ($this->userModel->findUserByEmail($data['email'])) {
+    //             //user found
+    //         } else {
+    //             //user not found
+    //             $data['email_err'] = 'No user found';
+    //         }
+
+    //         //validate password
+    //         if (empty($data['password'])) {
+    //             $data['password_err'] = 'Please enter password';
+    //         }
+
+
+
+    //         //make sure errors are empty
+    //         if (empty($data['email_err']) && empty($data['password_err'])) {
+    //             //check and set logged in user
+    //             $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+    //             if ($loggedInUser) {
+    //                 //create session
+    //                 $this->createUserSession($loggedInUser);
+    //             } else {
+    //                 $data['password_err'] = 'Password incorrect';
+    //                 $this->view('users/v_login', $data);
+    //             }
+    //         } else {
+    //             //load view with errors
+    //             $this->view('users/v_login', $data);
+    //         }
+    //     } else {
+    //         $data = [
+    //             'email' => '',
+    //             'password' => '',
+    //             'email_err' => '',
+    //             'password_err' => ''
+    //         ];
+
+    //         //load view
+    //         $this->view('users/v_login', $data);
+    //     }
+    // }
     public function logout()
     {
         unset($_SESSION['user_id']);

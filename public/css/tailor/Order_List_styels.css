@@ -1,0 +1,107 @@
+.order-list-container {
+    width: 80%;
+    margin: 2rem auto;
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .filter-bar {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .filter-btn,
+  .reset-filter-btn,
+  select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .reset-filter-btn {
+    color: #ff4d4d;
+    border-color: #ff4d4d;
+  }
+  
+  select {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .order-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  .order-table th, .order-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .order-table th {
+    background-color: #f9fafc;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .order-table td {
+    background-color: #fff;
+  }
+  
+  .order-table tr:hover {
+    background-color: #f1f5f9;
+  }
+  
+  .status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+  }
+  
+  .status.processing {
+    background-color: #87CEEB;
+  }
+  
+  .status.completed {
+    background-color: #a2e8cd;
+  }
+  
+  .status.rejected {
+    background-color: #f38c8c;
+  }
+  
+  .status.pending {
+    background-color: #fbd687;
+  }
+  
+  .progress-btn {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #6c63ff;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: background-color 0.3s ease;
+  }
+  
+  .progress-btn:hover {
+    background-color: #5a52d1;
+  }
