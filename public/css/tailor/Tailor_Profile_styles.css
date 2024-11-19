@@ -1,11 +1,9 @@
-
 /* Profile Form Container */
 .profile-form-container {
     display: flex;
     align-items: center;
     padding: 20px;
     justify-content: center;
-   
 }
 
 /* Profile Form Styling */
@@ -15,8 +13,6 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 80%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
 
@@ -76,12 +72,23 @@
     outline: none;
 }
 
-/* Radio Group Styling */
-.radio-group {
-    grid-column: span 2;
+/* Form Two Group */
+.form-two-group {
     display: flex;
-    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+/* Form Group */
+.form-group {
+    flex: 1;
+}
+
+/* Radio Group */
+.radio-group {
+    display: flex;
     gap: 10px;
+    align-items: center;
 }
 
 .radio-group label {
@@ -104,33 +111,22 @@
     font-size: 16px;
     cursor: pointer;
     color: #fff;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .profile-form .submit-btn {
     background-color: #6a1b9a;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 20px;
 }
 
 .profile-form .reset-btn {
     background-color: #ccc;
     color: #333;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 20px;
 }
 
 .profile-form .submit-btn:hover {
     background-color: #510a87;
-    transition: background-color 0.3s ease, transform 0.3s ease;
     transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .profile-form .reset-btn:hover {

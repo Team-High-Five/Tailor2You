@@ -1,64 +1,92 @@
 <?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
 <?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
 <?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
-<!-- Form container -->
-<div class="profile-form-container">
 
-    <!-- Profile Form -->
+<div class="main-content">
+  <div class="profile-form-container">
     <div class="profile-form">
-        <div class="profile-pic">
-            <label for="upload-photo">
-                <img src="../<?php APPROOT ?>/public/img/Add_Image.png" alt="Profile Picture" id="profile-preview">
-            </label>
-            <input type="file" id="upload-photo" accept="image/*" style="display: none;">
-            <div>
-                <strong>User ID:</strong> XXX
-            </div>
-        </div>
+      <div class="profile-pic">
+        <label for="upload-photo">
+          <?php if ($data['tailor']->profile_pic): ?>
+            <img src="data:image/jpeg;base64,<?php echo base64_encode($data['tailor']->profile_pic); ?>" alt="Profile Picture" id="profile-preview">
+          <?php else: ?>
+            <img src="../<?php echo APPROOT; ?>/public/img/Add_Image.png" alt="Profile Picture" id="profile-preview">
+          <?php endif; ?>
+        </label>
+        <input type="file" id="upload-photo" name="profile_pic" accept="image/*" style="display: none;">
         <div>
-            <label>First Name</label>
-            <input type="text" placeholder="First Name">
+          <strong>User ID:</strong> <?php echo $_SESSION['tailor_id']; ?>
         </div>
-        <div>
-            <label>Last Name</label>
-            <input type="text" placeholder="Last Name">
+      </div>
+      <form action="<?php echo URLROOT; ?>/tailors/profileUpdate" method="POST" enctype="multipart/form-data">
+        <div class="form-two-group">
+          <div class="form-group">
+            <label for="first_name">First Name</label>
+            <input type="text" id="first_name" name="first_name" value="<?php echo $data['tailor']->first_name; ?>" required>
+          </div>
+          <div class="form-group">
+            <label for="last_name">Last Name</label>
+            <input type="text" id="last_name" name="last_name" value="<?php echo $data['tailor']->last_name; ?>" required>
+          </div>
         </div>
-        <div>
-            <label>Email Address</label>
-            <input type="email" placeholder="Email Address">
+        <div class="form-two-group">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" value="<?php echo $data['tailor']->email; ?>" required>
+          </div>
+          <div class="form-group">
+            <label for="phone_number">Phone Number</label>
+            <input type="text" id="phone_number" name="phone_number" value="<?php echo $data['tailor']->phone_number; ?>" required>
+          </div>
         </div>
-        <div>
-            <label>Phone Number</label>
-            <input type="text" placeholder="Phone Number">
+        <div class="form-two-group">
+          <div class="form-group">
+            <label for="nic">NIC</label>
+            <input type="text" id="nic" name="nic" value="<?php echo $data['tailor']->nic; ?>" required>
+          </div>
+          <div class="form-group">
+            <label for="birth_date">Birth Date</label>
+            <input type="date" id="birth_date" name="birth_date" value="<?php echo $data['tailor']->birth_date; ?>" required>
+          </div>
         </div>
-        <div>
-            <label>NIC Number</label>
-            <input type="number" placeholder="NIC Number">
+        <div class="form-two-group">
+          <div class="form-group">
+            <label for="home_town">Home Town</label>
+            <input type="text" id="home_town" name="home_town" value="<?php echo $data['tailor']->home_town; ?>" required>
+          </div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" value="<?php echo $data['tailor']->address; ?>" required>
+          </div>
         </div>
-        <div>
-            <label>Birth Date</label>
-            <input type="date">
-        </div>
-        <div>
-            <label>Home Town</label>
-            <input type="text" placeholder="Home Town">
-        </div>
-        <div>
-            <label>Bio</label>
-            <textarea placeholder="Bio"></textarea>
+        <div class="form-group">
+          <label for="bio">Bio</label>
+          <textarea id="bio" name="bio" placeholder="Bio"><?php echo $data['tailor']->bio; ?></textarea>
         </div>
         <div class="radio-group">
-            <label>Category:</label>
-            <label><input type="radio" name="category"> Gents</label>
-            <label><input type="radio" name="category"> Ladies</label>
-            <label><input type="radio" name="category"> Both</label>
+          <label>Category:</label>
+          <label><input type="radio" name="category" value="Gents" <?php echo $data['tailor']->category == 'Gents' ? 'checked' : ''; ?>> Gents</label>
+          <label><input type="radio" name="category" value="Ladies" <?php echo $data['tailor']->category == 'Ladies' ? 'checked' : ''; ?>> Ladies</label>
+          <label><input type="radio" name="category" value="Both" <?php echo $data['tailor']->category == 'Both' ? 'checked' : ''; ?>> Both</label>
         </div>
         <div class="buttons">
-            <button class="submit-btn">Submit</button>
-            <button class="reset-btn">Reset</button>
+          <button type="submit" class="submit-btn">Update Profile</button>
+          <a href="<?php echo URLROOT; ?>/tailors/profile" class="reset-btn">Reset</a>
         </div>
+      </form>
     </div>
+  </div>
 </div>
-</div>
+
+<script>
+document.getElementById('upload-photo').addEventListener('change', function(event) {
+    const reader = new FileReader();
+    reader.onload = function() {
+        const output = document.getElementById('profile-preview');
+        output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+});
+</script>
 
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>

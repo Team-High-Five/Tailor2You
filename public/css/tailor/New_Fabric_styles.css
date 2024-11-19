@@ -1,13 +1,6 @@
 .add-new-fabric-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    /* Ensures full viewport height */
-    padding: 20px;
-}
-.add-new-fabric-content{
-    display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #fff;
@@ -16,15 +9,45 @@
     padding: 20px;
     width: 100%;
     max-width: 600px;
-    margin: 0 auto;
-
+    margin: 20px auto; /* Add margin to separate from the edges */
 }
 
-/* Form Container */
-.form-container {
+.add-new-fabric-container .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.add-new-fabric-container .modal-header h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+.add-new-fabric-container .modal-header .close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.add-new-fabric-container .modal-header .close-btn:hover {
+    color: #ff0000;
+}
+
+/* Fabric Form Container */
+.fabric-form-container {
     background-color: #fff;
-    width: 400px;
+    width: 100%;
+    max-width: 600px;
     text-align: center;
+    padding: 20px;
+    border-radius: 12px;
 }
 
 /* Upload Section */
@@ -78,6 +101,7 @@
     display: flex;
     gap: 10px;
     margin-top: 10px;
+    justify-content: center; /* Center the color options */
 }
 
 .color-circle {
@@ -127,6 +151,7 @@
     cursor: pointer;
     font-size: 16px;
     transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 20px; /* Add margin to separate it from the form */
 }
 
 .submit-btn:hover {

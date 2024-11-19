@@ -58,21 +58,22 @@ select {
     margin-bottom: 0.5rem;
 }
 
-.customer-info {
+.order-customer-info {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 1rem;
 }
 
-.customer-avatar {
+.order-customer-info .customer-avatar {
     width: 32px;
     height: 32px;
     background-color: #eee;
     border-radius: 50%;
+    
 }
 
-.customer-name {
+.order-customer-info .customer-name {
     font-weight: bold;
 }
 

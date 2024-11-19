@@ -7,18 +7,38 @@
 
 body {
   display: flex;
-  min-height: 100vh; /* Ensures full viewport height */
-  background-image: url('../../img/Tailor.png'); /* Replace with actual background URL */
-  background-size: cover; /* Covers full viewport */
+  flex-direction: column;
+  min-height: 100vh;
+  /* Ensures full viewport height */
+  background-image: url('../../img/Tailor.png');
+  /* Replace with actual background URL */
+  background-size: cover;
+  /* Covers full viewport */
   background-position: center;
   background-repeat: no-repeat;
-  color: #333;
 }
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
+  /* Rounded corners for a cleaner look */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 100px;
+  position: relative;
+  /* Ensure the mask is positioned relative to main-content */
+  background: rgba(255, 255, 255, 0.8);
+  /* Semi-transparent background to see the body image */
+}
+
 
 /* Sidebar */
 .sidebar {
   width: 80px;
-  min-height: 100vh; /* Full viewport height, ensuring it doesn’t fall short */
+  min-height: 100vh;
+  /* Full viewport height, ensuring it doesn’t fall short */
   background-color: #7a57d1;
   display: flex;
   flex-direction: column;
@@ -26,6 +46,10 @@ body {
   padding: 20px 0;
   color: white;
   justify-content: space-around;
+  position: fixed;
+  /* Fix the sidebar to the left */
+  top: 0;
+  left: 0;
 }
 
 .sidebar img {
@@ -60,10 +84,12 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-height: 100vh; /* Ensures full viewport height */
+  min-height: 100vh;
+  /* Ensures full viewport height */
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(8px);
-
+  margin-left: 80px;
+  /* Add margin to account for the fixed sidebar */
 }
 
 .header {
@@ -140,7 +166,7 @@ body {
   gap: 20px;
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: 40px;
+  margin-bottom: 100px;
   padding: 20px;
   border-radius: 10px;
 }

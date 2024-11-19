@@ -12,7 +12,7 @@
   <div id="calendar" class="sidebar-icon"><img src="../<?php APPROOT?>/public/img/Calendar.png"></div>
   <div id="adjust" class="sidebar-icon"><img src="../<?php APPROOT?>/public/img/Adjust.png"></div>
   <div id="shopping-bag" class="sidebar-icon"><a href="<?php echo URLROOT ?>/Tailors/displayFabricStock"><img src="../<?php APPROOT?>/public/img/Shopping_bag.png"></a></div>
-</div>
+  </div>
 
 <script>
 document.querySelectorAll('.sidebar-icon').forEach((icon) => {

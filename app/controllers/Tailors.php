@@ -20,14 +20,64 @@ class Tailors extends Controller
 
         $this->view('users/Tailor/v_t_dashboard', $data);
     }
-    public function profileUpdate()
-    {
+
+public function profileUpdate()
+{
+    // Check if the user is logged in
+    if (!isset($_SESSION['tailor_id'])) {
+        redirect('users/login');
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Process form
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+        // Handle file upload
+        $profilePic = null;
+        if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] == 0) {
+            $profilePic = file_get_contents($_FILES['profile_pic']['tmp_name']);
+        }
 
         $data = [
-            'title' => 'Profile Update'
+            'tailor_id' => $_SESSION['tailor_id'],
+            'first_name' => trim($_POST['first_name']),
+            'last_name' => trim($_POST['last_name']),
+            'email' => trim($_POST['email']),
+            'phone_number' => trim($_POST['phone_number']),
+            'nic' => trim($_POST['nic']),
+            'birth_date' => trim($_POST['birth_date']),
+            'home_town' => trim($_POST['home_town']),
+            'address' => trim($_POST['address']),
+            'bio' => trim($_POST['bio']),
+            'category' => trim($_POST['category']),
+            'profile_pic' => $profilePic
         ];
+
+        // Update tailor details
+        if ($this->tailorModel->updateTailor($data)) {
+            flash('profile_message', 'Profile updated successfully');
+            redirect('tailors/profileUpdate');
+        } else {
+            die('Something went wrong');
+        }
+    } else {
+        // Get tailor details
+        $tailor = $this->tailorModel->getTailorById($_SESSION['tailor_id']);
+
+        // Check if tailor exists
+        if (!$tailor) {
+            flash('profile_message', 'Tailor not found', 'alert alert-danger');
+            redirect('tailors/index');
+        }
+
+        $data = [
+            'title' => 'Profile Update',
+            'tailor' => $tailor
+        ];
+
         $this->view('users/Tailor/v_t_profile', $data);
     }
+}
 
     public function displayFabricStock()
     {
@@ -62,6 +112,15 @@ class Tailors extends Controller
             'title' => 'Order Progress'
         ];
         $this->view('users/Tailor/v_t_order_progress', $data);
+    }
+
+    public function displayOrderDetails()
+    {
+
+        $data = [
+            'title' => 'Order Details'
+        ];
+        $this->view('users/Tailor/v_t_order_item_details', $data);
     }
 
     public function tailorRegister()
