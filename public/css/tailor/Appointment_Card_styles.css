@@ -1,0 +1,133 @@
+
+.appointment-details-container {
+    min-width: 400px;
+
+  margin: 40px auto;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+
+.appointment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #333;
+  cursor: pointer;
+}
+
+.appointment-info {
+  margin-bottom: 20px;
+}
+
+.appointment-date {
+  font-size: 16px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.user-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-name {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.calendar-icon {
+  display: inline-block;
+  text-align: center;
+  border: 2px solid #000;
+  border-radius: 8px;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+}
+
+.calendar-icon .month {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.calendar-icon .date {
+  font-size: 36px;
+  font-weight: bold;
+  color: #000;
+}
+
+.calendar-icon .day {
+  font-size: 14px;
+  color: #333;
+}
+
+.status {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 4px;
+  color: #fff;
+  margin-top: 10px;
+}
+
+.status.accepted {
+  background-color: #a5e8c3;
+}
+
+.tailor-info {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #333;
+}
+
+.reschedule-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #6c63ff;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.reschedule-btn:hover {
+  background-color: #5a53cc;
+}
+/* Appointment Link Styling */
+.appointment-link {
+    color: #6c63ff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+  }
+  
+  .appointment-link:hover {
+    color: #5a52d1;
+  }

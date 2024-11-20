@@ -1,210 +1,144 @@
+:root {
+  --primary-color: #6a5acd;
+  --secondary-color: #7b68ee;
+  --text-color: #333;
+  --background-color: #f4f4f8;
+  --input-border: #e0e0e0;
+  --error-color: #d9534f;
+  --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', Arial, sans-serif;
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  /* Ensures full viewport height */
   background-image: url('../../img/Tailor.png');
-  /* Replace with actual background URL */
-  background-size: cover;
-  /* Covers full viewport */
-  background-position: center;
-  background-repeat: no-repeat;
+  color: var(--text-color);
+  line-height: 1.6;
+  overflow-x: hidden;
+  perspective: 1000px;
 }
+
 .main-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  margin: 20px;
-  border-radius: 10px;
-  /* Rounded corners for a cleaner look */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  min-width: 1200px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border-radius: 16px;
+  transform: translateY(0);
+  transition: all 0.3s ease;
   margin-bottom: 100px;
-  position: relative;
-  /* Ensure the mask is positioned relative to main-content */
-  background: rgba(255, 255, 255, 0.8);
-  /* Semi-transparent background to see the body image */
 }
 
-
-/* Sidebar */
-.sidebar {
-  width: 80px;
-  min-height: 100vh;
-  /* Full viewport height, ensuring it doesn’t fall short */
-  background-color: #7a57d1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px 0;
-  color: white;
-  justify-content: space-around;
-  position: fixed;
-  /* Fix the sidebar to the left */
-  top: 0;
-  left: 0;
+.main-content:hover {
+  transform: translateY(-10px);
 }
 
-.sidebar img {
-  width: 40px;
-  margin-bottom: 5px;
-  cursor: pointer;
-}
-
-.sidebar-icon {
-  font-size: 24px;
-  margin: 20px 0;
-  cursor: pointer;
-  color: #ffffff;
-  padding: 10px;
-  border-radius: 8px;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.sidebar-icon.active {
-  background-color: rgba(255, 255, 255, 0.2);
-  color: #fff;
-}
-
-.sidebar-icon:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  color: #fff;
-  cursor: pointer;
-}
-
-/* Dashboard Content */
-.Section-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  /* Ensures full viewport height */
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(8px);
-  margin-left: 80px;
-  /* Add margin to account for the fixed sidebar */
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px;
-}
-
-.header .main-title {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #f3e3e3;
-  text-align: center;
-  margin-bottom: 20px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.header .search-bar {
-  position: relative;
-  width: 250px;
-  display: flex;
-}
-
-.header .search-bar input {
-  width: 100%;
-  padding: 8px 10px;
-  border-radius: 20px;
-  border: 1px solid #ccc;
-  outline: none;
-}
-
-.header .search-bar button {
-  position: absolute;
-  right: 5px;
-  top: 50%;
-  transform: translateY(-50%);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-  color: #888;
-}
-
-.header .actions {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.header .actions button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 18px;
-  color: #555;
-}
-
-.header .actions .user-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.header .actions .user-info img {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-}
-
-/* Stats Cards */
 .stats {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: 100px;
-  padding: 20px;
-  border-radius: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
 }
 
 .card {
-  flex: 1;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
   text-align: center;
+  box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+  transform: rotateX(0deg) rotateY(0deg);
+}
+
+.card:hover {
+  transform: scale(1.05) rotateX(5deg) rotateY(5deg);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg,
+      transparent,
+      var(--primary-color),
+      transparent);
+  transform: rotate(-45deg);
+  opacity: 0.1;
+  transition: all 0.3s ease;
+}
+
+.card:hover::before {
+  opacity: 0.2;
+}
+
+.card-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .card h3 {
-  font-size: 1.5rem;
-  color: #666;
-  margin-bottom: 10px;
+  font-size: 1.2rem;
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
 }
 
-.card p {
-  font-size: 2rem;
-  margin-bottom: 10px;
+.card-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.card span {
+.card-trend {
   font-size: 0.9rem;
-  color: #888;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 0.5rem;
 }
 
-/* Colors for different metrics */
-.orders-card span {
+.trend-up {
   color: #00c853;
 }
 
-.sales-card span {
+.trend-down {
   color: #d50000;
 }
 
-.appointments-card span {
-  color: #00c853;
+.trend-icon {
+  margin-right: 0.3rem;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.card:hover .card-value {
+  animation: pulse 1s infinite;
 }

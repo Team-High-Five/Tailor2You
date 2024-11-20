@@ -177,6 +177,27 @@ class Tailors extends Controller
         ];
         $this->view('users/Tailor/v_t_order_item_measurements', $data);
     }
+    
+    public function displayAppointments(){
+        $data = [
+            'title' => 'Appointments'
+        ];
+        $this->view('users/Tailor/v_t_appointment_list', $data);
+    }
+
+    public function displayAppointmentDetails(){
+        $data = [
+            'title' => 'Appointment Details'
+        ];
+        $this->view('users/Tailor/v_t_appointment_card', $data);
+    }
+
+    public function diplayCalendar(){
+        $data = [
+            'title' => 'Calendar'
+        ];
+        $this->view('users/Tailor/v_t_calendar', $data);
+    }
 
     public function tailorRegister()
     {

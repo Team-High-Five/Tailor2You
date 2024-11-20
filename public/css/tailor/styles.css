@@ -14,4 +14,8 @@
 @import url('footer.css');
 @import url('Orde_item_styles.css');
 @import url('Order_measurements_styels.css');
-
+@import url('Order_List_styels.css');
+@import url('Appointment_List_styles.css');
+@import url('Appointment_Card_styles.css');
+@import url('Appointment_Calender_styles.css');
+@import url('sideBar_styles.css');
