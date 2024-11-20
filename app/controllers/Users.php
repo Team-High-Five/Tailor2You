@@ -161,6 +161,7 @@ public function createTailorSession($tailor) {
     $_SESSION['tailor_email'] = $tailor->email;
     $_SESSION['tailor_first_name'] = $tailor->first_name;
     $_SESSION['tailor_last_name'] = $tailor->last_name;
+    $_SESSION['tailor_profile_pic'] = $tailor->profile_pic;
 
     // Redirect to the tailor's dashboard
     redirect('tailors/index');

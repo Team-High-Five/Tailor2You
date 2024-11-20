@@ -87,8 +87,15 @@
 /* Radio Group */
 .radio-group {
     display: flex;
-    gap: 10px;
+    gap: 60px;
     align-items: center;
+}
+
+.radio-group .title{
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #333;
 }
 
 .radio-group label {
@@ -98,8 +105,7 @@
 
 /* Buttons Styling */
 .profile-form .buttons {
-    grid-column: span 2;
-    display: flex;
+  
     justify-content: flex-end;
     gap: 10px;
 }
@@ -121,7 +127,7 @@
 
 .profile-form .reset-btn {
     background-color: #ccc;
-    color: #333;
+
 }
 
 .profile-form .submit-btn:hover {
@@ -136,4 +142,14 @@
 .profile-form .submit-btn:active,
 .profile-form .reset-btn:active {
     transform: scale(0.98);
+}
+
+
+/* Error Styling */
+.profile-form .error {
+    color: #d9534f;
+    font-size: 14px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    display: block;
 }

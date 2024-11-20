@@ -38,7 +38,7 @@
         <tbody>
           <tr>
             <td>00001</td>
-            <td>Pieris M.P</td>
+            <td><a href="<?php echo URLROOT; ?>/tailors/displayOrderMeasurements" class="order-link">Pieris M.P</a></td>
             <td>Dotted Black Dress</td>
             <td>14 Feb 2019</td>
             <td>Rs.10,000</td>

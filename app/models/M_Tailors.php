@@ -24,7 +24,7 @@ class M_Tailors
         return $row ? $row : false;
     }
 
-    
+
     public function updateTailor($data)
     {
         $this->db->query('UPDATE tailors SET first_name = :first_name, last_name = :last_name, email = :email, phone_number = :phone_number, nic = :nic, birth_date = :birth_date, home_town = :home_town, address = :address, bio = :bio, category = :category, profile_pic = IFNULL(:profile_pic, profile_pic) WHERE tailor_id = :tailor_id');
@@ -41,7 +41,7 @@ class M_Tailors
         $this->db->bind(':category', $data['category']);
         $this->db->bind(':profile_pic', $data['profile_pic']);
         $this->db->bind(':tailor_id', $data['tailor_id']);
-    
+
         // Execute
         return $this->db->execute();
     }

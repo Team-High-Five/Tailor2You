@@ -21,64 +21,112 @@ class Tailors extends Controller
         $this->view('users/Tailor/v_t_dashboard', $data);
     }
 
-public function profileUpdate()
-{
-    // Check if the user is logged in
-    if (!isset($_SESSION['tailor_id'])) {
-        redirect('users/login');
-    }
 
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Process form
-        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-        // Handle file upload
-        $profilePic = null;
-        if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] == 0) {
-            $profilePic = file_get_contents($_FILES['profile_pic']['tmp_name']);
+    public function profileUpdate()
+    {
+        // Check if the user is logged in
+        if (!isset($_SESSION['tailor_id'])) {
+            redirect('users/login');
         }
-
-        $data = [
-            'tailor_id' => $_SESSION['tailor_id'],
-            'first_name' => trim($_POST['first_name']),
-            'last_name' => trim($_POST['last_name']),
-            'email' => trim($_POST['email']),
-            'phone_number' => trim($_POST['phone_number']),
-            'nic' => trim($_POST['nic']),
-            'birth_date' => trim($_POST['birth_date']),
-            'home_town' => trim($_POST['home_town']),
-            'address' => trim($_POST['address']),
-            'bio' => trim($_POST['bio']),
-            'category' => trim($_POST['category']),
-            'profile_pic' => $profilePic
-        ];
-
-        // Update tailor details
-        if ($this->tailorModel->updateTailor($data)) {
-            flash('profile_message', 'Profile updated successfully');
-            redirect('tailors/profileUpdate');
+    
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Process form
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+    
+            // Handle file upload
+            $profilePic = null;
+            if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] == 0) {
+                $profilePic = file_get_contents($_FILES['profile_pic']['tmp_name']);
+            }
+    
+            // Get tailor details
+            $tailor = $this->tailorModel->getTailorById($_SESSION['tailor_id']);
+    
+            $data = [
+                'title' => 'Profile Update',
+                'tailor_id' => $_SESSION['tailor_id'],
+                'first_name' => trim($_POST['first_name']),
+                'last_name' => trim($_POST['last_name']),
+                'email' => trim($_POST['email']),
+                'phone_number' => trim($_POST['phone_number']),
+                'nic' => trim($_POST['nic']),
+                'birth_date' => trim($_POST['birth_date']),
+                'home_town' => trim($_POST['home_town']),
+                'address' => trim($_POST['address']),
+                'bio' => trim($_POST['bio']),
+                'category' => trim($_POST['category']),
+                'profile_pic' => $profilePic,
+                'tailor' => $tailor,
+                'first_name_err' => '',
+                'last_name_err' => '',
+                'email_err' => '',
+                'phone_number_err' => '',
+                'nic_err' => '',
+                'birth_date_err' => '',
+                'home_town_err' => '',
+                'address_err' => '',
+                'bio_err' => '',
+                'category_err' => '',
+                'profile_pic_err' => ''
+            ];
+    
+            // Validate NIC
+            if (!preg_match('/^\d{12}$/', $data['nic']) && !preg_match('/^\d{9}[VXvx]$/', $data['nic'])) {
+                $data['nic_err'] = 'NIC must be either 12 digits long with only numbers, or 10 digits with V or X at the end.';
+            }
+    
+            // Check for errors
+            if (empty($data['nic_err'])) {
+                // Update tailor details
+                if ($this->tailorModel->updateTailor($data)) {
+                    flash('profile_message', 'Profile updated successfully');
+                    $this->updateTailorSession($data);
+                    redirect('tailors/profileUpdate');
+                } else {
+                    die('Something went wrong');
+                }
+            } else {
+                // Load view with errors
+                $this->view('users/Tailor/v_t_profile', $data);
+            }
         } else {
-            die('Something went wrong');
+            // Get tailor details
+            $tailor = $this->tailorModel->getTailorById($_SESSION['tailor_id']);
+    
+            // Check if tailor exists
+            if (!$tailor) {
+                flash('profile_message', 'Tailor not found', 'alert alert-danger');
+                redirect('tailors/index');
+            }
+    
+            $data = [
+                'title' => 'Profile Update',
+                'tailor' => $tailor,
+                'first_name_err' => '',
+                'last_name_err' => '',
+                'email_err' => '',
+                'phone_number_err' => '',
+                'nic_err' => '',
+                'birth_date_err' => '',
+                'home_town_err' => '',
+                'address_err' => '',
+                'bio_err' => '',
+                'category_err' => '',
+                'profile_pic_err' => ''
+            ];
+    
+            $this->view('users/Tailor/v_t_profile', $data);
         }
-    } else {
-        // Get tailor details
-        $tailor = $this->tailorModel->getTailorById($_SESSION['tailor_id']);
-
-        // Check if tailor exists
-        if (!$tailor) {
-            flash('profile_message', 'Tailor not found', 'alert alert-danger');
-            redirect('tailors/index');
-        }
-
-        $data = [
-            'title' => 'Profile Update',
-            'tailor' => $tailor
-        ];
-
-        $this->view('users/Tailor/v_t_profile', $data);
     }
-}
 
+    private function updateTailorSession($data)
+    {
+        $_SESSION['tailor_profile_pic'] = $data['profile_pic'];
+        $_SESSION['tailor_first_name'] = $data['first_name'];
+        $_SESSION['tailor_last_name'] = $data['last_name'];
+        $_SESSION['tailor_email'] = $data['email'];
+        // Add any other session variables you want to update
+    }
     public function displayFabricStock()
     {
 
@@ -121,6 +169,13 @@ public function profileUpdate()
             'title' => 'Order Details'
         ];
         $this->view('users/Tailor/v_t_order_item_details', $data);
+    }
+
+    public function displayOrderMeasurements(){
+        $data = [
+            'title' => 'Order Meassurements'
+        ];
+        $this->view('users/Tailor/v_t_order_item_measurements', $data);
     }
 
     public function tailorRegister()

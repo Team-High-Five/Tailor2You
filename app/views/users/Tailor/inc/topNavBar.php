@@ -22,7 +22,12 @@
             Guest
           <?php endif; ?>
         </span>
-        <img src="../<?php APPROOT ?>/public/img/Avatar.png" alt="User Avatar">
+        <?php if (!empty($_SESSION['tailor_profile_pic'])): ?>
+          <img src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['tailor_profile_pic']); ?>"
+            alt="User Avatar">
+        <?php else: ?>
+          <img src="<?php echo URLROOT; ?>/public/img/Avatar.png" alt="User Avatar">
+        <?php endif; ?>
       </div>
     </div>
   </div>

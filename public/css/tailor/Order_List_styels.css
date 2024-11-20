@@ -105,3 +105,15 @@
   .progress-btn:hover {
     background-color: #5a52d1;
   }
+
+  /* Order Link Styling */
+.order-link {
+  color: #6c63ff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.order-link:hover {
+  color: #5a52d1;
+}

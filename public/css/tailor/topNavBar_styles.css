@@ -155,7 +155,9 @@
 }
 
 .dropdown:hover .tailor-drop-down {
-  background-color: #3e8e41;
+  transform: rotate(180deg);
+  transition: transform 0.3s ease;
+  
 }
   /* Responsive Design */
   @media screen and (max-width: 768px) {
