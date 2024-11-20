@@ -1,0 +1,131 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Header Container */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(122, 87, 209, 0.8); /* Transparent background */
+    color: white;   
+    padding: 10px 20px;
+    background-color: rgba(122, 87, 209, 0.5); /* More transparent background */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+  /* Dashboard Title */
+  .header h1 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #fff;
+  }
+  .header img {
+    width: 40px;
+    margin-bottom: 5px;
+    cursor: pointer;
+  }
+  
+  .header h1 a {
+    text-decoration: none;
+    color: #f7f7f7;
+    transition: color 0.3s ease;
+  }
+  
+  .header h1 a:hover {
+    color: #fff;
+  }
+  
+  /* Search Bar */
+  .search-bar {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-bar input {
+    width: 250px;
+    padding: 8px 10px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    outline: none;
+  }
+  
+  .search-bar button {
+    position: absolute;
+    right: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .search-bar button img {
+    width: 20px;
+    height: 20px;
+    filter: invert(100%);
+  }
+  
+  /* Action Buttons */
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .actions button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .actions button img {
+    width: 24px;
+    filter: invert(100%);
+    transition: transform 0.2s ease;
+  }
+  
+  .actions button:hover img {
+    transform: scale(1.1);
+  }
+  
+  /* User Info */
+  .actions .user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .actions .user-info span {
+    color: #f7f4f0;
+    font-weight: bold;
+  }
+  
+  .actions .user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #ff9900;
+    transition: border-color 0.3s ease;
+  }
+  
+  .actions .user-info img:hover {
+    border-color: #fff;
+  }
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .search-bar input {
+      width: 150px;
+    }
+  
+    .header h1 {
+      font-size: 1.4rem;
+    }
+  }
+  

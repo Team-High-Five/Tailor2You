@@ -17,7 +17,7 @@
                             <span>Email</span>
                         </div>
                         <input type="email" name="email" placeholder="" required>
-                        <span class="form-invalid"><?php echo $data['email_err']?></span>
+                        <span class="form-invalid"><?php echo !empty($data['email_err']) ? $data['email_err'] : ''; ?></span>
                     </div>
                     <div class="input-group">
                         <div class="input-group_top">
@@ -25,7 +25,7 @@
                             <a href="#" class="forgot-password">Forgot?</a>
                         </div>
                         <input type="password" name="password" placeholder="" required>
-                        <span class="form-invalid"><?php echo $data['password_err']?></span>
+                        <span class="form-invalid"><?php echo !empty($data['password_err']) ? $data['password_err'] : ''; ?></span>
                     </div>
                     <a href="#">
                         <button class="login-btn" type="submit">Log In</button>
