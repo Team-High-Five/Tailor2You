@@ -20,6 +20,7 @@
 @import url('Appointment_Calender_styles.css');
 @import url('sideBar_styles.css');
 @import url('Customization_List_styles.css');
+@import url('Customization_Card_styles.css');
 
 :root {
     --primary-color: #6a5acd;
