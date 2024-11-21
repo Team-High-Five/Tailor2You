@@ -196,9 +196,15 @@ class Tailors extends Controller
         $data = [
             'title' => 'Calendar'
         ];
-        $this->view('users/Tailor/v_t_calendar', $data);
+        $this->view('users/Tailor/v_t_appointment_calendar', $data);
     }
 
+    public function displayCustomizeItems(){
+        $data = [
+            'title' => 'Customize Items'
+        ];
+        $this->view('users/Tailor/v_t_customize_item_list', $data);
+    }
     public function tailorRegister()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {

@@ -1,24 +1,11 @@
-/* Section Content */
-.Section-content {
-  
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  /* Ensures full viewport height */
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(4px);
-  margin-left: 80px;
-  /* Add margin to account for the fixed sidebar */
-}
-
 /* Header Container */
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: linear-gradient(to right, #7a57d1, rgba(41, 16, 100, 0.95));
+  background: linear-gradient(to right, #7a57d1, rgba(41, 16, 100, 0.8));
   color: rgb(231, 224, 224);   
-  padding: 8px 20px;
+  padding: 4px 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   position: sticky; 

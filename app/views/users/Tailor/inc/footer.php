@@ -1,4 +1,3 @@
-    
 <link rel="stylesheet" href="<?php echo URLROOT; ?>/css/tailor/footer.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <footer class="site-footer">
@@ -34,6 +33,9 @@
         <p>&copy; <?php echo date('Y'); ?> <?php echo SITENAME; ?>. All rights reserved.</p>
     </div>
 </footer>
+</div>
+</body>
+
 
 <!-- Closing tags -->
 <script src="<?php echo URLROOT; ?>/js/script.js"></script>
