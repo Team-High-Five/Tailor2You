@@ -32,6 +32,7 @@
     --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     --text-dark: #333;
     --text-muted: #555;
+    --border-color: #e0e0e0;
 }
 
 * {

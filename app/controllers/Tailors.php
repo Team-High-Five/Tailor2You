@@ -226,6 +226,33 @@ class Tailors extends Controller
         ];
         $this->view('users/Tailor/v_t_customize_add_new', $data);
     }
+
+    public function addNewCustomizeItem()
+    {
+        // if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        //     // Process form
+        //     $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+        //     // Input data
+        //     $data = [
+        //         'gender' => trim($_POST['gender']),
+        //         'category' => trim($_POST['category']),
+        //         'sub_category' => trim($_POST['sub_category']),
+        //         'title' => 'Add New Customize Item'
+        //     ];
+
+        //     // Load the next view with the data
+        //     $this->view('users/Tailor/v_t_customize_add_new_continue', $data);
+        // } else {
+        //     // Redirect to the customize items page if not a POST request
+        //     redirect('tailors/displayCustomizeItems');
+        // }
+        // Load the next view with the data
+        $data = [
+            'title' => 'Add New Customize Item'
+        ];
+        $this->view('users/Tailor/v_t_customize_add_new_continue', $data);
+    }
     public function tailorRegister()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
