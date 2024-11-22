@@ -53,19 +53,6 @@
   margin-bottom: 20px;
 }
 
-.filter-btn,
-.reset-filter-btn,
-select {
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.reset-filter-btn {
-  color: #ff4d4d;
-  border-color: #ff4d4d;
-}
 
 .appointment-table {
   width: 100%;

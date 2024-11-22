@@ -5,13 +5,7 @@
     align-items: center;
 }
 
-.filter-btn, .filter-bar select {
-    background-color: white;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 6px;
-    font-size: 14px;
-}
+
 
 .product-grid {
     display: grid;

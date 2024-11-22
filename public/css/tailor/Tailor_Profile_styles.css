@@ -165,24 +165,7 @@
     gap: 0.5rem;
 }
 
-.submit-btn {
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-    color: white;
-}
 
-.reset-btn {
-    background-color: #f0f0f0;
-    color: var(--text-color);
-}
-
-.submit-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(106, 90, 205, 0.3);
-}
-
-.reset-btn:hover {
-    background-color: #e0e0e0;
-}
 
 .error {
     color: var(--error-color);

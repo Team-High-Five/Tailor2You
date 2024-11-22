@@ -27,19 +27,6 @@
     color: #333;
 }
 
-.add-new-fabric-container .modal-header .close-btn {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #333;
-    transition: color 0.3s ease;
-}
-
-.add-new-fabric-container .modal-header .close-btn:hover {
-    color: #ff0000;
-}
-
 /* Fabric Form Container */
 .fabric-form-container {
     background-color: #fff;
@@ -139,27 +126,4 @@
 
 .color-circle:hover {
     border-color: #6c63ff;
-}
-
-/* Submit Button */
-.submit-btn {
-    background-color: #6c63ff;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    margin-top: 20px; /* Add margin to separate it from the form */
-}
-
-.submit-btn:hover {
-    background-color: #5a52d1;
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.submit-btn:active {
-    transform: scale(0.98);
 }

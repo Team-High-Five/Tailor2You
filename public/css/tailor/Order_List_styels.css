@@ -14,19 +14,6 @@
     margin-bottom: 1rem;
   }
   
-  .filter-btn,
-  .reset-filter-btn,
-  select {
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .reset-filter-btn {
-    color: #ff4d4d;
-    border-color: #ff4d4d;
-  }
   
   select {
     padding: 0.5rem;
@@ -91,20 +78,7 @@
     background-color: #fbd687;
   }
   
-  .progress-btn {
-    display: inline-block;
-    padding: 8px 12px;
-    background-color: #6c63ff;
-    color: white;
-    border-radius: 4px;
-    text-decoration: none;
-    font-size: 0.875rem;
-    transition: background-color 0.3s ease;
-  }
   
-  .progress-btn:hover {
-    background-color: #5a52d1;
-  }
 
   /* Order Link Styling */
 .order-link {
