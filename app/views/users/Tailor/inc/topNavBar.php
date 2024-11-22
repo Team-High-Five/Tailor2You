@@ -14,6 +14,7 @@
           <a href="<?php echo URLROOT; ?>/Users/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
       </div>
+      <a href="<?php echo URLROOT ?>/Tailors/profileUpdate">
       <div class="user-info">
         <span>
           <?php if (isset($_SESSION['tailor_first_name'])): ?>
@@ -28,5 +29,6 @@
           <img src="<?php echo URLROOT; ?>/public/img/Avatar.png" alt="User Avatar">
         <?php endif; ?>
       </div>
+      </a>
     </div>
   </div>

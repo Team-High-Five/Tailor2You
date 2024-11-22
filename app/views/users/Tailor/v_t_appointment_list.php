@@ -18,7 +18,7 @@
         <!-- Add more statuses as needed -->
       </select>
       <button class="reset-filter-btn">Reset Filter</button>
-      <a href="<?php echo URLROOT; ?>/Tailors/diplayCalendar" class="progress-btn">Calender</a>
+      <a href="<?php echo URLROOT; ?>/Tailors/displayCalendar" class="progress-btn">Calender</a>
     </div>
 
     <table class="appointment-table">
@@ -35,7 +35,7 @@
       <tbody>
         <tr>
           <td>00001</td>
-          <td><a href="<?php echo URLROOT; ?>/tailors/displayAppointmentDetails" class="appointment-link">Christine
+          <td><a href="<?php echo URLROOT; ?>/tailors/displayAppointmentDetails" class="appointment-link" data-id="1067907">Christine
               Brooks</a></td>
           <td>
             <select class="assign-tailor">

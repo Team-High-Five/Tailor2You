@@ -195,7 +195,7 @@ class Tailors extends Controller
         $this->view('users/Tailor/v_t_appointment_card', $data);
     }
 
-    public function diplayCalendar()
+    public function displayCalendar()
     {
         $data = [
             'title' => 'Calendar'
@@ -225,6 +225,13 @@ class Tailors extends Controller
             'title' => 'Add Customize Item'
         ];
         $this->view('users/Tailor/v_t_customize_add_new', $data);
+    }
+
+    public function displayPortfolio(){
+        $data = [
+            'title' => 'Portfolio'
+        ];
+        $this->view('users/Tailor/v_t_portfolio', $data);
     }
 
     public function addNewCustomizeItem()

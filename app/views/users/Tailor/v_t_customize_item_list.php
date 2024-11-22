@@ -25,9 +25,9 @@
       <p>Shirts</p>
       <p class="price">Rs:3000</p>
       <p>Men</p>
-      <div class="actions">
-        <button>📝</button>
-        <button>🗑️</button>
+      <div class="product-actions">
+        <button class="btn-primary">Edit</button>
+        <button class="btn-danger">Delete</button>
       </div>
     </div>
     <div class="product-card">
@@ -36,9 +36,9 @@
       <p>Pants</p>
       <p class="price">Rs:4000</p>
       <p>Men</p>
-      <div class="actions">
-        <button>📝</button>
-        <button>🗑️</button>
+      <div class="product-actions">
+        <button class="btn-primary">Edit</button>
+        <button class="btn-danger">Delete</button>
       </div>
     </div>
     <div class="product-card">
@@ -47,9 +47,9 @@
       <p>Shirts</p>
       <p class="price">Rs:10000</p>
       <p>Men</p>
-      <div class="actions">
-        <button>📝</button>
-        <button>🗑️</button>
+      <div class="product-actions">
+        <button class="btn-primary">Edit</button>
+        <button class="btn-danger">Delete</button>
       </div>
     </div>
     <div class="product-card">
@@ -58,9 +58,9 @@
       <p>Pants</p>
       <p class="price">Rs:4000</p>
       <p>Men</p>
-      <div class="actions">
-        <button>📝</button>
-        <button>🗑️</button>
+      <div class="product-actions">
+        <button class="btn-primary">Edit</button>
+        <button class="btn-danger">Delete</button>
       </div>
     </div>
   </div>
@@ -68,15 +68,16 @@
 
 <!-- Modal Structure -->
 <div id="customizeModal" class="modal">
-
-  <span class="close-btn">&times;</span>
-  <div id="modal-body">
-    <!-- Content from v_t_customize_add_new.php will be loaded here -->
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <div id="modal-body">
+      <!-- Content from v_t_customize_add_new.php will be loaded here -->
+    </div>
   </div>
 </div>
 
 <script>
-  document.getElementById('openModalBtn').addEventListener('click', function () {
+  document.getElementById('openModalBtn').addEventListener('click', function() {
     document.getElementById('customizeModal').style.display = 'block';
     // Load the content of v_t_customize_add_new.php into the modal
     fetch('<?php echo URLROOT; ?>/tailors/addCustomizeItem')
@@ -86,11 +87,11 @@
       });
   });
 
-  document.querySelector('.close-btn').addEventListener('click', function () {
+  document.querySelector('.close-btn').addEventListener('click', function() {
     document.getElementById('customizeModal').style.display = 'none';
   });
 
-  window.addEventListener('click', function (event) {
+  window.addEventListener('click', function(event) {
     if (event.target == document.getElementById('customizeModal')) {
       document.getElementById('customizeModal').style.display = 'none';
     }

@@ -1,15 +1,87 @@
+:root {
+    --primary-color: #6c63ff;
+    --secondary-color: #5a52d1;
+    --danger-color: #ff4d4d;
+    --danger-dark-color: #d43f3f;
+    --border-color: #ccc;
+    --text-dark: #333;
+    --text-light: #666;
+    --background-light: #f9f9f9;
+}
+
+/* Primary Button */
+.btn-primary {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    transform: scale(1.05);
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+/* Danger Button */
+.btn-danger {
+    background-color: var(--danger-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-danger:hover {
+    background-color: var(--danger-dark-color);
+    transform: scale(1.05);
+}
+
+.btn-danger:active {
+    transform: scale(0.98);
+}
+
+/* Cancel Button */
+.btn-cancel {
+    background-color: var(--danger-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-cancel:hover {
+    background-color: var(--danger-dark-color);
+    transform: scale(1.05);
+}
+
+.btn-cancel:active {
+    transform: scale(0.98);
+}
+
+/* Other Button Styles */
 .btn {
     padding: 10px 20px;
     font-size: 14px;
     border-radius: 5px;
     cursor: pointer;
     border: none;
-    background: #6c63ff;
+    background: var(--primary-color);
     color: white;
 }
 
 .btn:hover {
-    background: #5548c8;
+    background: var(--secondary-color);
 }
 
 .close-btn {
@@ -30,7 +102,7 @@
 
 /* Submit Button */
 .submit-btn {
-    background-color: #6c63ff;
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
     color: white;
     padding: 10px 20px;
     border: none;
@@ -43,7 +115,7 @@
 }
 
 .submit-btn:hover {
-    background-color: #5a52d1;
+    background-color: var(--secondary-color);
     transform: scale(1.05);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
@@ -205,74 +277,4 @@ select {
 
 .reschedule-btn:hover {
     background-color: #5a53cc;
-}
-:root {
-    --primary-color: #6c63ff;
-    --secondary-color: #5a52d1;
-    --danger-color: #ff4d4d;
-    --danger-dark-color: #d43f3f;
-    --border-color: #ccc;
-    --text-dark: #333;
-    --text-light: #666;
-    --background-light: #f9f9f9;
-}
-
-/* Primary Button */
-.btn-primary {
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-.btn-primary:hover {
-    background-color: var(--secondary-color);
-    transform: scale(1.05);
-}
-
-.btn-primary:active {
-    transform: scale(0.98);
-}
-
-/* Danger Button */
-.btn-danger {
-    background-color: var(--danger-color);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-.btn-danger:hover {
-    background-color: var(--danger-dark-color);
-    transform: scale(1.05);
-}
-
-.btn-danger:active {
-    transform: scale(0.98);
-}
-
-/* Cancel Button */
-.btn-cancel {
-    background-color: var(--danger-color);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-.btn-cancel:hover {
-    background-color: var(--danger-dark-color);
-    transform: scale(1.05);
-}
-
-.btn-cancel:active {
-    transform: scale(0.98);
 }

@@ -21,11 +21,12 @@
 
 /* Main Title */
 .main-title {
-  font-size: 2rem;
+  font-size: 24px;
   font-weight: 700;
   color: #ffffff; /* Set font color to white */
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  margin: 0;
+  margin-left: 20px;
+  margin-top: 5px;
   letter-spacing: 0.5px;
 }
 

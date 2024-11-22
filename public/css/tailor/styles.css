@@ -21,11 +21,14 @@
 @import url('sideBar_styles.css');
 @import url('Customization_List_styles.css');
 @import url('Customization_Card_styles.css');
+@import url('Portfolio_styles.css');
 @import url('btn_styles.css');
 
 :root {
     --primary-color: #6a5acd;
     --secondary-color: #7b68ee;
+    --danger-color: #ff4d4d;
+    --danger-dark-color: #d43f3f;
     --text-color: #333;
     --background-color: #f4f4f8;
     --input-border: #e0e0e0;
