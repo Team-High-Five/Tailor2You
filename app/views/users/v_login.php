@@ -3,7 +3,7 @@
 <?php require_once APPROOT . '/views/inc/header.php'; ?>
 <!-- top navigation -->
 <?php require_once APPROOT . '/views/inc/components/topnav.php'; ?>
-
+<!-- side navigation -->
     <div class="login-container">
         <div class="logo">
             <img src="../<?php APPROOT?>/public/img/logo.png" alt="Tailor2You Logo">

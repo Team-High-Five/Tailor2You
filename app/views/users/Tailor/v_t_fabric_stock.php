@@ -3,7 +3,7 @@
 <?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
 <div class="main-content">
   <div class="content">
-    <h1>Fabric Stock</h1>
+    
     <a href="<?php echo URLROOT ?>/Tailors/addNewFabric"><button class="add-fabric-btn">Add New Fabric</button></a>
 
     <div class="table-container">

@@ -28,20 +28,20 @@ class Tailors extends Controller
         if (!isset($_SESSION['tailor_id'])) {
             redirect('users/login');
         }
-    
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Process form
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-    
+
             // Handle file upload
             $profilePic = null;
             if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] == 0) {
                 $profilePic = file_get_contents($_FILES['profile_pic']['tmp_name']);
             }
-    
+
             // Get tailor details
             $tailor = $this->tailorModel->getTailorById($_SESSION['tailor_id']);
-    
+
             $data = [
                 'title' => 'Profile Update',
                 'tailor_id' => $_SESSION['tailor_id'],
@@ -69,12 +69,12 @@ class Tailors extends Controller
                 'category_err' => '',
                 'profile_pic_err' => ''
             ];
-    
+
             // Validate NIC
             if (!preg_match('/^\d{12}$/', $data['nic']) && !preg_match('/^\d{9}[VXvx]$/', $data['nic'])) {
                 $data['nic_err'] = 'NIC must be either 12 digits long with only numbers, or 10 digits with V or X at the end.';
             }
-    
+
             // Check for errors
             if (empty($data['nic_err'])) {
                 // Update tailor details
@@ -92,13 +92,13 @@ class Tailors extends Controller
         } else {
             // Get tailor details
             $tailor = $this->tailorModel->getTailorById($_SESSION['tailor_id']);
-    
+
             // Check if tailor exists
             if (!$tailor) {
                 flash('profile_message', 'Tailor not found', 'alert alert-danger');
                 redirect('tailors/index');
             }
-    
+
             $data = [
                 'title' => 'Profile Update',
                 'tailor' => $tailor,
@@ -114,7 +114,7 @@ class Tailors extends Controller
                 'category_err' => '',
                 'profile_pic_err' => ''
             ];
-    
+
             $this->view('users/Tailor/v_t_profile', $data);
         }
     }
@@ -171,34 +171,88 @@ class Tailors extends Controller
         $this->view('users/Tailor/v_t_order_item_details', $data);
     }
 
-    public function displayOrderMeasurements(){
+    public function displayOrderMeasurements()
+    {
         $data = [
             'title' => 'Order Meassurements'
         ];
         $this->view('users/Tailor/v_t_order_item_measurements', $data);
     }
-    
-    public function displayAppointments(){
+
+    public function displayAppointments()
+    {
         $data = [
             'title' => 'Appointments'
         ];
         $this->view('users/Tailor/v_t_appointment_list', $data);
     }
 
-    public function displayAppointmentDetails(){
+    public function displayAppointmentDetails()
+    {
         $data = [
             'title' => 'Appointment Details'
         ];
         $this->view('users/Tailor/v_t_appointment_card', $data);
     }
 
-    public function diplayCalendar(){
+    public function diplayCalendar()
+    {
         $data = [
             'title' => 'Calendar'
         ];
-        $this->view('users/Tailor/v_t_calendar', $data);
+        $this->view('users/Tailor/v_t_appointment_calendar', $data);
     }
 
+    public function displayCustomizeItems()
+    {
+        $data = [
+            'title' => 'Customize Items'
+        ];
+        $this->view('users/Tailor/v_t_customize_item_list', $data);
+    }
+
+    public function displayCustomizeItemDetails()
+    {
+        $data = [
+            'title' => 'Customize Item Details'
+        ];
+        $this->view('users/Tailor/v_t_customize_item_details', $data);
+    }
+
+    public function addCustomizeItem()
+    {
+        $data = [
+            'title' => 'Add Customize Item'
+        ];
+        $this->view('users/Tailor/v_t_customize_add_new', $data);
+    }
+
+    public function addNewCustomizeItem()
+    {
+        // if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        //     // Process form
+        //     $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+        //     // Input data
+        //     $data = [
+        //         'gender' => trim($_POST['gender']),
+        //         'category' => trim($_POST['category']),
+        //         'sub_category' => trim($_POST['sub_category']),
+        //         'title' => 'Add New Customize Item'
+        //     ];
+
+        //     // Load the next view with the data
+        //     $this->view('users/Tailor/v_t_customize_add_new_continue', $data);
+        // } else {
+        //     // Redirect to the customize items page if not a POST request
+        //     redirect('tailors/displayCustomizeItems');
+        // }
+        // Load the next view with the data
+        $data = [
+            'title' => 'Add New Customize Item'
+        ];
+        $this->view('users/Tailor/v_t_customize_add_new_continue', $data);
+    }
     public function tailorRegister()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {

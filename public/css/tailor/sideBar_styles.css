@@ -1,19 +1,20 @@
 /* Sidebar Container */
 .sidebar {
     width: 80px;
-    height: 100vh; /* Ensure it covers the full height of the viewport */
+    margin-top: -100vh;
+    height: 100vh; /* Full viewport height */
     background: linear-gradient(180deg, #7a57d1 0%, #6244b8 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 1.5rem 0;
     color: white;
-    position: fixed; /* Make the sidebar fixed */
+    position: sticky; /* Fixes the sidebar */
     box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
-    top: 0; /* Position it at the top */
-    left: 0; /* Position it at the left */
-    
-    z-index: 1000;
+    top: 0; /* Sticks to the top */
+    left: 0; /* Sticks to the left */
+    z-index: 1010; /* Ensures it's on top of other content */
+ /* Prevent overflow issues */
 }
 
 /* Logo Container */

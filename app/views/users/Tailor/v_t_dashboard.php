@@ -49,5 +49,3 @@
 </script>
 
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>
-
-<?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>

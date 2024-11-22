@@ -1,0 +1,80 @@
+.filter-bar {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.filter-btn, .filter-bar select {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.product-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.product-card img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.product-card h3 {
+    margin: 10px 0 5px;
+    font-size: 18px;
+    color: var(--text-dark);
+}
+
+.product-card p {
+    margin: 5px 0;
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+.product-card .price {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 16px;
+}
+
+.product-card .actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.product-card .actions button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin: 0 10px;
+    font-size: 20px;
+    transition: transform 0.2s ease;
+}
+
+.product-card .actions button:hover {
+    transform: scale(1.2);
+}
+
