@@ -5,6 +5,7 @@ require_once APPROOT . '/helpers/session_helper.php';
 
 class Customer extends Controller
 {
+    private $customerModel;
     public function __construct()
     {
         $this->customerModel = $this->model('M_Customer');

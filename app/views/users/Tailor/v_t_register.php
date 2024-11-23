@@ -1,18 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Sign-Up</title>
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/registerStyle.css">
-</head>
-<body>
+<?php require_once APPROOT . '/views/inc/header.php'; ?>
+<!-- top navigation -->
+<?php require_once APPROOT . '/views/pages/inc/components/topnav.php'; ?>
     <div class="container">
         <div class="logo">
-            <img src="../<?php APPROOT?>/public/img/logo.png" alt="Tailor2You Logo">
+            <img src="../<?php APPROOT?>/public/img/logo_brown.png" alt="Tailor2You Logo">
         </div>
         <div class="form-section">
-            <h1>As a Customer,</h1>
+            <h1>As a Individual Tailor,</h1>
             <button class="google-signup">
                 <img src="../<?php APPROOT?>/public/img/google_logo.png" alt="google logo">
                 Sign up with Google</button>
@@ -40,8 +34,8 @@
                 <button type="submit" class="continue-btn">Continue</button>
             </form>
         </div>
-        <div class="image-section">
-            <img src="../<?php APPROOT?>/public/img/Tailor_Reg.jpeg" alt="Man Fashion">
+        <div class="right-image-section">
+            <img src="../<?php APPROOT?>/public/img/Tailor.png" alt="Man Fashion">
         </div>
     </div>
 </body>

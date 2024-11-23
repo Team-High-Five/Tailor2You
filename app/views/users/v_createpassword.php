@@ -12,7 +12,7 @@
     
     <!-- Form Section -->
     <div class="logo">
-        <img src="logo.png" alt="Tailor2You Logo"> <!-- Update the logo source -->
+        <img src="../<?php APPROOT?>/public/img/logo.png" alt="Tailor2You Logo"> <!-- Update the logo source -->
       </div>
     <div class="form-section">
 
@@ -28,7 +28,7 @@
 
     <!-- Image Section -->
     <div class="image-section">
-      <img src="customer.jpeg" alt="Fashion Image"> <!-- Use the image you uploaded -->
+      <img src="../<?php APPROOT?>/public/img/Tailor_Reg.jpeg" alt="Fashion Image"> <!-- Use the image you uploaded -->
     </div>
 
   </div>

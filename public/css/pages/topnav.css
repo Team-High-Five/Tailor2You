@@ -1,6 +1,6 @@
 .header {
     width: 100%;
-    padding: 12px 40px;
+    padding: 10px 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -13,7 +13,7 @@
 }
 
 .logo img {
-    height: 35px;
+    height: 45px;
     transition: var(--transition);
 }
 

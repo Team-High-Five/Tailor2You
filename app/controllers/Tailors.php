@@ -350,7 +350,7 @@ class Tailors extends Controller
                 redirect('tailors/createPassword');
             } else {
                 // Load view with errors
-                $this->view('users/v_t_register', $data);
+                $this->view('users/Tailors/v_t_register', $data);
             }
         } else {
             // Init data
@@ -374,7 +374,7 @@ class Tailors extends Controller
             ];
 
             // Load view
-            $this->view('users/v_t_register', $data);
+            $this->view('users/Tailor/v_t_register', $data);
         }
     }
 

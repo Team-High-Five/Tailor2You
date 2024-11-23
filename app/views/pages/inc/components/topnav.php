@@ -1,9 +1,9 @@
 <header class="header">
     <div class="logo">
-        <img src="<?php echo URLROOT; ?>/public/img/logo.png" alt="Tailor House Logo">
+        <img src="<?php echo URLROOT; ?>/public/img/logo_brown.png" alt="Tailor House Logo">
     </div>
     <nav class="nav-links">
-        <a href="#" class="nav-link">Home</a>
+        <a href="<?php echo URLROOT ?>/pages/index" class="nav-link">Home</a>
         <a href="#" class="nav-link">Collection</a>
         <a href="#" class="nav-link">Custom Tailoring</a>
         <a href="#" class="nav-link">Master Tailors</a>
@@ -15,7 +15,7 @@
             <span class="account-text">Account</span>
             <i class="fas fa-user dropdown-toggle"></i>
             <div class="dropdown-menu">
-                <a href="<?php echo URLROOT; ?>/users/register">Create Account</a>
+                <a href="<?php echo URLROOT; ?>/users/selectCreateAccount">Create Account</a>
                 <a href="<?php echo URLROOT; ?>/users/login">Sign In</a>
             </div>
         </div>
