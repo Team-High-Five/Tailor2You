@@ -8,7 +8,7 @@
   body {
     display: flex;
     min-height: 100vh; /* Ensures full viewport height */
-    background-image: url('../../img/Tailor.png'); /* Replace with actual background URL */
+    background-image: url('../../img/customerbg.png'); /* Replace with actual background URL */
     background-size: cover; /* Covers full viewport */
     background-position: center;
     background-repeat: no-repeat;
