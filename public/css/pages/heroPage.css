@@ -1,0 +1,484 @@
+/* thumbail */
+.thumbnail{
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    width: max-content;
+    z-index: 100;
+    display: flex;
+    gap: 20px;
+}
+.thumbnail .item{
+    width: 150px;
+    height: 220px;
+    flex-shrink: 0;
+    position: relative;
+}
+.thumbnail .item img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+}
+.thumbnail .item .content{
+    color: #fff;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+}
+/* arrows */
+.arrows{
+    position: absolute;
+    top: 80%;
+    right: 52%;
+    z-index: 100;
+    width: 300px;
+    max-width: 30%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+.arrows button{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #eee4;
+    border: none;
+    color: #fff;
+    font-family: monospace;
+    font-weight: bold;
+    transition: .5s;
+}
+.arrows button:hover{
+    background-color: #fff;
+    color: #000;
+}
+
+/* animation */
+.slider .list .item:nth-child(1){
+    z-index: 1;
+}
+
+/* animation text in first item */
+
+.slider .list .item:nth-child(1) .content .author,
+.slider .list .item:nth-child(1) .content .title,
+.slider .list .item:nth-child(1) .content .topic,
+.slider .list .item:nth-child(1) .content .des,
+.slider .list .item:nth-child(1) .content .buttons
+{
+    transform: translateY(50px);
+    filter: blur(20px);
+    opacity: 0;
+    animation: showContent .5s 1s linear 1 forwards;
+}
+@keyframes showContent{
+    to{
+        transform: translateY(0px);
+        filter: blur(0px);
+        opacity: 1;
+    }
+}
+.slider .list .item:nth-child(1) .content .title{
+    animation-delay: 1.2s!important;
+}
+.slider .list .item:nth-child(1) .content .topic{
+    animation-delay: 1.4s!important;
+}
+.slider .list .item:nth-child(1) .content .des{
+    animation-delay: 1.6s!important;
+}
+.slider .list .item:nth-child(1) .content .buttons{
+    animation-delay: 1.8s!important;
+}
+/* create animation when next click */
+.slider.next .list .item:nth-child(1) img{
+    width: 150px;
+    height: 220px;
+    position: absolute;
+    bottom: 50px;
+    left: 50%;
+    border-radius: 30px;
+    animation: showImage .5s linear 1 forwards;
+}
+@keyframes showImage{
+    to{
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+}
+
+.slider.next .thumbnail .item:nth-last-child(1){
+    overflow: hidden;
+    animation: showThumbnail .5s linear 1 forwards;
+}
+.slider.prev .list .item img{
+    z-index: 100;
+}
+@keyframes showThumbnail{
+    from{
+        width: 0;
+        opacity: 0;
+    }
+}
+.slider.next .thumbnail{
+    animation: effectNext .5s linear 1 forwards;
+}
+
+@keyframes effectNext{
+    from{
+        transform: translateX(150px);
+    }
+}
+
+/* running time */
+
+.slider .time{
+    position: absolute;
+    z-index: 1000;
+    width: 0%;
+    height: 3px;
+    background-color: #f1683a;
+    left: 0;
+    top: 0;
+}
+
+.slider.next .time,
+.slider.prev .time{
+    animation: runningTime 3s linear 1 forwards;
+}
+@keyframes runningTime{
+    from{ width: 100%}
+    to{width: 0}
+}
+
+
+/* prev click */
+
+.slider.prev .list .item:nth-child(2){
+    z-index: 2;
+}
+
+.slider.prev .list .item:nth-child(2) img{
+    animation: outFrame 0.5s linear 1 forwards;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+@keyframes outFrame{
+    to{
+        width: 150px;
+        height: 220px;
+        bottom: 50px;
+        left: 50%;
+        border-radius: 20px;
+    }
+}
+
+.slider.prev .thumbnail .item:nth-child(1){
+    overflow: hidden;
+    opacity: 0;
+    animation: showThumbnail .5s linear 1 forwards;
+}
+.slider.next .arrows button,
+.slider.prev .arrows button{
+    pointer-events: none;
+}
+.slider.prev .list .item:nth-child(2) .content .author,
+.slider.prev .list .item:nth-child(2) .content .title,
+.slider.prev .list .item:nth-child(2) .content .topic,
+.slider.prev .list .item:nth-child(2) .content .des,
+.slider.prev .list .item:nth-child(2) .content .buttons
+{
+    animation: contentOut 1.5s linear 1 forwards!important;
+}
+
+@keyframes contentOut{
+    to{
+        transform: translateY(-150px);
+        filter: blur(20px);
+        opacity: 0;
+    }
+}
+@media screen and (max-width: 678px) {
+    .slider .list .item .content{
+        padding-right: 0;
+    }
+    .slider .list .item .content .title{
+        font-size: 30px;
+    }
+}
+/* Categories */
+.topic{
+    color: #bbbbbb;
+    font-size: 5em;
+    font-weight: bold;
+    line-height: 1.3em;
+}
+.category {
+    text-align:center;
+    padding: 10px 20px;
+    background-color: #000000;
+    background-position: fixed;
+    background-size: cover;
+}
+.category-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.category-item {
+    width: 90vw;
+    height: 60vh;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    border-radius: 50px;
+    cursor: pointer;
+    flex: 0.5 ;
+    margin: 10px;
+    transition: all 700ms ease-in; 
+    border: none; 
+}
+.category-item h1 {
+    font-size: 35px;
+    position: absolute;
+    bottom: 20px;
+    left:20px;
+    color:#000000;      
+}
+.category-item:hover {
+    transform: scale(1.05); /* Subtle zoom effect on hover */
+    opacity: 0.9;
+}
+
+.category-item:active {
+    transform: scale(1); /* Reset scale on click */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+}
+/* Book Appointment Section */
+.title{
+    font-size: 5em;
+    font-weight: bold;
+    line-height: 1em;
+    color: #ffffff;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.italic{
+    font-size: 2em;
+    font-weight:lighter;
+    font-style: italic;
+    line-height: 1em;
+    color: #ffffff;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.appointment {
+    padding: 50px 20px;
+    background-color: #000000;
+    text-align: center;
+}
+.large-button {
+    font-size: 20px; /* Increase the font size */
+    padding: 15px 30px; /* Add more padding to make the button larger */
+    background-color: #ffffff; /* Customize the background color */
+    color: rgb(0, 0, 0); /* Button text color */
+    border: none;
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+    font-weight: bold;
+    font-family:'Times New Roman', Times, serif;
+}
+
+.large-button:hover {
+    background-color: #555; /* Change the background color on hover */
+}
+
+/* Feedback Section */
+.feedback-header {
+    text-align: center;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.sub-heading {
+    font-size: 18px;
+    color: #6c6c6c;
+    letter-spacing: 1px;
+    font-weight: normal;
+    margin: 0;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.sub-heading::after {
+    content: "";
+    display: block;
+    width: 80px;
+    height: 2px;
+    background-color: #333;
+    margin: 10px auto 0 auto;
+}
+    
+.main-heading {
+    font-size: 36px;
+    color: #333;
+    font-weight: bold;
+    margin: 10px 0;
+    line-height: 1.2;
+}
+
+.feedback {
+    padding: 0px;
+    background-color: #000000;
+    text-align: center;
+   
+}
+.feedback-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top:10px;
+    margin: 60px;
+}
+/* Feedback Cards */
+.feedback-cards {
+    flex: 1;
+    min-width: 45%;
+    background: #ffffff;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+.feedback-cards h1 {
+    margin-bottom: 20px;
+    font-family:'Times New Roman', Times, serif;
+    color: #747474;
+    text-align: left;
+}
+.feedback-card h4 {
+    margin: 0 0 5px;
+    font-size: 1.2rem;
+    color: #333;
+}
+.feedback-card p {
+    margin: 0;
+    font-size: 1rem;
+    color: #666;
+}
+/* Feedback Form */
+.feedback-form-container {
+    flex: 1;
+    min-width: 45%;
+    background: #fff;
+    padding: 30px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    text-align: left;
+}
+.feedback-form-container h3 {
+    margin-bottom: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #747474;
+    text-align: center;
+}
+.feedback-form-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #000000;
+}
+.feedback-form-container input,
+.feedback-form-container select,
+.feedback-form-container textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.feedback-form-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #ffbc04;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    justify-content:center;
+}
+.feedback-form-container button:hover {
+    background-color: #fcc734;
+    color: #000000;
+}
+.feedback-section {
+    text-align: center;
+    margin: 50px auto;
+    width: 80%;
+}
+.feedback-section input,
+.feedback-section textarea {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+}
+/* Footer Styling */
+.footer {
+    background-color: #000000;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.footer-section {
+    max-width: 300px;
+    text-align: left;
+}
+
+.footer-section h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.footer-section p {
+    font-size: 14px;
+    line-height: 1.6;
+    
+}
+
+.footer-section a {
+    color: #00bcd4;
+    text-decoration: none;
+}
+
+.footer-section a:hover {
+    text-decoration: underline;
+}
+
+.footer-rights {
+    margin-top: 20px;
+    font-size: 12px;
+}
+

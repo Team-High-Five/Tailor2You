@@ -7,6 +7,10 @@ class Pages extends Controller{
         $this->pageModel = $this->model('M_Pages');
     }
     public function index(){
+        $data = [
+            'title' => 'Home Page'
+        ];
+        $this->view('pages/v_home_page', $data);
         
     }
     public function about(){

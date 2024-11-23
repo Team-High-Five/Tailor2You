@@ -6,9 +6,11 @@ require_once APPROOT . '/helpers/session_helper.php';
 class Tailors extends Controller
 {
     private $tailorModel;
+    private $userModel;
     public function __construct()
     {
         $this->tailorModel = $this->model('M_Tailors');
+        $this->userModel = $this->model('M_Users');
     }
 
     public function index()
@@ -22,10 +24,13 @@ class Tailors extends Controller
     }
 
 
+
+
+
     public function profileUpdate()
     {
         // Check if the user is logged in
-        if (!isset($_SESSION['tailor_id'])) {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
             redirect('users/login');
         }
 
@@ -40,11 +45,11 @@ class Tailors extends Controller
             }
 
             // Get tailor details
-            $tailor = $this->tailorModel->getTailorById($_SESSION['tailor_id']);
+            $tailor = $this->userModel->getUserById($_SESSION['user_id']);
 
             $data = [
                 'title' => 'Profile Update',
-                'tailor_id' => $_SESSION['tailor_id'],
+                'user_id' => $_SESSION['user_id'],
                 'first_name' => trim($_POST['first_name']),
                 'last_name' => trim($_POST['last_name']),
                 'email' => trim($_POST['email']),
@@ -56,7 +61,7 @@ class Tailors extends Controller
                 'bio' => trim($_POST['bio']),
                 'category' => trim($_POST['category']),
                 'profile_pic' => $profilePic,
-                'tailor' => $tailor,
+                'user' => $tailor,
                 'first_name_err' => '',
                 'last_name_err' => '',
                 'email_err' => '',
@@ -78,7 +83,7 @@ class Tailors extends Controller
             // Check for errors
             if (empty($data['nic_err'])) {
                 // Update tailor details
-                if ($this->tailorModel->updateTailor($data)) {
+                if ($this->userModel->updateUser($data)) {
                     flash('profile_message', 'Profile updated successfully');
                     $this->updateTailorSession($data);
                     redirect('tailors/profileUpdate');
@@ -91,7 +96,7 @@ class Tailors extends Controller
             }
         } else {
             // Get tailor details
-            $tailor = $this->tailorModel->getTailorById($_SESSION['tailor_id']);
+            $tailor = $this->userModel->getUserById($_SESSION['user_id']);
 
             // Check if tailor exists
             if (!$tailor) {
@@ -101,7 +106,7 @@ class Tailors extends Controller
 
             $data = [
                 'title' => 'Profile Update',
-                'tailor' => $tailor,
+                'user' => $tailor,
                 'first_name_err' => '',
                 'last_name_err' => '',
                 'email_err' => '',
@@ -121,12 +126,13 @@ class Tailors extends Controller
 
     private function updateTailorSession($data)
     {
-        $_SESSION['tailor_profile_pic'] = $data['profile_pic'];
-        $_SESSION['tailor_first_name'] = $data['first_name'];
-        $_SESSION['tailor_last_name'] = $data['last_name'];
-        $_SESSION['tailor_email'] = $data['email'];
+        $_SESSION['user_profile_pic'] = $data['profile_pic'];
+        $_SESSION['user_first_name'] = $data['first_name'];
+        $_SESSION['user_last_name'] = $data['last_name'];
+        $_SESSION['user_email'] = $data['email'];
         // Add any other session variables you want to update
     }
+
     public function displayFabricStock()
     {
 
@@ -227,7 +233,8 @@ class Tailors extends Controller
         $this->view('users/Tailor/v_t_customize_add_new', $data);
     }
 
-    public function displayPortfolio(){
+    public function displayPortfolio()
+    {
         $data = [
             'title' => 'Portfolio'
         ];
@@ -269,6 +276,7 @@ class Tailors extends Controller
 
             // Input data
             $data = [
+                'user_type' => 'tailor',
                 'first_name' => trim($_POST['first_name']),
                 'last_name' => trim($_POST['last_name']),
                 'email' => trim($_POST['email']),
@@ -293,7 +301,7 @@ class Tailors extends Controller
                 $data['email_err'] = 'Please enter email';
             } else {
                 // Check email
-                if ($this->model('M_Tailors')->findTailorByEmail($data['email'])) {
+                if ($this->userModel->findUserByEmail($data['email'])) {
                     $data['email_err'] = 'Email is already taken';
                 }
             }
@@ -411,7 +419,7 @@ class Tailors extends Controller
                 $tailorData['password'] = $data['password'];
 
                 // Register tailor
-                if ($this->tailorModel->register($tailorData)) {
+                if ($this->userModel->register($tailorData)) {
                     flash('register_success', 'You are registered and can log in');
                     redirect('users/login');
                 } else {

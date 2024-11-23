@@ -100,6 +100,7 @@ class Users extends Controller
     //     }
     // }
 
+
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -118,9 +119,8 @@ class Users extends Controller
             // Validate email
             if (empty($data['email'])) {
                 $data['email_err'] = 'Please enter email';
-            }
-            elseif(!$this->tailorModel->findTailorByEmail($data['email'])) {
-                $data['email_err'] = 'No tailor found';
+            } elseif (!$this->userModel->findUserByEmail($data['email'])) {
+                $data['email_err'] = 'No user found';
             }
 
             // Validate password
@@ -130,15 +130,14 @@ class Users extends Controller
 
             // Check for user/email
             if (empty($data['email_err']) && empty($data['password_err'])) {
-
-                $loggedInTailor = $this->tailorModel->login($data['email'], $data['password']);
-                if (!$loggedInTailor) {
-                    // Create tailor session
+                $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+                if (!$loggedInUser) {
                     $data['password_err'] = 'Password incorrect';
                 } else {
-                    $this->createTailorSession($loggedInTailor);
+                    $this->createUserSession($loggedInUser);
                 }
             }
+
             // Load view with errors
             $this->view('users/v_login', $data);
         } else {
@@ -155,83 +154,48 @@ class Users extends Controller
         }
     }
 
-public function createTailorSession($tailor) {
-    // Set session variables for the logged-in tailor
-    $_SESSION['tailor_id'] = $tailor->tailor_id;
-    $_SESSION['tailor_email'] = $tailor->email;
-    $_SESSION['tailor_first_name'] = $tailor->first_name;
-    $_SESSION['tailor_last_name'] = $tailor->last_name;
-    $_SESSION['tailor_profile_pic'] = $tailor->profile_pic;
 
-    // Redirect to the tailor's dashboard
-    redirect('tailors/index');
-}
+    public function createUserSession($user)
+    {
+        // Set session variables for the logged-in user
+        $_SESSION['user_id'] = $user->user_id;
+        $_SESSION['user_type'] = $user->user_type;
+        $_SESSION['user_email'] = $user->email;
+        $_SESSION['user_first_name'] = $user->first_name;
+        $_SESSION['user_last_name'] = $user->last_name;
+        $_SESSION['user_profile_pic'] = $user->profile_pic;
 
-    // public function login()
-    // {
-    //     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    //         //process form
-    //         //sanitize post data
+        // Redirect to the user's dashboard based on user type
+        switch ($user->user_type) {
+            case 'tailor':
+                redirect('tailors/index');
+                break;
+            case 'customer':
+                redirect('customers/index');
+                break;
+            case 'shopkeeper':
+                redirect('shopkeepers/index');
+                break;
+            default:
+                redirect('users/login');
+                break;
+        }
+    }
 
-    //         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-    //         //input data
-    //         $data = [
-    //             'email' => trim($_POST['email']),
-    //             'password' => trim($_POST['password']),
+    public function createTailorSession($tailor)
+    {
+        // Set session variables for the logged-in tailor
+        $_SESSION['user_id'] = $tailor->user_id;
+        $_SESSION['user_type'] = 'tailor';
+        $_SESSION['user_email'] = $tailor->email;
+        $_SESSION['user_first_name'] = $tailor->first_name;
+        $_SESSION['user_last_name'] = $tailor->last_name;
+        $_SESSION['user_profile_pic'] = $tailor->profile_pic;
 
-    //             'email_err' => '',
-    //             'password_err' => ''
-    //         ];
-    //         //Validate inputs
+        // Redirect to the tailor's dashboard
+        redirect('tailors/index');
+    }
 
-    //         //validate email
-    //         if (empty($data['email'])) {
-    //             $data['email_err'] = 'Please enter email';
-    //         }
-
-    //         //check for user/email
-
-    //         else if ($this->userModel->findUserByEmail($data['email'])) {
-    //             //user found
-    //         } else {
-    //             //user not found
-    //             $data['email_err'] = 'No user found';
-    //         }
-
-    //         //validate password
-    //         if (empty($data['password'])) {
-    //             $data['password_err'] = 'Please enter password';
-    //         }
-
-
-
-    //         //make sure errors are empty
-    //         if (empty($data['email_err']) && empty($data['password_err'])) {
-    //             //check and set logged in user
-    //             $loggedInUser = $this->userModel->login($data['email'], $data['password']);
-    //             if ($loggedInUser) {
-    //                 //create session
-    //                 $this->createUserSession($loggedInUser);
-    //             } else {
-    //                 $data['password_err'] = 'Password incorrect';
-    //                 $this->view('users/v_login', $data);
-    //             }
-    //         } else {
-    //             //load view with errors
-    //             $this->view('users/v_login', $data);
-    //         }
-    //     } else {
-    //         $data = [
-    //             'email' => '',
-    //             'password' => '',
-    //             'email_err' => '',
-    //             'password_err' => ''
-    //         ];
-
-    //         //load view
-    //         $this->view('users/v_login', $data);
-    //     }
-    // }
     public function logout()
     {
         unset($_SESSION['user_id']);

@@ -81,4 +81,36 @@
     </table>
   </div>
 </div>
+
+<!-- Modal Structure -->
+<div id="AppointmentCard" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <div id="modal-body">
+      <!-- Content from v_t_customize_add_new.php will be loaded here -->
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('1067907').addEventListener('click', function() {
+    document.getElementById('AppointmentCard').style.display = 'block';
+    // Load the content of v_t_customize_add_new.php into the modal
+    fetch('<?php echo URLROOT; ?>/tailors/displayAppointmentDetails')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('modal-body').innerHTML = html;
+      });
+  });
+
+  document.querySelector('.close-btn').addEventListener('click', function() {
+    document.getElementById('AppointmentCard').style.display = 'none';
+  });
+
+  window.addEventListener('click', function(event) {
+    if (event.target == document.getElementById('AppointmentCard')) {
+      document.getElementById('AppointmentCard').style.display = 'none';
+    }
+  });
+</script>
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>
