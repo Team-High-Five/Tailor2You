@@ -1,7 +1,7 @@
 <?php require_once APPROOT . '/views/pages/inc/header.php'; ?>
 <?php require_once APPROOT . '/views/pages/inc/components/topnav.php'; ?>
 <!-- slider -->
-<?php require_once APPROOT . '/views/pages/inc/components/slidebar.php'; ?>
+<?php require_once APPROOT . '/views/pages/inc/components/mens_slidebar.php'; ?>
 <!-- Shop by Category Section -->
 
 <?php require_once APPROOT . '/views/pages/inc/components/category.php'; ?>
