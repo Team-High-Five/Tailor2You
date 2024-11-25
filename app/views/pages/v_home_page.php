@@ -30,7 +30,7 @@
     <div class="italic">Meet with Expert Tailors.</div><br><br>
     <button class="large-button">Book an Appointment</button>
 </section>
-
+<?php require_once APPROOT . '/views/pages/inc/components/gender_selection.php'; ?>
 <!-- Feedback Section -->
 <section class="feedback">
     <div class="feedback-header">
