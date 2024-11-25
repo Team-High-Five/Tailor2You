@@ -28,9 +28,9 @@ class Pages extends Controller{
         $this->view('pages/v_mens_page', $data);
     }
     public function genderSel(){
-       
+        $users = $this->pageModel->getUsers();
         $data = [
-            'users' => $users,
+            'users' => $users
             
         ];
         $this->view('pages/v_genderSelect', $data);
