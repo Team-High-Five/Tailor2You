@@ -1,0 +1,67 @@
+.new-collection {
+  text-align: center;
+  padding: 50px 20px;
+  
+}
+
+.new-collection .collection-cards {
+  display: flex;
+
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.new-collection .collection-cards .card {
+  position: relative;
+  background-color: var(--text-muted);
+  color: var(--primary-color);
+  border-radius: 10px;
+  overflow: hidden;
+  width: 400px;
+  height: 450px;
+  display: flex;
+}
+
+.new-collection .collection-cards .card .card-content {
+  padding: 20px;
+  z-index: 1;
+  text-align: left;
+  margin-top: 25%;
+}
+
+.new-collection .collection-cards .card .card-content h4 {
+  font-size: 16px;
+  color: #b6b6b6;
+}
+
+.new-collection .collection-cards .card .card-content h2 {
+  font-size: 24px;
+  margin: 10px 0;
+}
+
+.new-collection .collection-cards .card .card-content button {
+  margin-top: 20px;
+  background-color: #b58b61;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.new-collection .collection-cards .card .card-content button:hover {
+  background-color: #9d704d;
+}
+
+.new-collection .collection-cards .card img {
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/*# sourceMappingURL=categary.css.map */
