@@ -11,7 +11,7 @@
     <section class="image-section">
         <img src="image/image.png" alt="Tailoring Image">
     </section> -->
-<!-- Book Appointment Section -->
+<!-- Book Appointment Section -->   
 <section class="appointment">
     <div class="title">Ready to Elevate Your Style?</div><br>
     <div class="italic">Meet with Expert Tailors.</div><br><br>
