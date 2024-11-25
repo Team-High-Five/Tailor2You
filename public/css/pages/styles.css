@@ -4,6 +4,7 @@
 @import url('slidebar.css');
 @import url('category.css');
 @import url('newCollection.css');
+@import url('genderSelect.css');
 
 :root {
     --primary-color: #1a1a1a;
