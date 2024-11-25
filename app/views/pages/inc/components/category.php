@@ -1,4 +1,5 @@
 <main class="new-collection">
+    <div class="topic">Select A Category</div><br>
     <section class="collection-cards">
         <!-- Tailored Shirts -->
         <div class="card">
@@ -30,4 +31,4 @@
             <img src="<?php echo URLROOT; ?>/public/img/home/pants.jpeg" alt="Tailored Pants">
         </div>
     </section>
-</main
+</main>

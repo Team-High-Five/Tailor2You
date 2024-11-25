@@ -27,7 +27,8 @@
 .portfolio-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
+    gap: 10px;
+    /* Reduced gap to make items closer */
     margin-bottom: 20px;
 }
 
@@ -38,7 +39,8 @@
     overflow: hidden;
     transition: transform 0.3s;
     width: 200px;
-    height: 330px;
+    height: 350px;
+    /* Adjusted height to accommodate created date */
 }
 
 .portfolio-item img {
@@ -56,6 +58,12 @@
 .portfolio-item p {
     font-size: 14px;
     color: #777;
+    margin-bottom: 10px;
+}
+
+.portfolio-item .created-date {
+    font-size: 12px;
+    color: #aaa;
     margin-bottom: 10px;
 }
 
@@ -127,4 +135,16 @@
 
 .add-post-btn:active {
     transform: scale(0.98);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

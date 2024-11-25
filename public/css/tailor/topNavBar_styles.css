@@ -109,6 +109,7 @@
 
 
 /* User Info Styling */
+
 .user-info {
   margin-top: 10px;
   display: flex;
@@ -118,6 +119,7 @@
   border-radius: 25px;
   background: rgba(255, 255, 255, 0.1);
   transition: background 0.3s ease;
+  text-decoration: none;
 }
 
 .user-info:hover {
@@ -125,6 +127,7 @@
 }
 
 .user-info span {
+  text-decoration: none;
   color: #ffffff;
   font-weight: 600;
   font-size: 0.95rem;

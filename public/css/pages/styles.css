@@ -13,6 +13,8 @@
     --text-muted: #cccccc;
     --shadow-color: rgba(0, 0, 0, 0.1);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --card-hover-shadow: rgba(196, 167, 125, 0.15);
+    --button-hover-bg: rgba(196, 167, 125, 0.1);
 }
 
 body {
@@ -23,4 +25,5 @@ body {
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
     line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
 }

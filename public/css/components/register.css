@@ -85,6 +85,23 @@ h1 {
     margin-bottom: 15px;
     gap: 15px;
 }
+.form-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 15px;
+}
+
+.form-line input {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: var(--text-light);
+    transition: var(--transition);
+}
 
 .form-row input {
     width: 48%;

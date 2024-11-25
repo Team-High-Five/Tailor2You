@@ -23,6 +23,7 @@
 @import url('Customization_Card_styles.css');
 @import url('Portfolio_styles.css');
 @import url('btn_styles.css');
+@import url('New_Pop_up_styles.css');
 
 :root {
     --primary-color: #6a5acd;
@@ -56,7 +57,7 @@ body {
 
 .main-content {
     max-width: 1200px;
-    min-width: 1200px;
+    width: 100%;
     margin: 2rem auto;
     padding: 1.5rem;
     border-radius: 16px;
@@ -68,6 +69,32 @@ body {
 
 .main-content:hover {
     transform: translateY(-10px);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .main-content {
+        max-width: 1000px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .main-content {
+        max-width: 800px;
+    }
+}
+
+@media (max-width: 800px) {
+    .main-content {
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 600px) {
+    .main-content {
+        max-width: 100%;
+        padding: 1rem;
+    }
 }
 
 /* Section Content */

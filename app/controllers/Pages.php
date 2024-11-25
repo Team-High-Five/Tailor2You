@@ -11,7 +11,6 @@ class Pages extends Controller{
             'title' => 'Home Page'
         ];
         $this->view('pages/v_home_page', $data);
-        
     }
     public function about(){
       
