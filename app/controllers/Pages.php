@@ -21,4 +21,18 @@ class Pages extends Controller{
         ];
         $this->view('v_about', $data);
     }
+    public function mensPage(){
+        $data = [
+            'title' => 'Mens Page'
+        ];
+        $this->view('pages/v_mens_page', $data);
+    }
+    public function genderSel(){
+       
+        $data = [
+            'users' => $users,
+            
+        ];
+        $this->view('pages/v_genderSelect', $data);
+    }
 }
