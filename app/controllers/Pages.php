@@ -26,6 +26,14 @@ class Pages extends Controller{
         ];
         $this->view('pages/v_mens_page', $data);
     }
+
+    public function mensCategories(){
+        
+        $data = [
+            
+        ];
+        $this->view('pages/v_mens_category', $data);
+    }
     public function genderSel(){
         $users = $this->pageModel->getUsers();
         $data = [
