@@ -20,8 +20,8 @@
         </button>
     </div>
 </section>
-<!-- Image Section 
-    <section class="image-section">
+<!-- Image Section -->
+    <!-- <section class="image-section">
         <img src="image/image.png" alt="Tailoring Image">
     </section> -->
 <!-- Book Appointment Section -->
@@ -30,12 +30,12 @@
     <div class="italic">Meet with Expert Tailors.</div><br><br>
     <button class="large-button">Book an Appointment</button>
 </section>
+<span id="genderSection"></span>
 <?php require_once APPROOT . '/views/pages/inc/components/gender_selection.php'; ?>
 <!-- Feedback Section -->
 <section class="feedback">
     <div class="feedback-header">
         <p class="sub-heading">Your words matter</p>
-
     </div>
     <div class="feedback-container">
         <!-- Feedback Cards -->

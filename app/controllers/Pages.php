@@ -26,7 +26,7 @@ class Pages extends Controller{
         ];
         $this->view('pages/v_mens_page', $data);
     }
-
+    
     public function mensCategories(){
         
         $data = [

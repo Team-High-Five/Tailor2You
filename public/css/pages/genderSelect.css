@@ -1,4 +1,5 @@
 .ui-section {
+  margin-top: 30px;
   width: 100%;
   height: 100vh;
   text-align: center;
@@ -11,7 +12,7 @@
 
 .main-banner {
   width: 100%;
-  height: 150vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   position: relative;
@@ -49,11 +50,13 @@
 
 .main-banner .banner-item:hover .banner-image {
   transform: scale(1.05);
+  filter: brightness(0.9);
+
 }
 
 .main-banner .banner-item .category-button {
   position: absolute;
-  top: 80vh;
+  top: 60vh;
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--accent-color);
@@ -76,6 +79,7 @@
   color: var(--text-light);
   transform: translate(-50%, -5px);
   box-shadow: 0 5px 15px rgba(196, 167, 125, 0.3);
+
 }
 
 /* Add responsive styles */

@@ -16,7 +16,6 @@
             </div>
         </div>
         <div class="item">
-
             <img src="<?php echo URLROOT; ?>/public/img/home/Hero3.1.jpg">
             <div class="overlay"></div>
 

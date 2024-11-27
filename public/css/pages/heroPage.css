@@ -339,7 +339,10 @@
 }
 
 .feedback {
-    padding: 0px;
+    position: relative;
+    margin-top: 20px;
+    height: 100vh;
+    padding: 30px;
     background-color: #000000;
     text-align: center;
    

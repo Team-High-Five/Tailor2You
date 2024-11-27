@@ -6,7 +6,7 @@
             <div class="card-content">
                 <h4>custom</h4>
                 <h2>Tailored Shirts</h2>
-                <button>Explore now</button>
+                <a href="<?php echo URLROOT ?>/pages/mensCategories"> <button>Explore now</button></a>
             </div>
             <img src="<?php echo URLROOT; ?>/public/img/home/shirts.jpeg" alt="Tailored Shirts">
         </div>
