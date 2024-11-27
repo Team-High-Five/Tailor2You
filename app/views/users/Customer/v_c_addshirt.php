@@ -8,28 +8,28 @@
         <h2>Shirt Measurement</h2>
         <form class="change-form">
           <label for="Length">Length</label>
-          <input type="text" id="Length" placeholder="C104">
+          <input type="text" id="Length" placeholder="cm">
 
           <label for="Calf">Calf</label>
-          <input type="text" id="Calf">
+          <input type="text" id="Calf" placeholder="cm">
 
           <label for="Waist">Waist</label>
-          <input type="text" id="Waist">
+          <input type="text" id="Waist" placeholder="cm">
 
           <label for="Seat">Seat</label>
-          <input type="text" id="Seat">
+          <input type="text" id="Seat" placeholder="cm">
 
           <label for="Shoulder">Shoulder</label>
-          <input type="text" id="Shoulder">
+          <input type="text" id="Shoulder" placeholder="cm">
 
           <label for="Neck">Neck</label>
-          <input type="text" id="Neck">
+          <input type="text" id="Neck" placeholder="cm">
 
           <label for="Sleeve">Sleeve</label>
-          <input type="text" id="Sleeve">
+          <input type="text" id="Sleeve" placeholder="cm">
 
           <label for="Sleeve Circumstance">Sleeve Circumstance</label>
-          <input type="text" id="Sleeve Circumstance">
+          <input type="text" id="Sleeve Circumstance" placeholder="cm">
 
           <button type="submit" class="btn-save">Save Changes</button>
         </form>
