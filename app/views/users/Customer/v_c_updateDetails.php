@@ -21,8 +21,7 @@
 
         <!-- Action Buttons -->
         <div class="action-buttons">
-   
-    <a href="<?php echo URLROOT ?>/Customer/updateDetails"><button>Update My Details</button></a>
+    <button>Update Changes</button>   
     <button>Delete Account</button>
     <a href="<?php echo URLROOT ?>/Customer/changepassword"><button>Change Password</button></a>
     <div class="dropdown">

@@ -8,22 +8,22 @@
         <h2>Pant Measurement</h2>
         <form class="change-form">
           <label for="Length">Length</label>
-          <input type="text" id="Length" placeholder="C104">
+          <input type="text" id="Length" placeholder="cm">
 
           <label for="Calf">Calf</label>
-          <input type="text" id="Calf">
+          <input type="text" id="Calf" placeholder="cm">
 
           <label for="Waist">Waist</label>
-          <input type="text" id="Waist">
+          <input type="text" id="Waist" placeholder="cm">
 
           <label for="Seat">Seat</label>
-          <input type="text" id="Seat">
+          <input type="text" id="Seat" placeholder="cm">
 
           <label for="Bottom">Bottom</label>
-          <input type="text" id="Bottom">
+          <input type="text" id="Bottom" placeholder="cm">
 
           <label for="Fly">Fly</label>
-          <input type="text" id="Fly">
+          <input type="text" id="Fly" placeholder="cm">
 
           <button type="submit" class="btn-save">Save Changes</button>
         </form>

@@ -20,6 +20,15 @@ class Customer extends Controller
         $this->view('users/Customer/v_c_profile', $data);
     }
 
+    public function updateDetails()
+    {
+        $currentPage = 'Update Changes';
+        $data = [
+            'title' => $currentPage
+        ];
+        $this->view('users/Customer/v_c_updateDetails', $data);
+    }
+
     public function changepassword()
     {
         $currentPage = 'Change Password';
