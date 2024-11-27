@@ -18,7 +18,7 @@
         <!-- Add more statuses as needed -->
       </select>
       <button class="reset-filter-btn">Reset Filter</button>
-      <a href="<?php echo URLROOT; ?>/Tailors/diplayCalendar" class="progress-btn">Calender</a>
+      <a href="<?php echo URLROOT; ?>/Tailors/displayCalendar" class="progress-btn">Calender</a>
     </div>
 
     <table class="appointment-table">
@@ -35,7 +35,7 @@
       <tbody>
         <tr>
           <td>00001</td>
-          <td><a href="<?php echo URLROOT; ?>/tailors/displayAppointmentDetails" class="appointment-link">Christine
+          <td><a href="<?php echo URLROOT; ?>/tailors/displayAppointmentDetails" class="appointment-link" data-id="1067907">Christine
               Brooks</a></td>
           <td>
             <select class="assign-tailor">
@@ -81,4 +81,36 @@
     </table>
   </div>
 </div>
+
+<!-- Modal Structure -->
+<div id="AppointmentCard" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <div id="modal-body">
+      <!-- Content from v_t_customize_add_new.php will be loaded here -->
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('1067907').addEventListener('click', function() {
+    document.getElementById('AppointmentCard').style.display = 'block';
+    // Load the content of v_t_customize_add_new.php into the modal
+    fetch('<?php echo URLROOT; ?>/tailors/displayAppointmentDetails')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('modal-body').innerHTML = html;
+      });
+  });
+
+  document.querySelector('.close-btn').addEventListener('click', function() {
+    document.getElementById('AppointmentCard').style.display = 'none';
+  });
+
+  window.addEventListener('click', function(event) {
+    if (event.target == document.getElementById('AppointmentCard')) {
+      document.getElementById('AppointmentCard').style.display = 'none';
+    }
+  });
+</script>
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>

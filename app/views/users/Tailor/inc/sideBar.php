@@ -18,8 +18,8 @@ function isCurrentPage($page)
       <img src="../<?php APPROOT ?>/public/img/Home.png">
     </a>
   </div>
-  <div id="Profile" class="sidebar-icon <?php echo isCurrentPage('profileUpdate') ? 'active' : ''; ?>">
-    <a href="<?php echo URLROOT ?>/Tailors/profileUpdate">
+  <div id="Protfolio" class="sidebar-icon <?php echo isCurrentPage('displayPortfolio') ? 'active' : ''; ?>">
+    <a href="<?php echo URLROOT ?>/Tailors/displayPortfolio">
       <img src="../<?php APPROOT ?>/public/img/Customer.png">
     </a>
   </div>

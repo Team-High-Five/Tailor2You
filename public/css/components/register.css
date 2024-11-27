@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: var(--gradient-background);
+    font-family: 'Poppins', sans-serif;
+}
+
+.container {
+    display: flex;
+    margin-top: 70px;
+    height: 600px;
+    max-width: 1000px;
+    width: 90%;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    justify-content: space-between;
+}
+
+.form-section {
+    padding: 40px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    font-weight: 600;
+    color: var(--text-light);
+    text-align: center;
+}
+
+.google-signup {
+    display: flex;
+    margin: 0 auto 20px;
+    padding: 12px 24px;
+    background: transparent;
+    border: 1px solid var(--accent-color);
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: var(--text-light);
+    transition: var(--transition);
+}
+
+.google-signup:hover {
+    background: rgba(196, 167, 125, 0.1);
+    transform: translateY(-2px);
+}
+
+.or-section {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    color: var(--text-light);
+}
+
+.or-section hr {
+    flex: 1;
+    border: none;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.or-section span {
+    margin: 0 10px;
+    color: var(--text-muted);
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    gap: 15px;
+}
+.form-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    gap: 15px;
+}
+
+.form-line input {
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: var(--text-light);
+    transition: var(--transition);
+}
+
+.form-row input {
+    width: 48%;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: var(--text-light);
+    transition: var(--transition);
+}
+
+.form-row input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(196, 167, 125, 0.1);
+}
+
+.continue-btn {
+    margin-top: 20px;
+    padding: 15px;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.continue-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(196, 167, 125, 0.3);
+}
+
+.right-continue-btn {
+    margin: 0 auto 10px;
+    display: flex;
+    padding: 15px;
+    background: var(--accent-color);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.right-continue-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(196, 167, 125, 0.3);
+}
+
+.left-image-section {
+    width: 40%;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    overflow: hidden;
+    border-top-left-radius: 24px;
+    border-bottom-left-radius: 24px;
+}
+
+.left-image-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.right-image-section {
+    width: 40%;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    overflow: hidden;
+    border-top-right-radius: 24px;
+    border-bottom-right-radius: 24px;
+}
+
+.right-image-section img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .form-section {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .image-section {
+        width: 100%;
+        height: 200px;
+    }
+}

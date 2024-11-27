@@ -6,9 +6,11 @@ require_once APPROOT . '/helpers/session_helper.php';
 class Tailors extends Controller
 {
     private $tailorModel;
+    private $userModel;
     public function __construct()
     {
         $this->tailorModel = $this->model('M_Tailors');
+        $this->userModel = $this->model('M_Users');
     }
 
     public function index()
@@ -21,11 +23,10 @@ class Tailors extends Controller
         $this->view('users/Tailor/v_t_dashboard', $data);
     }
 
-
     public function profileUpdate()
     {
         // Check if the user is logged in
-        if (!isset($_SESSION['tailor_id'])) {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
             redirect('users/login');
         }
 
@@ -40,11 +41,11 @@ class Tailors extends Controller
             }
 
             // Get tailor details
-            $tailor = $this->tailorModel->getTailorById($_SESSION['tailor_id']);
+            $tailor = $this->userModel->getUserById($_SESSION['user_id']);
 
             $data = [
                 'title' => 'Profile Update',
-                'tailor_id' => $_SESSION['tailor_id'],
+                'user_id' => $_SESSION['user_id'],
                 'first_name' => trim($_POST['first_name']),
                 'last_name' => trim($_POST['last_name']),
                 'email' => trim($_POST['email']),
@@ -56,7 +57,7 @@ class Tailors extends Controller
                 'bio' => trim($_POST['bio']),
                 'category' => trim($_POST['category']),
                 'profile_pic' => $profilePic,
-                'tailor' => $tailor,
+                'user' => $tailor,
                 'first_name_err' => '',
                 'last_name_err' => '',
                 'email_err' => '',
@@ -78,9 +79,10 @@ class Tailors extends Controller
             // Check for errors
             if (empty($data['nic_err'])) {
                 // Update tailor details
-                if ($this->tailorModel->updateTailor($data)) {
+                if ($this->userModel->updateUser($data)) {
                     flash('profile_message', 'Profile updated successfully');
-                    $this->updateTailorSession($data);
+                    $tailor = $this->userModel->getUserById($_SESSION['user_id']);
+                    $this->updateTailorSession($tailor);
                     redirect('tailors/profileUpdate');
                 } else {
                     die('Something went wrong');
@@ -91,7 +93,7 @@ class Tailors extends Controller
             }
         } else {
             // Get tailor details
-            $tailor = $this->tailorModel->getTailorById($_SESSION['tailor_id']);
+            $tailor = $this->userModel->getUserById($_SESSION['user_id']);
 
             // Check if tailor exists
             if (!$tailor) {
@@ -101,7 +103,7 @@ class Tailors extends Controller
 
             $data = [
                 'title' => 'Profile Update',
-                'tailor' => $tailor,
+                'user' => $tailor,
                 'first_name_err' => '',
                 'last_name_err' => '',
                 'email_err' => '',
@@ -119,12 +121,21 @@ class Tailors extends Controller
         }
     }
 
-    private function updateTailorSession($data)
+
+    private function updateTailorSession($tailor)
     {
-        $_SESSION['tailor_profile_pic'] = $data['profile_pic'];
-        $_SESSION['tailor_first_name'] = $data['first_name'];
-        $_SESSION['tailor_last_name'] = $data['last_name'];
-        $_SESSION['tailor_email'] = $data['email'];
+        $_SESSION['user_id'] = $tailor->user_id;
+        $_SESSION['user_profile_pic'] = $tailor->profile_pic;
+        $_SESSION['user_first_name'] = $tailor->first_name;
+        $_SESSION['user_last_name'] = $tailor->last_name;
+        $_SESSION['user_email'] = $tailor->email;
+        $_SESSION['user_phone_number'] = $tailor->phone_number;
+        $_SESSION['user_nic'] = $tailor->nic;
+        $_SESSION['user_birth_date'] = $tailor->birth_date;
+        $_SESSION['user_home_town'] = $tailor->home_town;
+        $_SESSION['user_address'] = $tailor->address;
+        $_SESSION['user_bio'] = $tailor->bio;
+        $_SESSION['user_category'] = $tailor->category;
         // Add any other session variables you want to update
     }
     public function displayFabricStock()
@@ -195,7 +206,7 @@ class Tailors extends Controller
         $this->view('users/Tailor/v_t_appointment_card', $data);
     }
 
-    public function diplayCalendar()
+    public function displayCalendar()
     {
         $data = [
             'title' => 'Calendar'
@@ -225,6 +236,59 @@ class Tailors extends Controller
             'title' => 'Add Customize Item'
         ];
         $this->view('users/Tailor/v_t_customize_add_new', $data);
+    }
+
+    public function displayPortfolio()
+    {
+        $posts = $this->userModel->getPostsByUserId($_SESSION['user_id']);
+        $data = [
+            'title' => 'Portfolio',
+            'posts' => $posts
+        ];
+        $this->view('users/Tailor/v_t_portfolio', $data);
+    }
+    public function addNewPost()
+    {
+        $data = [
+            'title' => 'Add New Post'
+        ];
+
+        $this->view('users/Tailor/v_t_add_new_post', $data);
+    }
+
+    public function addPost()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Process form
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            // Handle file upload
+            $image = null;
+            if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+                $image = file_get_contents($_FILES['image']['tmp_name']);
+            }
+
+            // Input data
+            $data = [
+                'user_id' => $_SESSION['user_id'],
+                'title' => trim($_POST['title']),
+                'description' => trim($_POST['description']),
+                'image' => $image
+            ];
+
+            // Add post
+            if ($this->userModel->addPost($data)) {
+                flash('post_message', 'Post added successfully');
+                redirect('tailors/displayPortfolio');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            $data = [
+                'title' => 'Add New Post'
+            ];
+            $this->view('users/Tailor/v_t_add_new_post', $data);
+        }
     }
 
     public function addNewCustomizeItem()
@@ -262,6 +326,7 @@ class Tailors extends Controller
 
             // Input data
             $data = [
+                'user_type' => 'tailor',
                 'first_name' => trim($_POST['first_name']),
                 'last_name' => trim($_POST['last_name']),
                 'email' => trim($_POST['email']),
@@ -286,7 +351,7 @@ class Tailors extends Controller
                 $data['email_err'] = 'Please enter email';
             } else {
                 // Check email
-                if ($this->model('M_Tailors')->findTailorByEmail($data['email'])) {
+                if ($this->userModel->findUserByEmail($data['email'])) {
                     $data['email_err'] = 'Email is already taken';
                 }
             }
@@ -335,7 +400,7 @@ class Tailors extends Controller
                 redirect('tailors/createPassword');
             } else {
                 // Load view with errors
-                $this->view('users/v_t_register', $data);
+                $this->view('users/Tailors/v_t_register', $data);
             }
         } else {
             // Init data
@@ -359,7 +424,7 @@ class Tailors extends Controller
             ];
 
             // Load view
-            $this->view('users/v_t_register', $data);
+            $this->view('users/Tailor/v_t_register', $data);
         }
     }
 
@@ -404,7 +469,7 @@ class Tailors extends Controller
                 $tailorData['password'] = $data['password'];
 
                 // Register tailor
-                if ($this->tailorModel->register($tailorData)) {
+                if ($this->userModel->register($tailorData)) {
                     flash('register_success', 'You are registered and can log in');
                     redirect('users/login');
                 } else {
@@ -412,7 +477,7 @@ class Tailors extends Controller
                 }
             } else {
                 // Load view with errors
-                $this->view('users/v_createpassword', $data);
+                $this->view('users/Tailor/v_t_createpassword', $data);
             }
         } else {
             // Init data
@@ -424,7 +489,7 @@ class Tailors extends Controller
             ];
 
             // Load view
-            $this->view('users/v_createpassword', $data);
+            $this->view('users/Tailor/v_t_createpassword', $data);
         }
     }
 }

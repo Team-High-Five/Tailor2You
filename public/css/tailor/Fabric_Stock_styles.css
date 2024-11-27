@@ -17,23 +17,7 @@ h1 {
     margin-bottom: 10px;
 }
 
-.add-fabric-btn {
-    background-color: #6a1b9a;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 20px;
-}
 
-.add-fabric-btn:hover {
-    background-color: #510a87;
-    transition: background-color 0.3s ease;
-    transform: scale(1.05);
-    transition: transform 0.3s ease;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
 
 /* Table Styling */
 .table-container {
@@ -81,24 +65,3 @@ h1 {
     margin-right: 5px;
 }
 
-.action-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 6px;
-}
-
-.edit-btn {
-    color: #4CAF50;
-    /* Green for edit */
-}
-
-.delete-btn {
-    color: #E74C3C;
-    /* Red for delete */
-}
-
-.action-btn:hover {
-    opacity: 0.7;
-}

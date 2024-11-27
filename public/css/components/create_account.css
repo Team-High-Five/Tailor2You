@@ -1,0 +1,168 @@
+/* Container Styles */
+.create-account-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--gradient-background);
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+/* Box Styles */
+.create-account-box {
+    width: 100%;
+    max-width: 450px;
+    margin: 50px auto;
+    padding: 2.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Logo Styles */
+.create-account-logo {
+    margin-bottom: 1rem;
+}
+
+.logo-img {
+    max-width: 180px;
+    height: auto;
+    transition: var(--transition);
+}
+
+.logo-img:hover {
+    transform: scale(1.05);
+}
+
+/* Heading Styles */
+.who-are-you h2 {
+    margin-top: 10px;
+    color: var(--text-light);
+    font-size: 2.5rem;
+    font-weight: 600;
+    position: relative;
+}
+
+.who-are-you h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background-color: var(--accent-color);
+    border-radius: 2px;
+}
+
+/* Options Container */
+.options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+}
+
+/* Option Buttons */
+.option button {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-light);
+    background: var(--primary-color);
+    border: 2px solid var(--accent-color);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.option button:hover {
+    background: var(--accent-color);
+    color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(196, 167, 125, 0.3);
+}
+
+/* Tailor Dropdown Styles */
+.tailor {
+    position: relative;
+}
+
+.tailor-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    opacity: 1;
+    visibility: hidden;
+    transform: translateY(1px);
+    transition: var(--transition);
+    z-index: 10;
+    overflow: hidden;
+}
+
+.tailor:hover .tailor-dropdown {
+    visibility: visible;
+    transform: translateY(5px);
+}
+
+.tailor-dropdown a {
+    background-color: var(--secondary-color);
+    display: block;
+    padding: 1rem;
+    color: var(--text-light);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.tailor-dropdown a:hover {
+    background: rgba(196, 167, 125, 0.5 );
+    color: var(--accent-color);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .create-account-box {
+        padding: 2rem;
+    }
+
+    .who-are-you h2 {
+        font-size: 1.5rem;
+    }
+
+    .options {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .create-account-box {
+        padding: 1.5rem;
+    }
+}

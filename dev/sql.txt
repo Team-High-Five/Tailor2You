@@ -1,22 +1,62 @@
-create table users(
-    id int primary key auto_increment,
-    name varchar(255),
-    email varchar(255),
-    password varchar(255)
-    created_at timestamp default current_timestamp,
-)
+CREATE TABLE `users` (
+  `user_id` INT(5) NOT NULL AUTO_INCREMENT,
+  `user_type` ENUM('tailor', 'customer', 'shopkeeper') NOT NULL,
+  `first_name` VARCHAR(20) NOT NULL,
+  `last_name` VARCHAR(30) NOT NULL,
+  `email` VARCHAR(30) NOT NULL UNIQUE,
+  `password` VARCHAR(255) NOT NULL,
+  `phone_number` VARCHAR(10) NOT NULL,
+  `nic` VARCHAR(12) DEFAULT NULL, -- Nullable for customers
+  `birth_date` DATE DEFAULT NULL, -- Nullable for customers
+  `home_town` VARCHAR(20) NOT NULL,
+  `address` VARCHAR(100) NOT NULL,
+  `bio` VARCHAR(255) DEFAULT NULL, -- Nullable for customers
+  `category` VARCHAR(10) DEFAULT NULL, -- Nullable for customers
+  `profile_pic` LONGBLOB DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-create table posts(
-    id int primary key auto_increment,
-    title varchar(255),
-    user_id int,
-    body TEXT,
-    created_at timestamp default current_timestamp,
-    foreign key(user_id) references users(id) on delete cascade
-);
+CREATE TABLE `posts` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_id` INT(11) NOT NULL,
+  `title` VARCHAR(255) NOT NULL,
+  `description` TEXT NOT NULL,
+  `image` LONGBLOB,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `tailors` (
   `tailor_id` int(5) NOT NULL,
+  `first_name` varchar(20) NOT NULL,
+  `last_name` varchar(30) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `phone_number` varchar(10) NOT NULL,
+  `nic` varchar(12) NOT NULL,
+  `birth_date` date NOT NULL,
+  `home_town` varchar(20) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `bio` varchar(255) NOT NULL,
+  `category` varchar(10) NOT NULL,
+  `profile_pic` longblob DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `customers` (
+  `cutsomer_id` int(5) NOT NULL,
+  `first_name` varchar(20) NOT NULL,
+  `last_name` varchar(30) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `phone_number` varchar(10) NOT NULL,
+  `home_town` varchar(20) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `profile_pic` longblob DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `shopkeepers` (
+  `shopkeeper_id` int(5) NOT NULL,
   `first_name` varchar(20) NOT NULL,
   `last_name` varchar(30) NOT NULL,
   `email` varchar(30) NOT NULL,

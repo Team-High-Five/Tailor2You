@@ -5,13 +5,7 @@
     align-items: center;
 }
 
-.filter-btn, .filter-bar select {
-    background-color: white;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 6px;
-    font-size: 14px;
-}
+
 
 .product-grid {
     display: grid;
@@ -59,22 +53,22 @@
     font-size: 16px;
 }
 
-.product-card .actions {
+.product-card .product-actions {
     display: flex;
     justify-content: center;
     margin-top: 15px;
 }
 
-.product-card .actions button {
-    background-color: transparent;
+.product-card .product-actions button {
+    
     border: none;
     cursor: pointer;
     margin: 0 10px;
-    font-size: 20px;
+    font-size: 12px;
     transition: transform 0.2s ease;
 }
 
-.product-card .actions button:hover {
+.product-card .product-actions button:hover {
     transform: scale(1.2);
 }
 

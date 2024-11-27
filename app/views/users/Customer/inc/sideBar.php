@@ -1,29 +1,69 @@
+<?php
+
+function isCurrentPage($page)
+{
+  // Get the current URL path
+  $currentUrl = $_SERVER['REQUEST_URI'];
+  // Check if the page name exists in the current URL
+  return strpos($currentUrl, $page) !== false;
+}
+?>
+
 <div class="sidebar">
   <a href="#">
-    <img src="../<?php APPROOT?>/public/img/logo.png" alt="Logo" />
+    <img src="../<?php APPROOT ?>/public/img/logo.png" alt="Logo" />
   </a>
-  <div id="home" class="sidebar-icon <?php echo ($currentPage == 'home') ? 'active' : ''; ?>">
-  <a href="<?php echo URLROOT ?>/Tailors/index">
-    <img src="../<?php APPROOT?>/public/img/Home.png">
-  </a>
-</div>
-  <div id="customer" class="sidebar-icon"><a href="<?php echo URLROOT ?>/Tailors/profileUpdate"><img src="../<?php APPROOT?>/public/img/Customer.png"></a></div>
-  <div id="purchase-order" class="sidebar-icon"><img src="../<?php APPROOT?>/public/img/Purchase_Order.png"></div>
-  <div id="calendar" class="sidebar-icon"><img src="../<?php APPROOT?>/public/img/Calendar.png"></div>
-  <div id="adjust" class="sidebar-icon"><img src="../<?php APPROOT?>/public/img/Adjust.png"></div>
-  <div id="shopping-bag" class="sidebar-icon"><img src="../<?php APPROOT?>/public/img/Shopping_bag.png"></div>
+  <div id="Profile" class="sidebar-icon <?php echo isCurrentPage('profileUpdate') ? 'active' : ''; ?>">
+    <a href="<?php echo URLROOT ?>/Customer/profileUpdate">
+      <img src="../<?php APPROOT ?>/public/img/Customer.png">
+    </a>
+  </div>
+  <div id="Orders" class="sidebar-icon <?php echo isCurrentPage('displayOrders') ? 'active' : ''; ?>">
+    <a href="<?php echo URLROOT ?>/Tailors/displayOrders">
+      <img src="../<?php APPROOT ?>/public/img/Purchase_Order.png">
+    </a>
+  </div>
+  <div id="Appointments" class="sidebar-icon <?php echo isCurrentPage('displayAppointments') ? 'active' : ''; ?>">
+    <a href="<?php echo URLROOT ?>/Tailors/displayAppointments">
+      <img src="../<?php APPROOT ?>/public/img/Calendar.png">
+    </a>
+  </div>
 </div>
 
 <script>
-document.querySelectorAll('.sidebar-icon').forEach((icon) => {
-  icon.addEventListener('click', function () {
-    // Remove active class from all icons
-    document.querySelectorAll('.sidebar-icon').forEach((icon) => {
-      icon.classList.remove('active');
+  document.addEventListener('DOMContentLoaded', function () {
+    const sidebarIcons = document.querySelectorAll('.sidebar-icon');
+
+    // Handle click events
+    sidebarIcons.forEach(icon => {
+      icon.addEventListener('click', function (e) {
+        // Only handle clicks if there's no link or if the click wasn't on the link
+        if (!e.target.closest('a')) {
+          // Remove active class from all icons
+          sidebarIcons.forEach(icon => icon.classList.remove('active'));
+          // Add active class to clicked icon
+          this.classList.add('active');
+        }
+      });
     });
 
-    // Add active class to the clicked icon
-    this.classList.add('active');
+    // Store the last active icon in localStorage when clicking a link
+    sidebarIcons.forEach(icon => {
+      const link = icon.querySelector('a');
+      if (link) {
+        link.addEventListener('click', function () {
+          localStorage.setItem('lastActiveSidebarIcon', icon.id);
+        });
+      }
+    });
+
+    // Check if we should restore the active state from localStorage
+    const lastActiveIcon = localStorage.getItem('lastActiveSidebarIcon');
+    if (lastActiveIcon && !document.querySelector('.sidebar-icon.active')) {
+      const icon = document.getElementById(lastActiveIcon);
+      if (icon) {
+        icon.classList.add('active');
+      }
+    }
   });
-});
 </script>

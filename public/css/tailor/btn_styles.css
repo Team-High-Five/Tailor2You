@@ -1,0 +1,280 @@
+:root {
+    --primary-color: #6c63ff;
+    --secondary-color: #5a52d1;
+    --danger-color: #ff4d4d;
+    --danger-dark-color: #d43f3f;
+    --border-color: #ccc;
+    --text-dark: #333;
+    --text-light: #666;
+    --background-light: #f9f9f9;
+}
+
+/* Primary Button */
+.btn-primary {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    transform: scale(1.05);
+}
+
+.btn-primary:active {
+    transform: scale(0.98);
+}
+
+/* Danger Button */
+.btn-danger {
+    background-color: var(--danger-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-danger:hover {
+    background-color: var(--danger-dark-color);
+    transform: scale(1.05);
+}
+
+.btn-danger:active {
+    transform: scale(0.98);
+}
+
+/* Cancel Button */
+.btn-cancel {
+    background-color: var(--danger-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn-cancel:hover {
+    background-color: var(--danger-dark-color);
+    transform: scale(1.05);
+}
+
+.btn-cancel:active {
+    transform: scale(0.98);
+}
+
+/* Other Button Styles */
+.btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn:hover {
+    background: var(--secondary-color);
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: #ff0000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* Submit Button */
+.submit-btn {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 20px;
+    /* Add margin to separate it from the form */
+}
+
+.submit-btn:hover {
+    background-color: var(--secondary-color);
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.submit-btn:active {
+    transform: scale(0.98);
+}
+
+.btn-cancel {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 10px;
+    background-color: var(--danger-color);
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background-color: var(--danger-dark-color);
+    transform: scale(1.05);
+}
+
+.btn-cancel:active {
+    transform: scale(0.98);
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 6px;
+}
+
+.edit-btn {
+    color: #4CAF50;
+    /* Green for edit */
+}
+
+.delete-btn {
+    color: #E74C3C;
+    /* Red for delete */
+}
+
+.action-btn:hover {
+    opacity: 0.7;
+}
+
+.submit-btn {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+}
+
+.reset-btn {
+    background-color: #f0f0f0;
+    color: var(--text-color);
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(106, 90, 205, 0.3);
+}
+
+.reset-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.progress-btn {
+    display: inline-block;
+    padding: 8px 12px;
+    background-color: #6c63ff;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.875rem;
+    transition: background-color 0.3s ease;
+}
+
+.progress-btn:hover {
+    background-color: #5a52d1;
+}
+
+.btn-accept-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    background: #6c63ff;
+    color: white;
+}
+
+.btn-reject-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    cursor: pointer;
+    border: none;
+    background: #f44336;
+    color: white;
+}
+
+.filter-btn,
+.reset-filter-btn,
+select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.reset-filter-btn {
+    color: #ff4d4d;
+    border-color: #ff4d4d;
+}
+
+.filter-btn,
+.filter-bar select {
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.add-fabric-btn {
+    background-color: #6a1b9a;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.add-fabric-btn:hover {
+    background-color: #510a87;
+    transition: background-color 0.3s ease;
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reschedule-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #6c63ff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.reschedule-btn:hover {
+    background-color: #5a53cc;
+}

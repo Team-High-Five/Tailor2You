@@ -5,27 +5,55 @@ require_once APPROOT . '/helpers/session_helper.php';
 
 class Customer extends Controller
 {
+    private $customerModel;
     public function __construct()
     {
         $this->customerModel = $this->model('M_Customer');
     }
 
-    public function index()
-    {
-        $_SESSION['currentPage'] = 'home';
-        $data = [
-            'currentPage' => $_SESSION['currentPage']
-        ];
-
-        $this->view('users/Customer/v_c_dashboard', $data);
-    }
     public function profileUpdate()
     {
-        $currentPage = 'profile';
+        $currentPage = 'Profile';
         $data = [
-            'currentPage' => $currentPage
+            'title' => $currentPage
         ];
         $this->view('users/Customer/v_c_profile', $data);
+    }
+
+    public function updateDetails()
+    {
+        $currentPage = 'Update Changes';
+        $data = [
+            'title' => $currentPage
+        ];
+        $this->view('users/Customer/v_c_updateDetails', $data);
+    }
+
+    public function changepassword()
+    {
+        $currentPage = 'Change Password';
+        $data = [
+            'title' => $currentPage
+        ];
+        $this->view('users/Customer/v_c_changepassword', $data);
+    }
+
+    public function addpant()
+    {
+        $currentPage = 'Add Pant Measurments';
+        $data = [
+            'title' => $currentPage
+        ];
+        $this->view('users/Customer/v_c_addpants', $data);
+    }
+
+    public function addshirt()
+    {
+        $currentPage = 'Add Shirt Measurments';
+        $data = [
+            'title' => $currentPage
+        ];
+        $this->view('users/Customer/v_c_addshirt', $data);
     }
 
     public function customerRegister()

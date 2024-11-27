@@ -77,17 +77,3 @@
     margin-top: 20px;
     border-top: 1px solid #ccc;
 }
-
-.btn {
-    padding: 10px 20px;
-    font-size: 14px;
-    border-radius: 5px;
-    cursor: pointer;
-    border: none;
-    background: #6c63ff;
-    color: white;
-}
-
-.btn:hover {
-    background: #5548c8;
-}
