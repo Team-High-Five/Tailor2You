@@ -5,6 +5,7 @@
 <!-- Shop by Category Section -->
 <section class="category">
     <div class="topic">Shop By Category</div><br>
+    <div class="topic-soon">Available Soon</div>
     <div class="category-grid">
         <button class="category-item" style="background-image: url('<?php echo URLROOT; ?>/public/img/home/men.jpg');">
             <h1>Men</h1>

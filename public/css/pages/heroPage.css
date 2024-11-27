@@ -273,6 +273,14 @@
     color: #ffffff;
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
+
+.title-soon{
+    font-size: 6em;
+    font-weight: bold;
+    line-height: 1em;
+    color: #ffffff;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
 .italic{
     font-size: 2em;
     font-weight:lighter;
