@@ -1,16 +1,19 @@
 <?php
 require_once APPROOT . '/helpers/url_helper.php';
 require_once APPROOT . '/helpers/session_helper.php';
+require_once APPROOT . '/controllers/Fabrics.php';
 
 class Shopkeepers extends Controller
 {
     private $shopkeeperModel;
     private $userModel;
+    private $fabricController;
 
     public function __construct()
     {
         $this->shopkeeperModel = $this->model('M_Shopkeepers');
         $this->userModel = $this->model('M_Users');
+        $this->fabricController = new Fabrics();
     }
 
     public function index()
@@ -128,10 +131,38 @@ class Shopkeepers extends Controller
 
     public function displayFabricStock()
     {
-        $data = [
-            'title' => 'Stock'
-        ];
-        $this->view('users/Shopkeeper/v_s_fabric', $data);
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+        }
+
+        $this->fabricController->displayFabricStock($_SESSION['user_id'], 'users/Tailor/v_t_fabric_stock');
+    }
+
+    public function addNewFabric()
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+        }
+
+        $this->fabricController->addNewFabric($_SESSION['user_id'], 'users/Tailor/v_t_add_new_fabric', 'tailors');
+    }
+
+    public function editFabric($fabric_id)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+        }
+
+        $this->fabricController->editFabric($fabric_id, $_SESSION['user_id'], 'users/Tailor/v_t_edit_fabric', 'tailors');
+    }
+
+    public function deleteFabric($fabric_id)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+        }
+
+        $this->fabricController->deleteFabric($fabric_id, $_SESSION['user_id'], 'users/Tailor/v_t_fabric_stock', 'tailors');
     }
 
     public function addNewItem()
@@ -276,11 +307,11 @@ class Shopkeepers extends Controller
 
     public function displayEmployees()
     {
-  
+
         $data = [
             'title' => 'Employees'
         ];
-        $this->view('users/Shopkeeper/v_s_employee', $data);
+        $this->view('users/Shopkeeper/v_s_employees', $data);
     }
     public function addNewEmployee()
     {

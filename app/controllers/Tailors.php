@@ -3,19 +3,19 @@ require_once APPROOT . '/helpers/url_helper.php';
 
 require_once APPROOT . '/helpers/session_helper.php';
 
-require_once APPROOT . '/controllers/Fabrics.php';
+
 
 class Tailors extends Controller
 {
     private $tailorModel;
     private $userModel;
-    private $fabrics;
+    private $fabricController;
 
     public function __construct()
     {
         $this->tailorModel = $this->model('M_Tailors');
         $this->userModel = $this->model('M_Users');
-        $this->fabrics = new Fabrics();
+        $this->fabricController = new Fabrics();
     }
 
     public function index()
@@ -145,182 +145,38 @@ class Tailors extends Controller
     }
     public function displayFabricStock()
     {
-        // Check if the user is logged in
         if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
             redirect('users/login');
         }
 
-        // Get fabrics for the current tailor
-        $fabrics = $this->tailorModel->getFabricsByTailorId($_SESSION['user_id']);
-
-        $data = [
-            'title' => 'Fabric Stock',
-            'fabrics' => $fabrics
-        ];
-
-        $this->view('users/Tailor/v_t_fabric_stock', $data);
+        $this->fabricController->displayFabricStock($_SESSION['user_id'], 'users/Tailor/v_t_fabric_stock');
     }
+
     public function addNewFabric()
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Process form
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-            // Handle file upload
-            $image = null;
-            if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-                $image = file_get_contents($_FILES['image']['tmp_name']);
-            }
-
-            // Input data
-            $data = [
-                'tailor_id' => $_SESSION['user_id'],
-                'fabric_name' => trim($_POST['fabric_name']),
-                'price' => trim($_POST['price']),
-                'colors' => $_POST['colors'],
-                'stock' => trim($_POST['stock']),
-                'image' => $image,
-                'fabric_name_err' => '',
-                'price_err' => '',
-                'color_err' => '',
-                'stock_err' => '',
-                'image_err' => ''
-            ];
-
-            // Validate inputs
-            $errors = $this->fabrics->ValidateFabricData($data);
-            $data = array_merge($data, $errors);
-
-            // Make sure errors are empty
-            if (empty($errors)) {
-                // Add fabric
-                if ($this->tailorModel->addFabric($data)) {
-                    flash('fabric_message', 'Fabric added successfully');
-                    redirect('tailors/displayFabricStock');
-                } else {
-                    die('Something went wrong');
-                }
-            } else {
-                // Load view with errors
-                $data['colors'] = $this->tailorModel->getColors();
-                $this->view('users/Tailor/v_t_add_new_fabric', $data);
-            }
-        } else {
-            $data = [
-                'fabric_name' => '',
-                'price' => '',
-                'colors' => $this->tailorModel->getColors(),
-                'stock' => '',
-                'image' => '',
-                'fabric_name_err' => '',
-                'price_err' => '',
-                'color_err' => '',
-                'stock_err' => '',
-                'image_err' => ''
-            ];
-
-            $this->view('users/Tailor/v_t_add_new_fabric', $data);
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
         }
+
+        $this->fabricController->addNewFabric($_SESSION['user_id'], 'users/Tailor/v_t_add_new_fabric', 'tailors');
     }
 
     public function editFabric($fabric_id)
     {
-        // Check if the user is logged in
         if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
             redirect('users/login');
         }
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Process form
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-            // Handle file upload
-            $image = null;
-            if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-                $image = file_get_contents($_FILES['image']['tmp_name']);
-            } else {
-                $image = $_POST['existing_image'];
-            }
-
-            // Input data
-            $data = [
-                'fabric_id' => $fabric_id,
-                'fabric_name' => trim($_POST['fabric_name']),
-                'price' => trim($_POST['price']),
-                'colors' => $_POST['colors'],
-                'stock' => trim($_POST['stock']),
-                'image' => $image,
-                'fabric_name_err' => '',
-                'price_err' => '',
-                'color_err' => '',
-                'stock_err' => '',
-                'image_err' => ''
-            ];
-
-            // Validate inputs
-            $errors = $this->fabrics->ValidateFabricData($data);
-            $data = array_merge($data, $errors);
-
-            // Make sure errors are empty
-            if (empty($errors)) {
-                // Update fabric
-                if ($this->tailorModel->updateFabric($data)) {
-                    flash('fabric_message', 'Fabric updated successfully');
-                    redirect('tailors/displayFabricStock');
-                } else {
-                    die('Something went wrong');
-                }
-            } else {
-                // Load view with errors
-                $data['colors'] = $this->tailorModel->getColors();
-                $this->view('users/Tailor/v_t_edit_fabric', $data);
-            }
-        } else {
-            // Get fabric details
-            $fabric = $this->tailorModel->getFabricById($fabric_id);
-
-            // Check if fabric exists
-            if (!$fabric) {
-                flash('fabric_message', 'Fabric not found', 'alert alert-danger');
-                redirect('tailors/displayFabricStock');
-            }
-
-            $data = [
-                'fabric_id' => $fabric->fabric_id,
-                'fabric_name' => $fabric->fabric_name,
-                'price' => $fabric->price_per_meter,
-                'colors' => $this->tailorModel->getColors(),
-                'selected_colors' => explode(', ', $fabric->colors),
-                'stock' => $fabric->stock,
-                'image' => $fabric->image,
-                'fabric_name_err' => '',
-                'price_err' => '',
-                'color_err' => '',
-                'stock_err' => '',
-                'image_err' => ''
-            ];
-
-            $this->view('users/Tailor/v_t_edit_fabric', $data);
-        }
+        $this->fabricController->editFabric($fabric_id, $_SESSION['user_id'], 'users/Tailor/v_t_edit_fabric', 'tailors');
     }
+
     public function deleteFabric($fabric_id)
     {
-        // Check if the user is logged in
         if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
             redirect('users/login');
         }
 
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Delete fabric
-            if ($this->tailorModel->deleteFabric($fabric_id)) {
-                flash('fabric_message', 'Fabric deleted successfully');
-                redirect('tailors/displayFabricStock');
-            } else {
-                die('Something went wrong');
-            }
-        } else {
-            redirect('tailors/displayFabricStock');
-        }
+        $this->fabricController->deleteFabric($fabric_id, $_SESSION['user_id'], 'users/Tailor/v_t_fabric_stock', 'tailors');
     }
     public function displayOrders()
     {
