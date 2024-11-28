@@ -1,63 +1,15 @@
 <?php
 require_once APPROOT . '/helpers/url_helper.php';
-
 require_once APPROOT . '/helpers/session_helper.php';
 
-class Customer extends Controller
-{
-    private $customerModel;
-    public function __construct()
-    {
-        $this->customerModel = $this->model('M_Customer');
+class Customers extends Controller {
+    private $userModel;
+
+    public function __construct() {
+        $this->userModel = $this->model('M_Users');
     }
 
-    public function profileUpdate()
-    {
-        $currentPage = 'Profile';
-        $data = [
-            'title' => $currentPage
-        ];
-        $this->view('users/Customer/v_c_profile', $data);
-    }
-
-    public function updateDetails()
-    {
-        $currentPage = 'Update Changes';
-        $data = [
-            'title' => $currentPage
-        ];
-        $this->view('users/Customer/v_c_updateDetails', $data);
-    }
-
-    public function changepassword()
-    {
-        $currentPage = 'Change Password';
-        $data = [
-            'title' => $currentPage
-        ];
-        $this->view('users/Customer/v_c_changepassword', $data);
-    }
-
-    public function addpant()
-    {
-        $currentPage = 'Add Pant Measurments';
-        $data = [
-            'title' => $currentPage
-        ];
-        $this->view('users/Customer/v_c_addpants', $data);
-    }
-
-    public function addshirt()
-    {
-        $currentPage = 'Add Shirt Measurments';
-        $data = [
-            'title' => $currentPage
-        ];
-        $this->view('users/Customer/v_c_addshirt', $data);
-    }
-
-    public function customerRegister()
-    {
+    public function customerRegister() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Process form
             // Sanitize post data
@@ -65,6 +17,7 @@ class Customer extends Controller
 
             // Input data
             $data = [
+                'user_type' => 'customer',
                 'first_name' => trim($_POST['first_name']),
                 'last_name' => trim($_POST['last_name']),
                 'email' => trim($_POST['email']),
@@ -89,7 +42,7 @@ class Customer extends Controller
                 $data['email_err'] = 'Please enter email';
             } else {
                 // Check email
-                if ($this->customerModel->findCustomerByEmail($data['email'])) {
+                if ($this->userModel->findUserByEmail($data['email'])) {
                     $data['email_err'] = 'Email is already taken';
                 }
             }
@@ -135,10 +88,10 @@ class Customer extends Controller
                 $_SESSION['customer_register_data'] = $data;
 
                 // Redirect to create password page
-                redirect('customer/createPassword');
+                redirect('customers/createPassword');
             } else {
                 // Load view with errors
-                $this->view('users/v_c_register', $data);
+                $this->view('users/Customer/v_c_register', $data);
             }
         } else {
             // Init data
@@ -162,12 +115,11 @@ class Customer extends Controller
             ];
 
             // Load view
-            $this->view('users/v_c_register', $data);
+            $this->view('users/Customer/v_c_register', $data);
         }
     }
 
-    public function createPassword()
-    {
+    public function createPassword() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Process form
             // Sanitize post data
@@ -206,8 +158,8 @@ class Customer extends Controller
                 $customerData = $_SESSION['customer_register_data'];
                 $customerData['password'] = $data['password'];
 
-                
-                if ($this->customerModel->register($customerData)) {
+                // Register customer
+                if ($this->userModel->register($customerData)) {
                     flash('register_success', 'You are registered and can log in');
                     redirect('users/login');
                 } else {
@@ -215,7 +167,7 @@ class Customer extends Controller
                 }
             } else {
                 // Load view with errors
-                $this->view('users/v_createpassword', $data);
+                $this->view('users/Customer/v_createpassword', $data);
             }
         } else {
             // Init data
@@ -227,9 +179,7 @@ class Customer extends Controller
             ];
 
             // Load view
-            $this->view('users/v_createpassword', $data);
+            $this->view('users/Customer/v_createpassword', $data);
         }
     }
-    
-
 }

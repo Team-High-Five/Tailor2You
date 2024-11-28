@@ -4,7 +4,7 @@
     </div>
     <nav class="nav-links">
         <a href="<?php echo URLROOT ?>/pages/index" class="nav-link">Home</a>
-        <a href="#" class="nav-link">Collection</a>
+        <a href="#colllection" class="nav-link" id="collectionLink">Collection</a>
         <a href="#genderSection" class="nav-link" id="customTailoringLink">Custom Tailoring</a>
         <a href="#" class="nav-link">Master Tailors</a>
         <a href="#" class="nav-link">About Atelier</a>
@@ -47,6 +47,34 @@
     // Check if the URL contains the hash and scroll to the section
     if (window.location.hash === '#genderSection') {
         genderSection.scrollIntoView({
+            behavior: 'smooth'
+        });
+    }
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    const collectionLink = document.getElementById('collectionLink');
+    const colllection = document.getElementById('colllection');
+
+    collectionLink.addEventListener('click', function(event) {
+        event.preventDefault();
+        const currentUrl = window.location.href;
+        const homeUrl = '<?php echo URLROOT; ?>/pages/mensPage';
+
+        if (currentUrl.includes(homeUrl)) {
+            // If already on the home page, scroll to the section
+            colllection.scrollIntoView({
+                behavior: 'smooth'
+            });
+        } else {
+            // Redirect to the home page with the hash
+            window.location.href = homeUrl + '#colllection';
+        }
+    });
+
+    // Check if the URL contains the hash and scroll to the section
+    if (window.location.hash === '#colllection') {
+        colllection.scrollIntoView({
             behavior: 'smooth'
         });
     }

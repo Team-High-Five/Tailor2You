@@ -5,6 +5,7 @@
 <!-- Shop by Category Section -->
 
 <?php require_once APPROOT . '/views/pages/inc/components/category.php'; ?>
+<span id="colllection"></span>
 <?php require_once APPROOT . '/views/pages/inc/components/new_collection.php'; ?>
 
 <!-- Image Section 

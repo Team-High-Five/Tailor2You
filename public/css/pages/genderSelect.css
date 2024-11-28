@@ -17,7 +17,6 @@
   justify-content: center;
   position: relative;
   gap: 1px;
-  /* Creates a subtle divider between images */
 }
 
 .main-banner .banner-item {
@@ -25,7 +24,7 @@
   width: 100%;
   height: 100%;
   overflow: hidden;
-  /* Contains image zoom effect */
+  display: flex ;
 }
 
 .main-banner .banner-item::after {
@@ -85,7 +84,7 @@
 /* Add responsive styles */
 @media (max-width: 768px) {
   .main-banner {
-    flex-direction: column;
+    flex-direction: row;
     height: auto;
   }
 

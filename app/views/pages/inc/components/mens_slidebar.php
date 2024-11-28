@@ -2,7 +2,7 @@
     <!-- list item -->
     <div class="list">
         <div class="item">
-            <img src="<?php echo URLROOT; ?>/public/img/home/Hero1.1.jpg">
+            <img src="<?php echo URLROOT; ?>/public/img/home/mensPage1.jpg">
             <div class="overlay"></div>
             <div class="content">
                 <div class="title">Your Custom Suit,<br> Your Vision</div>
@@ -17,7 +17,7 @@
         </div>
         <div class="item">
 
-            <img src="<?php echo URLROOT; ?>/public/img/home/Hero3.1.jpg">
+            <img src="<?php echo URLROOT; ?>/public/img/home/mensPage2.jpg">
             <div class="overlay"></div>
 
             <div class="content">
@@ -35,10 +35,10 @@
     <div class="slider-controls">
         <div class="thumbnail">
             <div class="item active">
-                <img src="<?php echo URLROOT; ?>/public/img/home/hero1.png">
+                <img src="<?php echo URLROOT; ?>/public/img/home/mensPage1.2.jpg">
             </div>
             <div class="item">
-                <img src="<?php echo URLROOT; ?>/public/img/home/hero3.jpg">
+                <img src="<?php echo URLROOT; ?>/public/img/home/mensPage2.jpg">
             </div>
         </div>
         <div class="arrows">

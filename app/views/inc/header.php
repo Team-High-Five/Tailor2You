@@ -10,5 +10,5 @@
     <link rel='stylesheet' type='text/css' media='screen' href='<?php echo URLROOT; ?>/public/css/pages/styles.css'>
     <script src='main.js'></script>
 </head>
-
+    
 <body>

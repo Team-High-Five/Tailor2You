@@ -6,14 +6,14 @@
             <img src="../<?php APPROOT?>/public/img/logo_brown.png" alt="Tailor2You Logo">
         </div>
         <div class="form-section">
-            <h1>As a Individual Tailor,</h1>
+            <h1>As a Customer,</h1>
             <button class="google-signup">
                 <img src="../<?php APPROOT?>/public/img/google_logo.png" alt="google logo">
                 Sign up with Google</button>
             <div class="or-section">
                 <hr><span>OR</span><hr>
             </div>
-            <form action="<?php echo URLROOT?>/Tailors/tailorRegister" method="post">
+            <form action="<?php echo URLROOT?>/Customer/customerRegister" method="post">
                 <div class="form-row">
                     <input type="text" placeholder="First Name" name= "first_name" required>
                     <input type="text" placeholder="Last Name" name= "last_name" required>
@@ -35,7 +35,7 @@
             </form>
         </div>
         <div class="right-image-section">
-            <img src="../<?php APPROOT?>/public/img/Tailor.png" alt="Man Fashion">
+            <img src="../<?php APPROOT?>/public/img/customer_register.jpeg" alt="Man Fashion">
         </div>
     </div>
 </body>
