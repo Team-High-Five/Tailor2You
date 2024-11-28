@@ -2,7 +2,7 @@
     <!-- list item -->
     <div class="list">
         <div class="item">
-            <img src="<?php echo URLROOT; ?>/public/img/home/Hero1.1.jpg">
+            <img src="<?php echo URLROOT; ?>/public/img/home/hero1.png">
             <div class="overlay"></div>
             <div class="content">
                 <div class="title">Your Custom Suit,<br> Your Vision</div>
@@ -16,7 +16,7 @@
             </div>
         </div>
         <div class="item">
-            <img src="<?php echo URLROOT; ?>/public/img/home/Hero3.1.jpg">
+            <img src="<?php echo URLROOT; ?>/public/img/home/hero3.jpg">
             <div class="overlay"></div>
 
             <div class="content">

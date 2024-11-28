@@ -81,16 +81,24 @@ h1 {
 
 .form-row {
     display: flex;
-    justify-content: space-between;
     margin-bottom: 15px;
     gap: 15px;
 }
+
 .form-line {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-bottom: 15px;
     gap: 15px;
+}
+
+
+.input-field {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 15px;
 }
 
 .form-line input {
@@ -101,10 +109,10 @@ h1 {
     border-radius: 12px;
     color: var(--text-light);
     transition: var(--transition);
+
 }
 
 .form-row input {
-    width: 48%;
     padding: 12px;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -117,6 +125,17 @@ h1 {
     outline: none;
     border-color: var(--accent-color);
     box-shadow: 0 0 0 3px rgba(196, 167, 125, 0.1);
+}
+
+.form-row input::placeholder {
+    color: var(--text-muted);
+}
+
+.form-row .error {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
 }
 
 .continue-btn {
@@ -188,6 +207,8 @@ h1 {
     object-fit: cover;
 }
 
+
+
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
@@ -202,5 +223,39 @@ h1 {
     .image-section {
         width: 100%;
         height: 200px;
+    }
+
+    .left-image-section,
+    .right-image-section {
+        width: 100%;
+        height: 200px;
+    }
+    .form-row {
+        flex-direction: column;
+        gap: 10px;
+        overflow: hidden;
+    }
+    .form-line {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .form-line input {
+        width: 100%;
+        padding: 10px;  
+    }
+    .form-row input {
+        width: 100%;
+        padding: 10px;
+    }
+        .form-row .error {
+        font-size: 12px;
+    }
+    .continue-btn {
+        padding: 12px;
+        font-size: 14px;
+    }
+    .right-continue-btn {
+        padding: 12px;
+        font-size: 14px;
     }
 }
