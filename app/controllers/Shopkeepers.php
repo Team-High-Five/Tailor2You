@@ -131,38 +131,38 @@ class Shopkeepers extends Controller
 
     public function displayFabricStock()
     {
-        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
             redirect('users/login');
         }
 
-        $this->fabricController->displayFabricStock($_SESSION['user_id'], 'users/Tailor/v_t_fabric_stock');
+        $this->fabricController->displayFabricStock($_SESSION['user_id'], 'users/Shopkeeper/v_s_fabric');
     }
 
     public function addNewFabric()
     {
-        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
             redirect('users/login');
         }
 
-        $this->fabricController->addNewFabric($_SESSION['user_id'], 'users/Tailor/v_t_add_new_fabric', 'tailors');
+        $this->fabricController->addNewFabric($_SESSION['user_id'], 'users/Shopkeeper/v_s_fabric_add_new', 'shopkeepers');
     }
 
     public function editFabric($fabric_id)
     {
-        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
             redirect('users/login');
         }
 
-        $this->fabricController->editFabric($fabric_id, $_SESSION['user_id'], 'users/Tailor/v_t_edit_fabric', 'tailors');
+        $this->fabricController->editFabric($fabric_id, $_SESSION['user_id'], 'users/Shopkeeper/v_s_edit_fabric', 'shopkeepers');
     }
 
     public function deleteFabric($fabric_id)
     {
-        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
             redirect('users/login');
         }
 
-        $this->fabricController->deleteFabric($fabric_id, $_SESSION['user_id'], 'users/Tailor/v_t_fabric_stock', 'tailors');
+        $this->fabricController->deleteFabric($fabric_id, $_SESSION['user_id'], 'users/Shopkeeper/v_s_fabric', 'shopkeepers');
     }
 
     public function addNewItem()

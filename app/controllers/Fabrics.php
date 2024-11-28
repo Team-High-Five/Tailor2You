@@ -75,11 +75,7 @@ class Fabrics extends Controller
                 'image_err' => ''
             ];
 
-            if ($this->isAjaxRequest()) {
-                echo $this->view($view, $data, false);
-            } else {
-                $this->view($view, $data);
-            }
+            $this->view($view, $data);
         }
     }
 
@@ -146,11 +142,7 @@ class Fabrics extends Controller
                 'image_err' => ''
             ];
 
-            if ($this->isAjaxRequest()) {
-                echo $this->view($view, $data, false);
-            } else {
-                $this->view($view, $data);
-            }
+            $this->view($view, $data);
         }
     }
 
@@ -199,10 +191,5 @@ class Fabrics extends Controller
         }
 
         return $errors;
-    }
-
-    private function isAjaxRequest()
-    {
-        return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
     }
 }
