@@ -88,7 +88,7 @@ class Customers extends Controller {
                 $_SESSION['customer_register_data'] = $data;
 
                 // Redirect to create password page
-                redirect('customers/createPassword');
+                redirect('Customers/createPassword');
             } else {
                 // Load view with errors
                 $this->view('users/Customer/v_c_register', $data);
@@ -167,7 +167,7 @@ class Customers extends Controller {
                 }
             } else {
                 // Load view with errors
-                $this->view('users/Customer/v_createpassword', $data);
+                $this->view('users/Customer/v_c_createpassword', $data);
             }
         } else {
             // Init data
@@ -179,7 +179,7 @@ class Customers extends Controller {
             ];
 
             // Load view
-            $this->view('users/Customer/v_createpassword', $data);
+            $this->view('users/Customer/v_c_createpassword', $data);
         }
     }
 }

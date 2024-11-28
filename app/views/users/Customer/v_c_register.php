@@ -13,7 +13,7 @@
             <div class="or-section">
                 <hr><span>OR</span><hr>
             </div>
-            <form action="<?php echo URLROOT?>/Customer/customerRegister" method="post">
+            <form action="<?php echo URLROOT?>/Customers/customerRegister" method="post">
                 <div class="form-row">
                     <input type="text" placeholder="First Name" name= "first_name" required>
                     <input type="text" placeholder="Last Name" name= "last_name" required>
