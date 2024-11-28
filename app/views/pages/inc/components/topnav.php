@@ -11,72 +11,30 @@
         <a href="#" class="nav-link">Contact</a>
     </nav>
     <div class="icons">
-        <div class="dropdown">
-            <span class="account-text">Account</span>
-            <i class="fas fa-user dropdown-toggle"></i>
-            <div class="dropdown-menu">
-                <a href="<?php echo URLROOT; ?>/users/selectCreateAccount">Create Account</a>
-                <a href="<?php echo URLROOT; ?>/users/login">Sign In</a>
-            </di    v>
-        </div>
+        <?php if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'customer'): ?>
+            <div class="dropdown">
+                <span class="account-text"><?php echo $_SESSION['user_first_name']; ?></span>
+                <?php if (!empty($_SESSION['user_profile_pic'])): ?>
+                    <img class="page-user-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['user_profile_pic']); ?>" alt="User Avatar">
+                <?php else: ?>
+                    <i class="fas fa-user-circle profile-icon"></i>
+                <?php endif; ?>
+                <div class="dropdown-menu">
+                    <a href="<?php echo URLROOT; ?>/customers/profile">Profile</a>
+                    <a href="<?php echo URLROOT; ?>/users/logout">Logout</a>
+                </div>
+            </div>
+        <?php else: ?>
+            <div class="dropdown">
+                <span class="account-text">Account</span>
+                <i class="fas fa-user dropdown-toggle"></i>
+                <div class="dropdown-menu">
+                    <a href="<?php echo URLROOT; ?>/users/selectCreateAccount">Create Account</a>
+                    <a href="<?php echo URLROOT; ?>/users/login">Sign In</a>
+                </div>
+            </div>
+        <?php endif; ?>
         <i class="fas fa-heart" onclick="requireLogin()"></i>
         <i class="fas fa-shopping-cart" onclick="requireLogin()"></i>
     </div>
 </header>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    const customTailoringLink = document.getElementById('customTailoringLink');
-    const genderSection = document.getElementById('genderSection');
-
-    customTailoringLink.addEventListener('click', function(event) {
-        event.preventDefault();
-        const currentUrl = window.location.href;
-        const homeUrl = '<?php echo URLROOT; ?>/pages/index';
-
-        if (currentUrl.includes(homeUrl)) {
-            // If already on the home page, scroll to the section
-            genderSection.scrollIntoView({
-                behavior: 'smooth'
-            });
-        } else {
-            // Redirect to the home page with the hash
-            window.location.href = homeUrl + '#genderSection';
-        }
-    });
-
-    // Check if the URL contains the hash and scroll to the section
-    if (window.location.hash === '#genderSection') {
-        genderSection.scrollIntoView({
-            behavior: 'smooth'
-        });
-    }
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-    const collectionLink = document.getElementById('collectionLink');
-    const colllection = document.getElementById('colllection');
-
-    collectionLink.addEventListener('click', function(event) {
-        event.preventDefault();
-        const currentUrl = window.location.href;
-        const homeUrl = '<?php echo URLROOT; ?>/pages/mensPage';
-
-        if (currentUrl.includes(homeUrl)) {
-            // If already on the home page, scroll to the section
-            colllection.scrollIntoView({
-                behavior: 'smooth'
-            });
-        } else {
-            // Redirect to the home page with the hash
-            window.location.href = homeUrl + '#colllection';
-        }
-    });
-
-    // Check if the URL contains the hash and scroll to the section
-    if (window.location.hash === '#colllection') {
-        colllection.scrollIntoView({
-            behavior: 'smooth'
-        });
-    }
-});
-</script>

@@ -8,7 +8,12 @@ class Customers extends Controller {
     public function __construct() {
         $this->userModel = $this->model('M_Users');
     }
-
+    public function index(){
+        $data = [
+            'title' => 'Home Page'
+        ];
+        $this->view('pages/v_home_page', $data);
+    }
     public function customerRegister() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Process form

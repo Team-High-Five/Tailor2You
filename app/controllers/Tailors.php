@@ -400,7 +400,7 @@ class Tailors extends Controller
                 redirect('tailors/createPassword');
             } else {
                 // Load view with errors
-                $this->view('users/Tailors/v_t_register', $data);
+                $this->view('users/Tailor/v_t_register', $data);
             }
         } else {
             // Init data
