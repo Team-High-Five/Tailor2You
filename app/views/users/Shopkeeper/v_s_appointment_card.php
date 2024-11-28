@@ -1,11 +1,11 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php'; ?>
 <div class="main-content">
   <div class="appointment-details-container">
     <div class="appointment-header">
       <p>Appointment #1067907</p>
-      <a href="<?php echo URLROOT ?>/Tailors/displayAppointments"><button class="close-btn">&times;</button></a>
+      <a href="<?php echo URLROOT ?>/Shopkeepers/displayAppointments"><button class="close-btn">&times;</button></a>
     </div>
     <div class="appointment-info">
       <p class="appointment-date">22/09/2024 - 4:00 p.m.</p>
@@ -28,4 +28,4 @@
   </div>
 </div>
 
-<?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>

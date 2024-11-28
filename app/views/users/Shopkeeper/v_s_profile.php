@@ -1,10 +1,10 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php'; ?>
 <div class="main-content">
     <div class="profile-form-container">
         <div class="profile-form">
-            <form action="<?php echo URLROOT; ?>/tailors/profileUpdate" method="POST" enctype="multipart/form-data">
+            <form action="<?php echo URLROOT; ?>/Shopkeepers/profileUpdate" method="POST" enctype="multipart/form-data">
                 <div class="profile-pic">
 
                     <div class="profile-pic-wrapper">
@@ -136,4 +136,4 @@
     });
 </script>
 
-<?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>

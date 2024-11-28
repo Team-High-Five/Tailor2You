@@ -2,7 +2,7 @@
   <div class="add-new-fabric-content">
     <div class="modal-header">
       <h1>Add New Fabric</h1>
-      <a href="<?php echo URLROOT ?>/Tailors/displayFabricStock"><button class="close-btn">&times;</button></a>
+      <a href="<?php echo URLROOT ?>/Shopkeepers/displayFabricStock"><button class="close-btn">&times;</button></a>
     </div>
     <div class="upload-section">
       <div class="upload-icon">📷</div>

@@ -1,6 +1,6 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php'; ?>
 <div class="main-content">
   <div class="tailor-container">
     <div class="order-list-container">
@@ -19,7 +19,7 @@
           <!-- Additional status options can go here -->
         </select>
         <button class="reset-filter-btn">Reset Filter</button>
-        <a href="<?php echo URLROOT; ?>/Tailors/displayOrderProgress" class="progress-btn">Order Progress</a>
+        <a href="<?php echo URLROOT; ?>/Shopkeepers/displayOrderProgress" class="progress-btn">Order Progress</a>
       </div>
 
 
@@ -74,4 +74,4 @@
     </div>
   </div>
 </div>
-<?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>

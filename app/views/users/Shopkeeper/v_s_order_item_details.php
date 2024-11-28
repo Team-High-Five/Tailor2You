@@ -1,12 +1,12 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php'; ?>
 
 <div class="main-content">
   <div class="item-details-modal">
     <div class="modal-header">
       <h2>Item Details</h2>
-      <a href="<?php echo URLROOT ?>/Tailors/displayOrderProgress"><button class="close-btn">&times;</button></a>
+      <a href="<?php echo URLROOT ?>/Shopkeepers/displayOrderProgress"><button class="close-btn">&times;</button></a>
     </div>
 
     <div class="modal-body">
@@ -54,4 +54,4 @@
 </div>
 
 
-<?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>

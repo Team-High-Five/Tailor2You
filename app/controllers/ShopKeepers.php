@@ -22,10 +22,9 @@ class Shopkeepers extends Controller
         $this->view('users/Shopkeeper/v_s_dashboard', $data);
     }
 
-
     public function profileUpdate()
     {
-        if (!isset($_SESSION['shopkeeper_id'])) {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
             redirect('users/login');
         }
 
@@ -37,11 +36,11 @@ class Shopkeepers extends Controller
                 $profilePic = file_get_contents($_FILES['profile_pic']['tmp_name']);
             }
 
-            $shopkeeper = $this->shopkeeperModel->getShopkeeperById($_SESSION['shopkeeper_id']);
+            $shopkeeper = $this->userModel->getUserById($_SESSION['user_id']);
 
             $data = [
                 'title' => 'Profile Update',
-                'shopkeeper_id' => $_SESSION['shopkeeper_id'],
+                'user_id' => $_SESSION['user_id'],
                 'first_name' => trim($_POST['first_name']),
                 'last_name' => trim($_POST['last_name']),
                 'email' => trim($_POST['email']),
@@ -53,7 +52,7 @@ class Shopkeepers extends Controller
                 'bio' => trim($_POST['bio']),
                 'category' => trim($_POST['category']),
                 'profile_pic' => $profilePic,
-                'shopkeeper' => $shopkeeper,
+                'user' => $shopkeeper,
                 'first_name_err' => '',
                 'last_name_err' => '',
                 'email_err' => '',
@@ -72,9 +71,10 @@ class Shopkeepers extends Controller
             }
 
             if (empty($data['nic_err'])) {
-                if ($this->shopkeeperModel->updateShopkeeper($data)) {
+                if ($this->userModel->updateUser($data)) {
                     flash('profile_message', 'Profile updated successfully');
-                    $this->updateShopkeeperSession($data);
+                    $shopkeeper = $this->userModel->getUserById($_SESSION['user_id']);
+                    $this->updateShopkeeperSession($shopkeeper);
                     redirect('shopkeepers/profileUpdate');
                 } else {
                     die('Something went wrong');
@@ -83,7 +83,7 @@ class Shopkeepers extends Controller
                 $this->view('users/Shopkeeper/v_s_profile', $data);
             }
         } else {
-            $shopkeeper = $this->shopkeeperModel->getShopkeeperById($_SESSION['shopkeeper_id']);
+            $shopkeeper = $this->userModel->getUserById($_SESSION['user_id']);
 
             if (!$shopkeeper) {
                 flash('profile_message', 'Shopkeeper not found', 'alert alert-danger');
@@ -92,7 +92,7 @@ class Shopkeepers extends Controller
 
             $data = [
                 'title' => 'Profile Update',
-                'shopkeeper' => $shopkeeper,
+                'user' => $shopkeeper,
                 'first_name_err' => '',
                 'last_name_err' => '',
                 'email_err' => '',
@@ -110,20 +110,28 @@ class Shopkeepers extends Controller
         }
     }
 
-    private function updateShopkeeperSession($data)
+    private function updateShopkeeperSession($shopkeeper)
     {
-        $_SESSION['shopkeeper_profile_pic'] = $data['profile_pic'];
-        $_SESSION['shopkeeper_first_name'] = $data['first_name'];
-        $_SESSION['shopkeeper_last_name'] = $data['last_name'];
-        $_SESSION['shopkeeper_email'] = $data['email'];
+        $_SESSION['user_id'] = $shopkeeper->user_id;
+        $_SESSION['user_profile_pic'] = $shopkeeper->profile_pic;
+        $_SESSION['user_first_name'] = $shopkeeper->first_name;
+        $_SESSION['user_last_name'] = $shopkeeper->last_name;
+        $_SESSION['user_email'] = $shopkeeper->email;
+        $_SESSION['user_phone_number'] = $shopkeeper->phone_number;
+        $_SESSION['user_nic'] = $shopkeeper->nic;
+        $_SESSION['user_birth_date'] = $shopkeeper->birth_date;
+        $_SESSION['user_home_town'] = $shopkeeper->home_town;
+        $_SESSION['user_address'] = $shopkeeper->address;
+        $_SESSION['user_bio'] = $shopkeeper->bio;
+        $_SESSION['user_category'] = $shopkeeper->category;
     }
 
-    public function displayStock()
+    public function displayFabricStock()
     {
         $data = [
             'title' => 'Stock'
         ];
-        $this->view('users/Shopkeeper/v_s_stock', $data);
+        $this->view('users/Shopkeeper/v_s_fabric', $data);
     }
 
     public function addNewItem()
@@ -131,7 +139,7 @@ class Shopkeepers extends Controller
         $data = [
             'title' => 'Add New Item'
         ];
-        $this->view('users/Shopkeeper/v_s_add_new_item', $data);
+        $this->view('users/Shopkeeper/v_s_fabric_add_new', $data);
     }
 
     public function displayOrders()
@@ -142,6 +150,15 @@ class Shopkeepers extends Controller
         $this->view('users/Shopkeeper/v_s_order_list', $data);
     }
 
+    public function displayOrderProgress()
+    {
+
+        $data = [
+            'title' => 'Order Progress'
+        ];
+        $this->view('users/Shopkeeper/v_s_order_progress', $data);
+    }
+
     public function displayOrderDetails()
     {
         $data = [
@@ -149,6 +166,15 @@ class Shopkeepers extends Controller
         ];
         $this->view('users/Shopkeeper/v_s_order_item_details', $data);
     }
+
+    public function displayOrderMeasurements()
+    {
+        $data = [
+            'title' => 'Order Meassurements'
+        ];
+        $this->view('users/Shopkeeper/v_s_order_item_measurements', $data);
+    }
+
 
     public function displayAppointments()
     {
@@ -171,18 +197,104 @@ class Shopkeepers extends Controller
         $data = [
             'title' => 'Calendar'
         ];
-        $this->view('users/Shopkeeper/v_s_calendar', $data);
+        $this->view('users/Shopkeeper/v_s_appointment_calendar', $data);
     }
 
+    public function displayPortfolio()
+    {
+        $posts = $this->userModel->getPostsByUserId($_SESSION['user_id']);
+        $data = [
+            'title' => 'Portfolio',
+            'posts' => $posts
+        ];
+        $this->view('users/Shopkeeper/v_s_portfolio', $data);
+    }
+
+    public function addNewPost()
+    {
+        $data = [
+            'title' => 'Add New Post'
+        ];
+
+        $this->view('users/Shopkeeper/v_s_add_new_post', $data);
+    }
+
+    public function addPost()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $image = null;
+            if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+                $image = file_get_contents($_FILES['image']['tmp_name']);
+            }
+
+            $data = [
+                'user_id' => $_SESSION['user_id'],
+                'title' => trim($_POST['title']),
+                'description' => trim($_POST['description']),
+                'image' => $image
+            ];
+
+            if ($this->userModel->addPost($data)) {
+                flash('post_message', 'Post added successfully');
+                redirect('shopkeepers/displayPortfolio');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            $data = [
+                'title' => 'Add New Post'
+            ];
+            $this->view('users/Shopkeeper/v_s_add_new_post', $data);
+        }
+    }
+
+    public function displayCustomizeItems()
+    {
+        $data = [
+            'title' => 'Customize Items'
+        ];
+        $this->view('users/Shopkeeper/v_s_customize_item_list', $data);
+    }
+
+    public function displayCustomizeItemDetails()
+    {
+        $data = [
+            'title' => 'Customize Item Details'
+        ];
+        $this->view('users/Shopkeeper/v_s_customize_add_new_continue', $data);
+    }
+
+    public function addCustomizeItem()
+    {
+        $data = [
+            'title' => 'Add Customize Item'
+        ];
+        $this->view('users/Shopkeeper/v_s_customize_add_new', $data);
+    }
+
+    public function displayEmployees()
+    {
+  
+        $data = [
+            'title' => 'Employees'
+        ];
+        $this->view('users/Shopkeeper/v_s_employee', $data);
+    }
+    public function addNewEmployee()
+    {
+        $data = [
+            'title' => 'Add New Employee'
+        ];
+        $this->view('users/Shopkeeper/v_s_employee_add_new', $data);
+    }
 
     public function shopkeeperRegister()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Process form
-            // Sanitize post data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            // Input data
             $data = [
                 'user_type' => 'shopkeeper',
                 'first_name' => trim($_POST['first_name']),
@@ -203,65 +315,49 @@ class Shopkeepers extends Controller
                 'address_err' => ''
             ];
 
-            // Validate inputs
-            // Validate email
             if (empty($data['email'])) {
                 $data['email_err'] = 'Please enter email';
             } else {
-                // Check email
                 if ($this->userModel->findUserByEmail($data['email'])) {
                     $data['email_err'] = 'Email is already taken';
                 }
             }
 
-            // Validate first name
             if (empty($data['first_name'])) {
                 $data['first_name_err'] = 'Please enter first name';
             }
 
-            // Validate last name
             if (empty($data['last_name'])) {
                 $data['last_name_err'] = 'Please enter last name';
             }
 
-            // Validate phone number
             if (empty($data['phone_number'])) {
                 $data['phone_number_err'] = 'Please enter phone number';
             }
 
-            // Validate NIC
             if (empty($data['nic'])) {
                 $data['nic_err'] = 'Please enter NIC number';
             }
 
-            // Validate birth date
             if (empty($data['birth_date'])) {
                 $data['birth_date_err'] = 'Please enter birth date';
             }
 
-            // Validate home town
             if (empty($data['home_town'])) {
                 $data['home_town_err'] = 'Please enter home town';
             }
 
-            // Validate address
             if (empty($data['address'])) {
                 $data['address_err'] = 'Please enter address';
             }
 
-            // Make sure errors are empty
             if (empty($data['email_err']) && empty($data['first_name_err']) && empty($data['last_name_err']) && empty($data['phone_number_err']) && empty($data['nic_err']) && empty($data['birth_date_err']) && empty($data['home_town_err']) && empty($data['address_err'])) {
-                // Store validated data in session
-                $_SESSION['tailor_register_data'] = $data;
-
-                // Redirect to create password page
-                redirect('Shopkeepers/createPassword');
+                $_SESSION['shopkeeper_register_data'] = $data;
+                redirect('shopkeepers/createPassword');
             } else {
-                // Load view with errors
                 $this->view('users/Shopkeeper/v_s_register', $data);
             }
         } else {
-            // Init data
             $data = [
                 'first_name' => '',
                 'last_name' => '',
@@ -281,7 +377,6 @@ class Shopkeepers extends Controller
                 'address_err' => ''
             ];
 
-            // Load view
             $this->view('users/Shopkeeper/v_s_register', $data);
         }
     }
@@ -289,11 +384,8 @@ class Shopkeepers extends Controller
     public function createPassword()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Process form
-            // Sanitize post data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            // Input data
             $data = [
                 'password' => trim($_POST['password']),
                 'confirm_password' => trim($_POST['confirm_password']),
@@ -301,14 +393,12 @@ class Shopkeepers extends Controller
                 'confirm_password_err' => ''
             ];
 
-            // Validate password
             if (empty($data['password'])) {
                 $data['password_err'] = 'Please enter password';
             } elseif (strlen($data['password']) < 6) {
                 $data['password_err'] = 'Password must be at least 6 characters';
             }
 
-            // Validate confirm password
             if (empty($data['confirm_password'])) {
                 $data['confirm_password_err'] = 'Please confirm password';
             } else {
@@ -317,16 +407,12 @@ class Shopkeepers extends Controller
                 }
             }
 
-            // Make sure errors are empty
             if (empty($data['password_err']) && empty($data['confirm_password_err'])) {
-                // Hash password
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
-                // Get the rest of the data from the session
-                $shopkeeperData = $_SESSION['tailor_register_data'];
+                $shopkeeperData = $_SESSION['shopkeeper_register_data'];
                 $shopkeeperData['password'] = $data['password'];
 
-                // Register tailor
                 if ($this->userModel->register($shopkeeperData)) {
                     flash('register_success', 'You are registered and can log in');
                     redirect('users/login');
@@ -334,11 +420,9 @@ class Shopkeepers extends Controller
                     die('Something went wrong');
                 }
             } else {
-                // Load view with errors
                 $this->view('users/Shopkeeper/v_s_createpassword', $data);
             }
         } else {
-            // Init data
             $data = [
                 'password' => '',
                 'confirm_password' => '',
@@ -346,7 +430,6 @@ class Shopkeepers extends Controller
                 'confirm_password_err' => ''
             ];
 
-            // Load view
             $this->view('users/Shopkeeper/v_s_createpassword', $data);
         }
     }

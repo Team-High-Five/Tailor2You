@@ -1,6 +1,6 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php'; ?>
 <div class="main-content">
   <div class="order-progress-container">
     <div class="filter-bar">
@@ -42,7 +42,7 @@
         <div class="action-buttons">
           <button class="assign-button">Assign a Tailor ▼</button>
           <button class="status-button">Order Status ▼</button>
-          <a href="<?php echo URLROOT ?>/Tailors/displayOrderDetails"><button class="view-order">View Order</button></a>
+          <a href="<?php echo URLROOT ?>/Shopkeepers/displayOrderDetails"><button class="view-order">View Order</button></a>
         </div>
       </div>
     </div>
@@ -79,4 +79,4 @@
     </div>
   </div>
 </div>
-<?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>
