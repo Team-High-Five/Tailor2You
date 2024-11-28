@@ -15,7 +15,7 @@
 .modal-body {
     background-color: #fff;
     margin: 5% auto;
-    padding: 20px;
+    padding: 10px 0;
     border: 1px solid #888;
     width: 80%;
     max-width: 600px;
@@ -23,6 +23,7 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     animation: fadeIn 0.3s ease;
 }
+
 
 @keyframes fadeIn {
     from {
@@ -180,48 +181,60 @@
     outline: none;
 }
 
-/* Color Options */
-.color-options {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-    justify-content: center;
-    /* Center the color options */
+/* Delete Modal Styles */
+/* Modal Content */
+.delete-modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+    max-width: 500px; /* Maximum width */
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+/* Modal Body */
+.modal-body {
+    padding: 10px 0;
 }
 
-.color-circle {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+
+/* Close Button */
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
     cursor: pointer;
-    border: 2px solid transparent;
-    transition: border-color 0.3s ease;
 }
 
-.color-circle.black {
-    background-color: black;
+/* Submit Button */
+.submit-btn {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 10px;
 }
 
-.color-circle.red {
-    background-color: red;
+/* Cancel Button */
+.cancel-btn {
+    background-color: #5bc0de;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
 }
 
-.color-circle.blue {
-    background-color: blue;
+/* Button Hover Effects */
+.submit-btn:hover {
+    background-color: #c9302c;
 }
 
-.color-circle.purple {
-    background-color: purple;
-}
-
-.color-circle.orange {
-    background-color: orange;
-}
-
-.color-circle.yellow {
-    background-color: yellow;
-}
-
-.color-circle:hover {
-    border-color: #6c63ff;
+.cancel-btn:hover {
+    background-color: #31b0d5;
 }

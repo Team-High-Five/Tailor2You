@@ -14,7 +14,7 @@
     </div>
     <div class="photo-section">
         <div class="photo-container">
-            <img src="<?php echo URLROOT; ?>/public/img/Add_Image.png" alt="Profile Picture" id="profile-preview">
+            <img src="<?php echo URLROOT; ?>/public/img/add-image.png" alt="Profile Picture" id="profile-preview">
             <p class="change-photo">Change Photo</p>
         </div>
     </div>

@@ -1,10 +1,13 @@
 <?php
-
+require_once APPROOT . '/helpers/url_helper.php';
+require_once APPROOT . '/helpers/session_helper.php';
 class Pages extends Controller{
     private $pageModel;
+    private $userModel;
     public function __construct(){
         //load the model
         $this->pageModel = $this->model('M_Pages');
+        $this->userModel = $this->model('M_Users');
     }
     public function index(){
         $data = [

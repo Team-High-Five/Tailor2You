@@ -82,7 +82,7 @@ class Users extends Controller
                 redirect('tailors/index');
                 break;
             case 'customer':
-                redirect('customers/index');
+                redirect('pages/index');
                 break;
             case 'shopkeeper':
                 redirect('shopkeepers/index');

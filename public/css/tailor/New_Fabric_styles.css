@@ -1,128 +1,180 @@
-.add-new-fabric-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background-color: #fff;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    width: 100%;
-    max-width: 600px;
-    margin: 20px auto; /* Add margin to separate from the edges */
+:root {
+    --primary: #6a5acd;
+    --primary-hover: #5849b8;
+    --text: #333;
+    --text-light: #666;
+    --border: #e0e0e0;
+    --background: #f4f4f8;
+    --white: #fff;
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
-.add-new-fabric-container .modal-header {
+.add-new-fabric-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: var(--white);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    padding: 2rem;
+}
+
+.modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
-    padding-bottom: 20px;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 20px;
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
 }
 
-.add-new-fabric-container .modal-header h1 {
-    font-size: 24px;
-    color: #333;
+.modal-header h1 {
+    font-size: 1.5rem;
+    color: var(--text);
+    font-weight: 600;
 }
 
-/* Fabric Form Container */
-.fabric-form-container {
-    background-color: #fff;
-    width: 100%;
-    max-width: 600px;
-    text-align: center;
-    padding: 20px;
-    border-radius: 12px;
+.close-btn {
+    font-size: 1.5rem;
+    color: var(--text-light);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s;
 }
 
-/* Upload Section */
+.close-btn:hover {
+    color: var(--text);
+}
+
 .upload-section {
-    margin-bottom: 20px;
     text-align: center;
+    margin-bottom: 2rem;
+    padding: 2rem;
+    border: 2px dashed var(--border);
+    border-radius: 8px;
+    transition: border-color 0.3s;
+}
+
+.upload-section:hover {
+    border-color: var(--primary);
 }
 
 .upload-icon {
-    font-size: 40px;
-    color: #666;
+    font-size: 2.5rem;
+    color: var(--text-light);
+    margin-bottom: 0.5rem;
 }
 
 .upload-text {
-    display: block;
-    margin-top: 10px;
-    color: #6c63ff;
+    color: var(--primary);
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 500;
 }
 
-/* Form Group */
 .form-group {
-    margin-bottom: 20px;
-    text-align: left;
+    margin-bottom: 1.5rem;
 }
 
 .form-group label {
     display: block;
-    font-size: 14px;
-    margin-bottom: 5px;
-    color: #333;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+    font-weight: 500;
 }
 
-.form-group input[type="text"] {
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group input[type="file"] {
     width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: all 0.3s;
 }
 
-.form-group input[type="text"]:focus {
-    border-color: #6c63ff;
+.form-group input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(106, 90, 205, 0.2);
     outline: none;
 }
 
-/* Color Options */
-.color-options {
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.checkbox-group label {
     display: flex;
-    gap: 10px;
-    margin-top: 10px;
-    justify-content: center; /* Center the color options */
-}
-
-.color-circle {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+    align-items: center;
+    gap: 0.5rem;
     cursor: pointer;
-    border: 2px solid transparent;
-    transition: border-color 0.3s ease;
 }
 
-.color-circle.black {
-    background-color: black;
+.color-swatch {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
 }
 
-.color-circle.red {
-    background-color: red;
+.submit-btn {
+    width: 100%;
+    padding: 0.875rem;
+    background: var(--primary);
+    color: var(--white);
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
-.color-circle.blue {
-    background-color: blue;
+.submit-btn:hover {
+    background: var(--primary-hover);
 }
 
-.color-circle.purple {
-    background-color: purple;
+/* Color swatches */
+.color-swatch[data-color="Black"] {
+    background-color: #000000;
 }
 
-.color-circle.orange {
-    background-color: orange;
+.color-swatch[data-color="Red"] {
+    background-color: #FF0000;
 }
 
-.color-circle.yellow {
-    background-color: yellow;
+.color-swatch[data-color="Blue"] {
+    background-color: #0000FF;
 }
 
-.color-circle:hover {
-    border-color: #6c63ff;
+.color-swatch[data-color="Purple"] {
+    background-color: #800080;
+}
+
+.color-swatch[data-color="Orange"] {
+    background-color: #FFA500;
+}
+
+.color-swatch[data-color="Yellow"] {
+    background-color: #FFFF00;
+}
+
+.color-swatch[data-color="Green"] {
+    background-color: #008000;
+}
+
+.color-swatch[data-color="White"] {
+    background-color: #FFFFFF;
+    border: 1px solid #e0e0e0;
+}
+
+.color-swatch[data-color="Gray"] {
+    background-color: #808080;
+}
+
+.color-swatch[data-color="Pink"] {
+    background-color: #FFC0CB;
 }

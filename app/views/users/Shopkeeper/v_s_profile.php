@@ -9,7 +9,7 @@
 
                     <div class="profile-pic-wrapper">
                         <?php if (empty($data['user']->profile_pic)): ?>
-                            <img src="<?php echo URLROOT; ?>/public/img/Add_Image.png" alt="Profile Picture" id="profile-preview">
+                            <img src="<?php echo URLROOT; ?>/public/img/add-image.png" alt="Profile Picture" id="profile-preview">
                         <?php else: ?>
                             <img src="data:image/jpeg;base64,<?php echo base64_encode($data['user']->profile_pic); ?>" alt="Profile Picture" id="profile-preview">
                         <?php endif; ?>
