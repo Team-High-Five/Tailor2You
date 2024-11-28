@@ -5,7 +5,7 @@
       <button class="close-btn">&times;</button>
     </div>
     <div class="customization-form-container">
-      <form action="<?php echo URLROOT; ?>/tailors/addNewCustomizeItem" method="POST">
+      <form action="<?php echo URLROOT; ?>/Shopkeepers/displayCustomizeItemDetails" method="POST">
         <div class="form-group">
           <label>Gender</label>
           <div class="radio-group">

@@ -1,6 +1,6 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php'; ?>
 <div class="main-content">
     <div class="top-row">
         <div class="category-section">
@@ -107,9 +107,9 @@
                 </td>
             </tr>
         </table>
-        <button class="add-new">+ Add New</button>
-        <button class="btn-cancel">Cancel</button>
+        <button class="add-new">Submit</button>
+        <button class="btn-cancel">Reset</button>
     </div>
 </div>
 
-<?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>

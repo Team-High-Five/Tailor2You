@@ -1,6 +1,6 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php'; ?>
 <div class="main-content">
   <div class="appointment-list-container">
     <div class="filter-bar">
@@ -18,7 +18,7 @@
         <!-- Add more statuses as needed -->
       </select>
       <button class="reset-filter-btn">Reset Filter</button>
-      <a href="<?php echo URLROOT; ?>/Tailors/displayCalendar" class="progress-btn">Calender</a>
+      <a href="<?php echo URLROOT; ?>/Shopkeepers/displayCalendar" class="progress-btn">Calender</a>
     </div>
 
     <table class="appointment-table">
@@ -35,7 +35,7 @@
       <tbody>
         <tr>
           <td>00001</td>
-          <td><a href="<?php echo URLROOT; ?>/tailors/displayAppointmentDetails" class="appointment-link" data-id="1067907">Christine
+          <td><a href="<?php echo URLROOT; ?>/Shopkeepers/displayAppointmentDetails" class="appointment-link" data-id="1067907">Christine
               Brooks</a></td>
           <td>
             <select class="assign-tailor">
@@ -96,7 +96,7 @@
   document.getElementById('1067907').addEventListener('click', function() {
     document.getElementById('AppointmentCard').style.display = 'block';
     // Load the content of v_t_customize_add_new.php into the modal
-    fetch('<?php echo URLROOT; ?>/tailors/displayAppointmentDetails')
+    fetch('<?php echo URLROOT; ?>/Shopkeepers/displayAppointmentDetails')
       .then(response => response.text())
       .then(html => {
         document.getElementById('modal-body').innerHTML = html;
@@ -113,4 +113,4 @@
     }
   });
 </script>
-<?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>

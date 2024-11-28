@@ -1,6 +1,6 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php'; ?>
 <div class="main-content">
   <button class="add-fabric-btn" id="openModalBtn">Add New Design</button>
   <div class="filter-bar">
@@ -80,7 +80,7 @@
   document.getElementById('openModalBtn').addEventListener('click', function() {
     document.getElementById('customizeModal').style.display = 'block';
     // Load the content of v_t_customize_add_new.php into the modal
-    fetch('<?php echo URLROOT; ?>/tailors/addCustomizeItem')
+    fetch('<?php echo URLROOT; ?>/Shopkeepers/addCustomizeItem')
       .then(response => response.text())
       .then(html => {
         document.getElementById('modal-body').innerHTML = html;
@@ -98,4 +98,4 @@
   });
 </script>
 
-<?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>

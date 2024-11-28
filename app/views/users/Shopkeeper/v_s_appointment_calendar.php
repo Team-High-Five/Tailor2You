@@ -1,6 +1,6 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php'; ?>
 <div class="main-content">
 
   <div class="calendar">
@@ -23,10 +23,11 @@
       <div class="day"></div>
       <div class="day"></div>
       <div class="day"></div>
-      <div class="day">1</div>
+      <div class="day">1<div class="appointment">Appointment#01</div>
+      </div>
       <div class="day">2</div>
 
-      <div class="day">3<div class="appointment">Appointment#01</div>
+      <div class="day">3<div class="appointment">Appointment#02</div>
       </div>
       <div class="day">4</div>
       <div class="day">5</div>
@@ -39,7 +40,8 @@
       <div class="day">11</div>
       <div class="day">12</div>
       <div class="day">13</div>
-      <div class="day">14</div>
+      <div class="day">14<div class="order">Order#01</div>
+      </div>
       <div class="day">15</div>
       <div class="day">16</div>
 
@@ -49,12 +51,12 @@
       <div class="day">20</div>
       <div class="day">21</div>
       <div class="day">22</div>
-      <div class="day">23<div class="appointment">Appointment#1</div>
+      <div class="day">23<div class="appointment">Appointment#03</div>
       </div>
 
       <div class="day">24</div>
       <div class="day">25</div>
-      <div class="day">26<div class="order">Order#01</div>
+      <div class="day">26<div class="order">Order#02</div>
       </div>
       <div class="day">27</div>
       <div class="day">28</div>
@@ -63,4 +65,4 @@
     </div>
   </div>
 </div>
-<?php require_once APPROOT . '/views/users/Tailor/inc/Footer.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/Footer.php'; ?>

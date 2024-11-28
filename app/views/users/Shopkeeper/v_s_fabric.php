@@ -1,6 +1,6 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php'; ?>
 
 <div class="main-content">
   <button class="add-fabric-btn" id="openFabricModalBtn">Add New Fabric</button>
@@ -20,7 +20,7 @@
       </thead>
       <tbody>
         <tr>
-          <td><img src="https://via.placeholder.com/50" alt="Linen" class="product-image"></td>
+          <td><img src="../<?php APPROOT ?>/public/img/fabric.png"></td>
           <td>Linen</td>
           <td>001</td>
           <td>$690.00</td>
@@ -71,4 +71,4 @@
   });
 </script>
 
-<?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>
