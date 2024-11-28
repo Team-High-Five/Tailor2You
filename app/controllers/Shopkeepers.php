@@ -9,7 +9,7 @@ class Shopkeepers extends Controller
 
     public function __construct()
     {
-        $this->shopkeeperModel = $this->model('M_Shopkeeper');
+        $this->shopkeeperModel = $this->model('M_Shopkeepers');
         $this->userModel = $this->model('M_Users');
     }
 
