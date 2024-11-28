@@ -58,7 +58,7 @@
             </div>
         </section>
         <div class="under-button">
-            <button class="under_button">Continue</button>
+        <a href="<?php echo URLROOT ?>/Designs/selectColor"><button class="under_button">Continue</button></a>
         </div>
     </div>
 </body>
