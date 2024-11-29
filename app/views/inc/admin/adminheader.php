@@ -15,7 +15,7 @@
     <!-- Header Section -->
     <header class="header">
         <div class="logo">
-            <img src="../public/img/admin/logo.jpg" alt="Tailor2You Logo"> <!-- Replace with your logo image path -->
+            <img src="../public/img/admin/logo.jpg" alt="Tailor2You Logo">
         </div>
         <div class="profile-section">
             <i class="fas fa-bell"></i>
