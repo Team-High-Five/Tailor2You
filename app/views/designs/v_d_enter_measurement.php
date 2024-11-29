@@ -26,7 +26,7 @@
               <option>12</option>         
             </select>
           </td>
-          <td><button style="background-color: #d9b99b;">Collar Designs</button></td>
+          <td><a href="<?php echo URLROOT ?>/Designs/collarDesigns"><button style="background-color: #d9b99b;">Collar Designs</button></a></td>
         </tr>
         <tr>
           <td>Chest</td>

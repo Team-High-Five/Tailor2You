@@ -40,5 +40,12 @@ class Designs extends Controller {
         ];
         $this->view('Designs/v_d_placed_order', $data);
     }
+
+    public function collarDesigns() {
+        $data=[
+           'title' => 'Collar Designs '
+        ];
+        $this->view('Designs/v_d_collar_designs', $data);
+    }
 }
 
