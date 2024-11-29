@@ -14,6 +14,7 @@ $user = [
     'profile_pic' => 'path_to_image.jpg' // Replace with actual image path
 ];
 ?>
+<div class="complaint-form">
 <div class="container">
     <!-- User Info Section -->
     <div class="form-section">
@@ -62,6 +63,7 @@ $user = [
             </form>
         </div>
     </div>
+</div>
 </div>
 
 <script>

@@ -72,6 +72,33 @@ class admin extends controller
         $this->view('users/Admin/v_a_refundPayments');
 
     }
+    public function editShopkeeper()
+    {
+        $data = [];
+
+        $this->view('users/Admin/v_a_editShopkeeper');
+
+    }
+    public function viewComplaints()
+    {
+        $data = [];
+
+        $this->view('users/Admin/v_a_viewComplaints');
+
+    }
+    public function viewRefunds()
+    {
+        $data = [];
+
+        $this->view('users/Admin/v_a_viewRefunds');
+    }
+    public function viewReviews()
+    {
+        $data = [];
+
+        $this->view('users/Admin/v_a_viewReviews');
+
+    }
 
 }
 ?>
