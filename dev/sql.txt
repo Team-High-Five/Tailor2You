@@ -28,24 +28,20 @@ CREATE TABLE `posts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `fabrics` (
-  `fabric_id` INT(5) NOT NULL AUTO_INCREMENT,
-  `tailor_id` INT(5) NOT NULL, 
-  `fabric_name` VARCHAR(50) NOT NULL,
-  `image` LONGBLOB DEFAULT NULL,
-  `price_per_meter` DECIMAL(10, 2) NOT NULL,
-  `stock` DECIMAL(10, 2) NOT NULL, 
-  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
-  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`fabric_id`),
-  FOREIGN KEY (`tailor_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE 
+  `fabric_id` int(5) NOT NULL,
+  `user_id` int(5) NOT NULL,
+  `fabric_name` varchar(50) NOT NULL,
+  `image` longblob DEFAULT NULL,
+  `price_per_meter` decimal(10,2) NOT NULL,
+  `stock` decimal(10,2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `colors` (
   `color_id` INT(5) NOT NULL AUTO_INCREMENT,
-  `tailor_id` INT(5) NOT NULL,
   `color_name` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`color_id`),
-  FOREIGN KEY (`tailor_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
+  PRIMARY KEY (`color_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `fabric_colors` (
@@ -58,13 +54,13 @@ CREATE TABLE `fabric_colors` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Insert some initial data
-INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Black');
-INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Red');
-INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Blue');
-INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Purple');
-INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Orange');
-INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Yellow');
-INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Green');
-INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'White');
-INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Gray');
-INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Pink');
+INSERT INTO `colors` (`color_name`) VALUES ('Black');
+INSERT INTO `colors` (`color_name`) VALUES ('Red');
+INSERT INTO `colors` (`color_name`) VALUES ('Blue');
+INSERT INTO `colors` (`color_name`) VALUES ('Purple');
+INSERT INTO `colors` (`color_name`) VALUES ('Orange');
+INSERT INTO `colors` (`color_name`) VALUES ('Yellow');
+INSERT INTO `colors` (`color_name`) VALUES ('Green');
+INSERT INTO `colors` (`color_name`) VALUES ('White');
+INSERT INTO `colors` (`color_name`) VALUES ('Gray');
+INSERT INTO `colors` (`color_name`) VALUES ('Pink');

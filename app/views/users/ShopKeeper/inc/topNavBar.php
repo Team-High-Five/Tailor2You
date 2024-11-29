@@ -14,7 +14,7 @@
           <a href="<?php echo URLROOT; ?>/Users/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>
       </div>
-      <a href="<?php echo URLROOT ?>/Tailors/profileUpdate">
+      <a href="<?php echo URLROOT ?>/Shopkeepers/profileUpdate">
         <div class="user-info">
           <span>
             <?php if (isset($_SESSION['user_first_name'])): ?>
