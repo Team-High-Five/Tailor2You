@@ -33,5 +33,12 @@ class Designs extends Controller {
         ];
         $this->view('Designs/v_d_enter_measurement', $data);
     }
+
+    public function PlacedOrder() {
+        $data=[
+           'title' => 'Placed Order '
+        ];
+        $this->view('Designs/v_d_placed_order', $data);
+    }
 }
 
