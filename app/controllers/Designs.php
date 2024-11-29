@@ -27,7 +27,7 @@ class Designs extends Controller {
         $this->view('Designs/v_d_select_color', $data);
     }
 
-    public function EnterMeasurement() {
+    public function enterMeasurement() {
         $data=[
            'title' => 'Enter Measurement '
         ];
@@ -48,7 +48,14 @@ class Designs extends Controller {
         $this->view('Designs/v_d_cuff_designs', $data);
     }
 
-    public function PlacedOrder() {
+    public function appointment() {
+        $data=[
+           'title' => 'Appointment '
+        ];
+        $this->view('Designs/v_d_appointment', $data);
+    }
+
+    public function placedOrder() {
         $data=[
            'title' => 'Placed Order '
         ];

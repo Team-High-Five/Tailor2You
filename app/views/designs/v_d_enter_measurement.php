@@ -154,13 +154,13 @@
               <option>12</option>  
             </select>
           </td>
-          <td><button style="background-color: #d9b99b;">Cuff Designs</button></td>
+          <td><a href="<?php echo URLROOT ?>/Designs/cuffDesigns"><button style="background-color: #d9b99b;">Cuff Designs</button></a></td>
         </tr>
       </tbody>
     </table>
 
     <div class="buttons">
-      <button>Submit</button>
+    <a href="<?php echo URLROOT ?>/Designs/appointment"><button>Submit</button></a>
     </div>
   </div>
 </body>
