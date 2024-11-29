@@ -14,37 +14,37 @@ function isCurrentPage($page)
     <img src="../<?php APPROOT ?>/public/img/logo.png" alt="Logo" />
   </a>
   <div id="Dashboard" class="sidebar-icon <?php echo isCurrentPage('index') ? 'active' : ''; ?>">
-    <a href="<?php echo URLROOT ?>/Tailors/index">
+    <a href="<?php echo URLROOT ?>/Shopkeepers/index">
       <img src="../<?php APPROOT ?>/public/img/Home.png">
     </a>
   </div>
-  <div id="Profile" class="sidebar-icon <?php echo isCurrentPage('profileUpdate') ? 'active' : ''; ?>">
-    <a href="<?php echo URLROOT ?>/Tailors/profileUpdate">
+  <div id="Portfolio" class="sidebar-icon <?php echo isCurrentPage('profileUpdate') ? 'active' : ''; ?>">
+    <a href="<?php echo URLROOT ?>/Shopkeepers/profileUpdate">
       <img src="../<?php APPROOT ?>/public/img/Customer.png">
     </a>
   </div>
   <div id="Orders" class="sidebar-icon <?php echo isCurrentPage('displayOrders') ? 'active' : ''; ?>">
-    <a href="<?php echo URLROOT ?>/Tailors/displayOrders">
+    <a href="<?php echo URLROOT ?>/Shopkeepers/displayOrders">
       <img src="../<?php APPROOT ?>/public/img/Purchase_Order.png">
     </a>
   </div>
   <div id="Appointments" class="sidebar-icon <?php echo isCurrentPage('displayAppointments') ? 'active' : ''; ?>">
-    <a href="<?php echo URLROOT ?>/Tailors/displayAppointments">
+    <a href="<?php echo URLROOT ?>/Shopkeepers/displayAppointments">
       <img src="../<?php APPROOT ?>/public/img/Calendar.png">
     </a>
   </div>
   <div id="Customizations" class="sidebar-icon">
-    <a href="<?php echo URLROOT ?>/Tailors/displayCustomizeItems">
+    <a href="<?php echo URLROOT ?>/Shopkeepers/displayCustomizeItems">
       <img src="../<?php APPROOT ?>/public/img/Adjust.png">
     </a>
   </div>
   <div id="Inventory" class="sidebar-icon <?php echo isCurrentPage('displayFabricStock') ? 'active' : ''; ?>">
-    <a href="<?php echo URLROOT ?>/Tailors/displayFabricStock">
+    <a href="<?php echo URLROOT ?>/Shopkeepers/displayFabricStock">
       <img src="../<?php APPROOT ?>/public/img/Shopping_bag.png">
     </a>
   </div>
   <div id="Employee" class="sidebar-icon <?php echo isCurrentPage('displayEmployee') ? 'active' : ''; ?>">
-    <a href="<?php echo URLROOT ?>/Tailors/displayEmployee">
+    <a href="<?php echo URLROOT ?>/Shopkeepers/displayEmployees">
       <img src="../<?php APPROOT ?>/public/img/employee.png">
     </a>
   </div>

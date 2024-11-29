@@ -1,10 +1,11 @@
 <?php require_once APPROOT . '/views/pages/inc/header.php'; ?>
 <?php require_once APPROOT . '/views/pages/inc/components/topnav.php'; ?>
 <!-- slider -->
-<?php require_once APPROOT . '/views/pages/inc/components/slidebar.php'; ?>
+<?php require_once APPROOT . '/views/pages/inc/components/main_slidebar.php'; ?>
 <!-- Shop by Category Section -->
 <section class="category">
     <div class="topic">Shop By Category</div><br>
+    <div class="topic-soon">Available Soon</div>
     <div class="category-grid">
         <button class="category-item" style="background-image: url('<?php echo URLROOT; ?>/public/img/home/men.jpg');">
             <h1>Men</h1>
@@ -20,8 +21,8 @@
         </button>
     </div>
 </section>
-<!-- Image Section 
-    <section class="image-section">
+<!-- Image Section -->
+    <!-- <section class="image-section">
         <img src="image/image.png" alt="Tailoring Image">
     </section> -->
 <!-- Book Appointment Section -->
@@ -30,12 +31,12 @@
     <div class="italic">Meet with Expert Tailors.</div><br><br>
     <button class="large-button">Book an Appointment</button>
 </section>
-
+<span id="genderSection"></span>
+<?php require_once APPROOT . '/views/pages/inc/components/gender_selection.php'; ?>
 <!-- Feedback Section -->
 <section class="feedback">
     <div class="feedback-header">
         <p class="sub-heading">Your words matter</p>
-
     </div>
     <div class="feedback-container">
         <!-- Feedback Cards -->

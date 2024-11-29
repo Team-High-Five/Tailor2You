@@ -22,7 +22,7 @@
                     </a>
                 </div>
                 <div class="option customer">
-                    <a href="#">
+                    <a href="<?php echo URLROOT?>/Customers/customerRegister">
                         <button class="customer-btn">Customer</button>
                     </a>
                 </div>

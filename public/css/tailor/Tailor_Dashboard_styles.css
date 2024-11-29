@@ -1,9 +1,12 @@
+/* Container for the stats cards */
 .stats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1.5rem;
+  width: 100%;
 }
 
+/* Card styles */
 .card {
   background: white;
   border-radius: 12px;
@@ -29,10 +32,7 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: linear-gradient(45deg,
-      transparent,
-      var(--primary-color),
-      transparent);
+  background: linear-gradient(45deg, transparent, var(--primary-color), transparent);
   transform: rotate(-45deg);
   opacity: 0.1;
   transition: all 0.3s ease;
@@ -42,63 +42,43 @@
   opacity: 0.2;
 }
 
+/* Card icon styles */
 .card-icon {
-  font-size: 3rem;
+  font-size: 2rem;
   margin-bottom: 1rem;
-  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
-.card h3 {
-  font-size: 1.2rem;
-  color: var(--text-color);
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-}
-
+/* Card value styles */
 .card-value {
-  font-size: 2.2rem;
-  font-weight: 700;
-  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 1rem 0;
 }
 
+/* Card trend styles */
 .card-trend {
-  font-size: 0.9rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 0.5rem;
+  font-size: 1rem;
+  color: var(--text-muted);
 }
 
 .trend-up {
-  color: #00c853;
+  color: green;
 }
 
 .trend-down {
-  color: #d50000;
+  color: red;
 }
 
 .trend-icon {
-  margin-right: 0.3rem;
+  margin-right: 0.5rem;
 }
 
-@keyframes pulse {
-  0% {
-    transform: scale(1);
+/* Responsive Design */
+@media (max-width: 768px) {
+  .stats {
+    grid-template-columns: 1fr;
   }
-
-  50% {
-    transform: scale(1.05);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-.card:hover .card-value {
-  animation: pulse 1s infinite;
 }

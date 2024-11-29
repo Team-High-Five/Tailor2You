@@ -90,6 +90,14 @@
     letter-spacing: 0.8px;
     color: var(--text-light);
 }
+.page-user-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: 10px;
+    cursor: pointer;
+}
 
 .dropdown-menu {
     position: absolute;

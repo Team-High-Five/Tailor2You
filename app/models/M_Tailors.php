@@ -8,70 +8,119 @@ class M_Tailors
     {
         $this->db = new Database;
     }
-    public function findTailorByEmail($email)
-    {
-        $this->db->query('SELECT * FROM tailors WHERE email = :email');
-        $this->db->bind(':email', $email);
-        $row = $this->db->single();
-        return $row ? $row : false;
-    }
 
     public function getTailorById($id)
     {
-        $this->db->query('SELECT * FROM tailors WHERE tailor_id = :id');
+        $this->db->query('SELECT * FROM users WHERE user_type = "tailor" AND user_id = :id');
         $this->db->bind(':id', $id);
         $row = $this->db->single();
         return $row ? $row : false;
     }
 
-
-    public function updateTailor($data)
+    public function getColors()
     {
-        $this->db->query('UPDATE tailors SET first_name = :first_name, last_name = :last_name, email = :email, phone_number = :phone_number, nic = :nic, birth_date = :birth_date, home_town = :home_town, address = :address, bio = :bio, category = :category, profile_pic = IFNULL(:profile_pic, profile_pic) WHERE tailor_id = :tailor_id');
-        // Bind values
-        $this->db->bind(':first_name', $data['first_name']);
-        $this->db->bind(':last_name', $data['last_name']);
-        $this->db->bind(':email', $data['email']);
-        $this->db->bind(':phone_number', $data['phone_number']);
-        $this->db->bind(':nic', $data['nic']);
-        $this->db->bind(':birth_date', $data['birth_date']);
-        $this->db->bind(':home_town', $data['home_town']);
-        $this->db->bind(':address', $data['address']);
-        $this->db->bind(':bio', $data['bio']);
-        $this->db->bind(':category', $data['category']);
-        $this->db->bind(':profile_pic', $data['profile_pic']);
-        $this->db->bind(':tailor_id', $data['tailor_id']);
-
-        // Execute
-        return $this->db->execute();
+        $this->db->query('SELECT * FROM colors');
+        return $this->db->resultSet();
     }
-    public function login($email, $password)
+
+
+    public function addFabric($data)
     {
-        $this->db->query('SELECT * FROM tailors WHERE email = :email');
-        $this->db->bind(':email', $email);
-        $row = $this->db->single();
-        if ($row && password_verify($password, $row->password)) {
-            return $row;
+        $this->db->query('INSERT INTO fabrics (tailor_id, fabric_name, price_per_meter, stock, image) VALUES (:tailor_id, :fabric_name, :price, :stock, :image)');
+        $this->db->bind(':tailor_id', $data['tailor_id']);
+        $this->db->bind(':fabric_name', $data['fabric_name']);
+        $this->db->bind(':price', $data['price']);
+        $this->db->bind(':stock', $data['stock']);
+        $this->db->bind(':image', $data['image']);
+
+        if ($this->db->execute()) {
+            $fabric_id = $this->db->lastInsertId();
+            foreach ($data['colors'] as $color_id) {
+                $this->db->query('INSERT INTO fabric_colors (fabric_id, color_id) VALUES (:fabric_id, :color_id)');
+                $this->db->bind(':fabric_id', $fabric_id);
+                $this->db->bind(':color_id', $color_id);
+                $this->db->execute();
+            }
+            return true;
         } else {
             return false;
         }
     }
-
-    public function register($data)
+    public function getFabricsByTailorId($tailor_id)
     {
-        $this->db->query('INSERT INTO tailors (first_name, last_name, email, password, phone_number, nic, birth_date, home_town, address) VALUES (:first_name, :last_name, :email, :password, :phone_number, :nic, :birth_date, :home_town, :address)');
-        // Bind values
-        $this->db->bind(':first_name', $data['first_name']);
-        $this->db->bind(':last_name', $data['last_name']);
-        $this->db->bind(':email', $data['email']);
-        $this->db->bind(':password', $data['password']);
-        $this->db->bind(':phone_number', $data['phone_number']);
-        $this->db->bind(':nic', $data['nic']);
-        $this->db->bind(':birth_date', $data['birth_date']);
-        $this->db->bind(':home_town', $data['home_town']);
-        $this->db->bind(':address', $data['address']);
+        $this->db->query('
+        SELECT f.*, GROUP_CONCAT(c.color_name SEPARATOR ", ") AS colors
+        FROM fabrics f
+        LEFT JOIN fabric_colors fc ON f.fabric_id = fc.fabric_id
+        LEFT JOIN colors c ON fc.color_id = c.color_id
+        WHERE f.tailor_id = :tailor_id
+        GROUP BY f.fabric_id
+    ');
+        $this->db->bind(':tailor_id', $tailor_id);
+        return $this->db->resultSet();
+    }
+    public function getFabricById($fabric_id)
+    {
+        $this->db->query('
+        SELECT f.*, GROUP_CONCAT(c.color_name SEPARATOR ", ") AS colors
+        FROM fabrics f
+        LEFT JOIN fabric_colors fc ON f.fabric_id = fc.fabric_id
+        LEFT JOIN colors c ON fc.color_id = c.color_id
+        WHERE f.fabric_id = :fabric_id
+        GROUP BY f.fabric_id
+    ');
+        $this->db->bind(':fabric_id', $fabric_id);
+        return $this->db->single();
+    }
 
-        // Execute
-        return $this->db->execute();
+    public function updateFabric($data)
+    {
+        $this->db->query('UPDATE fabrics SET fabric_name = :fabric_name, price_per_meter = :price, stock = :stock, image = :image WHERE fabric_id = :fabric_id');
+        $this->db->bind(':fabric_name', $data['fabric_name']);
+        $this->db->bind(':price', $data['price']);
+        $this->db->bind(':stock', $data['stock']);
+        $this->db->bind(':image', $data['image']);
+        $this->db->bind(':fabric_id', $data['fabric_id']);
+
+        if ($this->db->execute()) {
+            // Delete existing fabric colors
+            $this->db->query('DELETE FROM fabric_colors WHERE fabric_id = :fabric_id');
+            $this->db->bind(':fabric_id', $data['fabric_id']);
+            $this->db->execute();
+
+            // Insert new fabric colors
+            foreach ($data['colors'] as $color_id) {
+                $this->db->query('INSERT INTO fabric_colors (fabric_id, color_id) VALUES (:fabric_id, :color_id)');
+                $this->db->bind(':fabric_id', $data['fabric_id']);
+                $this->db->bind(':color_id', $color_id);
+                $this->db->execute();
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public function getSelectedColorsByFabricId($fabric_id)
+    {
+        $this->db->query('
+        SELECT c.color_id, c.color_name
+        FROM fabric_colors fc
+        JOIN colors c ON fc.color_id = c.color_id
+        WHERE fc.fabric_id = :fabric_id
+    ');
+        $this->db->bind(':fabric_id', $fabric_id);
+        return $this->db->resultSet();
+    }
+
+    public function deleteFabric($fabric_id)
+    {
+        $this->db->query('DELETE FROM fabrics WHERE fabric_id = :fabric_id');
+        $this->db->bind(':fabric_id', $fabric_id);
+
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -16,55 +16,55 @@ CREATE TABLE `users` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-create table posts(
-    id int primary key auto_increment,
-    title varchar(255),
-    user_id int,
-    body TEXT,
-    created_at timestamp default current_timestamp,
-    foreign key(user_id) references users(id) on delete cascade
-);
-
-CREATE TABLE `tailors` (
-  `tailor_id` int(5) NOT NULL,
-  `first_name` varchar(20) NOT NULL,
-  `last_name` varchar(30) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `phone_number` varchar(10) NOT NULL,
-  `nic` varchar(12) NOT NULL,
-  `birth_date` date NOT NULL,
-  `home_town` varchar(20) NOT NULL,
-  `address` varchar(100) NOT NULL,
-  `bio` varchar(255) NOT NULL,
-  `category` varchar(10) NOT NULL,
-  `profile_pic` longblob DEFAULT NULL
+CREATE TABLE `posts` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_id` INT(11) NOT NULL,
+  `title` VARCHAR(255) NOT NULL,
+  `description` TEXT NOT NULL,
+  `image` LONGBLOB,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `customers` (
-  `cutsomer_id` int(5) NOT NULL,
-  `first_name` varchar(20) NOT NULL,
-  `last_name` varchar(30) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `phone_number` varchar(10) NOT NULL,
-  `home_town` varchar(20) NOT NULL,
-  `address` varchar(100) NOT NULL,
-  `profile_pic` longblob DEFAULT NULL
+CREATE TABLE `fabrics` (
+  `fabric_id` INT(5) NOT NULL AUTO_INCREMENT,
+  `tailor_id` INT(5) NOT NULL, 
+  `fabric_name` VARCHAR(50) NOT NULL,
+  `image` LONGBLOB DEFAULT NULL,
+  `price_per_meter` DECIMAL(10, 2) NOT NULL,
+  `stock` DECIMAL(10, 2) NOT NULL, 
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`fabric_id`),
+  FOREIGN KEY (`tailor_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-CREATE TABLE `shopkeepers` (
-  `shopkeeper_id` int(5) NOT NULL,
-  `first_name` varchar(20) NOT NULL,
-  `last_name` varchar(30) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `phone_number` varchar(10) NOT NULL,
-  `nic` varchar(12) NOT NULL,
-  `birth_date` date NOT NULL,
-  `home_town` varchar(20) NOT NULL,
-  `address` varchar(100) NOT NULL,
-  `bio` varchar(255) NOT NULL,
-  `category` varchar(10) NOT NULL,
-  `profile_pic` longblob DEFAULT NULL
+CREATE TABLE `colors` (
+  `color_id` INT(5) NOT NULL AUTO_INCREMENT,
+  `tailor_id` INT(5) NOT NULL,
+  `color_name` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`color_id`),
+  FOREIGN KEY (`tailor_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `fabric_colors` (
+  `fabric_color_id` INT(5) NOT NULL AUTO_INCREMENT,
+  `fabric_id` INT(5) NOT NULL,
+  `color_id` INT(5) NOT NULL,
+  PRIMARY KEY (`fabric_color_id`),
+  FOREIGN KEY (`fabric_id`) REFERENCES `fabrics`(`fabric_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`color_id`) REFERENCES `colors`(`color_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Insert some initial data
+INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Black');
+INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Red');
+INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Blue');
+INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Purple');
+INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Orange');
+INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Yellow');
+INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Green');
+INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'White');
+INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Gray');
+INSERT INTO `colors` (`tailor_id`, `color_name`) VALUES (1, 'Pink');

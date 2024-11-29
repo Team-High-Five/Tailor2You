@@ -4,21 +4,36 @@
     </div>
     <nav class="nav-links">
         <a href="<?php echo URLROOT ?>/pages/index" class="nav-link">Home</a>
-        <a href="#" class="nav-link">Collection</a>
-        <a href="#" class="nav-link">Custom Tailoring</a>
+        <a href="#colllection" class="nav-link" id="collectionLink">Collection</a>
+        <a href="#genderSection" class="nav-link" id="customTailoringLink">Custom Tailoring</a>
         <a href="#" class="nav-link">Master Tailors</a>
         <a href="#" class="nav-link">About Atelier</a>
         <a href="#" class="nav-link">Contact</a>
     </nav>
     <div class="icons">
-        <div class="dropdown">
-            <span class="account-text">Account</span>
-            <i class="fas fa-user dropdown-toggle"></i>
-            <div class="dropdown-menu">
-                <a href="<?php echo URLROOT; ?>/users/selectCreateAccount">Create Account</a>
-                <a href="<?php echo URLROOT; ?>/users/login">Sign In</a>
+        <?php if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'customer'): ?>
+            <div class="dropdown">
+                <span class="account-text"><?php echo $_SESSION['user_first_name']; ?></span>
+                <?php if (!empty($_SESSION['user_profile_pic'])): ?>
+                    <img class="page-user-icon" src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['user_profile_pic']); ?>" alt="User Avatar">
+                <?php else: ?>
+                    <i class="fas fa-user-circle profile-icon"></i>
+                <?php endif; ?>
+                <div class="dropdown-menu">
+                    <a href="<?php echo URLROOT; ?>/customers/profile">Profile</a>
+                    <a href="<?php echo URLROOT; ?>/users/logout">Logout</a>
+                </div>
             </div>
-        </div>
+        <?php else: ?>
+            <div class="dropdown">
+                <span class="account-text">Account</span>
+                <i class="fas fa-user dropdown-toggle"></i>
+                <div class="dropdown-menu">
+                    <a href="<?php echo URLROOT; ?>/users/selectCreateAccount">Create Account</a>
+                    <a href="<?php echo URLROOT; ?>/users/login">Sign In</a>
+                </div>
+            </div>
+        <?php endif; ?>
         <i class="fas fa-heart" onclick="requireLogin()"></i>
         <i class="fas fa-shopping-cart" onclick="requireLogin()"></i>
     </div>
