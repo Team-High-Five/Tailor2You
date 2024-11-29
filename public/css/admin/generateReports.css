@@ -1,0 +1,86 @@
+.report-container {
+    max-width: 800px;
+    margin: 30px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    position: relative;
+    top : -40px;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+select, textarea, input[type="date"], button {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    color: #333;
+}
+
+textarea {
+    resize: none;
+}
+
+.date-range {
+    display: flex;
+    gap: 10px;
+}
+
+.date-range button {
+    flex: 1;
+    background-color: #ddd;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.date-range input[type="date"] {
+    flex: 2;
+}
+
+.date-range button:hover {
+    background-color: #ccc;
+}
+
+.form-group.buttons {
+    display: flex;
+    justify-content:center;
+    gap: 10px;
+}
+
+button {
+    background-color: #5a67d8;
+    color: white;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    padding: 10px;
+    width: 30%;
+}
+
+button:hover {
+    background-color: #4c51bf;
+}
+
+
+
