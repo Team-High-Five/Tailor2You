@@ -58,7 +58,7 @@
             </div>
         </section>
         <div class="under-button">
-            <button class="under_button">Continue</button>
+        <a href="<?php echo URLROOT ?>/Designs/enterMeasurement"><button class="under_button">Continue</button>
         </div>
     </div>
 </body>

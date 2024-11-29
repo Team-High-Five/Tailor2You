@@ -27,11 +27,48 @@ class Designs extends Controller {
         $this->view('Designs/v_d_select_color', $data);
     }
 
-    public function EnterMeasurement() {
+    public function enterMeasurement() {
         $data=[
            'title' => 'Enter Measurement '
         ];
         $this->view('Designs/v_d_enter_measurement', $data);
+    }
+
+    public function collarDesigns() {
+        $data=[
+           'title' => 'Collar Designs '
+        ];
+        $this->view('Designs/v_d_collar_designs', $data);
+    }
+
+    public function cuffDesigns() {
+        $data=[
+           'title' => 'cuff Designs '
+        ];
+        $this->view('Designs/v_d_cuff_designs', $data);
+    }
+
+    public function appointment() {
+        $data=[
+           'title' => 'Appointment '
+        ];
+        $this->view('Designs/v_d_appointment', $data);
+    }
+
+    public function placedOrder() {
+        $data=[
+           'title' => 'Placed Order '
+        ];
+        $this->view('Designs/v_d_placed_order', $data);
+    }
+
+  
+
+    public function payments() {
+        $data=[
+           'title' => 'Payments '
+        ];
+        $this->view('Designs/v_d_payments', $data);
     }
 }
 
