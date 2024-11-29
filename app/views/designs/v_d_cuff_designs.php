@@ -9,7 +9,7 @@
 
     <!-- Collar Selection Section -->
     <div class="collar-section">
-      <h3>Select a Collar Style:</h3>
+      <h3>Select a Cuff Style:</h3>
       <div class="dropdown">
         <select id="collar-select" onchange="updateCollarImage()">
           <option value="1">Style 1</option>
@@ -20,16 +20,9 @@
           <option value="6">Style 6</option>
           <option value="7">Style 7</option>
           <option value="8">Style 8</option>
-          <option value="4">Style 9</option>
-          <option value="5">Style 10</option>
-          <option value="6">Style 11</option>
-          <option value="7">Style 12</option>
-          <option value="8">Style 13</option>
-          <option value="7">Style 14</option>
-          <option value="8">Style 15</option>
         </select>
       </div>
-      <img id="collar-image" src="<?php echo URLROOT; ?>/public/img/designs/collar1.jpg" alt="Collar Style">
+      <img id="collar-image" src="<?php echo URLROOT; ?>/public/img/designs/cuff1.jpg" alt="Collar Style">
     </div>
   </div>
 

@@ -34,6 +34,20 @@ class Designs extends Controller {
         $this->view('Designs/v_d_enter_measurement', $data);
     }
 
+    public function collarDesigns() {
+        $data=[
+           'title' => 'Collar Designs '
+        ];
+        $this->view('Designs/v_d_collar_designs', $data);
+    }
+
+    public function cuffDesigns() {
+        $data=[
+           'title' => 'cuff Designs '
+        ];
+        $this->view('Designs/v_d_cuff_designs', $data);
+    }
+
     public function PlacedOrder() {
         $data=[
            'title' => 'Placed Order '
@@ -41,12 +55,7 @@ class Designs extends Controller {
         $this->view('Designs/v_d_placed_order', $data);
     }
 
-    public function collarDesigns() {
-        $data=[
-           'title' => 'Collar Designs '
-        ];
-        $this->view('Designs/v_d_collar_designs', $data);
-    }
+  
 
     public function payments() {
         $data=[
