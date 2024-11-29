@@ -16,7 +16,7 @@
     <div class="card sales-card">
       <div class="card-icon"><i class="ri-money-dollar-circle-line"></i></div>
       <h3>Total Sales</h3>
-      <div class="card-value">$89,000</div>
+      <div class="card-value">Rs.89,000</div>
       <div class="card-trend trend-down">
         <i class="ri-arrow-down-line trend-icon"></i>
         4.3% Down from yesterday
