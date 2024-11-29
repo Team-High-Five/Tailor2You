@@ -3,6 +3,8 @@ require_once APPROOT . '/helpers/url_helper.php';
 
 require_once APPROOT . '/helpers/session_helper.php';
 
+require_once APPROOT . '/controllers/Fabrics.php';
+
 
 
 class Tailors extends Controller

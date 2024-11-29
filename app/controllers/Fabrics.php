@@ -78,7 +78,6 @@ class Fabrics extends Controller
             $this->view($view, $data);
         }
     }
-
     public function editFabric($fabric_id, $user_id, $view, $controller)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -88,7 +87,8 @@ class Fabrics extends Controller
             if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
                 $image = file_get_contents($_FILES['image']['tmp_name']);
             } else {
-                $image = $_POST['existing_image'];
+                $fabric = $this->fabricModel->getFabricById($fabric_id);
+                $image = $fabric->image;
             }
 
             $data = [
