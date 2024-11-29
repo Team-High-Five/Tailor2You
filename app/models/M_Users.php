@@ -92,10 +92,10 @@ class M_Users
         // Execute
         return $this->db->execute();
     }
-    public function getPostsByUserId($userId)
+
+    public function getAllCustomers()
     {
-        $this->db->query('SELECT * FROM posts WHERE user_id = :user_id');
-        $this->db->bind(':user_id', $userId);
+        $this->db->query("SELECT user_id, CONCAT(first_name, ' ', last_name) AS name, phone_number, email FROM users WHERE user_type = 'customer'");
         return $this->db->resultSet();
     }
 }

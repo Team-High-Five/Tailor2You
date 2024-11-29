@@ -1,19 +1,18 @@
-CREATE TABLE `users` (
-  `user_id` INT(5) NOT NULL AUTO_INCREMENT,
-  `user_type` ENUM('tailor', 'customer', 'shopkeeper') NOT NULL,
-  `first_name` VARCHAR(20) NOT NULL,
-  `last_name` VARCHAR(30) NOT NULL,
-  `email` VARCHAR(30) NOT NULL UNIQUE,
-  `password` VARCHAR(255) NOT NULL,
-  `phone_number` VARCHAR(10) NOT NULL,
-  `nic` VARCHAR(12) DEFAULT NULL, -- Nullable for customers
-  `birth_date` DATE DEFAULT NULL, -- Nullable for customers
-  `home_town` VARCHAR(20) NOT NULL,
-  `address` VARCHAR(100) NOT NULL,
-  `bio` VARCHAR(255) DEFAULT NULL, -- Nullable for customers
-  `category` VARCHAR(10) DEFAULT NULL, -- Nullable for customers
-  `profile_pic` LONGBLOB DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
+CREATE TABLE users (
+  user_id int(5) NOT NULL,
+  user_type enum('tailor','customer','shopkeeper') NOT NULL,
+  first_name varchar(20) NOT NULL,
+  last_name varchar(30) NOT NULL,
+  email varchar(30) NOT NULL,
+  password varchar(255) NOT NULL,
+  phone_number varchar(10) NOT NULL,
+  nic varchar(12) DEFAULT NULL,
+  birth_date date DEFAULT NULL,
+  home_town varchar(20) NOT NULL,
+  address varchar(100) NOT NULL,
+  bio varchar(255) DEFAULT NULL,
+  category varchar(10) DEFAULT NULL,
+  profile_pic longblob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `posts` (
