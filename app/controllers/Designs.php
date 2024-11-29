@@ -26,5 +26,12 @@ class Designs extends Controller {
         ];
         $this->view('Designs/v_d_select_color', $data);
     }
+
+    public function EnterMeasurement() {
+        $data=[
+           'title' => 'Enter Measurement '
+        ];
+        $this->view('Designs/v_d_enter_measurement', $data);
+    }
 }
 
