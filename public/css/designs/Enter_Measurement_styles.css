@@ -27,9 +27,9 @@ body::before {
     z-index: 1;
 }
 
-.form-container {
+.measurement-form-container {
     position: relative;
-    z-index: 2;
+    z-index: 100;
     background-color: #fff;
     width: 80%;
     /* max-width: 900px; */
@@ -37,9 +37,10 @@ body::before {
     border-radius: 12px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
     text-align: center;
+    margin-top: 40px;
 }
 
-.form-container table {
+.measurement-form-container table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;

@@ -1,7 +1,7 @@
 <?php require_once APPROOT . '/views/designs/inc/header.php'; ?>
 <?php require_once APPROOT . '/views/pages/inc/components/topnav.php'; ?>
 
-  <div class="form-container">
+  <div class="measurement-form-container">
     <table>
       <thead>
         <tr>
