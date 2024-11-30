@@ -1,7 +1,7 @@
 <?php require_once APPROOT . '/views/designs/inc/header.php'; ?>
 <?php require_once APPROOT . '/views/pages/inc/components/topnav.php'; ?>
 
-  <div class="form-container">
+  <div class="measurement-form-container">
     <table>
       <thead>
         <tr>
@@ -26,7 +26,7 @@
               <option>12</option>         
             </select>
           </td>
-          <td><button style="background-color: #d9b99b;">Collar Designs</button></td>
+          <td><a href="<?php echo URLROOT ?>/Designs/collarDesigns"><button style="background-color: #d9b99b;">Collar Designs</button></a></td>
         </tr>
         <tr>
           <td>Chest</td>
@@ -154,13 +154,13 @@
               <option>12</option>  
             </select>
           </td>
-          <td><button style="background-color: #d9b99b;">Cuff Designs</button></td>
+          <td><a href="<?php echo URLROOT ?>/Designs/cuffDesigns"><button style="background-color: #d9b99b;">Cuff Designs</button></a></td>
         </tr>
       </tbody>
     </table>
 
     <div class="buttons">
-      <button>Submit</button>
+    <a href="<?php echo URLROOT ?>/Designs/appointment"><button>Submit</button></a>
     </div>
   </div>
 </body>

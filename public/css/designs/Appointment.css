@@ -1,0 +1,61 @@
+
+  .appointment-section {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .appointment-section .appointment-form {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    padding: 60px 60px;
+    text-align: center;
+    z-index: 1;
+  }
+  .appointment-section .appointment-form h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #090606;
+  }
+  .appointment-section .appointment-form .form-group {
+    margin: 40px 0 20px 0;
+    text-align: left;
+  }
+  .appointment-section .appointment-form .form-group label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  .appointment-section .appointment-form .form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .appointment-section .appointment-form .form-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .appointment-section .appointment-form .form-actions .request-btn,
+  .appointment-section .appointment-form .form-actions .skip-btn {
+    background-color: navy;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    width: 80px;
+    height: 40px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .appointment-section .appointment-form .form-actions .request-btn:hover,
+  .appointment-section .appointment-form .form-actions .skip-btn:hover {
+    background-color: darkblue;
+  }
+  .appointment-section .appointment-form .form-actions .skip-btn {
+    background-color: gray;
+  }
+  .appointment-section .appointment-form .form-actions .skip-btn:hover {
+    background-color: darkgray;
+  }/*# sourceMappingURL=appointment.css.map */

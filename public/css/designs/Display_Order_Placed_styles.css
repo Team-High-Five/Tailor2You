@@ -1,0 +1,123 @@
+
+
+.order-container {
+    position: relative;
+    z-index: 2;
+    background-color: #fff;
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    display: flex;
+    padding: 80px;
+}
+
+.order-container img {
+    width: 200px;
+    height: 240px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+.rightpart{
+    width: 100%;
+    margin-left: 50px;
+}
+
+.order-header {
+    background-color: #fdfd96; /* Light yellow for order confirmation */
+    color: #333;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 6px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.order-details {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.tailor-info {
+    display: flex;
+    /* align-items: center;
+    justify-content: center; */
+    margin-top: 10px;
+}
+
+.tailor-info img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.order-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    
+}
+
+.order-buttons .view_order,.hover-button .payment {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 160px;
+    height: 40px;
+    color: #fff;
+    background-color: #4a56e2; /* Deep blue */
+    transition: background-color 0.3s ease;
+}
+
+.order-buttons .hover-buttons{
+    width: 100px;
+    display: none;
+}
+.order-buttons .hover-button:hover .hover-buttons{
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 160px;
+    height: 65px;
+    transition:  2s;
+}
+.order-buttons .hover-button:hover .hover-buttons .hover-buttons_in{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.order-buttons .hover-button:hover .hover-buttons .hover-buttons_in a{
+    text-decoration: none;
+}
+.order-buttons .hover-button:hover .hover-buttons .hover-buttons_in button{
+    padding: 10px 20px;
+    border: none;
+    font-size: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 150px;
+    height: 30px;
+    color: #000000;
+    background-color: #ffffff; /* Deep blue */
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.order-buttons .view_order:hover {
+    background-color: #3945c6;
+}
+.text{
+    text-align: left;
+    padding-left: 60px;
+}

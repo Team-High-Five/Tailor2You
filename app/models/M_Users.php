@@ -80,6 +80,13 @@ class M_Users
         // Execute
         return $this->db->execute();
     }
+    public function getPostsByUserId($user_id)
+    {
+        $this->db->query('SELECT * FROM posts WHERE user_id = :user_id');
+        $this->db->bind(':user_id', $user_id);
+        return $this->db->resultSet();
+    }
+
     public function addPost($data)
     {
         $this->db->query('INSERT INTO posts (user_id, title, description, image) VALUES (:user_id, :title, :description, :image)');
