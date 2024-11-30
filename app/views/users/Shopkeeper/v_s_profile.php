@@ -25,14 +25,14 @@
 
                 <div class="form-two-group">
                     <div class="form-group">
-                        <label for="first_name">First Name</label>
+                        <label for="first_name">Shop Name</label>
                         <input type="text" id="first_name" name="first_name" value="<?php echo $data['user']->first_name; ?>" required>
                         <?php if (!empty($data['first_name_err'])): ?>
                             <span class="error"><?php echo $data['first_name_err']; ?></span>
                         <?php endif; ?>
                     </div>
                     <div class="form-group">
-                        <label for="last_name">Last Name</label>
+                        <label for="last_name">Owner's Name</label>
                         <input type="text" id="last_name" name="last_name" value="<?php echo $data['user']->last_name; ?>" required>
                         <?php if (!empty($data['last_name_err'])): ?>
                             <span class="error"><?php echo $data['last_name_err']; ?></span>
@@ -43,7 +43,7 @@
                 <div class="form-two-group">
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" value="<?php echo $data['user']->email; ?>" required>
+                        <input type="email" id="email" name="email" value="<?php echo $data['user']->email; ?>" readonly>
                         <?php if (!empty($data['email_err'])): ?>
                             <span class="error"><?php echo $data['email_err']; ?></span>
                         <?php endif; ?>

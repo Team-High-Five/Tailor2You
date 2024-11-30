@@ -17,13 +17,13 @@
         <form action="<?php echo URLROOT; ?>/Shopkeepers/shopkeeperRegister" method="post">
             <div class="form-row">
                 <div class="input-field">
-                    <input type="text" placeholder="First Name" name="first_name" required>
+                    <input type="text" placeholder="Shop Name" name="first_name" required>
                     <?php if (!empty($data['first_name_err'])): ?>
                         <span class="error"><?php echo $data['first_name_err']; ?></span>
                     <?php endif; ?>
                 </div>
                 <div class="input-field">
-                    <input type="text" placeholder="Last Name" name="last_name" required>
+                    <input type="text" placeholder="Owner's Name" name="last_name" required>
                     <?php if (!empty($data['last_name_err'])): ?>
                         <span class="error"><?php echo $data['last_name_err']; ?></span>
                     <?php endif; ?>

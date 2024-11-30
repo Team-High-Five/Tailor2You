@@ -38,6 +38,9 @@
     --text-dark: #333;
     --text-muted: #555;
     --border-color: #e0e0e0;
+    --accent-color: #c4a77d;
+    --accent-hover: #b38f63;
+    --transition: all 0.3s ease;
 }
 
 

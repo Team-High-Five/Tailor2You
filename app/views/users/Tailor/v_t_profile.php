@@ -43,7 +43,7 @@
                 <div class="form-two-group">
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" value="<?php echo $data['user']->email; ?>" required>
+                        <input type="email" id="email" name="email" value="<?php echo $data['user']->email; ?>" readonly>
                         <?php if (!empty($data['email_err'])): ?>
                             <span class="error"><?php echo $data['email_err']; ?></span>
                         <?php endif; ?>
