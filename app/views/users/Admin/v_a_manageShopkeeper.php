@@ -23,30 +23,35 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Table Data Placeholder for Dynamic Data -->
-                <?php foreach ($users as $user): ?>
-                    <tr>
-                        <td><?= $user['shopkeeper_id'] ?></td>
-                        <td><?= $user['name'] ?></td>
-                        <td><?= $user['phone_number'] ?></td>
-                        <td><?= $user['email'] ?></td>
-                        <td>
-                            <select>
-                                <option value="active" <?= $user['status'] === 'active' ? 'selected' : '' ?>Active</option>
-                                <option value="inactive" <?= $user['status'] === 'inactive' ? 'selected' : '' ?>Inactive</option>
-                            </select>
-                        </td>
-                        <td>
-                            <button class="view-btn"><i class="fas fa-eye"></i> View</button>
-                            <button class="edit-btn"><i class="fas fa-edit"></i> Edit</button>
-                            <button class="delete-btn"><i class="fas fa-trash-alt"></i> Delete</button>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
+            <!-- Table Data Placeholder for Dynamic Data -->
+            <?php foreach ($data['shopkeepers'] as $shopkeeper): ?>
+                <tr>
+                    <td><?php echo $shopkeeper->user_id ?></td>
+                    <td><?php echo $shopkeeper->name ?></td>
+                    <td><?php echo $shopkeeper->phone_number ?></td>
+                    <td><?php echo$shopkeeper->email ?></td>
+                    <td><?php echo $shopkeeper->status; ?> </td>
+                    <td>
+                    <div class="button-container">
+                        <a href="<?php echo URLROOT; ?>/admin/editShopkeeper/<?php echo $shopkeeper->user_id; ?>" class="edit-btn"><i class="fas fa-edit"></i> Edit</a>
+                        <form action="<?php echo URLROOT; ?>/admin/deleteShopkeeper/<?php echo $shopkeeper->user_id; ?>" method="post" style="display:inline;" onsubmit="return confirmDelete()">
+                            <button type="submit" class="delete-btn"><i class="fas fa-trash-alt"></i> Delete</button>
+                        </form>
+                    </div>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
         </table>
     </div>
+    <script>
+    function confirmDelete() {
+    return confirm('Are you sure you want to delete this user?');
+    }  
+    </script>
 </body>
+
+
 </html>
 
 

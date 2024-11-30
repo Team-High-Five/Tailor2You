@@ -30,9 +30,11 @@ class admin extends controller
     }
     public function manageShopkeeper()
     {
-        $data = [];
-
-        $this->view('users/Admin/v_a_manageShopkeeper');
+        $userModel = $this->model('M_Users');
+        $shopkeepers = $userModel->getAllShopkeepers();
+        $data = ['shopkeepers' => $shopkeepers];
+    
+        $this->view('users/Admin/v_a_manageShopkeeper', $data);
     }
     public function manageTailor()
     {
@@ -52,13 +54,14 @@ class admin extends controller
 
         $this->view('users/Admin/v_a_generateReports');
     }
-    public function editProfile()
+    public function editCustomer($id)
     {
-        $data = [];
+        $userModel = $this->model('M_Users');
+        $customer = $userModel->getUserById($id);
+        $data = ['customer' => $customer];
 
-        $this->view('users/Admin/v_a_editProfile');
-
-    } 
+        $this->view('users/Admin/v_a_editCustomer', $data);
+    }
     public function reviewSection()
     {
         $data = [];
@@ -72,12 +75,13 @@ class admin extends controller
         $this->view('users/Admin/v_a_refundPayments');
 
     }
-    public function editShopkeeper()
+    public function editShopkeeper($id)
     {
-        $data = [];
-
-        $this->view('users/Admin/v_a_editShopkeeper');
-
+        $userModel = $this->model('M_Users');
+        $shopkeeper = $userModel->getUserById($id);
+        $data = ['shopkeeper' => $shopkeeper];
+    
+        $this->view('users/Admin/v_a_editShopkeeper', $data);
     }
     public function viewComplaints()
     {
@@ -99,6 +103,86 @@ class admin extends controller
         $this->view('users/Admin/v_a_viewReviews');
 
     }
+    public function deleteCustomer($id)
+    {
+        $userModel = $this->model('M_Users');
+        if ($userModel->deleteCustomerById($id)) {
+            flash('customer_message', 'Customer Removed');
+            redirect('admin/manageCustomer');
+        } else {
+            die('Something went wrong');
+        }
+    }
+    public function updateCustomer()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
+            $data = [
+                'user_id' => trim($_POST['user_id']),
+                'first_name' => trim($_POST['first_name']),
+                'last_name' => trim($_POST['last_name']),
+                'email' => trim($_POST['email']),
+                'phone_number' => trim($_POST['phone_number']),
+                'nic' => trim($_POST['nic']),
+                'birth_date' => trim($_POST['birth_date']),
+                'home_town' => trim($_POST['home_town']),
+                'address' => trim($_POST['address']),
+                'bio' => trim($_POST['bio']),
+                'category' => trim($_POST['category']),
+                'profile_pic' => trim($_POST['profile_pic']),
+                'status' => trim($_POST['status'])
+            ];
+
+            $userModel = $this->model('M_Users');
+            if ($userModel->updateUser($data)) {
+                flash('customer_message', 'Customer Updated');
+                redirect('admin/manageCustomer');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            redirect('admin/manageCustomer');
+        }
+    }
+    public function updateShopkeeper()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'user_id' => trim($_POST['user_id']),
+                'first_name' => trim($_POST['first_name']),
+                'last_name' => trim($_POST['last_name']),
+                'email' => trim($_POST['email']),
+                'phone_number' => trim($_POST['phone_number']),
+                'address' => trim($_POST['address']),
+                'status' => trim($_POST['status'])
+            ];
+
+            $userModel = $this->model('M_Users');
+            if ($userModel->updateShopkeeper($data)) {
+                flash('shopkeeper_message', 'Shopkeeper Updated');
+                redirect('admin/manageShopkeeper');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            redirect('admin/manageShopkeeper');
+        }
+    }
+
+    public function deleteShopkeeper($id)
+    {
+        $userModel = $this->model('M_Users');
+        if ($userModel->deleteShopkeeperById($id)) {
+            flash('shopkeeper_message', 'Shopkeeper Removed');
+            redirect('admin/manageShopkeeper');
+        } else {
+            die('Something went wrong');
+        }
+    }
 }
 ?>

@@ -1,5 +1,3 @@
-
-
 /* Main content section */
 .content {
     padding: 60px 20px;
@@ -10,11 +8,13 @@
     display: flex;
     justify-content: center;
     position: absolute;
-    top: 80px; /* Adjust this value to align with the menu icon */
+    top: 80px;
+    /* Adjust this value to align with the menu icon */
     left: 0;
     right: 0;
     margin-top: 0;
 }
+
 .tabs button {
     padding: 10px 20px;
     margin: 0 10px;
@@ -24,15 +24,14 @@
     font-size: 16px;
     cursor: pointer;
 }
-.tabs button:hover {
-    background-color:rgba(248, 195, 158, 0.704);
-}
 
-/* Search Bar */
+.tabs button:hover {
+    background-color: rgba(248, 195, 158, 0.704);
+}
 
 /* Table Styles */
 .user-table {
-    width: 90%;
+    width: 95%;
     margin: 20px auto;
     border-collapse: collapse;
     background-color: #fff;
@@ -40,7 +39,8 @@
     margin-top: -10px;
 }
 
-.user-table th, .user-table td {
+.user-table th,
+.user-table td {
     padding: 15px;
     text-align: center;
     border: 1px solid #e1e0e0;
@@ -52,24 +52,53 @@
 }
 
 /* Specific Column Widths */
-.user-table th:first-child, .user-table td:first-child {
-    width: 12%; /* ID column */
+.user-table th:first-child,
+.user-table td:first-child {
+    width: 8%;
+    /* ID column */
 }
 
-.user-table th:nth-child(2), .user-table td:nth-child(2) {
-    width: 18%; /* Name column */
-}
-.user-table th:nth-child(4), .user-table td:nth-child(4) {
-    width: 18%; /* Name column */
-}
-
-select {
-    padding: 5px;
-    border-radius: 5px;
+.user-table th:nth-child(2),
+.user-table td:nth-child(2) {
+    width: 10%;
+    /* Name column */
 }
 
+.user-table th:nth-child(3),
+.user-table td:nth-child(3) {
+    width: 12%;
+    /* Phone Number column */
+}
+
+.user-table th:nth-child(4),
+.user-table td:nth-child(4) {
+    width: 12%;
+    /* Email column */
+}
+
+.user-table th:nth-child(5),
+.user-table td:nth-child(5) {
+    width: 10%;
+    /* Status column */
+}
+
+.user-table th:nth-child(6),
+.user-table td:nth-child(6) {
+    width: 18%;
+    /* Action column */
+}
+
+/* Button Container Styles */
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 /* Button Styles */
-.view-btn, .edit-btn, .delete-btn {
+.edit-btn,
+.delete-btn {
+    display: inline-block;
+    width: 80px;
     padding: 5px 10px;
     margin: 0 5px;
     cursor: pointer;
@@ -79,21 +108,12 @@ select {
     font-weight: bold;
     transition: background-color 0.2s;
 }
-
-.view-btn {
-    background-color: #007BFF;
-}
-
 .edit-btn {
     background-color: #28a745;
 }
 
 .delete-btn {
     background-color: #dc3545;
-}
-
-.view-btn:hover {
-    background-color: #0056b3;
 }
 
 .edit-btn:hover {
@@ -114,42 +134,12 @@ select {
         width: 80%;
     }
 
-    .header, .sidebar {
+    .header,
+    .sidebar {
         padding: 10px;
     }
 
     .content {
         padding: 20px;
     }
-}
-/* Dropdown Menu Styles */
-.dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 40px;
-    right: 20px;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-
-.dropdown-menu button {
-    padding: 10px 1px;
-    width: 100%;
-    text-align: center;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.dropdown-menu button:hover {
-    background-color: rgba(248, 195, 158, 0.7);
-}
-
-/* Show class to display dropdown */
-.show {
-    display: block;
 }
