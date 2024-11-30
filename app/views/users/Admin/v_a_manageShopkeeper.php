@@ -4,13 +4,13 @@
 <?php require_once APPROOT . '/views/inc/admin/adminsidebar.php'; ?>
 <!-- Main Content Section -->
     <div class="content">
-        <!-- Search Bar -->
+    <div class="search-container">
         <div class="search-bar">
-            <input type="text" placeholder="To quickly find specific users">
-            <button><i class="fas fa-search"></i></button>
+        <input type="text" placeholder="To quickly find specific users">
+        <button><i class="fas fa-search"></i></button>
         </div>
-        
-        <!-- User Table -->
+    </div>
+    <!-- User Table -->
         <table class="user-table">
             <thead>
                 <tr>

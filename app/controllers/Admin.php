@@ -33,14 +33,76 @@ class admin extends controller
         $userModel = $this->model('M_Users');
         $shopkeepers = $userModel->getAllShopkeepers();
         $data = ['shopkeepers' => $shopkeepers];
-    
+
         $this->view('users/Admin/v_a_manageShopkeeper', $data);
     }
     public function manageTailor()
     {
-        $data = [];
+        $userModel = $this->model('M_Users');
+        $tailors = $userModel->getAllTailors();
+        $data = ['tailors' => $tailors];
 
-        $this->view('users/Admin/v_a_manageTailor');
+        $this->view('users/Admin/v_a_manageTailor', $data);
+    }
+
+    public function editTailor($id)
+    {
+        $userModel = $this->model('M_Users');
+        $tailor = $userModel->getUserById($id);
+        $data = ['tailor' => $tailor];
+
+        $this->view('users/Admin/v_a_editTailor', $data);
+    }
+    public function updateTailor()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            // Handle file upload
+            if (!empty($_FILES['profile_pic']['name'])) {
+                $profilePic = file_get_contents($_FILES['profile_pic']['tmp_name']);
+            } else {
+                $profilePic = null; // No new image uploaded
+            }
+
+            $data = [
+                'user_id' => trim($_POST['user_id']),
+                'first_name' => trim($_POST['first_name']),
+                'last_name' => trim($_POST['last_name']),
+                'email' => trim($_POST['email']),
+                'phone_number' => trim($_POST['phone_number']),
+                'nic' => trim($_POST['nic']),
+                'birth_date' => trim($_POST['birth_date']),
+                'home_town' => trim($_POST['home_town']),
+                'address' => trim($_POST['address']),
+                'bio' => trim($_POST['bio']),
+                'category' => trim($_POST['category']),
+                'profile_pic' => $profilePic,
+                'status' => trim($_POST['status'])
+            ];
+
+            $userModel = $this->model('M_Users');
+            if ($userModel->updateTailor($data)) {
+                flash('tailor_message', 'Tailor Updated');
+                redirect('admin/manageTailor');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            redirect('admin/manageTailor');
+        }
+    }
+
+    public function deleteTailor($id)
+    {
+        $userModel = $this->model('M_Users');
+        if ($userModel->deleteTailorById($id)) {
+            flash('tailor_message', 'Tailor Removed');
+            redirect('admin/manageTailor');
+        } else {
+            die('Something went wrong');
+        }
     }
     public function complaintsSection()
     {
@@ -80,7 +142,7 @@ class admin extends controller
         $userModel = $this->model('M_Users');
         $shopkeeper = $userModel->getUserById($id);
         $data = ['shopkeeper' => $shopkeeper];
-    
+
         $this->view('users/Admin/v_a_editShopkeeper', $data);
     }
     public function viewComplaints()
@@ -184,5 +246,6 @@ class admin extends controller
             die('Something went wrong');
         }
     }
+
 }
 ?>

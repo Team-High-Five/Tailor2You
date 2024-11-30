@@ -2,6 +2,13 @@
 <?php require_once APPROOT . '/views/inc/admin/adminheader.php'; ?>
 <!-- sidebar -->
 <?php require_once APPROOT . '/views/inc/admin/adminsidebar.php'; ?>
+<div class="content">
+    <div class="search-container">
+        <div class="search-bar">
+        <input type="text" placeholder="To quickly find specific users">
+        <button><i class="fas fa-search"></i></button>
+        </div>
+    </div>
 <table class="user-table">
     <thead>
         <tr>
@@ -41,6 +48,7 @@
         <?php endif; ?>
     </tbody>
 </table>
+</div>
 </body>
 
 </html>
