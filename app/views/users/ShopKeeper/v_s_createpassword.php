@@ -11,7 +11,7 @@
 
     <h1>Create a password</h1>
 
-    <form action="<?php echo URLROOT; ?>/tailors/createPassword" method="post">
+    <form action="<?php echo URLROOT; ?>/shopkeepers/createPassword" method="post">
       <div class="form-line">
         <input type="password" name="password" placeholder="Password" required>
       </div>

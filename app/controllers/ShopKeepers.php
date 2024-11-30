@@ -443,7 +443,7 @@ class Shopkeepers extends Controller
 
                 $shopkeeperData = $_SESSION['shopkeeper_register_data'];
                 $shopkeeperData['password'] = $data['password'];
-
+                
                 if ($this->userModel->register($shopkeeperData)) {
                     flash('register_success', 'You are registered and can log in');
                     redirect('users/login');
