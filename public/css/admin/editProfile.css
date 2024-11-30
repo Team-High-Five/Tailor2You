@@ -116,23 +116,6 @@ body {
     margin: 0 auto;
     padding: 20px;
 }
-.form-section {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-.form-section .left-column img {
-    width: 350px;
-    height: 400px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.form-section .right-column {
-    width: 55%;
-}
-
 .input-group {
     margin-bottom: 15px;
 }
