@@ -1,101 +1,145 @@
-* {
-  margin: 0;
-  padding: 0;
+.color-form {
+  background: var(--card-gradient);
+  border-radius: 1.5rem;
+  padding: 40px;
+  box-shadow: var(--elegant-shadow);
+  border: 1px solid var(--glass-effect);
+  backdrop-filter: blur(10px);
 }
 
-body {
-  font-family: Arial, Helvetica, sans-serif;
+.color-header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  position: relative;
+  text-align: center;
 }
 
+.color-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 2px;
+  background: var(--accent-color);
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+}
+
+.color-header span {
+  font-size: 2rem;
+  color: var(--text-light);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.color-card {
+  background: var(--card-gradient);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: var(--transition);
+  position: relative;
+  border: 1px solid var(--glass-effect);
+  padding: 1rem;
+}
+
+.color-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--elegant-shadow);
+}
+
+.color-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  transition: var(--transition);
+}
+
+.color-card:hover img {
+  transform: scale(1.05);
+}
+
+.color-name {
+  color: var(--text-light);
+  font-size: 1rem;
+  margin: 1rem 0;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.buttons button {
+  width: 100%;
+  padding: 0.875rem;
+  background: transparent;
+  border: 2px solid var(--accent-color);
+  color: var(--accent-color);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.875rem;
+}
+
+.buttons button:hover {
+  background: var(--accent-color);
+  color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.continue-button {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.continue-btn {
+  background: var(--accent-gradient);
+  color: var(--text-light);
+  border: none;
+  padding: 1.25rem 3.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.continue-btn:hover {
+  transform: translateY(-2px);
+  background-color: var(--accent-hover);
+  box-shadow: var(--accent-shadow);
+  color: var(--text-light);
+  background-position: right center;
+  background-size: 200% auto;
+}
+
+@media (max-width: 768px) {
   .color-form {
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0px 1px 11px 2px rgba(0, 0, 0, 0.2);
-    padding: 50px 40px 50px 40px;
-    margin: 60px 20px 0 20px;
+    padding: 25px;
   }
-  .color-form .color {
-    padding: 0 0 40px 0px;
-    justify-content: center;
-    width: 100%;
-    display: flex;
+
+  .color-header span {
+    font-size: 1.5rem;
   }
-  .color-form .color span {
-    font-size: 30px;
-    font-weight: bold;
+
+  .color-grid {
+    gap: 1rem;
   }
-  .color-form .under-button {
-    padding: 50px 0 0 0;
-    display: flex;
-    justify-content: center;
+
+  .color-card img {
+    height: 150px;
   }
-  .color-form .under-button .under_button {
-    margin: 0 5px;
-    padding: 8px 80px 8px 80px;
-    border: none;
-    border-width: 1px;
-    border-radius: 5px;
-    cursor: pointer;
-    color: rgb(255, 255, 255);
-    background-color: rgb(5, 138, 36);
-  }
-  .color-form .under-button .under_button:hover {
-    opacity: 0.9;
-  }
-  .color-form .color-grid {
-    display: flex;
-    justify-content: space-between;
-  }
-  .color-form .color-grid .color-card {
-    width: 200px;
-    height: 300px;
-    background-color: white;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    text-align: center;
-  }
-  .color-form .color-grid .color-card img {
-    width: 70%;
-    height: 70%;
-    border-radius: 15px;
-  }
-  .color-form .color-grid .color-card .fab {
-    margin-top: 10px;
-    color: #333;
-    font-size: 14px;
-  }
-  .color-form .color-grid .color-card .buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-  }
-  .color-form .color-grid .color-card .buttons button {
-    flex: 1;
-    margin: 0 5px;
-    padding: 8px;
-    border: none;
-    border-width: 1px;
-    border-radius: 5px;
-    cursor: pointer;
-    color: rgb(255, 255, 255);
-    background-color: rgb(55, 122, 255);
-  }
-  .color-form .color-grid .color-card .buttons button:hover {
-    opacity: 0.9;
-  }
-  
-  .explore-btn {
-    display: block;
-    margin: 30px auto;
-    padding: 10px 20px;
-    background-color: #8b572a;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  .explore-btn:hover {
-    opacity: 0.9;
-  }/*# sourceMappingURL=SelectColor.css.map */
+}

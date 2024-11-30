@@ -1,25 +1,4 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-  }
 
-  body {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f5f5f5; /* Light gray background */
-    background: url('Tailor.png') no-repeat center center fixed; /* Replace with your image */
-    height: 100vh;
-    background: url('Tailor.png') no-repeat center center fixed; /* Replace with your image */
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-  }
 
   .container {
     display: flex;

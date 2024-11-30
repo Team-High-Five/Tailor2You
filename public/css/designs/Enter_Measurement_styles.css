@@ -1,31 +1,3 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-    font-weight: bold;
-}
-
-body {
-    height: 100vh;
-    background: url('Tailor.png') no-repeat center center fixed; /* Replace with your image */
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-}
-
-body::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Dim overlay for better readability */
-    z-index: 1;
-}
 
 .measurement-form-container {
     position: relative;
