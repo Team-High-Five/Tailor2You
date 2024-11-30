@@ -9,7 +9,7 @@
         <div class="post-pic-wrapper">
           <img src="<?php echo URLROOT; ?>/public/img/add-image.png" alt="Post Picture" id="post-preview">
         </div>
-        <label for="upload-photo" class="upload-text">Upload Photo</label>
+        
         <input type="file" id="upload-photo" name="image" accept="image/*" style="display: none;">
       </div>
       <div class="post-form-container">
