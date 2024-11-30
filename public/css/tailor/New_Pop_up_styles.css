@@ -24,6 +24,12 @@
     animation: fadeIn 0.3s ease;
 }
 
+.error-message {
+    color:var(--danger-color);
+    font-size: 14px;
+    margin-top: 5px;
+}
+
 
 @keyframes fadeIn {
     from {
@@ -198,6 +204,12 @@
     padding: 10px 0;
 }
 
+.button-rows {
+    display: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
 
 /* Close Button */
 .close-btn {
@@ -219,7 +231,7 @@
 }
 
 /* Cancel Button */
-.cancel-btn {
+.reset-btn {
     background-color: #5bc0de;
     color: white;
     border: none;

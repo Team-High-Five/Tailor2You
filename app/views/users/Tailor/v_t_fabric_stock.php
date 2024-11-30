@@ -76,7 +76,7 @@
       <p>Are you sure you want to delete this fabric?</p>
       <form id="deleteFabricForm" action="" method="post">
         <button type="submit" class="submit-btn">Yes, Delete</button>
-        <button type="button" class="cancel-btn" onclick="closeDeleteFabricModal()">Cancel</button>
+        <button type="button" class="reset-btn" onclick="closeDeleteFabricModal()">Cancel</button>
       </form>
     </div>
   </div>
@@ -189,7 +189,7 @@
             const output = document.getElementById('post-preview');
             output.src = reader.result;
           };
-          
+
           reader.readAsDataURL(file);
 
           // Validate image size
