@@ -3,9 +3,9 @@
         <img src="<?php echo URLROOT; ?>/public/img/logo_brown.png" alt="Tailor House Logo">
     </div>
     <nav class="nav-links">
-        <a href="<?php echo URLROOT ?>/pages/index" class="nav-link">Home</a>
-        <a href="#colllection" class="nav-link" id="collectionLink">Collection</a>
-        <a href="#genderSection" class="nav-link" id="customTailoringLink">Custom Tailoring</a>
+        <a href="<?php echo URLROOT ?>/pages/index" class="nav-link" data-target="index">Home</a>
+        <a href="#colllection" class="nav-link" id="collectionLink" data-target="menspage#colllection">Collection</a>
+        <a href="#genderSection" class="nav-link" id="customTailoringLink" data-target="index.php#genderSection">Custom Tailoring</a>
         <a href="#" class="nav-link">Master Tailors</a>
         <a href="#" class="nav-link">About Atelier</a>
         <a href="#" class="nav-link">Contact</a>
@@ -38,3 +38,18 @@
         <i class="fas fa-shopping-cart" onclick="requireLogin()"></i>
     </div>
 </header>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                event.preventDefault();
+                const target = link.getAttribute('data-target');
+                if (target) {
+                    window.location.href = '<?php echo URLROOT; ?>/pages/' + target;
+                }
+            });
+        });
+    });
+</script>

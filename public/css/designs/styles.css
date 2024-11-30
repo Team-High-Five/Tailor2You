@@ -46,7 +46,7 @@
 }
 
 .design-image-container img {
-    width: 100%;
+    width: 95%;
     height: auto;
     border-radius: 1.5rem;
     box-shadow: var(--elegant-shadow);

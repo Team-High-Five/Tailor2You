@@ -1,22 +1,54 @@
 <?php require_once APPROOT . '/views/designs/inc/header.php'; ?>
 <?php require_once APPROOT . '/views/pages/inc/components/topnav.php'; ?>
- 
-  <main class="appointment-section">
-    <div class="appointment-form">
-      <h2>Request An Appointment</h2>
-      <div class="form-group">
-        <label for="date">Date</label>
-        <input type="date" id="date">
+
+<div class="measurement-page-container">
+  <div class="measurement-form-container">
+    <table>
+      <thead>
+        <tr>
+          <th>Appointment Details</th>
+          <th>Input</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <strong>Date</strong>
+            <p>Select the date for the appointment</p>
+          </td>
+          <td>
+            <input type="date" class="select" id="date">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <strong>Time</strong>
+            <p>Select the time for the appointment</p>
+          </td>
+          <td>
+            <input type="time" class="select" id="time">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="action-buttons">
+      <a href="<?php echo URLROOT ?>/Designs/placedOrder" class="request-button">Request</a>
+      <a href="<?php echo URLROOT ?>/Designs/placedOrder" class="skip-button">Skip</a>
+    </div>
+  </div>
+  <div class="design-image-container">
+    <img src="<?php echo URLROOT; ?>/public/img/designs/still-life-with-classic-shirts-hanger.jpg" alt="Shirt Image">
+    <div class="design-details">
+      <div class="design-name">
+        <span>Design Name</span>
       </div>
-      <div class="form-group">
-        <label for="time">Time</label>
-        <input type="time" id="time">
-      </div>
-      <div class="form-actions">
-      <a href="<?php echo URLROOT ?>/Designs/placedOrder"><button class="request-btn">Request</button></a>
-      <a href="<?php echo URLROOT ?>/Designs/placedOrder"><button class="skip-btn">Skip</button></a>
+      <div class="design-description">
+        <span>Design Description</span>
       </div>
     </div>
-  </main>
+  </div>
+</div>
 </body>
+
 </html>
