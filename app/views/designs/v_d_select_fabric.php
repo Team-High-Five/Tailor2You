@@ -50,7 +50,7 @@
         </div>
     </div>
     <div class="design-image-container">
-        <img src="<?php echo URLROOT; ?>/public/img/designs/design1.jpeg" alt="Design">
+        <img src="<?php echo URLROOT; ?>/public/img/designs/still-life-with-classic-shirts-hanger.jpg" alt="Design">
         <div class="design-details">
             <div class="design-name">
                 <span>Design Name</span>
