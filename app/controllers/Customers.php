@@ -187,4 +187,11 @@ class Customers extends Controller {
             $this->view('users/Customer/v_c_createpassword', $data);
         }
     }
+
+    public function profile(){
+        $data = [
+            'title' => 'Profile'
+        ];
+        $this->view('users/Customer/v_c_profile', $data);
+    }
 }
