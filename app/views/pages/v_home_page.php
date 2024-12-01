@@ -29,7 +29,7 @@
 <section class="appointment">
     <div class="title">Ready to Elevate Your Style?</div><br>
     <div class="italic">Meet with Expert Tailors.</div><br><br>
-    <button class="large-button">Book an Appointment</button>
+    <a href="<?php echo URLROOT ?>/Designs/appointment"><button class="large-button">Book an Appointment</button></a>
 </section>
 <span id="genderSection"></span>
 <?php require_once APPROOT . '/views/pages/inc/components/gender_selection.php'; ?>

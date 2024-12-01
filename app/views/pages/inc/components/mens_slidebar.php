@@ -10,7 +10,7 @@
                     Discover our latest arrivals in bespoke tailoring. Our new collection features a range of luxurious fabrics, modern designs, and impeccable craftsmanship. Each piece is tailored to perfection, ensuring you look your best for any occasion. Explore the newest trends and elevate your wardrobe with our exclusive arrivals.
                 </div>
                 <div class="buttons">
-                    <a href="#mens-categories" class="nav-link" id="collectionLink" data-target="menspage#mens-categories"><button>Explore Now</button></a>
+                    <a href="#colllection" class="nav-link" id="collectionLink" data-target="menspage#colllection"><button>Explore Now</button></a>
 
                 </div>
             </div>
@@ -27,7 +27,7 @@
                     Select from a variety of men's clothing categories including suits, shirts, and pants. Our collection features high-quality fabrics, modern designs, and impeccable craftsmanship. Each piece is tailored to perfection, ensuring you look your best for any occasion. Explore our categories and find the perfect outfit that suits your style.
                 </div>
                 <div class="buttons">
-                    <a href="#colllection" class="nav-link" id="collectionLink" data-target="menspage#colllection"><button>Explore Now</button></a>
+                    <a href="#mens-categories" class="nav-link" id="collectionLink" data-target="menspage#mens-categories"><button>Explore Now</button></a>
                 </div>
             </div>
         </div>
