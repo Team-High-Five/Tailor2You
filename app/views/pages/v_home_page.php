@@ -100,9 +100,6 @@
         &copy; 2024 Tailor2You. All rights reserved.
     </p>
 </footer>
-</body>
-
-</html>
 <script src="<?php echo URLROOT; ?>/public/js/script.js"></script>
 <script src="<?php echo URLROOT; ?>/public/js/app.js"></script>
 
