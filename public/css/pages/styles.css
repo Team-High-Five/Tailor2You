@@ -5,6 +5,9 @@
 @import url('category.css');
 @import url('newCollection.css');
 @import url('genderSelect.css');
+@import url('meettailor.css');
+@import url('tailorProfileMain.css');
+
 
 :root {
     --primary-color: #1a1a1a;

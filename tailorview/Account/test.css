@@ -1,0 +1,35 @@
+body{
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.product .grid-container {
+    display: grid;
+    grid-template-columns: 1fr 0.6fr 1fr;
+    /* gap: 20px; */
+    padding: 50px;
+  }
+  
+.product .grid-item {
+    padding: 20px;
+    text-align: center;
+  }
+
+.product .grid-item-middle {
+    padding-top: 70px;
+  }
+
+.product .caption{
+    text-align: center;
+  }
+
+.product .grid-item > h2{
+    text-align: left;
+  }
+.product .middle-text{
+    text-align: left;
+  }
+
+.product .grid-item > img{
+    width: 50vh;
+    border-radius: 20px;
+  }
