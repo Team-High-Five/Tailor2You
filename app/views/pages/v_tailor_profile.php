@@ -1,6 +1,8 @@
 <?php require_once APPROOT . '/views/pages/inc/header.php'; ?>
 <?php require_once APPROOT . '/views/pages/inc/components/topnav.php'; ?>
- 
+
+
+
 <div class="profile-container">
     <div class="pic">
         <div class="profile-image">
