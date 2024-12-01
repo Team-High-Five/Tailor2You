@@ -1,12 +1,10 @@
-
 .appointment-list-container {
   max-width: 1000px;
-  min-width: 1000px;    
   margin: auto;
   padding: 20px;
-  background-color: #fff;
+  background-color: var(--background-color);
   border-radius: 8px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--card-shadow);
 }
 
 .tabs {
@@ -15,7 +13,7 @@
 }
 
 .tab {
-  background-color: #f3f3f3;
+  background-color: var(--background-color);
   border: none;
   padding: 8px 16px;
   border-radius: 4px;
@@ -23,13 +21,13 @@
 }
 
 .tab.active {
-  background-color: #6c63ff;
+  background-color: var(--primary-color);
   color: #fff;
 }
 
 .search-box {
   padding: 8px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--input-border);
   border-radius: 4px;
   width: 200px;
 }
@@ -41,20 +39,20 @@
   margin-bottom: 20px;
 }
 
-
 .appointment-table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.appointment-table th, .appointment-table td {
+.appointment-table th,
+.appointment-table td {
   padding: 12px;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .appointment-table th {
-  background-color: #f3f3f3;
+  background-color: var(--background-color);
   font-weight: bold;
 }
 
@@ -74,10 +72,58 @@
 
 .status.processing {
   background-color: #e4d8ff;
-  color: #6c63ff;
+  color: var(--primary-color);
 }
 
 .status.rejected {
   background-color: #ffc8c8;
-  color: #ff4d4d;
+  color: var(--danger-color);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .appointment-list-container {
+    width: 90%;
+    padding: 1rem;
+  }
+
+  .filter-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tabs {
+    flex-direction: column;
+  }
+
+  .appointment-table th,
+  .appointment-table td {
+    padding: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .appointment-list-container {
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  .filter-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tabs {
+    flex-direction: column;
+  }
+
+  .appointment-table th,
+  .appointment-table td {
+    padding: 0.5rem;
+  }
+
+  .status {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.4rem;
+  }
 }

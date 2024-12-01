@@ -315,7 +315,70 @@ class Tailors extends Controller
             $this->view('users/Tailor/v_t_add_new_post', $data);
         }
     }
+    public function editPost($post_id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
+            $image = null;
+            if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+                $image = file_get_contents($_FILES['image']['tmp_name']);
+            } else {
+                $post = $this->userModel->getPostById($post_id);
+                $image = $post->image;
+            }
+
+            // Input data
+            $data = [
+                'post_id' => $post_id,
+                'user_id' => $_SESSION['user_id'],
+                'title' => trim($_POST['title']),
+                'description' => trim($_POST['description']),
+                'image' => $image
+            ];
+
+            // Update post
+            if ($this->userModel->updatePost($data)) {
+                flash('post_message', 'Post updated successfully');
+                redirect('tailors/displayPortfolio');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            // Get post details
+            $post = $this->userModel->getPostById($post_id);
+
+            // Check if post exists
+            if (!$post) {
+                flash('post_message', 'Post not found', 'alert alert-danger');
+                redirect('tailors/displayPortfolio');
+            }
+
+            $data = [
+                'post_id' => $post->id,
+                'title' => $post->title,
+                'description' => $post->description,
+                'image' => $post->image
+            ];
+
+            $this->view('users/Tailor/v_t_edit_post', $data);
+        }
+    }
+
+    public function deletePost($post_id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Delete post
+            if ($this->userModel->deletePost($post_id)) {
+                flash('post_message', 'Post deleted successfully');
+                redirect('tailors/displayPortfolio');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            redirect('tailors/displayPortfolio');
+        }
+    }
     public function addNewCustomizeItem()
     {
         // if ($_SERVER['REQUEST_METHOD'] == 'POST') {

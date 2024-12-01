@@ -13,17 +13,22 @@
 }
 
 .modal-body {
-    background-color: #fff;
+    background-color: var(--white-color);
     margin: 5% auto;
     padding: 10px 0;
-    border: 1px solid #888;
+    border: 1px solid var(--border-color);
     width: 80%;
     max-width: 600px;
     border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow);
     animation: fadeIn 0.3s ease;
 }
 
+.error-message {
+    color: var(--danger-color);
+    font-size: 14px;
+    margin-top: 5px;
+}
 
 @keyframes fadeIn {
     from {
@@ -42,16 +47,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #fff;
+    background-color: var(--white-color);
     border-radius: 12px;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
     padding: 20px;
     width: 100%;
     max-width: 600px;
     margin: 20px auto;
-    /* Add margin to separate from the edges */
-    margin-top: 100px;
-
 }
 
 .add-new-post-container .modal-header {
@@ -60,18 +62,18 @@
     align-items: center;
     width: 100%;
     padding-bottom: 20px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
     margin-bottom: 20px;
 }
 
 .add-new-post-container .modal-header h1 {
     font-size: 24px;
-    color: #333;
+    color: var(--text-color);
 }
 
-/* post Form Container */
+/* Post Form Container */
 .post-form-container {
-    background-color: #fff;
+    background-color: var(--white-color);
     width: 100%;
     max-width: 600px;
     text-align: center;
@@ -89,7 +91,7 @@
 
 .upload-text {
     background-color: var(--primary-color);
-    color: var(--text-light);
+    color: var(--text-light-color);
     padding: 0.5rem 1rem;
     border-radius: 8px;
     cursor: pointer;
@@ -105,7 +107,7 @@
     width: 300px;
     height: 300px;
     margin: 0 auto;
-    border: 2px dashed #ccc;
+    border: 2px dashed var(--border-color);
     border-radius: 8px;
     overflow: hidden;
     cursor: pointer;
@@ -150,7 +152,7 @@
     display: block;
     text-align: center;
     margin-top: 10px;
-    color: #666;
+    color: var(--text-light-color);
     cursor: pointer;
 }
 
@@ -164,40 +166,47 @@
     display: block;
     font-size: 14px;
     margin-bottom: 5px;
-    color: #333;
+    color: var(--text-color);
 }
 
 .form-group input[type="text"] {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     font-size: 16px;
     transition: border-color 0.3s ease;
 }
 
 .form-group input[type="text"]:focus {
-    border-color: #6c63ff;
+    border-color: var(--primary-color);
     outline: none;
 }
 
 /* Delete Modal Styles */
 /* Modal Content */
 .delete-modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    background-color: var(--white-color);
+    margin: 15% auto;
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-    max-width: 500px; /* Maximum width */
+    border: 1px solid var(--border-color);
+    width: 80%;
+    max-width: 500px;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: var(--shadow);
 }
+
 /* Modal Body */
 .modal-body {
     padding: 10px 0;
 }
 
+.button-rows {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
 
 /* Close Button */
 .close-btn {
@@ -209,8 +218,8 @@
 
 /* Submit Button */
 .submit-btn {
-    background-color: #d9534f;
-    color: white;
+    background-color: var(--danger-color);
+    color: var(--white-color);
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
@@ -219,9 +228,9 @@
 }
 
 /* Cancel Button */
-.cancel-btn {
+.reset-btn {
     background-color: #5bc0de;
-    color: white;
+    color: var(--white-color);
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
@@ -237,4 +246,62 @@
 
 .cancel-btn:hover {
     background-color: #31b0d5;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .modal-body {
+        width: 90%;
+    }
+
+    .add-new-post-container {
+        width: 90%;
+        padding: 1rem;
+    }
+
+    .post-form-container {
+        padding: 1rem;
+    }
+
+    .form-group label {
+        font-size: 12px;
+    }
+
+    .form-group input[type="text"] {
+        font-size: 14px;
+    }
+
+    .submit-btn {
+        font-size: 0.875rem;
+        padding: 0.75rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .modal-body {
+        width: 100%;
+        padding: 0.5rem;
+    }
+
+    .add-new-post-container {
+        width: 100%;
+        padding: 0.5rem;
+    }
+
+    .post-form-container {
+        padding: 0.5rem;
+    }
+
+    .form-group label {
+        font-size: 10px;
+    }
+
+    .form-group input[type="text"] {
+        font-size: 12px;
+    }
+
+    .submit-btn {
+        font-size: 0.75rem;
+        padding: 0.5rem;
+    }
 }
