@@ -194,4 +194,32 @@ class Customers extends Controller {
         ];
         $this->view('users/Customer/v_c_profile', $data);
     }
+
+    public function addpants(){
+        $data = [
+            'title' => 'Add pants'
+        ];
+        $this->view('users/Customer/v_c_addpants', $data);
+    }
+
+    public function addshirt(){
+        $data = [
+            'title' => 'Add Shirts'
+        ];
+        $this->view('users/Customer/v_c_addshirt', $data);
+    }
+    public function changepassword(){
+        $data = [
+            'title' => 'Change Password'
+        ];
+        $this->view('users/Customer/v_c_changepassword', $data);
+    }
+
+    public function updateDetails(){
+        $data = [
+            'title' => 'Update details'
+        ];
+        $this->view('users/Customer/v_c_updateDetails', $data);
+    }
+
 }
