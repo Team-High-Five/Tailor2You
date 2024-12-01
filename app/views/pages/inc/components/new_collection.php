@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="product-card">
-      <img src="<?php echo URLROOT; ?>/public/img/home/men4.jpeg" alt="Navy Shirt">
+      <img src="<?php echo URLROOT; ?>/public/img/designs/desi2.jpeg" alt="Navy Shirt">
       <p class="tailor">Tailor - B.A.Bandara</p>
       <p class="price">Rs. 3500</p>
       <div class="buttons">

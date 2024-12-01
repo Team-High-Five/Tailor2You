@@ -10,7 +10,7 @@
                     Create the suit you’ve always imagined. Work one-on-one with our experienced tailors to design a bespoke suit tailored to your exact specifications. Choose from a wide range of luxurious fabrics, custom fittings, and personalized details to create a look that’s uniquely yours. Whether it’s for a special occasion or daily wear, we bring your vision to life.
                 </div>
                 <div class="buttons">
-                    <button>Explore Now</button>
+                <a href="#genderSection" class="nav-link" id="customTailoringLink" data-target="index.php#genderSection"><button>Explore Now</button></a>
 
                 </div>
             </div>

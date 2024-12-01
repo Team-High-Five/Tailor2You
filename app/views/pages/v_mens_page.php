@@ -3,7 +3,7 @@
 <!-- slider -->
 <?php require_once APPROOT . '/views/pages/inc/components/mens_slidebar.php'; ?>
 <!-- Shop by Category Section -->
-
+<span id="mens-categories"></span>
 <?php require_once APPROOT . '/views/pages/inc/components/category.php'; ?>
 <span id="colllection"></span>
 <?php require_once APPROOT . '/views/pages/inc/components/new_collection.php'; ?>
@@ -21,6 +21,7 @@
 
 
 
+<span id="feedback"></span>
 <!-- Feedback Section -->
 <section class="feedback">
     <div class="feedback-header">
@@ -61,6 +62,7 @@
         </div>
     </div>
 </section>
+<span id="footer"></span>
 <footer class="footer">
     <div class="footer-container">
         <!-- About Us Section -->

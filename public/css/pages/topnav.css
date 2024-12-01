@@ -1,6 +1,20 @@
+:root {
+    --primary-color: #6a5acd;
+    --primary-hover-color: #5849b8;
+    --text-color: #333;
+    --text-light-color: #666;
+    --border-color: #e0e0e0;
+    --background-color: #f4f4f8;
+    --white-color: #fff;
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --danger-color: #ff4d4d;
+    --accent-color: #c4a77d;
+    --accent-hover: #b38f63;
+    --transition: all 0.3s ease;
+}
+
 .header {
     width: 100%;
-    padding: 10px 40px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -10,6 +24,8 @@
     top: 0;
     z-index: 1000;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 5px;
+    margin: auto;
 }
 
 .logo img {
@@ -90,6 +106,7 @@
     letter-spacing: 0.8px;
     color: var(--text-light);
 }
+
 .page-user-icon {
     width: 40px;
     height: 40px;
@@ -149,6 +166,10 @@
     color: var(--accent-color);
 }
 
+.menu-toggle {
+    display: none;
+}
+
 @media screen and (max-width: 1024px) {
     .header {
         padding: 12px 20px;
@@ -166,9 +187,27 @@
 @media screen and (max-width: 768px) {
     .nav-links {
         display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: rgba(26, 26, 26, 0.95);
+        backdrop-filter: blur(8px);
+        padding: 1rem 0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav-links.active {
+        display: flex;
     }
 
     .icons {
         gap: 15px;
+    }
+
+    .menu-toggle {
+        display: block;
+        font-size: 20px;
     }
 }

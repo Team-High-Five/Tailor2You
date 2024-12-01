@@ -5,12 +5,12 @@
             <img src="<?php echo URLROOT; ?>/public/img/home/mensPage1.jpg">
             <div class="overlay"></div>
             <div class="content">
-                <div class="title">Your Custom Suit,<br> Your Vision</div>
+                <div class="title"><br>Latest Arrivals</div>
                 <div class="des">
-                    Create the suit you’ve always imagined. Work one-on-one with our experienced tailors to design a bespoke suit tailored to your exact specifications. Choose from a wide range of luxurious fabrics, custom fittings, and personalized details to create a look that’s uniquely yours. Whether it’s for a special occasion or daily wear, we bring your vision to life.
+                    Discover our latest arrivals in bespoke tailoring. Our new collection features a range of luxurious fabrics, modern designs, and impeccable craftsmanship. Each piece is tailored to perfection, ensuring you look your best for any occasion. Explore the newest trends and elevate your wardrobe with our exclusive arrivals.
                 </div>
                 <div class="buttons">
-                    <button>Explore Now</button>
+                    <a href="#mens-categories" class="nav-link" id="collectionLink" data-target="menspage#mens-categories"><button>Explore Now</button></a>
 
                 </div>
             </div>
@@ -21,12 +21,13 @@
             <div class="overlay"></div>
 
             <div class="content">
-                <div class="title">Pre-Made for You, Ready to Wear</div>
+                <div class="title">Explore Our Men's Collection
+                </div>
                 <div class="des">
-                    Step into sophistication with our exclusive collection of pre-made suits, crafted with precision and style. From boardroom meetings to evening events, our suits are designed to make you look your best, effortlessly. Browse through a variety of cuts, fabrics, and fits to find the perfect suit that’s ready when you are.
+                    Select from a variety of men's clothing categories including suits, shirts, and pants. Our collection features high-quality fabrics, modern designs, and impeccable craftsmanship. Each piece is tailored to perfection, ensuring you look your best for any occasion. Explore our categories and find the perfect outfit that suits your style.
                 </div>
                 <div class="buttons">
-                    <button>Explore Now</button>
+                    <a href="#colllection" class="nav-link" id="collectionLink" data-target="menspage#colllection"><button>Explore Now</button></a>
                 </div>
             </div>
         </div>

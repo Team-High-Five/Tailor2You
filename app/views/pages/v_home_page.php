@@ -22,7 +22,7 @@
     </div>
 </section>
 <!-- Image Section -->
-    <!-- <section class="image-section">
+<!-- <section class="image-section">
         <img src="image/image.png" alt="Tailoring Image">
     </section> -->
 <!-- Book Appointment Section -->
@@ -33,6 +33,9 @@
 </section>
 <span id="genderSection"></span>
 <?php require_once APPROOT . '/views/pages/inc/components/gender_selection.php'; ?>
+
+
+<span id="feedback"></span>
 <!-- Feedback Section -->
 <section class="feedback">
     <div class="feedback-header">
@@ -72,6 +75,7 @@
         </div>
     </div>
 </section>
+<span id="footer"></span>
 <footer class="footer">
     <div class="footer-container">
         <!-- About Us Section -->
