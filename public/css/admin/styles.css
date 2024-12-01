@@ -10,6 +10,7 @@
 @import url('editShopkeeper.css');
 @import url('viewComplaints.css');
 @import url('viewRefunds.css');
+@import url('addUser.css');
 
 /* Global Reset */
 * {
@@ -309,13 +310,16 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 20px; /* Add margin-bottom to separate from the table */
 }
+
 /* Button Styles */
+.add-btn,
 .edit-btn,
 .delete-btn {
     display: inline-block;
-    width: 80px;
-    padding: 5px 10px;
+    width: 120px; /* Adjust width as needed */
+    padding: 10px 15px; /* Adjust padding as needed */
     margin: 0 5px;
     cursor: pointer;
     border: none;
@@ -324,6 +328,16 @@ body {
     font-weight: bold;
     transition: background-color 0.2s;
 }
+
+.add-btn {
+    background-color: #007bff;
+    width: 200px;
+}
+
+.add-btn:hover {
+    background-color: #0056b3;
+}
+
 .edit-btn {
     background-color: #28a745;
 }

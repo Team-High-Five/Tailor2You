@@ -23,7 +23,6 @@
             <div class="right-column">
                 <form action="<?php echo URLROOT; ?>/admin/updateTailor" method="POST" enctype="multipart/form-data" onsubmit="return confirmSave()">
                     <input type="hidden" name="user_id" value="<?php echo $data['tailor']->user_id; ?>">
-                    
                     <div class="row">
                         <div class="input-group">
                             <label for="first-name">First Name</label>
@@ -44,7 +43,6 @@
                             <input type="text" id="phone" name="phone_number" value="<?php echo $data['tailor']->phone_number; ?>" required>
                         </div>
                     </div>
-                    
                     <div class="row">
                         <div class="input-group">
                             <label for="nic">NIC</label>
@@ -72,12 +70,8 @@
                     <div class="input-group">
                         <label for="status">Account Status</label>
                         <select id="status" name="status" required>
-                            <option value="active" <?php if ($data['tailor']->status == 'active')
-                                echo 'selected'; ?>>
-                                Active</option>
-                            <option value="inactive" <?php if ($data['tailor']->status == 'inactive')
-                                echo 'selected'; ?>>
-                                Inactive</option>
+                            <option value="active" <?php if ($data['tailor']->status == 'active') echo 'selected'; ?>>Active</option>
+                            <option value="inactive" <?php if ($data['tailor']->status == 'inactive') echo 'selected'; ?>>Inactive</option>
                         </select>
                     </div>
                     <div class="button-group">
@@ -103,5 +97,4 @@
     }
 </script>
 </body>
-
 </html>

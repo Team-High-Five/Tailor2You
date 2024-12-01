@@ -7,12 +7,15 @@
     <div class="container">
         <div class="form-section">
             <div class="left-column">
-            <img src="<?php echo $data['shopkeeper']->profile_pic; ?>" alt="Shopkeeper Profile Image" class="profile-pic">
-            <div class="user-info">
-                <h3><?php echo $data['shopkeeper']->first_name . ' ' . $data['shopkeeper']->last_name; ?></h3>
-                <p><a href="mailto:<?php echo $data['shopkeeper']->email; ?>"><?php echo $data['shopkeeper']->email; ?></a></p>
+                <?php if (!empty($data['shopkeeper']->profile_pic)): ?>
+                    <img src="data:image/jpeg;base64,<?php echo base64_encode($data['shopkeeper']->profile_pic); ?>"
+                        alt="User Profile Picture">
+                <?php else: ?>
+                    <img src="<?php echo URLROOT; ?>/public/img/default-profile.png" alt="Default Profile Picture">
+                <?php endif; ?>
+                <p><?php echo $data['shopkeeper']->first_name . ' ' . $data['shopkeeper']->last_name; ?></p>
+                <p><?php echo $data['shopkeeper']->email; ?></p>
                 <p><?php echo $data['shopkeeper']->phone_number; ?></p>
-            </div>
             </div>
             <div class="right-section">
             <h2>Basic Info</h2>
@@ -32,7 +35,10 @@
 
                 <label for="address">Address</label>
                 <input type="text" id="address" name="address" value="<?php echo $data['shopkeeper']->address; ?>" required>
-
+                <div class="input-group">
+                        <label for="profile_pic">Profile Picture</label>
+                        <input type="file" id="profile_pic" name="profile_pic">
+                    </div>
                 <label for="account-status">Account Status</label>
                 <select id="account-status" name="status" required>
                     <option value="active" <?php if($data['shopkeeper']->status == 'active') echo 'selected'; ?>>Active</option>
