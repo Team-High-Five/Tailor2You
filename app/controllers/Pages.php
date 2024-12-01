@@ -55,5 +55,14 @@ class Pages extends Controller{
         $this->view('pages/v_meet_tailor', $data);
     }
 
+    public function tailorProfile(){
+        $users = $this->pageModel->getUsers();
+        $data = [
+            'users' => $users
+            
+        ];
+        $this->view('pages/v_tailor_profile', $data);
+    }
+
 
 }
