@@ -4,7 +4,7 @@
 <div class="profile-container">
     <div class="pic">
         <div class="profile-image">
-            <img src="girls1.jpg" alt="Profile">
+            <img src="<?php echo URLROOT; ?>/public/img/home/lady1.jpg" alt="Profile">
         </div>
         <div class="profile-name">Kumudu Liyanage</div>
     </div>

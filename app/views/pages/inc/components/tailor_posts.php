@@ -1,6 +1,6 @@
 <section class="product-grid">
   <div class="product-card">
-    <img src="desi1.jpeg" alt="White Shirt">
+    <img src="<?php echo URLROOT; ?>/public/img/designs/still-life-with-classic-shirts-hanger.jpg" alt="White Shirt">
     <p class="price">Rs. 3500</p>
 
   </div>

@@ -6,7 +6,7 @@
         <a href="<?php echo URLROOT ?>/pages/index" class="nav-link" data-target="index">Home</a>
         <a href="#colllection" class="nav-link" id="collectionLink" data-target="menspage#colllection">Collection</a>
         <a href="#genderSection" class="nav-link" id="customTailoringLink" data-target="index.php#genderSection">Custom Tailoring</a>
-        <a href="<?php echo URLROOT ?>/pages/tailorPage" class="nav-link">Master Tailors</a>
+        <a href="<?php echo URLROOT ?>/pages/tailorPage" class="nav-link" data-target="tailorPage">Master Tailors</a>
         <a href="#" class="nav-link">About Atelier</a>
         <a href="#" class="nav-link">Contact</a>
     </nav>
