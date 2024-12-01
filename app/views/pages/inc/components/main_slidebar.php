@@ -20,12 +20,12 @@
             <div class="overlay"></div>
 
             <div class="content">
-                <div class="title">Pre-Made for You, Ready to Wear</div>
+                <div class="title">Meet Your Tailor,<br> Right Now</div>
                 <div class="des">
                     Step into sophistication with our exclusive collection of pre-made suits, crafted with precision and style. From boardroom meetings to evening events, our suits are designed to make you look your best, effortlessly. Browse through a variety of cuts, fabrics, and fits to find the perfect suit that’s ready when you are.
                 </div>
                 <div class="buttons">
-                    <button>Explore Now</button>
+                <a href="<?php echo URLROOT ?>/Pages/v_meet_tailor"><button>Explore Now</button>
                 </div>
             </div>
         </div>
