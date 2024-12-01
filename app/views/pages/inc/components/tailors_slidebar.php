@@ -5,7 +5,7 @@
             <img src="<?php echo URLROOT; ?>/public/img/home/hero1.png">
             <div class="overlay"></div>
             <div class="content">
-                <div class="title">Your Custom Suit,<br> Your Vision</div>
+                <div class="title"><br> Your Vision</div>
                 <div class="des">
                     Create the suit you’ve always imagined. Work one-on-one with our experienced tailors to design a bespoke suit tailored to your exact specifications. Choose from a wide range of luxurious fabrics, custom fittings, and personalized details to create a look that’s uniquely yours. Whether it’s for a special occasion or daily wear, we bring your vision to life.
                 </div>
@@ -20,11 +20,7 @@
             <div class="overlay"></div>
 
             <div class="content">
-<<<<<<< Updated upstream
-                <div class="title">Meet Your Tailor,<br> Right Now</div>
-=======
                 <div class="title">Meet Your Tailor ,<br>Right Now</div>
->>>>>>> Stashed changes
                 <div class="des">
                 We leave no detail to chance,<br>
                 Advanced measurement tools ensure accuracy down to the millimeter.
@@ -32,7 +28,7 @@
                 Every order is a complete package, tailored to perfection and delivered with care.
                 </div>
                 <div class="buttons">
-                <a href="<?php echo URLROOT ?>/Pages/v_meet_tailor"><button>Explore Now</button>
+                    <button>Explore Now</button>
                 </div>
             </div>
         </div>
