@@ -5,7 +5,7 @@
 @import url('category.css');
 @import url('newCollection.css');
 @import url('genderSelect.css');
-@import url('meettailor.css');
+@import url('meetTailor.css');
 @import url('tailorProfileMain.css');
 
 
@@ -13,13 +13,20 @@
     --primary-color: #1a1a1a;
     --secondary-color: #333;
     --accent-color: #c4a77d;
+    --accent-gradient: linear-gradient(135deg, #c4a77d 0%, #d4b78d 100%);
+    --accent-shadow: 0 8px 32px rgba(196, 167, 125, 0.2);
     --text-light: #ffffff;
     --text-muted: #cccccc;
     --shadow-color: rgba(0, 0, 0, 0.1);
     --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --card-hover-shadow: rgba(196, 167, 125, 0.15);
-    --button-hover-bg: rgba(196, 167, 125, 0.1);
+    --gradient-primary: linear-gradient(135deg, #7a57d1 0%, #6244b8 100%);
+    --gradient-background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+    --accent-hover: #d4b78d;
+    --card-gradient: linear-gradient(145deg, #222222, #2a2a2a);
+    --glass-effect: rgba(255, 255, 255, 0.05);
+    --elegant-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
+
 
 body {
     margin: 0;

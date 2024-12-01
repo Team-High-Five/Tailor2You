@@ -10,7 +10,7 @@
             <section class="fabric-grid">
                 <div class="fabric-card">
                     <img src="<?php echo URLROOT; ?>/public/img/designs/fab4.jpeg" alt="Cotton Poly Poplin Woven">
-                    <p class="fabric-name">Cotton Poly Poplin Woven</p>
+                    <p class="fabric-name">Cotton Poplin Woven</p>
                     <div class="buttons">
                         <button>Select</button>
                     </div>
