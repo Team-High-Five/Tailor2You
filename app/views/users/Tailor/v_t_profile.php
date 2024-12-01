@@ -4,9 +4,8 @@
 <div class="main-content">
     <div class="profile-form-container">
         <div class="profile-form">
-            <form action="<?php echo URLROOT; ?>/tailors/profileUpdate" method="POST" enctype="multipart/form-data">
+            <form id="profileForm" action="<?php echo URLROOT; ?>/tailors/profileUpdate" method="POST" enctype="multipart/form-data">
                 <div class="profile-pic">
-
                     <div class="profile-pic-wrapper">
                         <?php if (empty($data['user']->profile_pic)): ?>
                             <img src="<?php echo URLROOT; ?>/public/img/Add_Image.png" alt="Profile Picture" id="profile-preview">
@@ -115,8 +114,26 @@
                     </label>
                 </div>
 
-                <button type="submit" class="submit-btn">Update Profile</button>
+                <button type="button" class="submit-btn" onclick="confirmUpdate()">Update Profile</button>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Popup -->
+<div id="confirmationPopup" class="popup">
+    <div class="popup-content">
+        <div class="modal-header">
+            <h2>Confirmation</h2>
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+        </div>
+        <div class="update-modal-body">
+            <i class="ri-error-warning-line"></i>
+            <p>Are you sure you want to make changes?</p>
+            <div class="button-rows">
+                <button type="button" class="submit-btn" onclick="submitForm()">Yes, Update</button>
+                <button type="button" class="reset-btn" onclick="closePopup()">Cancel</button>
+            </div>
         </div>
     </div>
 </div>
@@ -134,6 +151,18 @@
         };
         reader.readAsDataURL(event.target.files[0]);
     });
+
+    function confirmUpdate() {
+        document.getElementById('confirmationPopup').style.display = 'block';
+    }
+
+    function closePopup() {
+        document.getElementById('confirmationPopup').style.display = 'none';
+    }
+
+    function submitForm() {
+        document.getElementById('profileForm').submit();
+    }
 </script>
 
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>

@@ -32,9 +32,70 @@
       </div>
     </div>
   </div>
+
+  <div class="charts">
+    <div class="chart-container">
+      <canvas id="barChart"></canvas>
+    </div>
+    <div class="chart-container">
+      <canvas id="pieChart"></canvas>
+    </div>
+  </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+  // Bar Chart
+  const barCtx = document.getElementById('barChart').getContext('2d');
+  const barChart = new Chart(barCtx, {
+    type: 'bar',
+    data: {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+      datasets: [{
+        label: 'Sales',
+        data: [12000, 15000, 8000, 18000, 22000, 20000],
+        backgroundColor: 'rgba(106, 90, 205, 0.6)',
+        borderColor: 'rgba(106, 90, 205, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+  // Pie Chart
+  const pieCtx = document.getElementById('pieChart').getContext('2d');
+  const pieChart = new Chart(pieCtx, {
+    type: 'pie',
+    data: {
+      labels: ['Completed', 'Pending', 'Cancelled'],
+      datasets: [{
+        label: 'Orders',
+        data: [60, 30, 10],
+        backgroundColor: [
+          'rgba(106, 90, 205, 0.6)',
+          'rgba(123, 104, 238, 0.6)',
+          'rgba(255, 99, 132, 0.6)'
+        ],
+        borderColor: [
+          'rgba(106, 90, 205, 1)',
+          'rgba(123, 104, 238, 1)',
+          'rgba(255, 99, 132, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true
+    }
+  });
+
   // Optional: Add some interactive animations
   document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('mousemove', (e) => {

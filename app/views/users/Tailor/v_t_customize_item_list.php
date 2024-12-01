@@ -69,7 +69,10 @@
 <!-- Modal Structure -->
 <div id="customizeModal" class="modal">
   <div class="modal-content">
-    <span class="close-btn">&times;</span>
+    <div class="modal-header">
+      <h1>Add New Design</h1>
+      <button class="close-btn">&times;</button>
+    </div>
     <div id="modal-body">
       <!-- Content from v_t_customize_add_new.php will be loaded here -->
     </div>
