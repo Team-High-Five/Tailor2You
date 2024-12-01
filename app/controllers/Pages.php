@@ -46,7 +46,7 @@ class Pages extends Controller{
         $this->view('pages/v_genderSelect', $data);
     }
 
-    public function meetTailor(){
+    public function tailorPage(){
         $users = $this->pageModel->getUsers();
         $data = [
             'users' => $users

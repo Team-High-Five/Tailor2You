@@ -2,10 +2,10 @@
     <!-- list item -->
     <div class="list">
         <div class="item">
-            <img src="<?php echo URLROOT; ?>/public/img/home/hero1.png">
+            <img src="<?php echo URLROOT; ?>/public/img/home/tailorPage.jpg">
             <div class="overlay"></div>
             <div class="content">
-                <div class="title"><br> Your Vision</div>
+                <div class="title"><br>Your Vision</div>
                 <div class="des">
                     Create the suit you’ve always imagined. Work one-on-one with our experienced tailors to design a bespoke suit tailored to your exact specifications. Choose from a wide range of luxurious fabrics, custom fittings, and personalized details to create a look that’s uniquely yours. Whether it’s for a special occasion or daily wear, we bring your vision to life.
                 </div>

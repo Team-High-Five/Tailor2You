@@ -20,11 +20,7 @@
             <div class="overlay"></div>
 
             <div class="content">
-<<<<<<< Updated upstream
                 <div class="title">Meet Your Tailor,<br> Right Now</div>
-=======
-                <div class="title">Meet Your Tailor ,<br>Right Now</div>
->>>>>>> Stashed changes
                 <div class="des">
                 We leave no detail to chance,<br>
                 Advanced measurement tools ensure accuracy down to the millimeter.
@@ -32,7 +28,7 @@
                 Every order is a complete package, tailored to perfection and delivered with care.
                 </div>
                 <div class="buttons">
-                <a href="<?php echo URLROOT ?>/Pages/v_meet_tailor"><button>Explore Now</button>
+                <a href="<?php echo URLROOT ?>/Pages/tailorPage"><button>Explore Now</button></a>
                 </div>
             </div>
         </div>
