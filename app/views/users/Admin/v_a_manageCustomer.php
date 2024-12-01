@@ -2,6 +2,17 @@
 <?php require_once APPROOT . '/views/inc/admin/adminheader.php'; ?>
 <!-- sidebar -->
 <?php require_once APPROOT . '/views/inc/admin/adminsidebar.php'; ?>
+
+<div class="main-content">
+    <div class="search-container">
+        <div class="search-bar">
+            <input type="text" placeholder="To quickly find specific users">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+    </div>
+    <div class="button-container">
+        <a href="<?php echo URLROOT; ?>/admin/addCustomer" class="add-btn"><i class="fas fa-user-plus"></i> Add Customer</a>
+    </div>
     <table class="user-table">
         <thead>
             <tr>
@@ -21,9 +32,14 @@
                         <td><?php echo $customer->name; ?></td>
                         <td><?php echo $customer->phone_number; ?></td>
                         <td><?php echo $customer->email; ?></td>
-                        <td>Active</td>
+                        <td><?php echo $customer->status; ?> </td>
                         <td>
-                            <a href="#">Edit</a> | <a href="#">Delete</a>
+                            <div class="button-container">
+                                <a href="<?php echo URLROOT; ?>/admin/editCustomer/<?php echo $customer->user_id; ?>" class="edit-btn"><i class="fas fa-edit"></i> Edit</a>
+                                <form action="<?php echo URLROOT; ?>/admin/deleteCustomer/<?php echo $customer->user_id; ?>" method="post" style="display:inline;" onsubmit="return confirmDelete()">
+                                    <button type="submit" class="delete-btn"><i class="fas fa-trash-alt"></i> Delete</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -34,6 +50,11 @@
             <?php endif; ?>
         </tbody>
     </table>
+</div>
+<script>
+function confirmDelete() {
+    return confirm('Are you sure you want to delete this user?');
+}
+</script>
 </body>
-
 </html>

@@ -87,7 +87,11 @@ class Users extends Controller
             case 'shopkeeper':
                 redirect('shopkeepers/index');
                 break;
+            case 'admin':
+                redirect('admin/index');
+                break;
             default:
+
                 redirect('users/login');
                 break;
         }
@@ -106,11 +110,13 @@ class Users extends Controller
         // Redirect to the tailor's dashboard
         redirect('tailors/index');
     }
-    public function validateInput($data){
-        
+    public function validateInput($data)
+    {
+
     }
-    
-    public function selectCreateAccount(){
+
+    public function selectCreateAccount()
+    {
         $this->view('users/v_create_account');
     }
     public function logout()
