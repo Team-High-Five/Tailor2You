@@ -48,7 +48,14 @@ class M_Fabrics
 
     public function getFabricById($fabric_id)
     {
-        $this->db->query('SELECT * FROM fabrics WHERE fabric_id = :fabric_id');
+        $this->db->query('
+            SELECT f.*, GROUP_CONCAT(c.color_name SEPARATOR ", ") AS colors
+            FROM fabrics f
+            LEFT JOIN fabric_colors fc ON f.fabric_id = fc.fabric_id
+            LEFT JOIN colors c ON fc.color_id = c.color_id
+            WHERE f.fabric_id = :fabric_id
+            GROUP BY f.fabric_id
+        ');
         $this->db->bind(':fabric_id', $fabric_id);
         return $this->db->single();
     }

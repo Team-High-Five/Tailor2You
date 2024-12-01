@@ -1,38 +1,75 @@
 .order-progress-container {
-
     width: 80%;
     margin: 2rem auto;
 }
 
-
 select {
     padding: 0.5rem;
-    border: 1px solid #ddd;
+    border: 1px solid var(--input-border);
     border-radius: 5px;
 }
 
-
 .order-card {
     display: flex;
-    background-color: #ffffff;
+    background-color: var(--background-color);
     border-radius: 10px;
     padding: 1rem;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--card-shadow);
     margin-bottom: 1rem;
     gap: 1rem;
 }
 
+.order-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--card-shadow);
+    transition: var(--transition);
+    opacity: 1;
+}
+
+.order-card .order-details {
+    flex-grow: 1;
+}
+
+.order-progress {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+}
+.progress-bar .progress {
+    height: 100%;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+}
+.progress-bar .progress.completed {
+    background-color: #2ed573;
+}
+
 .order-details {
     display: flex;
+    flex-direction: column;
     gap: 1rem;
     align-items: center;
 }
 
-.product-image {
-    width: 80px;
-    height: 80px;
+.order-card .product-image {
+    width: 250px;
+    height: 200px;
     border-radius: 10px;
     object-fit: cover;
+}
+
+.product-image:hover {
+    transform: scale(1.05);
+    transition: var(--transition);
+    opacity: 1;
 }
 
 .product-name {
@@ -41,7 +78,7 @@ select {
 }
 
 .product-price {
-    color: #666;
+    color: var(--text-muted);
 }
 
 .order-info {
@@ -54,7 +91,7 @@ select {
 }
 
 .order-date {
-    color: #888;
+    color: var(--text-muted);
     margin-bottom: 0.5rem;
 }
 
@@ -70,7 +107,6 @@ select {
     height: 32px;
     background-color: #eee;
     border-radius: 50%;
-    
 }
 
 .order-customer-info .customer-name {
@@ -104,12 +140,12 @@ select {
 
 .progress {
     height: 100%;
-    background-color: #5f75ee;
+    background-color: var(--primary-color);
 }
 
 .progress-text {
     font-size: 0.85rem;
-    color: #555;
+    color: var(--text-muted);
     margin-top: 0.5rem;
 }
 
@@ -131,10 +167,96 @@ select {
 .assign-button,
 .status-button {
     background-color: #f4f6fc;
-    color: #333;
+    color: var(--text-color);
+}
+
+.assign-button:hover,
+.status-button:hover {
+    background-color:#e1e4f0;
+    transform: scale(1.05);
+    transition: var(--transition);
+    opacity: 1;
 }
 
 .view-order {
-    background-color: #5f75ee;
+    background-color: var(--primary-color);
     color: white;
+}
+.view-order:hover {
+    background-color: var(--secondary-color);
+    transform: scale(1.05);
+    transition: var(--transition);
+    opacity: 1;
+}
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .order-progress-container {
+        width: 90%;
+        padding: 1rem;
+    }
+
+    .order-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .order-details {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .product-image {
+        width: 60px;
+        height: 60px;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .assign-button,
+    .status-button,
+    .view-order {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .order-progress-container {
+        width: 100%;
+        padding: 0.5rem;
+    }
+
+    .order-card {
+        padding: 0.5rem;
+    }
+
+    .product-image {
+        width: 50px;
+        height: 50px;
+    }
+
+    .order-id {
+        font-size: 1rem;
+    }
+
+    .order-date,
+    .product-price,
+    .progress-text {
+        font-size: 0.75rem;
+    }
+
+    .status {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.4rem;
+    }
+
+    .assign-button,
+    .status-button,
+    .view-order {
+        font-size: 0.875rem;
+        padding: 0.5rem;
+    }
 }

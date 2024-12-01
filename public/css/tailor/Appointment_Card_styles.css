@@ -1,11 +1,9 @@
-
 .appointment-details-container {
-    min-width: 400px;
-
+  min-width: 400px;
   margin: 40px auto;
-  background-color: #fff;
+  background-color: var(--background-color);
   border-radius: 12px;
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--card-shadow);
   padding: 20px;
   text-align: center;
   position: relative;
@@ -17,19 +15,17 @@
   align-items: center;
   font-size: 18px;
   font-weight: bold;
-  color: #333;
+  color: var(--text-dark);
   margin-bottom: 10px;
 }
-
-
 
 .appointment-info {
   margin-bottom: 20px;
 }
 
 .appointment-date {
-  font-size: 16px;
-  color: #666;
+  font-size: 16px;  
+  color: var(--text-muted);
   margin-bottom: 10px;
 }
 
@@ -50,13 +46,13 @@
 .user-name {
   font-size: 18px;
   font-weight: bold;
-  color: #333;
+  color: var(--text-dark);
 }
 
 .calendar-icon {
   display: inline-block;
   text-align: center;
-  border: 2px solid #000;
+  border: 2px solid var(--text-dark);
   border-radius: 8px;
   padding: 10px 15px;
   margin-bottom: 20px;
@@ -65,18 +61,18 @@
 .calendar-icon .month {
   font-size: 14px;
   font-weight: bold;
-  color: #333;
+  color: var(--text-dark);
 }
 
 .calendar-icon .date {
   font-size: 36px;
   font-weight: bold;
-  color: #000;
+  color: var(--text-dark);
 }
 
 .calendar-icon .day {
   font-size: 14px;
-  color: #333;
+  color: var(--text-dark);
 }
 
 .status {
@@ -96,18 +92,80 @@
 .tailor-info {
   margin-top: 20px;
   font-size: 14px;
-  color: #333;
+  color: var(--text-dark);
 }
-
 
 /* Appointment Link Styling */
 .appointment-link {
-    color: #6c63ff;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: bold;
+  transition: color var(--transition);
+}
+
+.appointment-link:hover {
+  color: var(--secondary-color);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .appointment-details-container {
+    width: 90%;
+    padding: 1rem;
   }
-  
-  .appointment-link:hover {
-    color: #5a52d1;
+
+  .appointment-header {
+    flex-direction: column;
+    align-items: flex-start;
   }
+
+  .user-info {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .user-avatar {
+    margin-bottom: 10px;
+  }
+
+  .calendar-icon {
+    margin-bottom: 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .appointment-details-container {
+    width: 50% ;
+    padding: 0.5rem;
+  }
+
+  .appointment-header {
+    font-size: 16px;
+  }
+
+  .appointment-date {
+    font-size: 14px;
+  }
+
+  .user-name {
+    font-size: 16px;
+  }
+
+  .calendar-icon .month,
+  .calendar-icon .day {
+    font-size: 12px;
+  }
+
+  .calendar-icon .date {
+    font-size: 28px;
+  }
+
+  .status {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+
+  .tailor-info {
+    font-size: 12px;
+  }
+}

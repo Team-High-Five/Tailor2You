@@ -27,6 +27,7 @@
 
 :root {
     --primary-color: #6a5acd;
+    --primary-gradient: linear-gradient(180deg, #7a57d1 0%, #6244b8 100%);
     --secondary-color: #7b68ee;
     --danger-color: #ff4d4d;
     --danger-dark-color: #d43f3f;
@@ -38,8 +39,27 @@
     --text-dark: #333;
     --text-muted: #555;
     --border-color: #e0e0e0;
+    --accent-color: #c4a77d;
+    --accent-hover: #b38f63;
+    --transition: all 0.3s ease;
+    --sidebar-background: var(--primary-gradient);
+    --sidebar-hover-background: rgba(255, 255, 255, 0.15);
+    --sidebar-active-background: rgba(255, 255, 255, 0.2);
+    --sidebar-active-border: #ffffff;
+    --sidebar-icon-brightness: 0.9;
+    --sidebar-icon-hover-brightness: 1.2;
+    --card-gradient: linear-gradient(135deg, #f0f0f0 0%, #ffffff 100%);
+    --glass-effect: rgba(255, 255, 255, 0.95);
+    --measurement-color: #6244b8;
+    --success-gradient: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    --danger-gradient: linear-gradient(135deg, #dc3545 0%, #ff4d4d 100%);
+    --card-hover-transform: translateY(-5px);
+    --measurement-item-background: rgba(122, 87, 209, 0.1);
+    --primary-hover-color: #5849b8;
+    --text-light-color: #666;
+    --white-color: #fff;
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
-
 
 * {
     box-sizing: border-box;
@@ -72,6 +92,16 @@ body {
     transform: translateY(-10px);
 }
 
+/* Section Content */
+.Section-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(4px);
+    margin-left: 80px;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
     .main-content {
@@ -98,12 +128,12 @@ body {
     }
 }
 
-/* Section Content */
-.Section-content {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(4px);
-    margin-left: 80px;
+@media screen and (max-width: 480px) {
+    .main-content {
+        padding: 0.5rem;
+    }
+
+    .Section-content {
+        margin-left: 70px;
+    }
 }

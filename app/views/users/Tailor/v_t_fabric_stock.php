@@ -23,9 +23,9 @@
           <tr>
             <td>
               <?php if ($fabric->image): ?>
-                <img src="data:image/jpeg;base64,<?php echo base64_encode($fabric->image); ?>" alt="<?php echo $fabric->fabric_name; ?>" class="product-image">
+                <img src="data:image/jpeg;base64,<?php echo base64_encode($fabric->image); ?>" alt="<?php echo $fabric->fabric_name; ?>" class="fabric-image">
               <?php else: ?>
-                <img src="https://via.placeholder.com/50" alt="<?php echo $fabric->fabric_name; ?>" class="product-image">
+                <img src="https://via.placeholder.com/50" alt="<?php echo $fabric->fabric_name; ?>" class="fabric-image">
               <?php endif; ?>
             </td>
             <td><?php echo $fabric->fabric_name; ?></td>
@@ -76,7 +76,7 @@
       <p>Are you sure you want to delete this fabric?</p>
       <form id="deleteFabricForm" action="" method="post">
         <button type="submit" class="submit-btn">Yes, Delete</button>
-        <button type="button" class="cancel-btn" onclick="closeDeleteFabricModal()">Cancel</button>
+        <button type="button" class="reset-btn" onclick="closeDeleteFabricModal()">Cancel</button>
       </form>
     </div>
   </div>
@@ -189,7 +189,7 @@
             const output = document.getElementById('post-preview');
             output.src = reader.result;
           };
-          
+
           reader.readAsDataURL(file);
 
           // Validate image size

@@ -4,9 +4,8 @@
 <div class="main-content">
     <div class="profile-form-container">
         <div class="profile-form">
-            <form action="<?php echo URLROOT; ?>/Shopkeepers/profileUpdate" method="POST" enctype="multipart/form-data">
+            <form id="profileForm" action="<?php echo URLROOT; ?>/Shopkeepers/profileUpdate" method="POST" enctype="multipart/form-data">
                 <div class="profile-pic">
-
                     <div class="profile-pic-wrapper">
                         <?php if (empty($data['user']->profile_pic)): ?>
                             <img src="<?php echo URLROOT; ?>/public/img/add-image.png" alt="Profile Picture" id="profile-preview">
@@ -25,14 +24,14 @@
 
                 <div class="form-two-group">
                     <div class="form-group">
-                        <label for="first_name">First Name</label>
+                        <label for="first_name">Shop Name</label>
                         <input type="text" id="first_name" name="first_name" value="<?php echo $data['user']->first_name; ?>" required>
                         <?php if (!empty($data['first_name_err'])): ?>
                             <span class="error"><?php echo $data['first_name_err']; ?></span>
                         <?php endif; ?>
                     </div>
                     <div class="form-group">
-                        <label for="last_name">Last Name</label>
+                        <label for="last_name">Owner's Name</label>
                         <input type="text" id="last_name" name="last_name" value="<?php echo $data['user']->last_name; ?>" required>
                         <?php if (!empty($data['last_name_err'])): ?>
                             <span class="error"><?php echo $data['last_name_err']; ?></span>
@@ -43,7 +42,7 @@
                 <div class="form-two-group">
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" value="<?php echo $data['user']->email; ?>" required>
+                        <input type="email" id="email" name="email" value="<?php echo $data['user']->email; ?>" readonly>
                         <?php if (!empty($data['email_err'])): ?>
                             <span class="error"><?php echo $data['email_err']; ?></span>
                         <?php endif; ?>
@@ -115,8 +114,27 @@
                     </label>
                 </div>
 
-                <button type="submit" class="submit-btn">Update Profile</button>
+                <button type="button" class="submit-btn" onclick="confirmUpdate()">Update Profile</button>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Confirmation Popup -->
+<div id="confirmationPopup" class="popup">
+    <div class="popup-content">
+        <div class="modal-header">
+            <h2>Confirmation</h2>
+            <span class="close-btn" onclick="closePopup()">&times;</span>
+        </div>
+        <div class="update-modal-body">
+            <i class="ri-error-warning-line"></i>
+            <p>Are you sure you want to make changes?</p>
+            <div class="button-rows">
+                <button type="submit" class="submit-btn">Yes, Update</button>
+                <button type="button" class="reset-btn" onclick="closePopup()">Cancel</button>
+            </div>
+
         </div>
     </div>
 </div>
@@ -134,6 +152,18 @@
         };
         reader.readAsDataURL(event.target.files[0]);
     });
+
+    function confirmUpdate() {
+        document.getElementById('confirmationPopup').style.display = 'block';
+    }
+
+    function closePopup() {
+        document.getElementById('confirmationPopup').style.display = 'none';
+    }
+
+    function submitForm() {
+        document.getElementById('profileForm').submit();
+    }
 </script>
 
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>

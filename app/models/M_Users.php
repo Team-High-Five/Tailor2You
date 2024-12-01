@@ -99,6 +99,34 @@ class M_Users
         // Execute
         return $this->db->execute();
     }
+    public function getPostById($post_id)
+    {
+        $this->db->query('SELECT * FROM posts WHERE id = :post_id');
+        $this->db->bind(':post_id', $post_id);
+        return $this->db->single();
+    }
+
+    public function updatePost($data)
+    {
+        $this->db->query('UPDATE posts SET title = :title, description = :description, image = :image WHERE id = :post_id');
+        // Bind values
+        $this->db->bind(':title', $data['title']);
+        $this->db->bind(':description', $data['description']);
+        $this->db->bind(':image', $data['image']);
+        $this->db->bind(':post_id', $data['post_id']);
+
+        // Execute
+        return $this->db->execute();
+    }
+
+    public function deletePost($post_id)
+    {
+        $this->db->query('DELETE FROM posts WHERE id = :post_id');
+        $this->db->bind(':post_id', $post_id);
+
+        // Execute
+        return $this->db->execute();
+    }
 
     public function getAllCustomers()
     {

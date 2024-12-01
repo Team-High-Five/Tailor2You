@@ -1,10 +1,12 @@
 /* footer.css */
 .site-footer {
-    background-color: #7a57d1; /* Match the sidebar color */
+    background-color: #7a57d1;
+    /* Match the sidebar color */
     color: #ffffff;
     padding: 40px 0 20px;
     font-family: 'Poppins', sans-serif;
-    margin-top: auto; /* Ensure it stays at the bottom */
+    margin-top: auto;
+    /* Ensure it stays at the bottom */
 }
 
 .site-footer .footer-content {
@@ -83,9 +85,48 @@
 @media (max-width: 768px) {
     .site-footer .footer-content {
         flex-direction: column;
+        align-items: center;
     }
 
     .site-footer .footer-section {
         margin-bottom: 30px;
+        text-align: center;
+    }
+
+    .site-footer .social {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .site-footer {
+        padding: 20px 0 10px;
+    }
+
+    .site-footer h3 {
+        font-size: 16px;
+    }
+
+    .site-footer p {
+        font-size: 13px;
+    }
+
+    .site-footer .links ul li {
+        margin-bottom: 8px;
+    }
+
+    .site-footer .links ul li a {
+        font-size: 13px;
+    }
+
+    .site-footer .social a {
+        font-size: 18px;
+        margin-right: 10px;
+    }
+
+    .site-footer .footer-bottom p {
+        font-size: 11px;
     }
 }
