@@ -1,19 +1,37 @@
 function confirmDelete() {
     return confirm('Are you sure you want to delete this user?');
 }
+
 function confirmSave() {
     return confirm('Are you sure you want to save these changes?');
 }
-<a href="<?php echo URLROOT; ?>/admin/editCustomer/<?php echo $customer->user_id; ?>" class="edit-btn"><i class="fas fa-edit"></i> Edit</a>
+
 function toggleSidebar() {
     var sidebar = document.getElementById("sidebar");
-    sidebar.style.left = sidebar.style.left === "-300px" ? "0" : "-300px";
+    var mainContent = document.querySelector(".main-content");
+    if (sidebar.style.left === "0px") {
+        sidebar.style.left = "-300px";
+        mainContent.classList.remove("shifted");
+    } else {
+        sidebar.style.left = "0px";
+        mainContent.classList.add("shifted");
+    }
 }
 
 function toggleDropdown() {
-    const dropdownMenu = document.getElementById("dropdownMenu");
-    dropdownMenu.classList.toggle("show");
+    this.classList.toggle("active");
+    var dropdownContent = this.nextElementSibling;
+    if (dropdownContent.style.display === "block") {
+        dropdownContent.style.display = "none";
+    } else {
+        dropdownContent.style.display = "block";
+    }
 }
+
+// Add event listeners for dropdown buttons
+document.querySelectorAll('.dropdown-btn').forEach(button => {
+    button.addEventListener('click', toggleDropdown);
+});
 
 // Optional: Add function to log out or sign out (placeholder actions)
 function logout() {
@@ -28,12 +46,12 @@ function signOut() {
 
 // Close the dropdown if clicked outside
 window.onclick = function(event) {
-    if (!event.target.matches('.fa-ellipsis-h')) {
-        const dropdowns = document.getElementsByClassName("dropdown-menu");
+    if (!event.target.matches('.dropdown-btn')) {
+        const dropdowns = document.getElementsByClassName("dropdown-container");
         for (let i = 0; i < dropdowns.length; i++) {
             const openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
+            if (openDropdown.style.display === "block") {
+                openDropdown.style.display = "none";
             }
         }
     }

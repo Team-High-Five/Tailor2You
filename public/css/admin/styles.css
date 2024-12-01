@@ -89,6 +89,7 @@ body {
     height: 40px;
     border-radius: 50%;
     margin-right: 10px;
+    margin-top: 5px;
 }
 .profile-info .profile-title {
     font-weight: bold;
@@ -104,6 +105,7 @@ body {
     position: absolute;
     top: 40px;
     right: 20px;
+    color: #000;
     background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -126,35 +128,62 @@ body {
 .show {
     display: block;
 }
+
 /* Sidebar Styles */
 .sidebar {
     position: fixed;
-    top: 60px;
-    left: 0;
+    border-radius: 20px;
+    top: 120px;
+    left: -300px; /* Initially hidden */
     bottom: 0;
-    left: -300px;
     width: 300px;
     height: 100%;
-    background-color: #ffffff;
+    background-color: #efecec;
     padding: 20px;
     box-sizing: border-box;
     overflow: auto;
+    transition: left 0.3s;
 }
-.sidebar a {
+.sidebar a,
+.sidebar button {
     padding: 15px 25px;
     text-decoration: none;
     font-size: 18px;
     color: #000000;
     display: block;
+    background: none;
+    border: none;
+    border-radius: 20px;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.3s;
 }
-.sidebar a:hover {
-    background-color:rgba(193, 193, 193, 0.7);  
+
+.sidebar a:hover,
+.sidebar button:hover {
+    background-color: rgba(193, 193, 193, 0.7);
 }
 .menu-icon {
     font-size: 30px;
     cursor: pointer;
     color: #ffffff;
 }
+/* Main Content */
+.main-content {
+    transition: margin-left 0.3s, text-align 0.3s;
+    margin-left: 5; /* Initially no margin */
+    text-align: center; /* Center the content */
+    width: calc(100% - 40px); /* Adjust width to account for padding */
+    padding: 20px; /* Add padding */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.main-content.shifted {
+    margin-left: 300px; /* Shifted margin when sidebar is visible */
+    text-align: left; /* Align the content to the left */
+}
+
 /* Search Container */
 .search-container {
     display: flex;
@@ -218,15 +247,14 @@ body {
     top : -40px;
 }
 /* Table Styles */
+/* Table Styles */
 .user-table {
-    width: 95%;
-    margin: 20px auto;
+    width: 90%; /* Ensure the table takes full width */
+    margin: 20px auto; /* Center the table */
     border-collapse: collapse;
     background-color: #fff;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    margin-top: -10px;
 }
-
 .user-table th,
 .user-table td {
     padding: 15px;
@@ -311,4 +339,3 @@ body {
 .delete-btn:hover {
     background-color: #c82333;
 }
-

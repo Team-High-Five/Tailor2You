@@ -4,16 +4,17 @@
 <?php require_once APPROOT . '/views/inc/admin/adminsidebar.php'; ?>
 
 <div class="complaint-form">
-    <div class="profile-edit">
-        <div class="left-section">
+    <div class="container">
+        <div class="form-section">
+            <div class="left-column">
             <img src="<?php echo $data['shopkeeper']->profile_pic; ?>" alt="Shopkeeper Profile Image" class="profile-pic">
-            <div class="shopkeeper-info">
+            <div class="user-info">
                 <h3><?php echo $data['shopkeeper']->first_name . ' ' . $data['shopkeeper']->last_name; ?></h3>
                 <p><a href="mailto:<?php echo $data['shopkeeper']->email; ?>"><?php echo $data['shopkeeper']->email; ?></a></p>
                 <p><?php echo $data['shopkeeper']->phone_number; ?></p>
             </div>
-        </div>
-        <div class="right-section">
+            </div>
+            <div class="right-section">
             <h2>Basic Info</h2>
             <form action="<?php echo URLROOT; ?>/admin/updateShopkeeper" method="post" enctype="multipart/form-data" onsubmit="return confirmSave()">
                 <input type="hidden" name="user_id" value="<?php echo $data['shopkeeper']->user_id; ?>">
@@ -42,6 +43,7 @@
                     <button type="reset" class="cancel-btn" onclick="return confirmCancel()">Cancel</button>
                 </div>
             </form>
+            </div>
         </div>
     </div>
 </div>

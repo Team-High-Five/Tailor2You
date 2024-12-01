@@ -106,14 +106,10 @@ class admin extends controller
     }
     public function complaintsSection()
     {
-        $data = [];
-
         $this->view('users/Admin/v_a_complaintsSection');
     }
     public function generateReports()
     {
-        $data = [];
-
         $this->view('users/Admin/v_a_generateReports');
     }
     public function editCustomer($id)
@@ -126,14 +122,10 @@ class admin extends controller
     }
     public function reviewSection()
     {
-        $data = [];
-
         $this->view('users/Admin/v_a_reviewSection');
     }
     public function refundPayments()
     {
-        $data = [];
-
         $this->view('users/Admin/v_a_refundPayments');
 
     }
@@ -247,5 +239,22 @@ class admin extends controller
         }
     }
 
+    public function dashboard()
+    {
+        $userModel = $this->model('M_Users');
+        $userCount = $userModel->getUserCount();
+        $orderCount = $userModel->getOrderCount();
+        $inventoryCount = $userModel->getInventoryCount();
+        $reviewCount = $userModel->getReviewCount();
+
+        $data = [
+            'userCount' => $userCount,
+            'orderCount' => $orderCount,
+            'inventoryCount' => $inventoryCount,
+            'reviewCount' => $reviewCount
+        ];
+
+        $this->view('users/Admin/v_a_dashboard', $data);
+    }
 }
 ?>

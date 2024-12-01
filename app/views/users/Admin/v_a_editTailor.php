@@ -21,47 +21,49 @@
 
             <!-- Right Column: Form to Edit Details -->
             <div class="right-column">
-                <form action="<?php echo URLROOT; ?>/admin/updateTailor" method="POST" enctype="multipart/form-data"
-                    onsubmit="return confirmSave()">
+                <form action="<?php echo URLROOT; ?>/admin/updateTailor" method="POST" enctype="multipart/form-data" onsubmit="return confirmSave()">
                     <input type="hidden" name="user_id" value="<?php echo $data['tailor']->user_id; ?>">
-                    <div class="input-group">
-                        <label for="first-name">First Name</label>
-                        <input type="text" id="first-name" name="first_name"
-                            value="<?php echo $data['tailor']->first_name; ?>" required>
+                    
+                    <div class="row">
+                        <div class="input-group">
+                            <label for="first-name">First Name</label>
+                            <input type="text" id="first-name" name="first_name" value="<?php echo $data['tailor']->first_name; ?>" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="last-name">Last Name</label>
+                            <input type="text" id="last-name" name="last_name" value="<?php echo $data['tailor']->last_name; ?>" required>
+                        </div>
                     </div>
-                    <div class="input-group">
-                        <label for="last-name">Last Name</label>
-                        <input type="text" id="last-name" name="last_name"
-                            value="<?php echo $data['tailor']->last_name; ?>" required>
+                    <div class="row">
+                        <div class="input-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" value="<?php echo $data['tailor']->email; ?>" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="phone">Phone</label>
+                            <input type="text" id="phone" name="phone_number" value="<?php echo $data['tailor']->phone_number; ?>" required>
+                        </div>
                     </div>
-                    <div class="input-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" value="<?php echo $data['tailor']->email; ?>"
-                            required>
+                    
+                    <div class="row">
+                        <div class="input-group">
+                            <label for="nic">NIC</label>
+                            <input type="text" id="nic" name="nic" value="<?php echo $data['tailor']->nic; ?>">
+                        </div>
+                        <div class="input-group">
+                            <label for="birth_date">Birth Date</label>
+                            <input type="date" id="birth_date" name="birth_date" value="<?php echo $data['tailor']->birth_date; ?>">
+                        </div>
                     </div>
-                    <div class="input-group">
-                        <label for="phone">Phone</label>
-                        <input type="text" id="phone" name="phone_number"
-                            value="<?php echo $data['tailor']->phone_number; ?>" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="nic">NIC</label>
-                        <input type="text" id="nic" name="nic" value="<?php echo $data['tailor']->nic; ?>">
-                    </div>
-                    <div class="input-group">
-                        <label for="birth_date">Birth Date</label>
-                        <input type="date" id="birth_date" name="birth_date"
-                            value="<?php echo $data['tailor']->birth_date; ?>">
-                    </div>
-                    <div class="input-group">
-                        <label for="home_town">Home Town</label>
-                        <input type="text" id="home_town" name="home_town"
-                            value="<?php echo $data['tailor']->home_town; ?>" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="address">Address</label>
-                        <input type="text" id="address" name="address" value="<?php echo $data['tailor']->address; ?>"
-                            required>
+                    <div class="row">
+                        <div class="input-group">
+                            <label for="home_town">Home Town</label>
+                            <input type="text" id="home_town" name="home_town" value="<?php echo $data['tailor']->home_town; ?>" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="address">Address</label>
+                            <input type="text" id="address" name="address" value="<?php echo $data['tailor']->address; ?>" required>
+                        </div>
                     </div>
                     <div class="input-group">
                         <label for="profile_pic">Profile Picture</label>
