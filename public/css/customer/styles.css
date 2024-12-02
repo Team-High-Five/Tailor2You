@@ -7,6 +7,11 @@
 @import url('components/flash_msg.css');
 @import url('topNavBar_styles.css');
 @import url('Customer_Profile_styles.css');
+<<<<<<< Updated upstream
 @import url('Customer_orders_styles.css')
 @import url('components/chat.css');
 
+=======
+@import url('Customer_orders_styles.css');
+@import url('Customer_Appointments_styles.css');
+>>>>>>> Stashed changes

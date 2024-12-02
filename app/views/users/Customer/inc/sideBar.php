@@ -14,7 +14,7 @@ function isCurrentPage($page)
     <img src="../<?php APPROOT ?>/public/img/logo.png" alt="Logo" />
   </a>
   <div id="Profile" class="sidebar-icon <?php echo isCurrentPage('profileUpdate') ? 'active' : ''; ?>">
-    <a href="<?php echo URLROOT ?>/Customer/profileUpdate">
+    <a href="<?php echo URLROOT ?>/Customers/profile">
       <img src="../<?php APPROOT ?>/public/img/Customer.png">
     </a>
   </div>
@@ -24,7 +24,7 @@ function isCurrentPage($page)
     </a>
   </div>
   <div id="Appointments" class="sidebar-icon <?php echo isCurrentPage('displayAppointments') ? 'active' : ''; ?>">
-    <a href="<?php echo URLROOT ?>/Tailors/displayAppointments">
+    <a href="<?php echo URLROOT ?>/Customers/appointments">
       <img src="../<?php APPROOT ?>/public/img/Calendar.png">
     </a>
   </div>
