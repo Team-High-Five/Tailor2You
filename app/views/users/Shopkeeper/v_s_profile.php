@@ -97,6 +97,7 @@
                 </div>
 
                 <button type="button" class="submit-btn" onclick="confirmUpdate()">Update Profile</button>
+                <button type="button" class="delete-btn" onclick="confirmDelete()">Delete Profile</button>
             </form>
         </div>
     </div>
@@ -116,6 +117,23 @@
                 <button type="submit" class="submit-btn" onclick="submitForm()">Yes, Update</button>
                 <button type="button" class="reset-btn" onclick="closePopup()">Cancel</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteUserModal" class="modal">
+    <div class="delete-modal-content">
+        <div class="modal-header">
+            <h1>Confirm Deletion</h1>
+            <button class="close-btn" onclick="closeDeleteUserModal()">&times;</button>
+        </div>
+        <div class="delete-modal-body">
+            <p>Are you sure you want to delete this profile?</p>
+            <form id="deleteUserForm" action="<?php echo URLROOT; ?>/Users/deleteUser/<?php echo $_SESSION['user_id']; ?>" method="post">
+                <button type="submit" class="submit-btn">Yes, Delete</button>
+                <button type="button" class="reset-btn" onclick="closeDeleteUserModal()">Cancel</button>
+            </form>
         </div>
     </div>
 </div>
@@ -148,6 +166,20 @@
             document.getElementById('profileForm').submit();
         }
     }
+
+    function confirmDelete() {
+        document.getElementById('deleteUserModal').style.display = 'block';
+    }
+
+    function closeDeleteUserModal() {
+        document.getElementById('deleteUserModal').style.display = 'none';
+    }
+
+    window.addEventListener('click', function(event) {
+        if (event.target == document.getElementById('deleteUserModal')) {
+            document.getElementById('deleteUserModal').style.display = 'none';
+        }
+    });
 </script>
 
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>
