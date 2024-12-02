@@ -24,8 +24,7 @@
 @import url('Portfolio_styles.css');
 @import url('btn_styles.css');
 @import url('New_Pop_up_styles.css');
-@import url('dark_mode_styles.css');
-
+@import url('components/chat.css');
 :root {
     --primary-color: #6a5acd;
     --primary-gradient: linear-gradient(180deg, #7a57d1 0%, #6244b8 100%);

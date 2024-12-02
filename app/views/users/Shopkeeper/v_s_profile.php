@@ -26,16 +26,12 @@
                     <div class="form-group">
                         <label for="first_name">Shop Name</label>
                         <input type="text" id="first_name" name="first_name" value="<?php echo $data['user']->first_name; ?>" required>
-                        <?php if (!empty($data['first_name_err'])): ?>
-                            <span class="error"><?php echo $data['first_name_err']; ?></span>
-                        <?php endif; ?>
+                        <span class="error" id="first_name_err"></span>
                     </div>
                     <div class="form-group">
                         <label for="last_name">Owner's Name</label>
                         <input type="text" id="last_name" name="last_name" value="<?php echo $data['user']->last_name; ?>" required>
-                        <?php if (!empty($data['last_name_err'])): ?>
-                            <span class="error"><?php echo $data['last_name_err']; ?></span>
-                        <?php endif; ?>
+                        <span class="error" id="last_name_err"></span>
                     </div>
                 </div>
 
@@ -43,33 +39,25 @@
                     <div class="form-group">
                         <label for="email">Email</label>
                         <input type="email" id="email" name="email" value="<?php echo $data['user']->email; ?>" readonly>
-                        <?php if (!empty($data['email_err'])): ?>
-                            <span class="error"><?php echo $data['email_err']; ?></span>
-                        <?php endif; ?>
+                        <span class="error" id="email_err"></span>
                     </div>
                     <div class="form-group">
                         <label for="phone_number">Phone Number</label>
                         <input type="text" id="phone_number" name="phone_number" value="<?php echo $data['user']->phone_number; ?>" required>
-                        <?php if (!empty($data['phone_number_err'])): ?>
-                            <span class="error"><?php echo $data['phone_number_err']; ?></span>
-                        <?php endif; ?>
+                        <span class="error" id="phone_number_err"></span>
                     </div>
                 </div>
 
                 <div class="form-two-group">
                     <div class="form-group">
                         <label for="nic">NIC</label>
-                        <input type="text" id="nic" name="nic" value="<?php echo $data['user']->nic; ?>" required>
-                        <?php if (!empty($data['nic_err'])): ?>
-                            <span class="error"><?php echo $data['nic_err']; ?></span>
-                        <?php endif; ?>
+                        <input type="text" id="nic" name="NIC" value="<?php echo $data['user']->nic; ?>" required>
+                        <span class="error" id="NIC_err"></span>
                     </div>
                     <div class="form-group">
                         <label for="birth_date">Birth Date</label>
                         <input type="date" id="birth_date" name="birth_date" value="<?php echo $data['user']->birth_date; ?>" required>
-                        <?php if (!empty($data['birth_date_err'])): ?>
-                            <span class="error"><?php echo $data['birth_date_err']; ?></span>
-                        <?php endif; ?>
+                        <span class="error" id="birth_date_err"></span>
                     </div>
                 </div>
 
@@ -77,25 +65,19 @@
                     <div class="form-group">
                         <label for="home_town">Home Town</label>
                         <input type="text" id="home_town" name="home_town" value="<?php echo $data['user']->home_town; ?>" required>
-                        <?php if (!empty($data['home_town_err'])): ?>
-                            <span class="error"><?php echo $data['home_town_err']; ?></span>
-                        <?php endif; ?>
+                        <span class="error" id="home_town_err"></span>
                     </div>
                     <div class="form-group">
                         <label for="address">Address</label>
                         <input type="text" id="address" name="address" value="<?php echo $data['user']->address; ?>" required>
-                        <?php if (!empty($data['address_err'])): ?>
-                            <span class="error"><?php echo $data['address_err']; ?></span>
-                        <?php endif; ?>
+                        <span class="error" id="address_err"></span>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="bio">Bio</label>
                     <textarea id="bio" name="bio" rows="4"><?php echo $data['user']->bio; ?></textarea>
-                    <?php if (!empty($data['bio_err'])): ?>
-                        <span class="error"><?php echo $data['bio_err']; ?></span>
-                    <?php endif; ?>
+                    <span class="error" id="bio_err"></span>
                 </div>
 
                 <div class="radio-group">
@@ -134,11 +116,11 @@
                 <button type="submit" class="submit-btn" onclick="submitForm()">Yes, Update</button>
                 <button type="button" class="reset-btn" onclick="closePopup()">Cancel</button>
             </div>
-
         </div>
     </div>
 </div>
 
+<script src="<?php echo URLROOT; ?>/public/js/user-profile-validations.js"></script>
 <script>
     document.getElementById('profile-preview').addEventListener('click', function() {
         document.getElementById('upload-photo').click();
@@ -162,7 +144,9 @@
     }
 
     function submitForm() {
-        document.getElementById('profileForm').submit();
+        if (validateForm()) {
+            document.getElementById('profileForm').submit();
+        }
     }
 </script>
 
