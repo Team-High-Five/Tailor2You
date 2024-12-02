@@ -1,13 +1,4 @@
-:root {
-    /* Adding new variables for enhanced design */
-    --glass-effect: rgba(255, 255, 255, 0.95);
-    --measurement-color: #6244b8;
-    --success-gradient: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-    --danger-gradient: linear-gradient(135deg, #dc3545 0%, #ff4d4d 100%);
-    --card-hover-transform: translateY(-5px);
-    --measurement-item-background: rgba(122, 87, 209, 0.1);
-}
-
+/* Item Details Container */
 .item-details-container {
     width: 85%;
     margin: 2rem auto;
@@ -24,7 +15,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: white;
+    color: var(--white-color);
 }
 
 .details-header h2 {
@@ -36,7 +27,7 @@
 .close-button {
     background: transparent;
     border: none;
-    color: white;
+    color: var(--white-color);
     font-size: 1.5rem;
     cursor: pointer;
     transition: var(--transition);
@@ -64,7 +55,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: white;
+    background: var(--white-color);
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
@@ -108,7 +99,7 @@
     border-radius: 50%;
     cursor: pointer;
     transition: var(--transition);
-    border: 2px solid white;
+    border: 2px solid var(--white-color);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -139,7 +130,7 @@
 }
 
 .specifications {
-    background: white;
+    background: var(--white-color);
     padding: 2rem;
     border-radius: 15px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
@@ -184,7 +175,7 @@
     display: flex;
     gap: 1rem;
     padding: 2rem;
-    background: white;
+    background: var(--white-color);
     border-top: 1px solid var(--border-color);
 }
 
@@ -203,12 +194,12 @@
 
 .accept-button {
     background: var(--success-gradient);
-    color: white;
+    color: var(--white-color);
 }
 
 .reject-button {
     background: var(--danger-gradient);
-    color: white;
+    color: var(--white-color);
 }
 
 .action-button:hover {

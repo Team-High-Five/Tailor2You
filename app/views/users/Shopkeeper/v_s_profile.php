@@ -131,7 +131,7 @@
             <i class="ri-error-warning-line"></i>
             <p>Are you sure you want to make changes?</p>
             <div class="button-rows">
-                <button type="submit" class="submit-btn">Yes, Update</button>
+                <button type="submit" class="submit-btn" onclick="submitForm()">Yes, Update</button>
                 <button type="button" class="reset-btn" onclick="closePopup()">Cancel</button>
             </div>
 

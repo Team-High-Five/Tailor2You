@@ -10,7 +10,7 @@
                     Create the suit you’ve always imagined. Work one-on-one with our experienced tailors to design a bespoke suit tailored to your exact specifications. Choose from a wide range of luxurious fabrics, custom fittings, and personalized details to create a look that’s uniquely yours. Whether it’s for a special occasion or daily wear, we bring your vision to life.
                 </div>
                 <div class="buttons">
-                    <button>Explore Now</button>
+                <a href="#genderSection" class="nav-link" id="customTailoringLink" data-target="index.php#genderSection"><button>Explore Now</button></a>
 
                 </div>
             </div>
@@ -20,12 +20,15 @@
             <div class="overlay"></div>
 
             <div class="content">
-                <div class="title">Pre-Made for You, Ready to Wear</div>
+                <div class="title">Meet Your Tailor,<br> Right Now</div>
                 <div class="des">
-                    Step into sophistication with our exclusive collection of pre-made suits, crafted with precision and style. From boardroom meetings to evening events, our suits are designed to make you look your best, effortlessly. Browse through a variety of cuts, fabrics, and fits to find the perfect suit that’s ready when you are.
+                We leave no detail to chance,<br>
+                Advanced measurement tools ensure accuracy down to the millimeter.
+                Fabric quality, pattern alignment, and stitching are rigorously checked to ensure every piece exceeds expectations.
+                Every order is a complete package, tailored to perfection and delivered with care.
                 </div>
                 <div class="buttons">
-                    <button>Explore Now</button>
+                <a href="<?php echo URLROOT ?>/Pages/tailorPage"><button>Explore Now</button></a>
                 </div>
             </div>
         </div>

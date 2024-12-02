@@ -22,14 +22,14 @@
         <!-- Action Buttons -->
         <div class="action-buttons">
    
-    <a href="<?php echo URLROOT ?>/Customer/updateDetails"><button>Update My Details</button></a>
+    <a href="<?php echo URLROOT ?>/Customer/v_c_updateDetails"><button>Update My Details</button></a>
     <button>Delete Account</button>
-    <a href="<?php echo URLROOT ?>/Customer/changepassword"><button>Change Password</button></a>
+    <a href="<?php echo URLROOT ?>/Customer/v_c_changepassword"><button>Change Password</button></a>
     <div class="dropdown">
         <button class="dropdown-toggle">Add Measurements</button>
         <div class="dropdown-menu">
-            <a href="<?php echo URLROOT ?>/Customer/addpant">Pant</a>
-            <a href="<?php echo URLROOT ?>/Customer/addshirt">Shirt</a>
+            <a href="<?php echo URLROOT ?>/Customers/addPants">Pant</a>
+            <a href="<?php echo URLROOT ?>/Customers/addShirts">Shirt</a>
         </div>
     </div>
 </div>
