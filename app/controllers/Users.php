@@ -110,10 +110,7 @@ class Users extends Controller
         // Redirect to the tailor's dashboard
         redirect('tailors/index');
     }
-    public function validateInput($data)
-    {
-
-    }
+    public function validateInput($data) {}
 
     public function selectCreateAccount()
     {
@@ -133,6 +130,31 @@ class Users extends Controller
             return true;
         } else {
             return false;
+        }
+    }
+    public function deleteUser($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Check if the user exists
+            $user = $this->userModel->getUserById($id);
+
+            if ($user) {
+                // Delete the user
+                if ($this->userModel->deleteUserById($id)) {
+                    // Log the user out and destroy the session
+                    $this->logout();
+                    flash('user_message', 'User profile deleted successfully');
+                    redirect('pages/index');
+                } else {
+                    flash('user_message', 'Something went wrong, please try again', 'alert alert-danger');
+                    redirect('users/profile');
+                }
+            } else {
+                flash('user_message', 'User not found', 'alert alert-danger');
+                redirect('users/profile');
+            }
+        } else {
+            redirect('users/profile');
         }
     }
 }
