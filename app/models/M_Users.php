@@ -158,7 +158,7 @@ class M_Users
         $this->db->bind(':profile_pic', $data['profile_pic']);
         $this->db->bind(':status', $data['status']);
         $this->db->bind(':user_id', $data['user_id']);
-    
+
         // Execute
         return $this->db->execute();
     }
@@ -194,7 +194,7 @@ class M_Users
         $this->db->bind(':profile_pic', $data['profile_pic']);
         $this->db->bind(':status', $data['status']);
         $this->db->bind(':user_id', $data['user_id']);
-    
+
         // Execute
         return $this->db->execute();
     }
@@ -214,49 +214,59 @@ class M_Users
     }
 
 
-public function updateTailor($data)
-{
-    $this->db->query('UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, phone_number = :phone_number, nic = :nic, birth_date = :birth_date, home_town = :home_town, address = :address, bio = :bio, category = :category, profile_pic = IFNULL(:profile_pic, profile_pic), status = :status WHERE user_id = :user_id');
-    // Bind values
-    $this->db->bind(':first_name', $data['first_name']);
-    $this->db->bind(':last_name', $data['last_name']);
-    $this->db->bind(':email', $data['email']);
-    $this->db->bind(':phone_number', $data['phone_number']);
-    $this->db->bind(':nic', $data['nic']);
-    $this->db->bind(':birth_date', $data['birth_date']);
-    $this->db->bind(':home_town', $data['home_town']);
-    $this->db->bind(':address', $data['address']);
-    $this->db->bind(':bio', $data['bio']);
-    $this->db->bind(':category', $data['category']);
-    $this->db->bind(':profile_pic', $data['profile_pic']);
-    $this->db->bind(':status', $data['status']);
-    $this->db->bind(':user_id', $data['user_id']);
+    public function updateTailor($data)
+    {
+        $this->db->query('UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, phone_number = :phone_number, nic = :nic, birth_date = :birth_date, home_town = :home_town, address = :address, bio = :bio, category = :category, profile_pic = IFNULL(:profile_pic, profile_pic), status = :status WHERE user_id = :user_id');
+        // Bind values
+        $this->db->bind(':first_name', $data['first_name']);
+        $this->db->bind(':last_name', $data['last_name']);
+        $this->db->bind(':email', $data['email']);
+        $this->db->bind(':phone_number', $data['phone_number']);
+        $this->db->bind(':nic', $data['nic']);
+        $this->db->bind(':birth_date', $data['birth_date']);
+        $this->db->bind(':home_town', $data['home_town']);
+        $this->db->bind(':address', $data['address']);
+        $this->db->bind(':bio', $data['bio']);
+        $this->db->bind(':category', $data['category']);
+        $this->db->bind(':profile_pic', $data['profile_pic']);
+        $this->db->bind(':status', $data['status']);
+        $this->db->bind(':user_id', $data['user_id']);
 
-    // Execute
-    return $this->db->execute();
-}
+        // Execute
+        return $this->db->execute();
+    }
 
-public function addUser($data)
-{
-    $this->db->query('INSERT INTO users (user_type, first_name, last_name, email, phone_number, nic, birth_date, home_town, address, bio, category, status, password, profile_pic) VALUES (:user_type, :first_name, :last_name, :email, :phone_number, :nic, :birth_date, :home_town, :address, :bio, :category, :status, :password, :profile_pic)');
+    public function addUser($data)
+    {
+        $this->db->query('INSERT INTO users (user_type, first_name, last_name, email, phone_number, nic, birth_date, home_town, address, bio, category, status, password, profile_pic) VALUES (:user_type, :first_name, :last_name, :email, :phone_number, :nic, :birth_date, :home_town, :address, :bio, :category, :status, :password, :profile_pic)');
 
-    // Bind values
-    $this->db->bind(':user_type', $data['user_type']);
-    $this->db->bind(':first_name', $data['first_name']);
-    $this->db->bind(':last_name', $data['last_name']);
-    $this->db->bind(':email', $data['email']);
-    $this->db->bind(':phone_number', $data['phone_number']);
-    $this->db->bind(':nic', $data['nic']);
-    $this->db->bind(':birth_date', $data['birth_date']);
-    $this->db->bind(':home_town', $data['home_town']);
-    $this->db->bind(':address', $data['address']);
-    $this->db->bind(':bio', $data['bio']);
-    $this->db->bind(':category', $data['category']);
-    $this->db->bind(':status', $data['status']);
-    $this->db->bind(':password', $data['password']);
-    $this->db->bind(':profile_pic', $data['profile_pic']);
+        // Bind values
+        $this->db->bind(':user_type', $data['user_type']);
+        $this->db->bind(':first_name', $data['first_name']);
+        $this->db->bind(':last_name', $data['last_name']);
+        $this->db->bind(':email', $data['email']);
+        $this->db->bind(':phone_number', $data['phone_number']);
+        $this->db->bind(':nic', $data['nic']);
+        $this->db->bind(':birth_date', $data['birth_date']);
+        $this->db->bind(':home_town', $data['home_town']);
+        $this->db->bind(':address', $data['address']);
+        $this->db->bind(':bio', $data['bio']);
+        $this->db->bind(':category', $data['category']);
+        $this->db->bind(':status', $data['status']);
+        $this->db->bind(':password', $data['password']);
+        $this->db->bind(':profile_pic', $data['profile_pic']);
 
-    // Execute
-    return $this->db->execute();
-}
+        // Execute
+        return $this->db->execute();
+    }
+
+
+    public function deleteUserById($id)
+    {
+        $this->db->query('DELETE FROM users WHERE user_id = :id');
+        $this->db->bind(':id', $id);
+
+        // Execute
+        return $this->db->execute();
+    }
 }
