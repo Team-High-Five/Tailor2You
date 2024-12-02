@@ -7,9 +7,20 @@
         <input type="text" placeholder="Type to search">
         <button><i><img src="<?php echo URLROOT; ?>/public/img/Search.png"></i></button>
       </div>
-      <button><i><img src="<?php echo URLROOT; ?>/public/img/Icon.png"></i></button>
+      <button style="width: 20px; height: 20px; background-color: transparent; border: none;">
+  <i>
+    <img src="<?php echo URLROOT; ?>/public/img/Icon.png" style="width: 15px; height: 15px;">
+  </i>
+</button>
+
+<button style="width: 20px; height: 20px; background-color: transparent; border: none;">
+  <i>
+    <img src="<?php echo URLROOT; ?>/public/img/cart1.png" style="width: 15px; height: 15px;">
+  </i>
+</button>
+
       <div class="dropdown">
-        <button class="tailor-drop-down"><i><img src="<?php echo URLROOT; ?>/public/img/Icon-1.png"></i></button>
+        <button class="tailor-drop-down "><i><img src="<?php echo URLROOT; ?>/public/img/Icon-1.png"></i></button>
         <div class="dropdown-content">
           <a href="<?php echo URLROOT; ?>/Users/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
         </div>

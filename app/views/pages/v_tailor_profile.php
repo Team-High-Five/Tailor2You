@@ -7,7 +7,7 @@
         <div class="profile-image">
             <img src="<?php echo URLROOT; ?>/public/img/home/lady1.jpg" alt="Profile">
         </div>
-        <div class="profile-name">B. A. Bandara</div>
+        <div class="profile-name">Saduni Perera</div>
     </div>
     <div class="profile-stats-container">
         <div class="followers">
