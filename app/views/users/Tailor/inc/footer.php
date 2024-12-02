@@ -35,8 +35,28 @@
 </footer>
 </div>
 </body>
+<script>
+    // Toggle dark mode
+    function toggleDarkMode() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        document.getElementById('darkModeButton').textContent = newTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
+        localStorage.setItem('theme', newTheme);
+    }
 
+    // Set initial button text based on current theme
+    document.addEventListener('DOMContentLoaded', function() {
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        document.getElementById('darkModeButton').textContent = savedTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
+    });
+</script>
 
 <!-- Closing tags -->
+
+<script src="<?php echo URLROOT; ?>/js/dark-mode.js"></script>
 <script src="<?php echo URLROOT; ?>/js/script.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>
+
+</html>

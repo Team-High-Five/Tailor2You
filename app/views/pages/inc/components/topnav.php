@@ -1,16 +1,18 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <header class="header">
     <div class="logo">
-        <img src="<?php echo URLROOT; ?>/public/img/logo_brown.png" alt="Tailor House Logo">
+        <a href="<?php echo URLROOT ?>/pages/index" class="nav-link" data-target="index"><img src="<?php echo URLROOT; ?>/public/img/logo_brown.png" alt="Tailor House Logo"></a>
     </div>
     <nav class="nav-links">
         <a href="<?php echo URLROOT ?>/pages/index" class="nav-link" data-target="index">Home</a>
         <a href="#colllection" class="nav-link" id="collectionLink" data-target="menspage#colllection">Collection</a>
         <a href="#genderSection" class="nav-link" id="customTailoringLink" data-target="index.php#genderSection">Custom Tailoring</a>
-        <a href="<?php echo URLROOT ?>/pages/tailorPage" class="nav-link">Master Tailors</a>
-        <a href="#" class="nav-link">About Atelier</a>
-        <a href="#" class="nav-link">Contact</a>
+        <a href="<?php echo URLROOT ?>/pages/tailorPage" class="nav-link" data-target="tailorPage">Master Tailors</a>
+        <a href="#footer" class="nav-link" id="customTailoringLink" data-target="index.php#footer">About Atelier</a>
+        <a href="#feedback" class="nav-link" id="customTailoringLink" data-target="index.php#feedback">Contact</a>
     </nav>
     <div class="icons">
+        <i class="fas fa-bars menu-toggle" onclick="toggleMenu()"></i>
         <?php if (isset($_SESSION['user_id']) && $_SESSION['user_type'] === 'customer'): ?>
             <div class="dropdown">
                 <span class="account-text"><?php echo $_SESSION['user_first_name']; ?></span>
@@ -34,11 +36,19 @@
                 </div>
             </div>
         <?php endif; ?>
-        <i class="fas fa-heart" onclick="requireLogin()"></i>
-        <i class="fas fa-shopping-cart" onclick="requireLogin()"></i>
+        <a href="<?php echo URLROOT; ?>/customers/cart"><i class="fas fa-shopping-cart"></i></a>
     </div>
 </header>
+
 <script>
+    function toggleMenu() {
+        const navLinks = document.querySelector('.nav-links');
+        navLinks.classList.toggle('active');
+    }
+
+    function requireLogin() {
+        window.location.href = '<?php echo URLROOT; ?>/users/login';
+    }
     document.addEventListener('DOMContentLoaded', function() {
         const navLinks = document.querySelectorAll('.nav-link');
 

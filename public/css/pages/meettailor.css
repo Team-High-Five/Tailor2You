@@ -3,7 +3,14 @@
   background: var(--gradient-background);
   min-height: 100vh;
   padding: 2rem;
-  color: var(--text-light);
+  color: var(--text-light-color);
+}
+
+.tailor-section__title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
 /* Elegant Filter Bar */
@@ -90,6 +97,7 @@
   transition: var(--transition);
   position: relative;
   overflow: hidden;
+  margin-bottom: 2rem;
 }
 
 .profile-card:hover {

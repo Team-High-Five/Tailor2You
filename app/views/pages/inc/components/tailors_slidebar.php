@@ -5,30 +5,30 @@
             <img src="<?php echo URLROOT; ?>/public/img/home/tailorPage.jpg">
             <div class="overlay"></div>
             <div class="content">
-                <div class="title"><br>Your Vision</div>
+                <div class="title"><br>Latest Arrivals</div>
                 <div class="des">
-                    Create the suit you’ve always imagined. Work one-on-one with our experienced tailors to design a bespoke suit tailored to your exact specifications. Choose from a wide range of luxurious fabrics, custom fittings, and personalized details to create a look that’s uniquely yours. Whether it’s for a special occasion or daily wear, we bring your vision to life.
+                    Discover our latest arrivals in bespoke tailoring. Our new collection features a range of luxurious fabrics, modern designs, and impeccable craftsmanship. Each piece is tailored to perfection, ensuring you look your best for any occasion. Explore the newest trends and elevate your wardrobe with our exclusive arrivals.
                 </div>
                 <div class="buttons">
-                    <button>Explore Now</button>
+                <a href="#colllection" class="nav-link" id="collectionLink" data-target="menspage#colllection"><button>Explore Now</button></a>
 
                 </div>
             </div>
         </div>
         <div class="item">
-            <img src="<?php echo URLROOT; ?>/public/img/home/hero3.jpg">
+            <img src="<?php echo URLROOT; ?>/public/img/home/tailorPage2.jpg">
             <div class="overlay"></div>
 
             <div class="content">
-                <div class="title">Meet Your Tailor ,<br>Right Now</div>
+                <div class="title">Tailor of the Month
+                    <h6>B. A. Bandara</h6>
+                </div>
                 <div class="des">
-                We leave no detail to chance,<br>
-                Advanced measurement tools ensure accuracy down to the millimeter.
-                Fabric quality, pattern alignment, and stitching are rigorously checked to ensure every piece exceeds expectations.
-                Every order is a complete package, tailored to perfection and delivered with care.
+                    Bandara has been recognized for her exceptional craftsmanship and dedication to providing the best tailoring services. Her attention to detail and commitment to customer satisfaction have made her a standout tailor on our platform.
+                    Thank you, Bandara, for your hard work and excellence!
                 </div>
                 <div class="buttons">
-                    <button>Explore Now</button>
+                    <a href="<?php echo URLROOT ?>/Pages/tailorProfile"> <button>Explore Now</button></a>
                 </div>
             </div>
         </div>
@@ -37,14 +37,14 @@
     <div class="slider-controls">
         <div class="thumbnail">
             <div class="item active">
-                <img src="<?php echo URLROOT; ?>/public/img/home/hero1.png">
+                <img src="<?php echo URLROOT; ?>/public/img/designs/desi2.jpeg">
             </div>
             <div class="item">
-                <img src="<?php echo URLROOT; ?>/public/img/home/hero3.jpg">
+                <img src="<?php echo URLROOT; ?>/public/img/home/lady1.jpg">
             </div>
         </div>
         <div class="arrows">
-            <button id="prev">&lt;</button>
+            
             <button id="next">&gt;</button>
         </div>
     </div>

@@ -23,9 +23,9 @@
           <tr>
             <td>
               <?php if ($fabric->image): ?>
-                <img src="data:image/jpeg;base64,<?php echo base64_encode($fabric->image); ?>" alt="<?php echo $fabric->fabric_name; ?>" class="product-image">
+                <img src="data:image/jpeg;base64,<?php echo base64_encode($fabric->image); ?>" alt="<?php echo $fabric->fabric_name; ?>" class="fabric-image">
               <?php else: ?>
-                <img src="https://via.placeholder.com/50" alt="<?php echo $fabric->fabric_name; ?>" class="product-image">
+                <img src="https://via.placeholder.com/50" alt="<?php echo $fabric->fabric_name; ?>" class="fabric-image">
               <?php endif; ?>
             </td>
             <td><?php echo $fabric->fabric_name; ?></td>

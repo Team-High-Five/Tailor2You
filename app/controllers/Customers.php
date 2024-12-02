@@ -221,5 +221,11 @@ class Customers extends Controller {
         ];
         $this->view('users/Customer/v_c_updateDetails', $data);
     }
+    public function cart(){
+        $data = [
+            'title' => 'Cart'
+        ];
+        $this->view('users/Customer/v_c_cart', $data);
+    }
 
 }

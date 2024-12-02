@@ -35,7 +35,7 @@ function isCurrentPage($page)
   </div>
   <div id="Customizations" class="sidebar-icon">
     <a href="<?php echo URLROOT ?>/Tailors/displayCustomizeItems">
-    <img src="../<?php APPROOT ?>/public/img/Adjust.png">
+      <img src="../<?php APPROOT ?>/public/img/Adjust.png">
     </a>
   </div>
   <div id="Inventory" class="sidebar-icon <?php echo isCurrentPage('displayFabricStock') ? 'active' : ''; ?>">
@@ -43,15 +43,21 @@ function isCurrentPage($page)
       <img src="../<?php APPROOT ?>/public/img/Shopping_bag.png">
     </a>
   </div>
+  <div id="DarkModeToggle" class="sidebar-icon">
+    <button id="darkModeButton" onclick="toggleDarkMode()" style="background: none; border: none; cursor: pointer; color: var(--white-color); font-size: 16px;">
+      Dark Mode
+    </button>
+  </div>
 </div>
 
+
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function() {
     const sidebarIcons = document.querySelectorAll('.sidebar-icon');
 
     // Handle click events
     sidebarIcons.forEach(icon => {
-      icon.addEventListener('click', function (e) {
+      icon.addEventListener('click', function(e) {
         // Only handle clicks if there's no link or if the click wasn't on the link
         if (!e.target.closest('a')) {
           // Remove active class from all icons
@@ -66,7 +72,7 @@ function isCurrentPage($page)
     sidebarIcons.forEach(icon => {
       const link = icon.querySelector('a');
       if (link) {
-        link.addEventListener('click', function () {
+        link.addEventListener('click', function() {
           localStorage.setItem('lastActiveSidebarIcon', icon.id);
         });
       }

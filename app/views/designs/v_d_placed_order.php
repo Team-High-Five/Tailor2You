@@ -22,7 +22,7 @@
 
     <div class="action-group">
       <a href="#" class="primary-btn">View Order</a>
-      <a href="#" class="secondary-btn">Go to Payments</a>
+      <a href="<?php echo URLROOT ?>/Customers/cart" class="secondary-btn">Add to Cart</a>
     </div>
 
     <div class="payment-options">
