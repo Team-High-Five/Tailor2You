@@ -36,7 +36,7 @@
                 </div>
             </div>
         <?php endif; ?>
-        <i class="fas fa-shopping-cart" onclick="requireLogin()"></i>
+        <a href="<?php echo URLROOT; ?>/customers/cart"><i class="fas fa-shopping-cart"></i></a>
     </div>
 </header>
 
