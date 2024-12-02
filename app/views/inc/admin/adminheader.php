@@ -35,12 +35,9 @@
                     <img src="<?php echo URLROOT; ?>/public/img/Avatar.png" alt="User Avatar">
                 <?php endif; ?>
             </div>
-            <i class="fas fa-ellipsis-h" onclick="toggleDropdown()"></i>
-            <!-- Dropdown menu -->
-            <div class="dropdown-menu" id="dropdownMenu">
-                <button onclick="logout()">Logout</button>
-                <button onclick="signOut()">Sign Out</button>
-            </div>
+            <a href="<?php echo URLROOT; ?>/users/logout" class="logout-icon">
+                <i class="fas fa-sign-out-alt"></i>
+            </a>
         </div>
     </header>
 </body>

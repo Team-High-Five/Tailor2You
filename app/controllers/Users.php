@@ -123,10 +123,13 @@ class Users extends Controller
     {
         unset($_SESSION['user_id']);
         unset($_SESSION['user_email']);
-        unset($_SESSION['user_name']);
+        unset($_SESSION['user_first_name']);
+        unset($_SESSION['user_last_name']);
+        unset($_SESSION['user_profile_pic']);
         session_destroy();
         redirect('pages/index');
     }
+
     public function isLoggedIn()
     {
         if (isset($_SESSION['user_id'])) {
