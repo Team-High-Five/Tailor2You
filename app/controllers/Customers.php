@@ -201,6 +201,14 @@ class Customers extends Controller {
         ];
         $this->view('users/Customer/v_c_orders', $data);
     }
+    
+
+    public function appointments(){
+        $data = [
+            'title' => 'orders'
+        ];
+        $this->view('users/Customer/v_c_appointments', $data);
+    }
 
     public function addPants(){
         $data = [
