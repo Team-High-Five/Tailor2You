@@ -14,7 +14,7 @@ function isCurrentPage($page)
     <img src="../<?php APPROOT ?>/public/img/logo.png" alt="Logo" />
   </a>
   <div id="Profile" class="sidebar-icon <?php echo isCurrentPage('profileUpdate') ? 'active' : ''; ?>">
-    <a href="<?php echo URLROOT ?>/Customer/profileUpdate">
+    <a href="<?php echo URLROOT ?>/Customers/profileUpdate">
       <img src="../<?php APPROOT ?>/public/img/Customer.png">
     </a>
   </div>

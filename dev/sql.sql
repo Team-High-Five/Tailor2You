@@ -15,6 +15,14 @@ CREATE TABLE users (
   profile_pic longblob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- Add the `status` column
+ALTER TABLE `users`
+ADD COLUMN `status` enum('active','inactive') NOT NULL DEFAULT 'active';
+
+-- Modify the `user_type` column to include 'admin'
+ALTER TABLE `users`
+MODIFY COLUMN `user_type` enum('tailor','customer','shopkeeper','admin') NOT NULL;
+
 CREATE TABLE `posts` (
   `id` INT(11) NOT NULL AUTO_INCREMENT,
   `user_id` INT(11) NOT NULL,

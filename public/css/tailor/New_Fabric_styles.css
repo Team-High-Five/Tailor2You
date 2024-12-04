@@ -18,6 +18,7 @@
     padding: 2rem;
 }
 
+<<<<<<< Updated upstream
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -46,6 +47,8 @@
     color: var(--text);
 }
 
+=======
+>>>>>>> Stashed changes
 .upload-section {
     text-align: center;
     margin-bottom: 2rem;

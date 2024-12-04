@@ -56,6 +56,7 @@
                         <?php endif; ?>
                     </div>
                 </div>
+<<<<<<< Updated upstream
                 <div class="form-row">
                     <div class="input-field">
                         <input type="text" placeholder="Home Town" name="home_town" required>
@@ -69,6 +70,13 @@
                             <span class="error"><?php echo $data['address_err']; ?></span>
                         <?php endif; ?>
                     </div>
+=======
+            </div>
+            <div class="form-row">
+                <div class="input-field">
+                    <input type="text" placeholder="NIC Number" name="NIC" required>
+                    <span class="error" id="NIC_err"></span>
+>>>>>>> Stashed changes
                 </div>
                 <button type="submit" class="continue-btn">Continue</button>
             </form>

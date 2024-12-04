@@ -20,7 +20,7 @@
                     <i class="fas fa-user-circle profile-icon"></i>
                 <?php endif; ?>
                 <div class="dropdown-menu">
-                    <a href="<?php echo URLROOT; ?>/customers/profile">Profile</a>
+                    <a href="<?php echo URLROOT; ?>/customers/profileUpdate">Profile</a>
                     <a href="<?php echo URLROOT; ?>/users/logout">Logout</a>
                 </div>
             </div>
