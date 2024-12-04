@@ -2,8 +2,16 @@
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php'; ?>
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php'; ?>
 
+<style>
+  .employee-table-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+</style>
 <div class="main-content">
-  <button class="add-fabric-btn">Add New Employee</button>
+
+<a href="<?php echo URLROOT; ?>/Shopkeepers/addNewEmployee"> <button class="add-fabric-btn" id="openEmployeeModalBtn">Add New Fabric</button></a>
 
   <div class="table-container">
     <table class="product-table">
@@ -20,7 +28,7 @@
       </thead>
       <tbody>
         <tr>
-          <td><img src="young woman talking.png" alt="Employee" class="product-image"></td>
+          <td><img class="employee-table-icon" src="<?php echo URLROOT; ?>/public/img/home/lady1.jpg" alt="Employee" class="product-image"></td>
           <td>Kumudu Y.M.</td>
           <td>001</td>
           <td>0705679436</td>

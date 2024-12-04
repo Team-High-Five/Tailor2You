@@ -1,0 +1,131 @@
+// * {
+//     margin: 0;
+//     padding: 0;
+//     box-sizing: border-box;
+//     font-family: 'Arial', sans-serif;
+//   }
+  
+//   body {
+//     background-color: #f8f8f8;
+//   }
+  
+
+  
+  // .hero-section {
+  //   display: flex;
+  //   justify-content: space-around;
+  //   align-items: center;
+  //   padding: 30px;
+  
+  //   .hero-content {
+  //     max-width: 400px;
+  
+  //     h1 {
+  //       font-size: 36px;
+  //       margin-bottom: 15px;
+  //     }
+  
+  //     p {
+  //       font-size: 16px;
+  //       color: #555;
+  //     }
+  //   }
+  
+  //   .hero-images {
+  //     display: flex;
+  //     gap: 15px;
+  
+  //     .hero-image {
+  //       text-align: center;
+  
+  //       img {
+  //         width: 200px;
+  //         height: auto;
+  //         border-radius: 10px;
+  //         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  //       }
+  
+  //       p {
+  //         margin-top: 10px;
+  //         font-weight: bold;
+  //       }
+  //     }
+  //   }
+  // }
+  
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+    padding: 30px;
+    margin: 100px;
+    margin-top: 0;
+    margin-bottom: 0;
+  
+    .product-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      text-align: center;
+  
+      img {
+        width: 70%;
+        height: auto;
+        border-radius: 15px;
+        // padding: 50px;
+        // padding-bottom: 0px;
+      }
+  
+      .tailor {
+        margin-top: 10px;
+        color: #333;
+        font-size: 14px;
+      }
+  
+      .price {
+        font-weight: bold;
+        color: #333;
+        margin: 10px 0;
+      }
+  
+      .buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+  
+        button {
+          flex: 1;
+          margin: 0 5px;
+          padding: 8px;
+          border: solid;
+          border-width: 1px;
+          border-radius: 5px;
+          cursor: pointer;
+          color: black;
+          background: white;
+          
+          &:hover {
+            opacity: 0.9;
+          }
+        }
+      }
+    }
+  }
+  
+  .explore-btn {
+    display: block;
+    margin: 30px auto;
+    padding: 10px 20px;
+    background-color: #8b572a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+  

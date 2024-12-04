@@ -40,7 +40,6 @@
           <p class="progress-text">Status 60%</p>
         </div>
         <div class="action-buttons">
-          <button class="assign-button">Assign a Tailor ▼</button>
           <button class="status-button">Order Status ▼</button>
           <a href="<?php echo URLROOT ?>/Tailors/displayOrderDetails"><button class="view-order">View Order</button></a>
         </div>
@@ -71,7 +70,6 @@
           <p class="progress-text">Status 100%</p>
         </div>
         <div class="action-buttons">
-          <button class="assign-button">Assign a Tailor ▼</button>
           <button class="status-button">Order Status ▼</button>
           <button class="view-order">View Order</button>
         </div>

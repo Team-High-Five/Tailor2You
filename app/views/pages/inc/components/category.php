@@ -18,9 +18,9 @@
                 <h2>Tailored Suits</h2>
                 <button>Explore now</button>
             </div>
-            <img src="<?php echo URLROOT; ?>/public/img/home/suits.jpeg" alt="Tailored Suits">
+            <img src="<?php echo URLROOT; ?>/public/img/home/suits.jpg" alt="Tailored Suits">
         </div>
-
+        
         <!-- Tailored Pants -->
         <div class="card">
             <div class="card-content">

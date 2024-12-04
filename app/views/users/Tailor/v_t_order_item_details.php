@@ -3,55 +3,91 @@
 <?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
 
 <div class="main-content">
-  <div class="item-details-modal">
-    <div class="modal-header">
-      <h2>Item Details</h2>
-      <a href="<?php echo URLROOT ?>/Tailors/displayOrderProgress"><button class="close-btn">&times;</button></a>
+  <div class="item-details-container">
+    <div class="details-header">
+      <h2>Order Details</h2>
+      <a href="<?php echo URLROOT ?>/Tailors/displayOrderProgress">
+        <button class="close-button">&times;</button>
+      </a>
     </div>
 
-    <div class="modal-body">
-      <div class="item-details-content">
-        <div class="left-section">
-          <img src="../<?php APPROOT ?>/public/img/dotted_black_dress.png" alt="Dotted Black Dress" class="item-image">
-          <h3 class="item-name">Dotted Black Dress</h3>
-          <p class="item-price">$20.00</p>
-          <div class="colors">
-            <span class="color-dot" style="background-color: black;"></span>
-            <span class="color-dot" style="background-color: gray;"></span>
-            <span class="color-dot" style="background-color: lightblue;"></span>
-          </div>
-          <div class="customer-info">
-            <img src="../<?php APPROOT ?>/public/img/woman_avatar.png" alt="Customer Profile" class="customer-avatar">
-            <p class="customer-name">Pieris M.P</p>
-          </div>
+    <div class="details-content">
+      <div class="product-showcase">
+        <img
+          src="../<?php APPROOT ?>/public/img/dotted_black_dress.png"
+          alt="Dotted Black Dress"
+          class="product-image">
+        <h3 class="product-title">Dotted Black Dress</h3>
+        <p class="product-price">$20.00</p>
+
+        <div class="color-options">
+          <div class="color-option" style="background-color: black;" title="Black"></div>
+          <div class="color-option" style="background-color: gray;" title="Gray"></div>
+          <div class="color-option" style="background-color: lightblue;" title="Light Blue"></div>
         </div>
 
-        <div class="right-section">
-          <ul class="item-specs">
-            <li><strong>Material:</strong> Printed Rayon</li>
-            <li><strong>Style:</strong> Short Sleeves</li>
-            <li><strong>Size L Measurements:</strong> Length 35.5" / Bust 37" / Waist 38"</li>
-            <li><strong>Model Height:</strong> 5 Feet 8 Inches</li>
-            <li><strong>Fit:</strong> Loose Fit</li>
-          </ul>
-          <p class="item-description">
-            <strong>Wash & Care:</strong> Hand wash with cold water, wash inside out,
-            wash light colors separately & iron with care.
-          </p>
-          <p class="disclaimer">
-            Despite every effort to provide accurate images of each product's color and design,
-            actual colors and design may vary slightly.
-          </p>
+        <div class="customer-details">
+          <img
+            src="../<?php APPROOT ?>/public/img/woman_avatar.png"
+            alt="Customer Profile"
+            class="customer-avatar">
+          <div>
+            <p class="customer-name">Pieris M.P</p>
+            <p class="customer-id">Customer ID: #12345</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="specifications">
+        <ul class="spec-list">
+          <li class="spec-item">
+            <span class="spec-label">Material:</span>
+            <span>Printed Rayon</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-label">Style:</span>
+            <span>Short Sleeves</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-label">Length:</span>
+            <span>35.5 inches</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-label">Bust:</span>
+            <span>37 inches</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-label">Waist:</span>
+            <span>38 inches</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-label">Model Height:</span>
+            <span>5 Feet 8 Inches</span>
+          </li>
+          <li class="spec-item">
+            <span class="spec-label">Fit Type:</span>
+            <span>Loose Fit</span>
+          </li>
+        </ul>
+
+        <div class="care-instructions">
+          <h4>Care Instructions</h4>
+          <p>• Hand wash with cold water</p>
+          <p>• Wash inside out</p>
+          <p>• Wash light colors separately</p>
+          <p>• Iron with care</p>
+          <small class="disclaimer">
+            * Colors may vary slightly from the images shown
+          </small>
         </div>
       </div>
     </div>
 
-    <div class="modal-footer">
-      <button class="btn-accept-btn">Accept</button>
-      <button class="btn-reject-btn">Reject</button>
+    <div class="action-buttons">
+      <button class="action-button accept-button">Accept Order</button>
+      <button class="action-button reject-button">Reject Order</button>
     </div>
   </div>
 </div>
-
 
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>

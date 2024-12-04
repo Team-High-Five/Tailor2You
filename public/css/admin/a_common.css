@@ -91,6 +91,7 @@ body {
     position: absolute;
     top: 40px;
     right: 20px;
+    color: #000000;
     background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 10px;
@@ -100,6 +101,7 @@ body {
 .dropdown-menu button {
     padding: 10px 1px;
     width: 100%;
+    color: #000000;
     text-align: center;
     border: none;
     background-color: transparent;
@@ -116,18 +118,17 @@ body {
 /* Sidebar Styles */
 .sidebar {
     position: fixed;
-    top: 60px;
+    top: 40px;
     left: 0;
     bottom: 0;
     left: -300px;
     width: 300px;
     height: 100%;
     background-color: #ffffff;
-    padding: 20px;
+    padding: 10px;
     box-sizing: border-box;
     overflow: auto;
 }
-
 .sidebar a {
     padding: 15px 25px;
     text-decoration: none;

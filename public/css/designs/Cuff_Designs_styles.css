@@ -1,82 +1,193 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+.design-page-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: var(--gradient-background);
+}
+
+.design-details-container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cuff-form {
+  background: var(--card-gradient);
+  border-radius: 1.5rem;
+  padding: 40px;
+  box-shadow: var(--elegant-shadow);
+  border: 1px solid var(--glass-effect);
+  backdrop-filter: blur(10px);
+}
+
+.cuff-header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  position: relative;
+  text-align: center;
+}
+
+.cuff-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 2px;
+  background: var(--accent-color);
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+}
+
+.cuff-header span {
+  font-size: 2rem;
+  color: var(--text-light);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.cuff-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.cuff-card {
+  background: var(--card-gradient);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: var(--transition);
+  position: relative;
+  border: 1px solid var(--glass-effect);
+  padding: 1rem;
+}
+
+.cuff-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--elegant-shadow);
+}
+
+.cuff-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  transition: var(--transition);
+}
+
+.cuff-card:hover img {
+  transform: scale(1.05);
+}
+
+.cuff-name {
+  color: var(--text-light);
+  font-size: 1rem;
+  margin: 1rem 0;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.buttons button {
+  width: 100%;
+  padding: 0.875rem;
+  background: transparent;
+  border: 2px solid var(--accent-color);
+  color: var(--accent-color);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.875rem;
+}
+
+.buttons button:hover {
+  background: var(--accent-color);
+  color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.continue-button {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.continue-btn {
+  background: var(--accent-gradient);
+  color: var(--text-light);
+  border: none;
+  padding: 1.25rem 3.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.continue-btn:hover {
+  transform: translateY(-2px);
+  background-color: var(--accent-hover);
+  box-shadow: var(--accent-shadow);
+  color: var(--text-light);
+  background-position: right center;
+  background-size: 200% auto;
+}
+
+.design-image-container {
+  flex: 1;
+  max-width: 30%;
+  margin-left: 20px;
+}
+
+.design-image-container img {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  box-shadow: var(--elegant-shadow);
+}
+
+.design-details {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.design-name {
+  font-size: 2.5rem;
+  color: var(--text-light);
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.design-description {
+  font-size: 1.2rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 20px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .cuff-form {
+    padding: 25px;
   }
 
-  body {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f5f5f5; /* Light gray background */
-    background: url('Tailor.png') no-repeat center center fixed; /* Replace with your image */
-    height: 100vh;
-    background: url('Tailor.png') no-repeat center center fixed; /* Replace with your image */
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
+  .cuff-header span {
+    font-size: 1.5rem;
   }
 
-  .container {
-    display: flex;
-    gap: 30px;
-    background: #fff;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-    max-width: 900px;
-    width: 90%;
+  .cuff-grid {
+    gap: 1rem;
   }
 
-  .shirt-image img {
-    width: 390px;
-    height: 100%;
-    border-radius: 10px;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+  .cuff-card img {
+    height: 150px;
   }
-
-  .collar-section {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .collar-section img {
-    width: 300px;
-    margin-top: 20px;
-    height:85%;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
-  }
-
-  .dropdown {
-    width: 200px;
-  }
-
-  select {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    outline: none;
-    cursor: pointer;
-    background-color: #f9f9f9;
-    transition: border-color 0.3s ease;
-  }
-
-  select:focus {
-    border-color: #007bff;
-  }
-
-  h3 {
-    margin-bottom: 10px;
-    font-size: 18px;
-    color: #333;
-  }
+}

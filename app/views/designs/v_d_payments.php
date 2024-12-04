@@ -1,33 +1,33 @@
 <?php require_once APPROOT . '/views/designs/inc/header.php'; ?>
 <?php require_once APPROOT . '/views/pages/inc/components/topnav.php'; ?>
 
-  <div class="payment-modal">
-    <span class="close-btn">&times;</span>
-    <h2>Provide further information</h2>
-    <p>✅ Your payment information is safe with us</p>
-
-    <div class="card-icons">
-      <img src="<?php echo URLROOT; ?>/public/img/designs/visa.png" alt="Visa">
-      <img src="<?php echo URLROOT; ?>/public/img/designs/mastercard.png" alt="MasterCard">
-      <img src="<?php echo URLROOT; ?>/public/img/designs/amex.jpg" alt="American Express">
-      <img src="<?php echo URLROOT; ?>/public/img/designs/discover.png" alt="Discover">
+<div class="measurement-page-container">
+  <div class="measurement-form-container">
+    <div class="success-header">
+      <span>Payment Information</span>
     </div>
-
     <form>
+      <div class="card-icons">
+        <img src="<?php echo URLROOT; ?>/public/img/designs/visa.png" alt="Visa">
+        <img src="<?php echo URLROOT; ?>/public/img/designs/mastercard.png" alt="MasterCard">
+        <img src="<?php echo URLROOT; ?>/public/img/designs/amex.jpg" alt="American Express">
+        <img src="<?php echo URLROOT; ?>/public/img/designs/discover.png" alt="Discover">
+      </div>
+
       <div class="form-group">
         <label for="card-number">Card Number</label>
-        <input type="text" id="card-number" placeholder="Enter card number">
+        <input type="text" id="card-number" class="select" placeholder="Enter card number">
       </div>
 
       <div class="form-group">
         <label for="cardholder-name">Cardholder Name</label>
-        <input type="text" id="cardholder-name" placeholder="Enter your name">
+        <input type="text" id="cardholder-name" class="select" placeholder="Enter your name">
       </div>
 
       <div class="form-group">
         <label for="expiry-date">Expiry Date</label>
         <div style="display: flex; gap: 10px;">
-          <select id="expiry-month">
+          <select id="expiry-month" class="select">
             <option value="">MM</option>
             <option value="01">01</option>
             <option value="02">02</option>
@@ -42,7 +42,7 @@
             <option value="11">11</option>
             <option value="12">12</option>
           </select>
-          <select id="expiry-year">
+          <select id="expiry-year" class="select">
             <option value="">YY</option>
             <option value="2024">2024</option>
             <option value="2025">2025</option>
@@ -55,7 +55,7 @@
 
       <div class="form-group">
         <label for="cvv">CVV</label>
-        <input type="text" id="cvv" placeholder="CVV">
+        <input type="text" id="cvv" class="select" placeholder="CVV">
       </div>
 
       <div class="save-card">
@@ -65,8 +65,24 @@
 
       <p class="warning-text">⚠️ Your order will be processed in USD</p>
 
-      <button type="button" class="btn-save">Save & confirm</button>
+      <div class="action-buttons">
+        <a href="<?php echo URLROOT ?>/Designs/placedOrder" class="request-button">Save & Confirm</a>
+        <a href="<?php echo URLROOT ?>/Designs/placedOrder" class="skip-button">Cancel</a>
+      </div>
     </form>
   </div>
+  <div class="design-image-container">
+    <img src="<?php echo URLROOT; ?>/public/img/designs/still-life-with-classic-shirts-hanger.jpg" alt="Shirt Image">
+    <div class="design-details">
+      <div class="design-name">
+        <span>Design Name</span>
+      </div>
+      <div class="design-description">
+        <span>Design Description</span>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
+
 </html>

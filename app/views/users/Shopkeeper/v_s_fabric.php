@@ -23,14 +23,14 @@
           <tr>
             <td>
               <?php if ($fabric->image): ?>
-                <img src="data:image/jpeg;base64,<?php echo base64_encode($fabric->image); ?>" alt="<?php echo $fabric->fabric_name; ?>" class="product-image">
+                <img src="data:image/jpeg;base64,<?php echo base64_encode($fabric->image); ?>" alt="<?php echo $fabric->fabric_name; ?>" class="fabric-image">
               <?php else: ?>
-                <img src="https://via.placeholder.com/50" alt="<?php echo $fabric->fabric_name; ?>" class="product-image">
+                <img src="https://via.placeholder.com/50" alt="<?php echo $fabric->fabric_name; ?>" class="fabric-image">
               <?php endif; ?>
             </td>
             <td><?php echo $fabric->fabric_name; ?></td>
             <td><?php echo $fabric->fabric_id; ?></td>
-            <td>$<?php echo number_format($fabric->price_per_meter, 2); ?></td>
+            <td>Rs.<?php echo number_format($fabric->price_per_meter, 2); ?></td>
             <td><?php echo $fabric->stock; ?></td>
             <td>
               <?php
@@ -76,14 +76,14 @@
       <p>Are you sure you want to delete this fabric?</p>
       <form id="deleteFabricForm" action="" method="post">
         <button type="submit" class="submit-btn">Yes, Delete</button>
-        <button type="button" class="cancel-btn" onclick="closeDeleteFabricModal()">Cancel</button>
+        <button type="button" class="reset-btn" onclick="closeDeleteFabricModal()">Cancel</button>
       </form>
     </div>
   </div>
 </div>
 
 <script>
- document.getElementById('openFabricModalBtn').addEventListener('click', function() {
+  document.getElementById('openFabricModalBtn').addEventListener('click', function() {
     document.getElementById('fabricModal').style.display = 'block';
     fetch('<?php echo URLROOT; ?>/shopkeepers/addNewFabric')
       .then(response => response.text())
@@ -96,12 +96,76 @@
         });
 
         document.getElementById('upload-photo').addEventListener('change', function(event) {
+          const file = event.target.files[0];
           const reader = new FileReader();
           reader.onload = function() {
             const output = document.getElementById('post-preview');
             output.src = reader.result;
           };
-          reader.readAsDataURL(event.target.files[0]);
+          reader.readAsDataURL(file);
+
+          // Validate image size
+          if (file.size > 1048576) { // 1MB = 1048576 bytes
+            document.getElementById('image-error').textContent = 'Image size cannot exceed 1MB';
+          } else {
+            document.getElementById('image-error').textContent = '';
+          }
+        });
+
+        document.getElementById('addFabricForm').addEventListener('submit', function(event) {
+          let isValid = true;
+
+          // Validate fabric name
+          const fabricName = document.getElementById('fabric-name').value;
+          if (fabricName.trim() === '') {
+            document.getElementById('fabric-name-error').textContent = 'Please enter fabric name';
+            isValid = false;
+          } else {
+            document.getElementById('fabric-name-error').textContent = '';
+          }
+
+          // Validate price
+          const price = document.getElementById('price').value;
+          if (price.trim() === '' || isNaN(price) || parseFloat(price) < 0) {
+            document.getElementById('price-error').textContent = 'Please enter a valid price';
+            isValid = false;
+          } else {
+            document.getElementById('price-error').textContent = '';
+          }
+
+          // Validate stock
+          const stock = document.getElementById('stock').value;
+          if (stock.trim() === '' || isNaN(stock) || parseFloat(stock) < 0) {
+            document.getElementById('stock-error').textContent = 'Stock cannot be negative';
+            isValid = false;
+          } else {
+            document.getElementById('stock-error').textContent = '';
+          }
+
+          // Validate colors
+          const colors = document.querySelectorAll('input[name="colors[]"]:checked');
+          if (colors.length === 0) {
+            document.getElementById('color-error').textContent = 'Please select at least one color';
+            isValid = false;
+          } else {
+            document.getElementById('color-error').textContent = '';
+          }
+
+          // Validate image size
+          const imageInput = document.getElementById('upload-photo');
+          if (imageInput.files.length > 0) {
+            const imageFile = imageInput.files[0];
+            if (imageFile.size > 1048576) { // 1MB = 1048576 bytes
+              document.getElementById('image-error').textContent = 'Image size cannot exceed 1MB';
+              isValid = false;
+            } else {
+              document.getElementById('image-error').textContent = '';
+            }
+          }
+
+          if (!isValid) {
+            event.preventDefault();
+          }
         });
       });
   });
@@ -119,12 +183,77 @@
         });
 
         document.getElementById('upload-photo').addEventListener('change', function(event) {
+          const file = event.target.files[0];
           const reader = new FileReader();
           reader.onload = function() {
             const output = document.getElementById('post-preview');
             output.src = reader.result;
           };
-          reader.readAsDataURL(event.target.files[0]);
+
+          reader.readAsDataURL(file);
+
+          // Validate image size
+          if (file.size > 1048576) { // 1MB = 1048576 bytes
+            document.getElementById('image-error').textContent = 'Image size cannot exceed 1MB';
+          } else {
+            document.getElementById('image-error').textContent = '';
+          }
+        });
+
+        document.getElementById('editFabricForm').addEventListener('submit', function(event) {
+          let isValid = true;
+
+          // Validate fabric name
+          const fabricName = document.getElementById('fabric-name').value;
+          if (fabricName.trim() === '') {
+            document.getElementById('fabric-name-error').textContent = 'Please enter fabric name';
+            isValid = false;
+          } else {
+            document.getElementById('fabric-name-error').textContent = '';
+          }
+
+          // Validate price
+          const price = document.getElementById('price').value;
+          if (price.trim() === '' || isNaN(price) || parseFloat(price) < 0) {
+            document.getElementById('price-error').textContent = 'Please enter a valid price';
+            isValid = false;
+          } else {
+            document.getElementById('price-error').textContent = '';
+          }
+
+          // Validate stock
+          const stock = document.getElementById('stock').value;
+          if (stock.trim() === '' || isNaN(stock) || parseFloat(stock) < 0) {
+            document.getElementById('stock-error').textContent = 'Stock cannot be negative';
+            isValid = false;
+          } else {
+            document.getElementById('stock-error').textContent = '';
+          }
+
+          // Validate colors
+          const colors = document.querySelectorAll('input[name="colors[]"]:checked');
+          if (colors.length === 0) {
+            document.getElementById('color-error').textContent = 'Please select at least one color';
+            isValid = false;
+          } else {
+            document.getElementById('color-error').textContent = '';
+          }
+
+          // Validate image size
+          const imageInput = document.getElementById('upload-photo');
+          if (imageInput.files.length > 0) {
+            const imageFile = imageInput.files[0];
+            if (imageFile.size > 1048576) { // 1MB = 1048576 bytes
+              document.getElementById('image-error').textContent = 'Image size cannot exceed 1MB';
+              isValid = false;
+            } else {
+              document.getElementById('image-error').textContent = '';
+            }
+          }
+
+          if (!isValid) {
+            event.preventDefault();
+          }
         });
       });
   }

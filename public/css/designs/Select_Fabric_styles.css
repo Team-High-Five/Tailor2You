@@ -1,101 +1,147 @@
-* {
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 .fabric-form {
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0px 1px 11px 2px rgba(0, 0, 0, 0.2);
-  padding: 50px 40px 50px 40px;
-  margin: 60px 20px 0 20px;
+  background: var(--card-gradient);
+  border-radius: 1.5rem;
+  padding: 40px;
+  box-shadow: var(--elegant-shadow);
+  border: 1px solid var(--glass-effect);
+  backdrop-filter: blur(10px);
 }
-.fabric-form .fabric {
-  padding: 0 0 40px 0px;
-  justify-content: center;
-  width: 100%;
-  display: flex;
-}
-.fabric-form .fabric span {
-  font-size: 30px;
-  font-weight: bold;
-}
-.fabric-form .under-button {
-  padding: 50px 0 0 0;
-  display: flex;
-  justify-content: center;
-}
-.fabric-form .under-button .under_button {
-  margin: 0 5px;
-  padding: 8px 80px 8px 80px;
-  border: none;
-  border-width: 1px;
-  border-radius: 5px;
-  cursor: pointer;
-  color: rgb(255, 255, 255);
-  background-color: rgb(5, 138, 36);
-}
-.fabric-form .under-button .under_button:hover {
-  opacity: 0.9;
-}
-.fabric-form .fabric-grid {
-  display: flex;
-  justify-content: space-between;
-}
-.fabric-form .fabric-grid .fabric-card {
-  width: 200px;
-  height: 300px;
-  background-color: white;
-  border-radius: 10px;
-  padding: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+.fabric-header {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  position: relative;
   text-align: center;
 }
-.fabric-form .fabric-grid .fabric-card img {
-  width: 70%;
-  height: auto;
-  border-radius: 15px;
-}
-.fabric-form .fabric-grid .fabric-card .fab {
-  margin-top: 10px;
-  color: #333;
-  font-size: 14px;
-}
-.fabric-form .fabric-grid .fabric-card .buttons {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-.fabric-form .fabric-grid .fabric-card .buttons button {
-  flex: 1;
-  margin: 0 5px;
-  padding: 8px;
-  border: none;
-  border-width: 1px;
-  border-radius: 5px;
-  cursor: pointer;
-  color: rgb(255, 255, 255);
-  background-color: rgb(55, 122, 255);
-}
-.fabric-form .fabric-grid .fabric-card .buttons button:hover {
-  opacity: 0.9;
+
+.fabric-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 2px;
+  background: var(--accent-color);
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
 }
 
-.explore-btn {
-  display: block;
-  margin: 30px auto;
-  padding: 10px 20px;
-  background-color: #8b572a;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
+.fabric-header span {
+  font-size: 2rem;
+  color: var(--text-light);
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
-.explore-btn:hover {
-  opacity: 0.9;
-}/*# sourceMappingURL=SelectFabric.css.map */
+
+.fabric-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.fabric-card {
+  background: var(--card-gradient);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: var(--transition);
+  position: relative;
+  border: 1px solid var(--glass-effect);
+  padding: 1rem;
+}
+
+.fabric-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--elegant-shadow);
+}
+
+.fabric-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  transition: var(--transition);
+}
+
+.fabric-card:hover img {
+  transform: scale(1.05);
+}
+
+.fabric-name {
+  color: var(--text-light);
+  font-size: 1rem;
+  margin: 1rem 0;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.buttons button {
+  width: 100%;
+  padding: 0.875rem;
+  background: transparent;
+  border: 2px solid var(--accent-color);
+  color: var(--accent-color);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 0.875rem;
+}
+
+.buttons button:hover {
+  background: var(--accent-color);
+  color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.continue-button {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.continue-btn {
+  background: var(--accent-gradient);
+  color: var(--text-light);
+  border: none;
+  padding: 1.25rem 3.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+  
+}
+
+.continue-btn:hover {
+  transform: translateY(-2px);
+  background-color: var(--accent-hover);
+  box-shadow: var(--accent-shadow);
+  color: var(--text-light);
+  background-position: right center;
+  background-size: 200% auto;
+}
+
+
+@media (max-width: 768px) {
+  .fabric-form {
+    padding: 25px;
+  }
+
+  .fabric-header span {
+    font-size: 1.5rem;
+  }
+
+  .fabric-grid {
+    gap: 1rem;
+  }
+
+  .fabric-card img {
+    height: 150px;
+  }
+}

@@ -111,6 +111,18 @@
     z-index: 100;
 }
 
+.title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.title h6 {
+    font-size: 18px;
+    font-weight: normal;
+    color: var(--text-light-color);
+    margin-top: 0.5rem;
+}
 
 /* Thumbnail Styling */
 .thumbnail {

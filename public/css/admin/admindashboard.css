@@ -1,82 +1,120 @@
-
 /* Main Content */
 .main-content {
     padding: 40px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    min-height: 100vh; /* Ensures full vertical centering */
-    background-color: #000; /* Match the background color */
+    max-width: 1200px; /* Adjust width as needed */
+    margin: 0 auto;
 }
 
-/* Card Container */
+/* Search Bar */
+.search-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.search-bar input {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+.search-bar button {
+    margin-left: -40px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+/* Statistics Cards */
+.Cards {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
 .card-container {
     display: flex;
-    justify-content:center;
-    gap: 20px;
-    align-items: flex-start; /* Align items to the top of each card */
+    justify-content: space-around;
     width: 100%;
-    max-width: 1200px; /* Adjust width as needed */
-    margin-bottom: 50px; /* Space between cards and chart */
-    margin-top: 50px;
 }
 
 .card {
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 200px;
-    position: relative;
+}
+
+.icon-container {
+    font-size: 40px;
+    color: #007BFF;
+    margin-bottom: 10px;
 }
 
 .card-content h3 {
-    margin: 15px 0 10px;
-    font-size: 1.5em;
+    font-size: 20px;
+    margin-bottom: 5px;
 }
 
 .card-content p {
-    font-size: 1.2em;
+    font-size: 18px;
     color: #333;
 }
 
-/* Icon Container */
-.icon-container {
-    background-color: #f1f1f1;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
+/* Chart Container */
+.charts-row {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 auto;
-    position: absolute;
-    top: -30px;
-    left: 50%;
-    transform: translateX(-50%);
+    justify-content: space-around;
+    width: 100%;
 }
 
-.icon-container i {
-    font-size: 24px;
-    color: #333;
-}
-
-/* Adjustments for Card Layout */
-
-
-/* Chart Section */
 .chart-container {
-    width: 50%;
-    margin: 20px auto;
-    margin-top: 50px;
-    justify-content: center;
+    width: 30%;
+    max-width: 400px;
+    margin: 20px 0;
 }
 
-#pie-chart {
-    width: 400px;
-    height: 400px;
-    background-color: #f9f9f9;
-    margin: auto;
+/* Sidebar */
+/* Dropdown Button */
+.dropdown-btn {
+    padding: 15px 25px; /* Adjust padding for better appearance */
+    font-size: 18px; /* Adjust font size */
+    color: white;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    outline: none;
+    transition: background 0.3s;
+    width: 100%; /* Ensure the button takes full width */
+}
+
+.dropdown-btn:hover {
+    background-color: #575757;
+}
+
+.dropdown-container {
+    display: none;
+    background-color: #eaeffbb0;
+    width: 100%; 
+    border-radius: 20px;
+}
+
+.dropdown-container a {
+    padding: 10px 25px;
+    font-size: 16px;
+    color: white;
+    display: block;
+    transition: background 0.3s;
+}
+
+.dropdown-container a:hover {
+    background-color: #575757;
 }

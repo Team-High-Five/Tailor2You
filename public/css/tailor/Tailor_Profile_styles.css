@@ -27,7 +27,7 @@
 
 .profile-pic-wrapper:hover {
     transform: scale(1.05);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .profile-pic-wrapper img {
@@ -41,7 +41,7 @@
     bottom: 0;
     left: 0;
     right: 0;
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     overflow: hidden;
     width: 100%;
     height: 0;
@@ -62,7 +62,7 @@
 
 #upload-photo {
     display: none;
-    
+
 }
 
 .form-two-group {
@@ -171,6 +171,46 @@
     color: var(--error-color);
     font-size: 0.875rem;
     margin-top: 0.25rem;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popup-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.confirm-btn,
+.cancel-btn {
+    background-color: var(--primary-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: var(--text-light);
+    margin: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.confirm-btn:hover,
+.cancel-btn:hover {
+    background-color: var(--primary-hover);
 }
 
 @media (max-width: 768px) {

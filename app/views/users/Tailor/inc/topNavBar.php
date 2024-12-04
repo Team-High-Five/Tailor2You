@@ -2,16 +2,19 @@
 <div class="Section-content">
   <div class="header">
     <h1 class="main-title"><?php echo $data['title']; ?></h1>
-    <div class="actions">
-      <div class="search-bar">
-        <input type="text" placeholder="Type to search">
-        <button><i><img src="<?php echo URLROOT; ?>/public/img/Search.png"></i></button>
-      </div>
-      <button><i><img src="<?php echo URLROOT; ?>/public/img/Icon.png"></i></button>
-      <div class="dropdown">
-        <button class="tailor-drop-down"><i><img src="<?php echo URLROOT; ?>/public/img/Icon-1.png"></i></button>
-        <div class="dropdown-content">
-          <a href="<?php echo URLROOT; ?>/Users/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+    <div class="navbar-right-section">
+      <div class="actions">
+        <div class="search-bar">
+          <input type="text" placeholder="Type to search">
+          <button><i><img src="<?php echo URLROOT; ?>/public/img/Search.png"></i></button>
+        </div>
+        <a href="<?php echo URLROOT ?>/Action/index"><button class="icon-button"><i class="fas fa-envelope"></i></button></a>
+        <button class="icon-button"><i class="fas fa-bell"></i></button>
+        <div class="dropdown">
+          <button class="tailor-drop-down"><i class="fas fa-sign-out-alt"></i></button>
+          <div class="dropdown-content">
+            <a href="<?php echo URLROOT; ?>/Users/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+          </div>
         </div>
       </div>
       <a href="<?php echo URLROOT ?>/Tailors/profileUpdate">

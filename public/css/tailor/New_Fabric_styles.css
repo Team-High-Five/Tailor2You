@@ -1,18 +1,7 @@
-:root {
-    --primary: #6a5acd;
-    --primary-hover: #5849b8;
-    --text: #333;
-    --text-light: #666;
-    --border: #e0e0e0;
-    --background: #f4f4f8;
-    --white: #fff;
-    --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
 .add-new-fabric-container {
     max-width: 600px;
     margin: 2rem auto;
-    background: var(--white);
+    background: var(--white-color);
     border-radius: 12px;
     box-shadow: var(--shadow);
     padding: 2rem;
@@ -25,18 +14,18 @@
     align-items: center;
     padding-bottom: 1.5rem;
     margin-bottom: 2rem;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-color);
 }
 
 .modal-header h1 {
     font-size: 1.5rem;
-    color: var(--text);
+    color: var(--text-color);
     font-weight: 600;
 }
 
 .close-btn {
     font-size: 1.5rem;
-    color: var(--text-light);
+    color: var(--text-light-color);
     background: none;
     border: none;
     cursor: pointer;
@@ -44,7 +33,7 @@
 }
 
 .close-btn:hover {
-    color: var(--text);
+    color: var(--text-color);
 }
 
 =======
@@ -53,23 +42,23 @@
     text-align: center;
     margin-bottom: 2rem;
     padding: 2rem;
-    border: 2px dashed var(--border);
+    border: 2px dashed var(--border-color);
     border-radius: 8px;
     transition: border-color 0.3s;
 }
 
 .upload-section:hover {
-    border-color: var(--primary);
+    border-color: var(--primary-color);
 }
 
 .upload-icon {
     font-size: 2.5rem;
-    color: var(--text-light);
+    color: var(--text-light-color);
     margin-bottom: 0.5rem;
 }
 
 .upload-text {
-    color: var(--primary);
+    color: var(--primary-color);
     text-decoration: none;
     font-weight: 500;
 }
@@ -81,7 +70,7 @@
 .form-group label {
     display: block;
     margin-bottom: 0.5rem;
-    color: var(--text);
+    color: var(--text-color);
     font-weight: 500;
 }
 
@@ -90,14 +79,14 @@
 .form-group input[type="file"] {
     width: 100%;
     padding: 0.75rem 1rem;
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-color);
     border-radius: 6px;
     font-size: 1rem;
     transition: all 0.3s;
 }
 
 .form-group input:focus {
-    border-color: var(--primary);
+    border-color: var(--primary-color);
     box-shadow: 0 0 0 2px rgba(106, 90, 205, 0.2);
     outline: none;
 }
@@ -120,14 +109,14 @@
     width: 24px;
     height: 24px;
     border-radius: 50%;
-    border: 1px solid var(--border);
+    border: 1px solid var(--border-color);
 }
 
 .submit-btn {
     width: 100%;
     padding: 0.875rem;
-    background: var(--primary);
-    color: var(--white);
+    background: var(--primary-color);
+    color: var(--white-color);
     border: none;
     border-radius: 6px;
     font-size: 1rem;
@@ -137,7 +126,7 @@
 }
 
 .submit-btn:hover {
-    background: var(--primary-hover);
+    background: var(--primary-hover-color);
 }
 
 /* Color swatches */
@@ -171,7 +160,7 @@
 
 .color-swatch[data-color="White"] {
     background-color: #FFFFFF;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--border-color);
 }
 
 .color-swatch[data-color="Gray"] {
@@ -180,4 +169,57 @@
 
 .color-swatch[data-color="Pink"] {
     background-color: #FFC0CB;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    .add-new-fabric-container {
+        width: 90%;
+        padding: 1rem;
+    }
+
+    .modal-header h1 {
+        font-size: 1.2rem;
+    }
+
+    .form-group label {
+        font-size: 14px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="number"],
+    .form-group input[type="file"] {
+        font-size: 14px;
+    }
+
+    .submit-btn {
+        font-size: 0.875rem;
+        padding: 0.75rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .add-new-fabric-container {
+        width: 100%;
+        padding: 0.5rem;
+    }
+
+    .modal-header h1 {
+        font-size: 1rem;
+    }
+
+    .form-group label {
+        font-size: 12px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="number"],
+    .form-group input[type="file"] {
+        font-size: 12px;
+    }
+
+    .submit-btn {
+        font-size: 0.75rem;
+        padding: 0.5rem;
+    }
 }

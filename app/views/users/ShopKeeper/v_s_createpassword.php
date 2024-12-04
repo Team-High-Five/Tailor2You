@@ -3,30 +3,36 @@
 <?php require_once APPROOT . '/views/pages/inc/components/topnav.php'; ?>
 
 <div class="container">
-
-  <div class="left-image-section">
-    <img src="../<?php APPROOT ?>/public/img/shopkeeper_reg.png" alt="Man Fashion">
+  <div class="logo">
+    <img src="../<?php APPROOT ?>/public/img/logo_brown.png" alt="Tailor2You Logo">
   </div>
+
   <div class="form-section">
 
     <h1>Create a password</h1>
 
-    <form action="<?php echo URLROOT; ?>/shopkeepers/createPassword" method="post">
+    <form id="createPasswordForm" action="<?php echo URLROOT; ?>/shopkeepers/createPassword" method="post">
       <div class="form-line">
         <input type="password" name="password" placeholder="Password" required>
+        <span class="error" id="password_err"></span>
       </div>
       <div class="form-line">
         <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+        <span class="error" id="confirm_password_err"></span>
       </div>
-      <button type="submit" class="right-continue-btn">Submit</button>
+      <button type="submit" class="continue-btn">Submit</button>
     </form>
   </div>
 
-  <div class="logo">
-    <img src="../<?php APPROOT ?>/public/img/logo_brown.png" alt="Tailor2You Logo">
+  <div class="right-image-section">
+    <img src="../<?php APPROOT ?>/public/img/shopkeeper_reg.png" alt="Man Fashion">
   </div>
-</div>
 
+
+</div>
+<!-- JavaScript -->
+<script src="<?php echo URLROOT; ?>/public/js/pass-validations.js"></script>
+<script src="<?php echo URLROOT; ?>/public/js/user-validations.js"></script>
 </body>
 
 </html>
