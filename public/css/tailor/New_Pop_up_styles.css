@@ -24,8 +24,6 @@
     animation: fadeIn 0.3s ease;
 }
 
-<<<<<<< Updated upstream
-=======
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -59,7 +57,6 @@
     font-size: 14px;
     margin-top: 5px;
 }
->>>>>>> Stashed changes
 
 @keyframes fadeIn {
     from {

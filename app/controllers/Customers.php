@@ -192,9 +192,6 @@ class Customers extends Controller
             $this->view('users/Customer/v_c_createpassword', $data);
         }
     }
-<<<<<<< Updated upstream
-}
-=======
 
 
 
@@ -345,4 +342,3 @@ class Customers extends Controller
         $this->view('users/Customer/v_c_cart', $data);
     }
 }
->>>>>>> Stashed changes

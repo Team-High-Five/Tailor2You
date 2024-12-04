@@ -23,19 +23,6 @@
           </div>
         </div>
 
-<<<<<<< Updated upstream
-        <!-- Action Buttons -->
-        <div class="action-buttons">
-   
-    <a href="<?php echo URLROOT ?>/Customer/updateDetails"><button>Update My Details</button></a>
-    <button>Delete Account</button>
-    <a href="<?php echo URLROOT ?>/Customer/changepassword"><button>Change Password</button></a>
-    <div class="dropdown">
-        <button class="dropdown-toggle">Add Measurements</button>
-        <div class="dropdown-menu">
-            <a href="<?php echo URLROOT ?>/Customer/addpant">Pant</a>
-            <a href="<?php echo URLROOT ?>/Customer/addshirt">Shirt</a>
-=======
         <div class="form-two-group">
           <div class="form-group">
             <label for="first_name">First Name</label>
@@ -47,7 +34,6 @@
             <input type="text" id="last_name" name="last_name" value="<?php echo $data['user']->last_name; ?>" required>
             <span class="error" id="last_name_err"></span>
           </div>
->>>>>>> Stashed changes
         </div>
 
         <div class="form-two-group">

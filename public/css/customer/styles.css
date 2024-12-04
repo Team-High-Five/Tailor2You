@@ -4,9 +4,6 @@
 @import url('components/btn.css');
 @import url('components/flash_msg.css');
 @import url('topNavBar_styles.css');
-<<<<<<< Updated upstream
-@import url('Customer_Profile_styles.css');
-=======
 @import url('Customer_orders_styles.css');
 @import url('components/chat.css');
 @import url('../tailor/sideBar_styles.css');
@@ -131,4 +128,3 @@ body {
         margin-left: 70px;
     }
 }
->>>>>>> Stashed changes
