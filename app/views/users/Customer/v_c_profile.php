@@ -79,17 +79,7 @@
         <button type="button" class="delete-btn" onclick="confirmDelete()">Delete Profile</button>
       </form>
     </div>
-    <!-- Action Buttons -->
-    <div class="profile-action-buttons">
-      <a href="<?php echo URLROOT ?>/Customer/v_c_changepassword" class="profile-action-btn">Change Password</a>
-      <div class="profile-dropdown">
-        <button class="profile-dropdown-toggle">Add Measurements</button>
-        <div class="profile-dropdown-menu">
-          <a href="<?php echo URLROOT ?>/Customers/addPants">Pant</a>
-          <a href="<?php echo URLROOT ?>/Customers/addShirts">Shirt</a>
-        </div>
-      </div>
-    </div>
+
   </div>
 </div>
 
@@ -103,10 +93,10 @@
     <div class="update-modal-body">
       <i class="ri-error-warning-line"></i>
       <p>Are you sure you want to make changes?</p>
-      <div class="button-rows">
-        <button type="submit" class="submit-btn" onclick="submitForm()">Yes, Update</button>
-        <button type="button" class="reset-btn" onclick="closePopup()">Cancel</button>
-      </div>
+      <br>
+      <button type="submit" class="confirm-btn" onclick="submitForm()">Yes, Update</button>
+      <button type="button" class="reset-btn" onclick="closePopup()">Cancel</button>
+
     </div>
   </div>
 </div>
@@ -121,7 +111,7 @@
     <div class="delete-modal-body">
       <p>Are you sure you want to delete this profile?</p>
       <form id="deleteUserForm" action="<?php echo URLROOT; ?>/Customers/deleteUser/<?php echo $_SESSION['user_id']; ?>" method="post">
-        <button type="submit" class="submit-btn">Yes, Delete</button>
+        <button type="submit" class="confirm-btn">Yes, Delete</button>
         <button type="button" class="reset-btn" onclick="closeDeleteUserModal()">Cancel</button>
       </form>
     </div>

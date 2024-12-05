@@ -1,73 +1,71 @@
 [data-theme="dark"] {
-    /* Primary Colors */
-    --primary-color: #8a7ad1;
-    /* Lighter version of original primary */
-    --primary-gradient: linear-gradient(180deg, #8a7ad1 0%, #7a68ee 100%);
-    --secondary-color: #9185ee;
+    --bg-img: url('../../img/home/mensPage1.1.jpg');
 
-    /* Background Colors */
-    --background-color: #121218;
-    /* Dark background */
-    --sidebar-background: linear-gradient(180deg, #1a1a2e 0%, #16162c 100%);
-    --card-gradient: linear-gradient(135deg, #1e1e2d 0%, #252538 100%);
+    /* Primary Colors - Aligned with original dark grays */
+    --primary-color: #1a1a1a;
+    --secondary-color: #333;
+    --primary-gradient: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 100%);
 
-    /* Text Colors */
-    --text-color: #e0e0e0;
+    /* Background Colors - Matching original dark theme */
+    --background-color: #121212;
+    --sidebar-background: var(--gradient-background);
+    --card-gradient: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+
+    /* Text Colors - Keeping high contrast */
+    --text-color: #ffffff;
     --text-dark: #ffffff;
-    --text-muted: #9999a9;
-    --text-light-color: #b4b4c0;
-    --white-color: #121218;
-    /* Inverted for dark mode */
+    --text-muted: #cccccc;
+    --text-light-color: #e0e0e0;
+    --white-color: #121212;
 
-    /* Accent Colors */
-    --accent-color: #d4b78d;
-    /* Slightly lighter for better contrast */
-    --accent-hover: #e5c89e;
+    /* Accent Colors - Using original gold accents */
+    --accent-color: #c4a77d;
+    --accent-hover: #d4b78d;
+    --accent-gradient: linear-gradient(135deg, #c4a77d 0%, #d4b78d 100%);
 
     /* Interactive Elements */
-    --sidebar-hover-background: rgba(255, 255, 255, 0.1);
-    --sidebar-active-background: rgba(255, 255, 255, 0.15);
-    --sidebar-active-border: #8a7ad1;
-    --sidebar-icon-brightness: 1.1;
-    --sidebar-icon-hover-brightness: 1.3;
+    --sidebar-hover-background: rgba(255, 255, 255, 0.05);
+    --sidebar-active-background: rgba(196, 167, 125, 0.1);
+    --sidebar-active-border: var(--accent-color);
+    --sidebar-icon-brightness: 1;
+    --sidebar-icon-hover-brightness: 1.1;
 
     /* Borders and Shadows */
-    --input-border: #2a2a3a;
-    --border-color: #2a2a3a;
-    --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-    --shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    --input-border: #2a2a2a;
+    --border-color: #2a2a2a;
+    --card-shadow: var(--elegant-shadow);
+    --shadow: var(--elegant-shadow);
 
-    /* Status Colors */
-    --danger-color: #ff6b6b;
-    --danger-dark-color: #ff4d4d;
-    --error-color: #ff6b6b;
-    --measurement-color: #8a7ad1;
+    /* Status Colors - Maintaining but darkened */
+    --danger-color: #d43f3f;
+    --danger-dark-color: #b33535;
+    --error-color: #d43f3f;
+    --measurement-color: #333;
 
     /* Gradients */
-    --success-gradient: linear-gradient(135deg, #2dd36f 0%, #28c76f 100%);
-    --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ff4d4d 100%);
+    --success-gradient: linear-gradient(135deg, #2a5a2a 0%, #1f4f1f 100%);
+    --danger-gradient: linear-gradient(135deg, #d43f3f 0%, #b33535 100%);
 
     /* Special Effects */
-    --glass-effect: rgba(30, 30, 45, 0.95);
-    --measurement-item-background: rgba(138, 122, 209, 0.15);
+    --glass-effect: rgba(26, 26, 26, 0.95);
+    --measurement-item-background: rgba(196, 167, 125, 0.1);
     --card-hover-transform: translateY(-5px);
 
     /* Additional Dark Mode Specific Variables */
-    --overlay-color: rgba(18, 18, 24, 0.8);
-    --hover-highlight: rgba(138, 122, 209, 0.1);
-    --code-background: #1a1a2e;
-    --tooltip-background: #252538;
-    --scrollbar-track: #1a1a2e;
-    --scrollbar-thumb: #2a2a3a;
-    --scrollbar-thumb-hover: #3a3a4a;
+    --overlay-color: rgba(18, 18, 18, 0.9);
+    --hover-highlight: rgba(196, 167, 125, 0.1);
+    --code-background: #1a1a1a;
+    --tooltip-background: #2a2a2a;
+    --scrollbar-track: #1a1a1a;
+    --scrollbar-thumb: #2a2a2a;
+    --scrollbar-thumb-hover: #333;
+
+    /* Shadows */
+    --accent-shadow: 0 8px 32px rgba(196, 167, 125, 0.1);
+    --elegant-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
-/* Optional: Smooth transition between light and dark modes */
-:root {
-    transition: all 0.3s ease-in-out;
-}
-
-/* Optional: Custom Scrollbar for Dark Mode */
+/* Keeping the original scrollbar styling */
 [data-theme="dark"] {
     scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
     scrollbar-width: thin;

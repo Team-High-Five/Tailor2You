@@ -107,22 +107,7 @@
     text-align: center;
 }
 
-.confirm-btn,
-.cancel-btn {
-    background-color: var(--primary-color);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    color: var(--text-light);
-    margin: 10px;
-    transition: background-color 0.3s ease;
-}
 
-.confirm-btn:hover,
-.cancel-btn:hover {
-    background-color: var(--primary-hover);
-}
 
 /* Modal Styles */
 .modal {
@@ -223,33 +208,4 @@
     border: none;
     font-size: 1.5rem;
     cursor: pointer;
-}
-
-.submit-btn {
-    background-color: var(--danger-color);
-    color: var(--white-color);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 10px;
-}
-
-.reset-btn {
-    background-color: #5bc0de;
-    color: var(--white-color);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-}
-
-.submit-btn:hover {
-    background-color: #c9302c;
-}
-
-.cancel-btn:hover {
-    background-color: #31b0d5;
 }

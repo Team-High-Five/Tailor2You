@@ -81,22 +81,8 @@
     border: 1px solid var(--border-color);
 }
 
-.submit-btn {
-    width: 100%;
-    padding: 0.875rem;
-    background: var(--primary-color);
-    color: var(--white-color);
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.3s;
-}
 
-.submit-btn:hover {
-    background: var(--primary-hover-color);
-}
+
 
 /* Color swatches */
 .color-swatch[data-color="Black"] {
@@ -161,7 +147,7 @@
         font-size: 14px;
     }
 
-    .submit-btn {
+    .confirm-btn {
         font-size: 0.875rem;
         padding: 0.75rem;
     }
@@ -187,7 +173,7 @@
         font-size: 12px;
     }
 
-    .submit-btn {
+    .confirm-btn {
         font-size: 0.75rem;
         padding: 0.5rem;
     }

@@ -251,16 +251,35 @@
     margin-right: 10px;
 }
 
+.confirm-btn {
+    width: 100%;
+    padding: 0.875rem;
+    background: var(--primary-color);
+    color: var(--white-color);
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+.confirm-btn:hover {
+    width: 100%;
+    padding: 0.875rem;
+    transition: background 0.3s;
+    translate: scale(1.05);
+    background: var(--primary-hover-color);
+}
+
 /* Cancel Button */
 .cancel-btn {
-    background-color: #5bc0de;
-    color: white;
+    background-color:#31b0d5;
+    color:var(--white-color);
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
     width: 100%;
-    margin-top: 10px;
 }
 
 /* Button Hover Effects */
