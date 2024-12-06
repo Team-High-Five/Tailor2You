@@ -28,7 +28,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .portfolio-item {
@@ -39,6 +39,7 @@
     transition: var(--transition);
     width: 200px;
     height: 350px;
+    margin-bottom: 20px;
 }
 
 .portfolio-item:hover {

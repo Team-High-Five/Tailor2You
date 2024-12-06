@@ -282,3 +282,19 @@ select {
     color: var(--white-color);
     transform: translateY(-3px);
 }   
+
+.edit-btn {
+    background-color: #164e1b;
+    color: var(--white-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.edit-btn:hover {
+    background-color: #0d3e13;
+    color: var(--white-color);
+    transform: translateY(-3px);
+}
