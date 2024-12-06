@@ -103,6 +103,7 @@
     /* Add margin to separate it from the form */
 }
 
+
 .submit-btn:hover {
     background-color: var(--secondary-color);
     transform: scale(1.05);
@@ -111,6 +112,17 @@
 
 .submit-btn:active {
     transform: scale(0.98);
+}
+.profile-delete-btn{
+    background: red;
+    color: var(--white-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    margin-top: 20px;
 }
 
 .btn-cancel {
