@@ -36,7 +36,7 @@ function validateField(field) {
                 errorMessage = 'Invalid phone number';
             }
             break;
-        case 'NIC':
+        case 'nic':
             const nicPattern = /^(\d{9}[vVxX]|\d{12})$/;
             if (!nicPattern.test(value)) {
                 errorMessage = 'Invalid NIC number';

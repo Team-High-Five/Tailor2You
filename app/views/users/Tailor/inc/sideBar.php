@@ -1,5 +1,5 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.15.3/css/all.min.css">
 <?php
-
 function isCurrentPage($page)
 {
   // Get the current URL path
@@ -50,7 +50,6 @@ function isCurrentPage($page)
   </div>
 </div>
 
-
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const sidebarIcons = document.querySelectorAll('.sidebar-icon');
@@ -86,5 +85,21 @@ function isCurrentPage($page)
         icon.classList.add('active');
       }
     }
+
+    // Load saved theme on page load
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      document.getElementById('darkModeButton').textContent = savedTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
+    }
   });
+
+  // Toggle dark mode
+  function toggleDarkMode() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    document.getElementById('darkModeButton').textContent = newTheme === 'dark' ? 'Light Mode' : 'Dark Mode';
+    localStorage.setItem('theme', newTheme);
+  }
 </script>

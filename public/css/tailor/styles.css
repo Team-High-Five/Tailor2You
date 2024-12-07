@@ -21,11 +21,15 @@
 @import url('sideBar_styles.css');
 @import url('Customization_List_styles.css');
 @import url('Customization_Card_styles.css');
-@import url('Portfolio_styles.css');
 @import url('btn_styles.css');
+@import url('Portfolio_styles.css');
 @import url('New_Pop_up_styles.css');
 @import url('components/chat.css');
+@import url('dark_mode_styles.css');
+
 :root {
+    /* Light Mode Colors */
+    --bg-img: url('../../img/Tailor.png');
     --primary-color: #6a5acd;
     --primary-gradient: linear-gradient(180deg, #7a57d1 0%, #6244b8 100%);
     --secondary-color: #7b68ee;
@@ -59,6 +63,96 @@
     --text-light-color: #666;
     --white-color: #fff;
     --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --bg-mask: rgba(255, 255, 255, 0.6);
+}
+
+[data-theme="dark"] {
+    --bg-img: url('../../img/Tailor.png');
+    /* Primary Colors */
+    --primary-color: #8a7ad1;
+    /* Lighter version of original primary */
+    --primary-gradient: linear-gradient(180deg, #8a7ad1 0%, #7a68ee 100%);
+    --secondary-color: #9185ee;
+
+    /* Background Colors */
+    --background-color: #121218;
+    /* Dark background */
+    --sidebar-background: linear-gradient(180deg, #1a1a2e 0%, #16162c 100%);
+    --card-gradient: linear-gradient(135deg, #1e1e2d 0%, #252538 100%);
+
+    /* Text Colors */
+    --text-color: #e0e0e0;
+    --text-dark: #ffffff;
+    --text-muted: #9999a9;
+    --text-light-color: #b4b4c0;
+    --white-color: #121218;
+    /* Inverted for dark mode */
+
+    /* Accent Colors */
+    --accent-color: #d4b78d;
+    /* Slightly lighter for better contrast */
+    --accent-hover: #e5c89e;
+
+    /* Interactive Elements */
+    --sidebar-hover-background: rgba(255, 255, 255, 0.1);
+    --sidebar-active-background: rgba(255, 255, 255, 0.15);
+    --sidebar-active-border: #8a7ad1;
+    --sidebar-icon-brightness: 1.1;
+    --sidebar-icon-hover-brightness: 1.3;
+
+    /* Borders and Shadows */
+    --input-border: #2a2a3a;
+    --border-color: #2a2a3a;
+    --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+
+    /* Status Colors */
+    --danger-color: #ff6b6b;
+    --danger-dark-color: #ff4d4d;
+    --error-color: #ff6b6b;
+    --measurement-color: #8a7ad1;
+
+    /* Gradients */
+    --success-gradient: linear-gradient(135deg, #2dd36f 0%, #28c76f 100%);
+    --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ff4d4d 100%);
+
+    /* Special Effects */
+    --glass-effect: rgba(30, 30, 45, 0.95);
+    --measurement-item-background: rgba(138, 122, 209, 0.15);
+    --card-hover-transform: translateY(-5px);
+
+    /* Additional Dark Mode Specific Variables */
+    --overlay-color: rgba(18, 18, 24, 0.8);
+    --hover-highlight: rgba(138, 122, 209, 0.1);
+    --code-background: #1a1a2e;
+    --tooltip-background: #252538;
+    --scrollbar-track: #1a1a2e;
+    --scrollbar-thumb: #2a2a3a;
+    --scrollbar-thumb-hover: #3a3a4a;
+    --bg-mask: rgba(18, 18, 24, 0.95);
+}
+
+[data-theme="dark"] {
+    scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+    scrollbar-width: thin;
+}
+
+[data-theme="dark"]::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+[data-theme="dark"]::-webkit-scrollbar-track {
+    background: var(--scrollbar-track);
+}
+
+[data-theme="dark"]::-webkit-scrollbar-thumb {
+    background: var(--scrollbar-thumb);
+    border-radius: 4px;
+}
+
+[data-theme="dark"]::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-thumb-hover);
 }
 
 * {
@@ -68,12 +162,14 @@
     font-family: 'Inter', Arial, sans-serif;
 }
 
+
 body {
-    background-image: url('../../img/Tailor.png');
+    background-image: var(--bg-img);
     color: var(--text-color);
     line-height: 1.6;
     overflow-x: hidden;
     perspective: 1000px;
+    transition: background-color var(--transition), color var(--transition);
 }
 
 .main-content {
@@ -86,6 +182,7 @@ body {
     transition: all 0.3s ease;
     margin-bottom: 100px;
     min-height: 60vh;
+    background-color: var(back);
 }
 
 .main-content:hover {
@@ -97,7 +194,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background: rgba(255, 255, 255, 0.8);
+    background-color: var(--bg-mask);
     backdrop-filter: blur(4px);
     margin-left: 80px;
 }

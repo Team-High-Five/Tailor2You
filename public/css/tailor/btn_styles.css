@@ -143,28 +143,23 @@
     padding: 6px;
 }
 
-.edit-btn {
-    color: #4CAF50;
-    /* Green for edit */
-}
-
 .delete-btn {
-    color: #E74C3C;
-    /* Red for delete */
+    color: var(--danger-color);
 }
 
 .action-btn:hover {
     opacity: 0.7;
 }
 
-.submit-btn {
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-    color: var(--white-color);
-}
-
 .reset-btn {
-    background-color: #f0f0f0;
-    color: var(--text-color);
+    background-color: #5bc0de;
+    color: var(--white-color);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
 }
 
 .submit-btn:hover {
@@ -173,7 +168,10 @@
 }
 
 .reset-btn:hover {
-    background-color: #e0e0e0;
+    background-color: var(--danger-color);
+    color: var(--text-dark);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .progress-btn {
@@ -214,6 +212,7 @@
 .filter-btn,
 .reset-filter-btn,
 select {
+    color: var(--text-dark);
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -266,4 +265,36 @@ select {
 
 .reschedule-btn:hover {
     background-color: #5a53cc;
+}
+
+.delete-btn {
+    background-color: var(--danger-color);
+    color: var(--white-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.delete-btn:hover {
+    background-color: var(--danger-dark-color);
+    color: var(--white-color);
+    transform: translateY(-3px);
+}   
+
+.edit-btn {
+    background-color: #164e1b;
+    color: var(--white-color);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.edit-btn:hover {
+    background-color: #0d3e13;
+    color: var(--white-color);
+    transform: translateY(-3px);
 }
