@@ -129,3 +129,23 @@ body {
         margin-left: 70px;
     }
 }
+
+.profile-buttons{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+}
+
+.customer-profile-top{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 20px;
+}
+
+.profile-pic{
+    padding-left: 10px;
+}
+
+.submit-btn{
+    margin-right:0;
+}
