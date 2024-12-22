@@ -6,23 +6,28 @@
 
     <div class="profile-form">
       <form id="profileForm" action="<?php echo URLROOT; ?>/Customers/profileUpdate" method="POST" enctype="multipart/form-data">
-        <div class="profile-pic">
-          <div class="profile-pic-wrapper">
-            <?php if (empty($data['user']->profile_pic)): ?>
-              <img src="<?php echo URLROOT; ?>/public/img/add-image.png" alt="Profile Picture" id="profile-preview">
-            <?php else: ?>
-              <img src="data:image/jpeg;base64,<?php echo base64_encode($data['user']->profile_pic); ?>" alt="Profile Picture" id="profile-preview">
-            <?php endif; ?>
-            <div class="profile-pic-overlay">
-              <i class="ri-camera-line"></i>
+        <div class="customer-profile-top">
+          <div class="profile-pic">
+            <div class="profile-pic-wrapper">
+              <?php if (empty($data['user']->profile_pic)): ?>
+                <img src="<?php echo URLROOT; ?>/public/img/add-image.png" alt="Profile Picture" id="profile-preview">
+              <?php else: ?>
+                <img src="data:image/jpeg;base64,<?php echo base64_encode($data['user']->profile_pic); ?>" alt="Profile Picture" id="profile-preview">
+              <?php endif; ?>
+              <div class="profile-pic-overlay">
+                <i class="ri-camera-line"></i>
+              </div>
+            </div>
+            <input type="file" id="upload-photo" name="profile_pic" accept="image/*" style="display: none;">
+            <div class="user-id">
+              <strong>User ID:</strong> <?php echo $_SESSION['user_id']; ?>
             </div>
           </div>
-          <input type="file" id="upload-photo" name="profile_pic" accept="image/*" style="display: none;">
-          <div class="user-id">
-            <strong>User ID:</strong> <?php echo $_SESSION['user_id']; ?>
+          <div class="profile-buttons">
+            <button type="button" class="submit-btn" onclick="confirmUpdate()">Update Profile</button>
+            <button type="button" class="delete-btn" onclick="confirmDelete()">Delete Profile</button>
           </div>
         </div>
-
         <div class="form-two-group">
           <div class="form-group">
             <label for="first_name">First Name</label>
@@ -75,8 +80,6 @@
           </div>
         </div>
 
-        <button type="button" class="submit-btn" onclick="confirmUpdate()">Update Profile</button>
-        <button type="button" class="delete-btn" onclick="confirmDelete()">Delete Profile</button>
       </form>
     </div>
 
