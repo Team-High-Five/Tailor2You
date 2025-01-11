@@ -123,4 +123,28 @@ class M_Tailors
             return false;
         }
     }
+    public function getAppointmentsByTailorId($tailor_id)
+    {
+        $this->db->query('
+        SELECT a.appointment_id, u.first_name, u.last_name, a.appointment_date, a.appointment_time, a.status
+        FROM appointments a
+        JOIN users u ON a.customer_id = u.user_id
+        WHERE a.tailor_shopkeeper_id = :tailor_id
+        ORDER BY a.appointment_date, a.appointment_time
+    ');
+        $this->db->bind(':tailor_id', $tailor_id);
+        return $this->db->resultSet();
+    }
+    public function getAppointmentById($appointment_id)
+    {
+        $this->db->query('
+        SELECT a.appointment_id, u.first_name, u.last_name, a.appointment_date, a.appointment_time, a.status, t.first_name AS tailor_first_name, t.last_name AS tailor_last_name
+        FROM appointments a
+        JOIN users u ON a.customer_id = u.user_id
+        JOIN users t ON a.tailor_shopkeeper_id = t.user_id
+        WHERE a.appointment_id = :appointment_id
+    ');
+        $this->db->bind(':appointment_id', $appointment_id);
+        return $this->db->single();
+    }
 }

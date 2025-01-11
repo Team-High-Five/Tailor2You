@@ -1,7 +1,7 @@
 <?php
 require_once APPROOT . '/helpers/url_helper.php';
 require_once APPROOT . '/helpers/session_helper.php';
-require_once APPROOT .'/controllers/Users.php';
+require_once APPROOT . '/controllers/Users.php';
 
 class Designs extends Controller
 {
@@ -58,6 +58,7 @@ class Designs extends Controller
     {
         // Check if the user is logged in
         if (!isLoggedIn()) {
+            $_SESSION['redirect_url'] = 'designs/appointment';
             redirect('users/login');
             exit();
         }
@@ -66,7 +67,6 @@ class Designs extends Controller
         ];
         $this->view('Designs/v_d_appointment', $data);
     }
-
     public function placedOrder()
     {
         $data = [

@@ -217,20 +217,59 @@ class Tailors extends Controller
 
     public function displayAppointments()
     {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+        }
+
+        $appointments = $this->tailorModel->getAppointmentsByTailorId($_SESSION['user_id']);
+
         $data = [
-            'title' => 'Appointments'
+            'title' => 'Appointments',
+            'appointments' => $appointments
         ];
+
         $this->view('users/Tailor/v_t_appointment_list', $data);
     }
-
-    public function displayAppointmentDetails()
+    public function displayAppointmentDetails($appointment_id)
     {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+        }
+
+        $appointment = $this->tailorModel->getAppointmentById($appointment_id);
+
+        if (!$appointment) {
+            flash('appointment_message', 'Appointment not found', 'alert alert-danger');
+            redirect('tailors/displayAppointments');
+        }
+
         $data = [
-            'title' => 'Appointment Details'
+            'title' => 'Appointment Details',
+            'appointment' => $appointment
         ];
+
         $this->view('users/Tailor/v_t_appointment_card', $data);
     }
+    public function rescheduleAppointment($appointment_id)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+        }
 
+        $appointment = $this->tailorModel->getAppointmentById($appointment_id);
+
+        if (!$appointment) {
+            flash('appointment_message', 'Appointment not found', 'alert alert-danger');
+            redirect('tailors/displayAppointments');
+        }
+
+        $data = [
+            'title' => 'Reschedule Appointment',
+            'appointment' => $appointment
+        ];
+
+        $this->view('users/Tailor/v_t_reschedule_appointment', $data);
+    }
     public function displayCalendar()
     {
         $data = [
