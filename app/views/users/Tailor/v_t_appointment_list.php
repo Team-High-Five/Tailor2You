@@ -114,10 +114,10 @@
     if (event.target.classList.contains('reject-button')) {
       event.preventDefault();
       const appointmentId = event.target.dataset.id;
-      document.getElementById('reschedule-form').action = '<?php echo URLROOT; ?>/tailors/updateAppointment/' + appointmentId;
+      document.getElementById('reschedule-form').action = '<?php echo URLROOT; ?>/tailors/rescheduleAppointment/' + appointmentId;
       document.getElementById('rescheduleAppointmentModal').style.display = 'block';
     }
   });
 </script>
-
+<script src="<?php echo URLROOT; ?>/public/js/appointment.js"></script>
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>

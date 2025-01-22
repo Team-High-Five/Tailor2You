@@ -250,6 +250,7 @@ class Tailors extends Controller
 
         $this->view('users/Tailor/v_t_appointment_card', $data);
     }
+
     public function rescheduleAppointment($appointment_id)
     {
         if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
@@ -263,12 +264,32 @@ class Tailors extends Controller
             redirect('tailors/displayAppointments');
         }
 
-        $data = [
-            'title' => 'Reschedule Appointment',
-            'appointment' => $appointment
-        ];
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Process form
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-        $this->view('users/Tailor/v_t_reschedule_appointment', $data);
+            $data = [
+                'appointment_id' => $appointment_id,
+                'appointment_date' => trim($_POST['appointment_date']),
+                'appointment_time' => trim($_POST['appointment_time']),
+                'status' => 'pending'
+            ];
+
+            // Update appointment
+            if ($this->tailorModel->updateAppointment($data)) {
+                flash('appointment_message', 'Appointment rescheduled successfully');
+                redirect('tailors/displayAppointments');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            $data = [
+                'title' => 'Reschedule Appointment',
+                'appointment' => $appointment
+            ];
+
+            $this->view('users/Tailor/v_t_reschedule_appointment', $data);
+        }
     }
     public function displayCalendar()
     {

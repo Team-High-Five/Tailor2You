@@ -147,4 +147,14 @@ class M_Tailors
         $this->db->bind(':appointment_id', $appointment_id);
         return $this->db->single();
     }
+    public function updateAppointment($data)
+    {
+        $this->db->query('UPDATE appointments SET appointment_date = :appointment_date, appointment_time = :appointment_time, status = :status WHERE appointment_id = :appointment_id');
+        $this->db->bind(':appointment_date', $data['appointment_date']);
+        $this->db->bind(':appointment_time', $data['appointment_time']);
+        $this->db->bind(':status', $data['status']);
+        $this->db->bind(':appointment_id', $data['appointment_id']);
+
+        return $this->db->execute();
+    }
 }

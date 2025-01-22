@@ -4,7 +4,7 @@
             <h1>Reschedule Appointment #<?php echo $data['appointment']->appointment_id; ?></h1>
             <button class="close-btn">&times;</button>
         </div>
-        <form action="<?php echo URLROOT; ?>/tailors/updateAppointment/<?php echo $data['appointment']->appointment_id; ?>" method="post">
+        <form id="reschedule-form" action="<?php echo URLROOT; ?>/tailors/rescheduleAppointment/<?php echo $data['appointment']->appointment_id; ?>" method="post">
             <div class="form-group">
                 <label for="appointment_date">New Date</label>
                 <input type="date" id="appointment_date" name="appointment_date" value="<?php echo $data['appointment']->appointment_date; ?>" required>
@@ -17,3 +17,4 @@
         </form>
     </div>
 </div>
+
