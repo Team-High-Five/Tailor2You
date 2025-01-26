@@ -1,3 +1,7 @@
+.container{
+    justify-items: center;
+    margin-top: 50px;
+}
 
 .order-container {
     background: #fff;
@@ -114,11 +118,14 @@
 .status.pending {
     background-color: yellow;
     color: #333;
+    width: 80px;
+    text-align: center;
 }
 
 .status.accepted {
     background-color: #4caf50;
     color: #fff;
+    width: 80px;
 }
 
 .view-order-btn {
