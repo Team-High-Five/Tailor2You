@@ -1,6 +1,5 @@
 <?php require_once APPROOT . '/views/users/Customer/inc/Header.php'; ?>
-<link rel='stylesheet' type='text/css' media='screen'
-href='<?php echo URLROOT; ?>/public/css/customer/Customer_orders_styles.css'>
+<link rel='stylesheet' type='text/css' media='screen' href='<?php echo URLROOT; ?>/public/css/customer/Customer_orders_styles.css'>
 <?php require_once APPROOT . '/views/users/Customer/inc/sideBar.php'; ?>
 <?php require_once APPROOT . '/views/users/Customer/inc/topNavBar.php'; ?>
 
@@ -25,7 +24,7 @@ href='<?php echo URLROOT; ?>/public/css/customer/Customer_orders_styles.css'>
                     </div>
                 </div>
                 <div class="order-status">
-                    <div class="status pending">Pending</div>
+                    <button class="status pending">Pending</button>
                     <button class="view-order-btn">View Order</button>
                     <button class="view-order-btn">Go to payments</button>
                 </div>
@@ -55,7 +54,7 @@ href='<?php echo URLROOT; ?>/public/css/customer/Customer_orders_styles.css'>
                     </div>
                 </div>
                 <div class="order-status">
-                    <div class="status accepted">Accepted</div>
+                    <button class="status accepted">Accepted</button>
                     <button class="view-order-btn">View Order</button>
                     <button class="view-order-btn">Go to payments</button>
                 </div>
