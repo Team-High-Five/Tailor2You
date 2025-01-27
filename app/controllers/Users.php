@@ -76,24 +76,29 @@ class Users extends Controller
         $_SESSION['user_last_name'] = $user->last_name;
         $_SESSION['user_profile_pic'] = $user->profile_pic;
 
-        // Redirect to the user's dashboard based on user type
-        switch ($user->user_type) {
-            case 'tailor':
-                redirect('tailors/index');
-                break;
-            case 'customer':
-                redirect('pages/index');
-                break;
-            case 'shopkeeper':
-                redirect('shopkeepers/index');
-                break;
-            case 'admin':
-                redirect('admin/index');
-                break;
-            default:
-
-                redirect('users/login');
-                break;
+        // Redirect to the stored URL if it exists, otherwise redirect to the user's dashboard based on user type
+        if (isset($_SESSION['redirect_url'])) {
+            $redirect_url = $_SESSION['redirect_url'];
+            unset($_SESSION['redirect_url']);
+            redirect($redirect_url);
+        } else {
+            switch ($user->user_type) {
+                case 'tailor':
+                    redirect('tailors/index');
+                    break;
+                case 'customer':
+                    redirect('pages/index');
+                    break;
+                case 'shopkeeper':
+                    redirect('shopkeepers/index');
+                    break;
+                case 'admin':
+                    redirect('admin/index');
+                    break;
+                default:
+                    redirect('users/login');
+                    break;
+            }
         }
     }
 

@@ -1,5 +1,5 @@
 .appointment-details-container {
-  min-width: 400px;
+  width: 400px;
   margin: 40px auto;
   background-color: var(--background-color);
   border-radius: 12px;
@@ -24,7 +24,7 @@
 }
 
 .appointment-date {
-  font-size: 16px;  
+  font-size: 16px;
   color: var(--text-muted);
   margin-bottom: 10px;
 }
@@ -43,10 +43,10 @@
   margin-right: 10px;
 }
 
-.user-name {
+.user-info .user-name {
   font-size: 18px;
   font-weight: bold;
-  color: var(--text-dark);
+  color: var(--text-muted);
 }
 
 .calendar-icon {
@@ -107,10 +107,67 @@
   color: var(--secondary-color);
 }
 
+.add-new-post-content .accept-button {
+  font-size: 10px;
+}
+
+.add-new-post-content .reject-button {
+  font-size: 10px;
+}
+
+.pop-modal-container{
+  padding: 20px;
+  text-align: center;
+  position: relative;
+}
+
+.reschedule-appointment-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  background-color: var(--white-color);
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+}
+
+.reschedule-appointment-container .form-group {
+  margin-bottom: 15px;
+}
+
+.reschedule-appointment-container .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: var(--text-dark);
+}
+
+.reschedule-appointment-container .form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+}
+
+.reschedule-appointment-container .submit-btn {
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color var(--transition);
+}
+
+.reschedule-appointment-container .submit-btn:hover {
+  background-color: var(--primary-hover-color);
+}
+
 /* Responsive Design */
 @media screen and (max-width: 768px) {
   .appointment-details-container {
-    width: 90%;
+    width: 100%;
     padding: 1rem;
   }
 
@@ -135,7 +192,7 @@
 
 @media screen and (max-width: 480px) {
   .appointment-details-container {
-    width: 50% ;
+    width: 90%;
     padding: 0.5rem;
   }
 
