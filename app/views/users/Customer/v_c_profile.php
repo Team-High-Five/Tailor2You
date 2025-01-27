@@ -24,7 +24,13 @@
             </div>
           </div>
           <div class="profile-buttons">
-            <button type="button" class="submit-btn" onclick="confirmUpdate()">Update Profile</button>
+            <button type="button" class="submit-btn" onclick="confirmUpdate()">Update Profile</button>   
+            <button type="button" class="submit-btn" >Change Password</button>         
+            <button type="button" class="meas-btn" onclick="toggleList()">Add Measurements</button>
+            <div class="drop-btn" id="measurementList">
+              <a href="<?php echo URLROOT ?>/Customers/addShirts">Shirt</a>
+              <a href="<?php echo URLROOT ?>/Customers/addPants">Pant</a>
+            </div>
             <button type="button" class="delete-btn" onclick="confirmDelete()">Delete Profile</button>
           </div>
         </div>
@@ -163,6 +169,15 @@
       document.getElementById('deleteUserModal').style.display = 'none';
     }
   });
+
+  function toggleList() {
+    const list = document.getElementById('measurementList');
+    if (list.style.display === 'block') {
+      list.style.display = 'none';
+    } else {
+      list.style.display = 'block';
+    }
+  }
 </script>
 
 <?php require_once APPROOT . '/views/users/Customer/inc/footer.php'; ?>

@@ -1,7 +1,11 @@
+.cusmain{
+    justify-items: center;
+}
 
-.cusappointment-container {
-    width: 100%;    
+.cusmain .cusappointment-container {
+    width: 100%;       
     padding: 20px 40px 20px 60px;
+    margin-top: 50px;
     max-width: 800px;
     background: #fff;
     border-radius: 10px;
@@ -9,18 +13,18 @@
     overflow: hidden;
 }
 
-.cusappointment {
+.cusmain .cusappointment {
     display: flex;
     padding: 20px ;
     border-bottom: 1px solid #eaeaea;
     align-items: center;
 }
 
-.cusappointment:last-child {
+.cusmain .cusappointment:last-child {
     border-bottom: none;
 }
 
-.calendar {
+.cusmain .calendar {
     text-align: center;
     margin-right: 30px;
     padding: 50px;
@@ -29,7 +33,7 @@
     min-width: 80px;
 }
 
-.calendar .month {
+.cusmain .calendar .month {
     font-size: 12px;
     font-weight: bold;
     text-transform: uppercase;
@@ -37,54 +41,54 @@
     margin-bottom: 5px;
 }
 
-.calendar .date {
+.cusmain .calendar .date {
     font-size: 24px;
     font-weight: bold;
     color: #000;
     margin-bottom: 5px;
 }
 
-.calendar .day {
+.cusmain .calendar .day {
     font-size: 12px;
     color: #777;
 }
 
-.details {
+.cusmain .details {
     flex: 1;
 }
 
-.details h3 {
+.cusmain .details h3 {
     font-size: 16px;
     color: #333;
     margin-bottom: 5px;
 }
 
-.details p {
+.cusmain .details p {
     font-size: 14px;
     color: #666;
     margin-bottom: 10px;
 }
 
-.tailor-info {
+.cusmain .tailor-info {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-top: 5px;
 }
 
-.tailor-info img {
+.cusmain .tailor-info img {
     width: 30px;
     height: 30px;
     border-radius: 50%;
     object-fit: cover;
 }
 
-.tailor-info span {
+.cusmain .tailor-info span {
     font-size: 14px;
     color: #555;
 }
 
-.actions {
+.cusmain .actions {
     text-align: right;
     display: flex;
     flex-direction: column;
@@ -93,41 +97,41 @@
     
 }
 
-.status {
+.cusmain .status {
     border: none;
     border-radius: 5px;
-    padding: 8px 15px;
+    /* padding: 8px 15px; */
     font-size: 14px;
     font-weight: bold;
     cursor: pointer;
     color: #fff;
 }
 
-.status.pending {
+.cusmain .status.pending {
     background: #ffeb3b;
     color: #333;
     width: 80px ;
     height: 30px;
 }
 
-.status.accepted {
+.cusmain .status.accepted {
     background: #4caf50;
     width: 80px ;
     height: 30px;
 }
 
-.action-link {
+.cusmain .action-link {
     font-size: 14px;
     text-decoration: none;
     color: #666;
     font-weight: bold;
 }
 
-.action-link:hover {
+.cusmain .action-link:hover {
     text-decoration: underline;
 }
 
-.cancel {
+.cusmain .cancel {
     background: #000080;
     color: #fff;
     border: none;
@@ -140,6 +144,6 @@
     text-transform: inherit;
 }
 
-.cancel:hover {
+.cusmain .cancel:hover {
     background: #00004d;
 }
