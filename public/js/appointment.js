@@ -1,9 +1,9 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const appointmentDateInput = document.getElementById('appointment_date');
     const appointmentTimeInput = document.getElementById('appointment_time');
     const rescheduleForm = document.getElementById('reschedule-form');
 
-    rescheduleForm.addEventListener('submit', function(event) {
+    rescheduleForm.addEventListener('submit', function (event) {
         const currentDate = new Date();
         const selectedDate = new Date(appointmentDateInput.value);
         const selectedTime = appointmentTimeInput.value.split(':');
@@ -15,3 +15,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
