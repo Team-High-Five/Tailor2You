@@ -135,9 +135,9 @@ class M_Tailors
         $this->db->bind(':tailor_id', $tailor_id);
         return $this->db->resultSet();
     }
-public function getAppointmentById($appointment_id)
-{
-    $this->db->query('
+    public function getAppointmentById($appointment_id)
+    {
+        $this->db->query('
         SELECT 
             appointments.*, 
             users.first_name, 
@@ -150,10 +150,10 @@ public function getAppointmentById($appointment_id)
         JOIN users AS tailors ON appointments.tailor_shopkeeper_id = tailors.user_id 
         WHERE appointments.appointment_id = :appointment_id
     ');
-    $this->db->bind(':appointment_id', $appointment_id);
+        $this->db->bind(':appointment_id', $appointment_id);
 
-    return $this->db->single();
-}
+        return $this->db->single();
+    }
     public function updateAppointment($data)
     {
         $this->db->query('UPDATE appointments SET appointment_date = :appointment_date, appointment_time = :appointment_time, status = :status WHERE appointment_id = :appointment_id');
@@ -175,7 +175,20 @@ public function getAppointmentById($appointment_id)
     }
     public function getAppointmentsByMonth($tailor_id, $year, $month)
     {
-        $this->db->query('SELECT * FROM appointments WHERE tailor_shopkeeper_id = :tailor_id AND YEAR(appointment_date) = :year AND MONTH(appointment_date) = :month');
+        $this->db->query('
+            SELECT 
+                a.appointment_id, 
+                a.appointment_date, 
+                a.appointment_time, 
+                a.status, 
+                u.first_name, 
+                u.last_name 
+            FROM appointments a
+            JOIN users u ON a.customer_id = u.user_id
+            WHERE a.tailor_shopkeeper_id = :tailor_id 
+            AND YEAR(a.appointment_date) = :year 
+            AND MONTH(a.appointment_date) = :month
+        ');
         $this->db->bind(':tailor_id', $tailor_id);
         $this->db->bind(':year', $year);
         $this->db->bind(':month', $month);

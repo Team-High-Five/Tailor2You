@@ -9,15 +9,15 @@
       $prevMonth = $data['month'] - 1;
       $prevYear = $data['year'];
       if ($prevMonth < 1) {
-          $prevMonth = 12;
-          $prevYear--;
+        $prevMonth = 12;
+        $prevYear--;
       }
 
       $nextMonth = $data['month'] + 1;
       $nextYear = $data['year'];
       if ($nextMonth > 12) {
-          $nextMonth = 1;
-          $nextYear++;
+        $nextMonth = 1;
+        $nextYear++;
       }
       ?>
       <a href="<?php echo URLROOT; ?>/tailors/displayCalendar/<?php echo $prevYear; ?>/<?php echo str_pad($prevMonth, 2, '0', STR_PAD_LEFT); ?>">&lt;</a>
@@ -41,24 +41,27 @@
 
       // Print empty cells for days before the first day of the month
       for ($i = 1; $i < $dayOfWeek; $i++) {
-          echo '<div class="day"></div>';
+        echo '<div class="day"></div>';
       }
 
       // Print days of the month
       for ($day = 1; $day <= $daysInMonth; $day++) {
-          $date = $data['year'] . '-' . $data['month'] . '-' . str_pad($day, 2, '0', STR_PAD_LEFT);
-          $isCurrent = ($date == $currentDate) ? 'current' : '';
-          echo '<div class="day ' . $isCurrent . '">';
-          echo '<div class="day-number">' . $day . '</div>';
+        $date = $data['year'] . '-' . $data['month'] . '-' . str_pad($day, 2, '0', STR_PAD_LEFT);
+        $isCurrent = ($date == $currentDate) ? 'current' : '';
+        echo '<div class="day ' . $isCurrent . '">';
+        echo '<div class="day-number">' . $day . '</div>';
 
-          // Print appointments for the day
-          foreach ($data['appointments'] as $appointment) {
-              if ($appointment->appointment_date == $date) {
-                  echo '<div class="appointment">Appointment#' . $appointment->appointment_id . '</div>';
-              }
+        // Print appointments for the day
+        foreach ($data['appointments'] as $appointment) {
+          if ($appointment->appointment_date == $date) {
+            echo '<div class="appointment">';
+            echo '<div class="appointment-time">' . date('h:i a', strtotime($appointment->appointment_time)) . '</div>';
+            echo '<div class="appointment-customer">' . $appointment->first_name . ' ' . $appointment->last_name . '</div>';
+            echo '</div>';
           }
+        }
 
-          echo '</div>';
+        echo '</div>';
       }
       ?>
     </div>

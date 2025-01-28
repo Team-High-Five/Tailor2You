@@ -52,6 +52,14 @@
     font-size: 12px;
 }
 
+.calendar-grid .day .appointment-time {
+    font-weight: bold;
+}
+
+.calendar-grid .day .appointment-customer {
+    font-size: 12px;
+}
+
 .calendar-grid .day-number {
     font-weight: bold;
     font-size: 16px;
