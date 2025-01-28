@@ -12,6 +12,12 @@
     margin-bottom: 20px;
 }
 
+.calendar-header a {
+    text-decoration: none;
+    color: #333;
+    font-size: 20px;
+}
+
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -25,7 +31,20 @@
     border-radius: 5px;
 }
 
-.appointment {
+.calendar-grid .day {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    text-align: center;
+    position: relative;
+}
+
+.calendar-grid .day.current {
+    border: 2px solid #fbc02d;
+}
+
+.calendar-grid .day .appointment {
     background-color: #e6c4f2;
     border-radius: 4px;
     padding: 2px;
@@ -33,10 +52,8 @@
     font-size: 12px;
 }
 
-.order {
-    background-color: #f2d2c4;
-    border-radius: 4px;
-    padding: 2px;
-    margin-top: 5px;
-    font-size: 12px;
+.calendar-grid .day-number {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 5px;
 }

@@ -118,6 +118,8 @@
       document.getElementById('rescheduleAppointmentModal').style.display = 'block';
     }
   });
+
+  
 </script>
 <script src="<?php echo URLROOT; ?>/public/js/appointment.js"></script>
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>

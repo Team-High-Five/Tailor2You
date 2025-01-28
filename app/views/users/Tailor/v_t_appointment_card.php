@@ -7,7 +7,7 @@
     <div class="appointment-info">
       <p class="appointment-date"><?php echo date('d/m/Y - h:i a', strtotime($data['appointment']->appointment_date . ' ' . $data['appointment']->appointment_time)); ?></p>
       <div class="user-info">
-        <img src="<?php echo URLROOT; ?>/public/img/woman_avatar.png" alt="User profile" class="user-avatar">
+        <img src="data:image/jpeg;base64,<?php echo $data['appointment']->profile_pic; ?>" alt="User profile" class="user-avatar">
         <span class="user-name"><?php echo $data['appointment']->first_name . ' ' . $data['appointment']->last_name; ?></span>
       </div>
       <div class="calendar-icon">
@@ -21,7 +21,11 @@
       <p><strong>Assigned Tailor</strong> <?php echo $data['appointment']->tailor_first_name . ' ' . $data['appointment']->tailor_last_name; ?></p>
     </div>
     <div class="action-buttons">
-      <button class="action-button accept-button">Accept Appointment</button>
+      <?php if ($data['appointment']->status === 'pending') : ?>
+        <form action="<?php echo URLROOT; ?>/tailors/acceptAppointment/<?php echo $data['appointment']->appointment_id; ?>" method="post">
+          <button type="submit" class="action-button accept-button">Accept Appointment</button>
+        </form>
+      <?php endif; ?>
       <button class="action-button reject-button" data-id="<?php echo $data['appointment']->appointment_id; ?>">Reschedule Appointment</button>
     </div>
   </div>
