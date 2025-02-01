@@ -6,10 +6,10 @@
     <nav class="nav-links">
         <a href="<?php echo URLROOT ?>/pages/index" class="nav-link" data-target="index">Home</a>
         <a href="#colllection" class="nav-link" id="collectionLink" data-target="menspage#colllection">Collection</a>
-        <a href="#genderSection" class="nav-link" id="customTailoringLink" data-target="index.php#genderSection">Custom Tailoring</a>
+        <a href="#genderSection" class="nav-link" id="customTailoringLink" data-target="index#genderSection">Custom Tailoring</a>
         <a href="<?php echo URLROOT ?>/pages/tailorPage" class="nav-link" data-target="tailorPage">Master Tailors</a>
-        <a href="#footer" class="nav-link" id="customTailoringLink" data-target="index.php#footer">About Atelier</a>
-        <a href="#feedback" class="nav-link" id="customTailoringLink" data-target="index.php#feedback">Contact</a>
+        <a href="#footer" class="nav-link" id="customTailoringLink" data-target="index#footer">About Atelier</a>
+        <a href="#feedback" class="nav-link" id="customTailoringLink" data-target="index#feedback">Contact</a>
     </nav>
     <div class="icons">
         <i class="fas fa-bars menu-toggle" onclick="toggleMenu()"></i>
