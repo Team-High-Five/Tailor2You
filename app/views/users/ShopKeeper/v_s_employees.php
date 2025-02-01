@@ -11,7 +11,7 @@
 </style>
 <div class="main-content">
 
-<a href="<?php echo URLROOT; ?>/Shopkeepers/addNewEmployee"> <button class="add-fabric-btn" id="openEmployeeModalBtn">Add New Fabric</button></a>
+<a href="<?php echo URLROOT; ?>/Shopkeepers/addNewEmployee"> <button class="add-fabric-btn" id="openEmployeeModalBtn">Add New Employee</button></a>
 
   <div class="table-container">
     <table class="product-table">
@@ -27,18 +27,20 @@
         </tr>
       </thead>
       <tbody>
+        <?php foreach ($data['employees'] as $employee) : ?>
         <tr>
           <td><img class="employee-table-icon" src="<?php echo URLROOT; ?>/public/img/home/lady1.jpg" alt="Employee" class="product-image"></td>
-          <td>Kumudu Y.M.</td>
-          <td>001</td>
-          <td>0705679436</td>
-          <td>Mawanella</td>
-          <td>kumudu@gmail.com</td>
+          <td><?php echo $employee->first_name . ' ' . $employee->last_name; ?></td>
+          <td><?php echo $employee->employee_id; ?></td>
+          <td><?php echo $employee->phone_number; ?></td>
+          <td><?php echo $employee->home_town; ?></td>
+          <td><?php echo $employee->email; ?></td>
           <td>
             <button class="action-btn edit-btn">✎</button>
             <button class="action-btn delete-btn">🗑</button>
           </td>
         </tr>
+        <?php endforeach; ?>
       </tbody>
     </table>
   </div>
