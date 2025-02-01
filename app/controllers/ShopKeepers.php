@@ -307,17 +307,10 @@ class Shopkeepers extends Controller
 
     public function displayEmployees()
     {
-        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
-            redirect('users/login');
-        }
-
-        $employees = $this->shopkeeperModel->getEmployeesByUserId($_SESSION['user_id']);
 
         $data = [
-            'title' => 'Employees',
-            'employees' => $employees
+            'title' => 'Employees'
         ];
-
         $this->view('users/Shopkeeper/v_s_employees', $data);
     }
     public function addNewEmployee()
