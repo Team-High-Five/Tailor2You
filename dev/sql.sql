@@ -104,3 +104,14 @@ INSERT INTO `colors` (`color_name`) VALUES ('White');
 INSERT INTO `colors` (`color_name`) VALUES ('Gray');
 
 INSERT INTO `colors` (`color_name`) VALUES ('Pink');
+
+-- Create the `employees` table
+CREATE TABLE `employees` (
+    `employee_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `user_id` INT(11) NOT NULL,
+    `phone_number` VARCHAR(10) NOT NULL,
+    `home_town` VARCHAR(20) NOT NULL,
+    `email` VARCHAR(30) NOT NULL,
+    PRIMARY KEY (`employee_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
