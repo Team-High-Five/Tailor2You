@@ -115,3 +115,18 @@ CREATE TABLE `employees` (
     PRIMARY KEY (`employee_id`),
     FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+CREATE TABLE `shirt_measurements` (
+    `user_id` varchar(100) NOT NULL,
+    `measure` int(11) NOT NULL,
+    `collar_size` int(11) NOT NULL,
+    `chest_width` int(11) NOT NULL,
+    `waist_width` int(11) NOT NULL,
+    `bottom_width` int(11) NOT NULL,
+    `shoulder_width` int(11) NOT NULL,
+    `sleeve_length` int(11) NOT NULL,
+    `armhole_depth` int(11) NOT NULL,
+    `bicep` int(11) NOT NULL,
+    `cuff_size` int(11) NOT NULL,
+    `front_length` int(11) NOT NULL
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
