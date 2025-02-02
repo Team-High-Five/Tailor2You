@@ -5,10 +5,12 @@ require_once APPROOT . '/helpers/session_helper.php';
 class Customers extends Controller
 {
     private $userModel;
+    private $customerModel;
 
     public function __construct()
     {
         $this->userModel = $this->model('M_Users');
+        $this->customerModel = $this->model('M_Customers');
     }
     public function index()
     {
@@ -338,11 +340,63 @@ class Customers extends Controller
 
     public function addShirts()
     {
-        $data = [
-            'title' => 'Add Shirts'
-        ];
-        $this->view('users/Customer/v_c_addshirt', $data);
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'customer') {
+            redirect('Users/login');
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'user_id' => $_SESSION['user_id'],
+                'collar_size' => trim($_POST['collar_size']),
+                'chest_width' => trim($_POST['chest_width']),
+                'waist_width' => trim($_POST['waist_width']),
+                'bottom_width' => trim($_POST['bottom_width']),
+                'shoulder_width' => trim($_POST['shoulder_width']),
+                'sleeve_length' => trim($_POST['sleeve_length']),
+                'armhole_depth' => trim($_POST['armhole_depth']),
+                'bicep' => trim($_POST['bicep']),
+                'cuff_size' => trim($_POST['cuff_size']),
+                'front_length' => trim($_POST['front_length']),
+                'measure' => trim($_POST['measurement_unit'])
+            ];
+
+            if ($_POST['is_create'] == '1') {
+                // Create new measurements
+                if ($this->customerModel->createShirtMeasurements($data)) {
+                    flash('shirt_message', 'Shirt measurements created successfully');
+                    redirect('Customers/addShirts');
+                } else {
+                    die('Something went wrong');
+                }
+            } else {
+                // Update existing measurements
+                if ($this->customerModel->updateShirtMeasurements($data)) {
+                    // flash('shirt_message', 'Shirt measurements updated successfully');
+                    redirect('Customers/addShirts');
+                } else {
+                    die('Something went wrong');
+                }
+            }
+        } else {
+            $cus_shirt = $this->customerModel->getmeasurementsbyid($_SESSION['user_id']);
+
+            // if (!$cus_shirt) {
+            //     flash('shirt_message', 'Shirt measurements not found', 'alert alert-danger');
+            //     redirect('Customers/addShirts');
+            // }
+
+            $data = [
+                'title' => 'Update Shirt',
+                'shirt' => $cus_shirt
+            ];
+
+            $this->view('users/Customer/v_c_addshirt', $data);
+        }
     }
+
+
     public function changepassword()
     {
         $data = [
