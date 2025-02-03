@@ -11,36 +11,36 @@ function isCurrentPage($page)
 
 <div class="sidebar">
   <a href="#">
-    <img src="../<?php APPROOT ?>/public/img/logo.png" alt="Logo" />
+    <img src="<?php echo URLROOT; ?>/public/img/logo.png" alt="Logo" />
   </a>
   <div id="Dashboard" class="sidebar-icon <?php echo isCurrentPage('index') ? 'active' : ''; ?>">
     <a href="<?php echo URLROOT ?>/Tailors/index">
-      <img src="../<?php APPROOT ?>/public/img/Home.png">
+      <img src="<?php echo URLROOT; ?>/public/img/Home.png">
     </a>
   </div>
   <div id="Protfolio" class="sidebar-icon <?php echo isCurrentPage('displayPortfolio') ? 'active' : ''; ?>">
     <a href="<?php echo URLROOT ?>/Tailors/displayPortfolio">
-      <img src="../<?php APPROOT ?>/public/img/Customer.png">
+      <img src="<?php echo URLROOT; ?>/public/img/Customer.png">
     </a>
   </div>
   <div id="Orders" class="sidebar-icon <?php echo isCurrentPage('displayOrders') ? 'active' : ''; ?>">
     <a href="<?php echo URLROOT ?>/Tailors/displayOrders">
-      <img src="../<?php APPROOT ?>/public/img/Purchase_Order.png">
+      <img src="<?php echo URLROOT; ?>/public/img/Purchase_Order.png">
     </a>
   </div>
   <div id="Appointments" class="sidebar-icon <?php echo isCurrentPage('displayAppointments') ? 'active' : ''; ?>">
     <a href="<?php echo URLROOT ?>/Tailors/displayAppointments">
-      <img src="../<?php APPROOT ?>/public/img/Calendar.png">
+      <img src="<?php echo URLROOT; ?>/public/img/Calendar.png">
     </a>
   </div>
   <div id="Customizations" class="sidebar-icon">
     <a href="<?php echo URLROOT ?>/Tailors/displayCustomizeItems">
-      <img src="../<?php APPROOT ?>/public/img/Adjust.png">
+      <img src="<?php echo URLROOT; ?>/public/img/Adjust.png">
     </a>
   </div>
   <div id="Inventory" class="sidebar-icon <?php echo isCurrentPage('displayFabricStock') ? 'active' : ''; ?>">
     <a href="<?php echo URLROOT ?>/Tailors/displayFabricStock">
-      <img src="../<?php APPROOT ?>/public/img/Shopping_bag.png">
+      <img src="<?php echo URLROOT; ?>/public/img/Shopping_bag.png">
     </a>
   </div>
   <div id="DarkModeToggle" class="sidebar-icon">
