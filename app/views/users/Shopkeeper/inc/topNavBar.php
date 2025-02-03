@@ -1,7 +1,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <div class="Section-content">
   <div class="header">
-    <h1 class="main-title"><?php echo $data['title']; ?></h1>
+    <?php if (isset($data['title'])): ?>
+      <h1 class="main-title"><?php echo $data['title']; ?></h1>
+    <?php else: ?>
+      <h1 class="main-title">Default Title</h1>
+    <?php endif; ?>
     <div class="navbar-right-section">
       <div class="actions">
         <div class="search-bar">
