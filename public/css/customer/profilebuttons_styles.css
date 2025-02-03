@@ -80,6 +80,15 @@ body {
   border-radius: 8px;
   grid-column: 2;
 }
+
+.main-content .content .change-form .radiobtn input{
+  width: 20px;
+}
+
+.main-content .content .change-form .radiobtn label{
+  width: 50px;
+}
+
 .main-content .content .change-form .btn-save {
   padding: 8px;
   background: #5a5cce;
