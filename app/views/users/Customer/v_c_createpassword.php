@@ -6,18 +6,20 @@
 
   <!-- Form Section -->
   <div class="logo">
-    <img src="../<?php APPROOT ?>/public/img/logo_brown.png" alt="Tailor2You Logo"> <!-- Update the logo source -->
+    <img src="<?php echo URLROOT; ?>/public/img/logo_brown.png" alt="Tailor2You Logo"> <!-- Update the logo source -->
   </div>
   <div class="form-section">
 
     <h1>Create a password</h1>
 
-    <form action="<?php echo URLROOT; ?>/customers/createPassword" method="post">
+    <form id="createPasswordForm" action="<?php echo URLROOT; ?>/customers/createPassword" method="post">
       <div class="form-line">
         <input type="password" name="password" placeholder="Password" required>
+        <span class="error" id="password_err"></span>
       </div>
       <div class="form-line">
         <input type="password" name="confirm_password" placeholder="Confirm Password" required>
+        <span class="error" id="confirm_password_err"></span>
       </div>
       <button type="submit" class="continue-btn">Submit</button>
     </form>
@@ -25,11 +27,13 @@
 
   <!-- Image Section -->
   <div class="right-image-section">
-    <img src="../<?php APPROOT ?>/public/img/customer_register.jpeg" alt="Man Fashion">
+    <img src="<?php echo URLROOT; ?>/public/img/customer_register.jpeg" alt="Man Fashion">
   </div>
 
 </div>
-
+<!-- JavaScript -->
+<script src="<?php echo URLROOT; ?>/public/js/pass-validations.js"></script>
+<script src="<?php echo URLROOT; ?>/public/js/user-validations.js"></script>
 </body>
 
 </html>

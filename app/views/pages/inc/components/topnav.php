@@ -5,10 +5,10 @@
     </div>
     <nav class="nav-links">
         <a href="<?php echo URLROOT ?>/pages/index" class="nav-link" data-target="index">Home</a>
-        <a href="#colllection" class="nav-link" id="collectionLink" data-target="menspage#colllection">Collection</a>
+        <a href="#colllection" class="nav-link" id="collectionLink" data-target="menspage#colllection">New Collection</a>
         <a href="#genderSection" class="nav-link" id="customTailoringLink" data-target="index#genderSection">Custom Tailoring</a>
-        <a href="<?php echo URLROOT ?>/pages/tailorPage" class="nav-link" data-target="tailorPage">Master Tailors</a>
-        <a href="#footer" class="nav-link" id="customTailoringLink" data-target="index#footer">About Atelier</a>
+        <a href="<?php echo URLROOT ?>/pages/tailorPage" class="nav-link" data-target="tailorPage">Meet Tailors</a>
+        <a href="#footer" class="nav-link" id="customTailoringLink" data-target="index#footer">About Us</a>
         <a href="#feedback" class="nav-link" id="customTailoringLink" data-target="index#feedback">Contact</a>
     </nav>
     <div class="icons">

@@ -1,8 +1,8 @@
 .calendar {
-    background-color: white;
+    background-color: var(--white-color);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--card-shadow);
 }
 
 .calendar-header {
@@ -14,7 +14,7 @@
 
 .calendar-header a {
     text-decoration: none;
-    color: #333;
+    color: var(--text-color);
     font-size: 20px;
 }
 
@@ -27,13 +27,13 @@
 .calendar-grid div {
     padding: 10px;
     text-align: center;
-    border: 1px solid #ddd;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
 }
 
 .calendar-grid .day {
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
+    background-color: var(--background-color);
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     padding: 10px;
     text-align: center;
@@ -41,11 +41,11 @@
 }
 
 .calendar-grid .day.current {
-    border: 2px solid #fbc02d;
+    border: 2px solid var(--accent-color);
 }
 
 .calendar-grid .day .appointment {
-    background-color: #e6c4f2;
+    background-color: var(--accent-color);
     border-radius: 4px;
     padding: 2px;
     margin-top: 5px;
