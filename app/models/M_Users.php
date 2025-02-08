@@ -269,4 +269,27 @@ class M_Users
         // Execute
         return $this->db->execute();
     }
+
+public function updatePassword($user_id, $new_password)
+{
+    $this->db->query('UPDATE users SET password = :password WHERE user_id = :user_id');
+    $this->db->bind(':password', password_hash($new_password, PASSWORD_DEFAULT));
+    $this->db->bind(':user_id', $user_id);
+
+    // Execute
+    return $this->db->execute();
+}
+
+public function checkPassword($user_id, $current_password)
+{
+    $this->db->query('SELECT password FROM users WHERE user_id = :user_id');
+    $this->db->bind(':user_id', $user_id);
+    $row = $this->db->single();
+
+    if ($row && password_verify($current_password, $row->password)) {
+        return true;
+    } else {
+        return false;
+    }
+}
 }

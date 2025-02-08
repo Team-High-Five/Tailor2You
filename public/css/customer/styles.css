@@ -135,6 +135,7 @@ body {
     display: flex;
     flex-direction: column;
     width: 250px;
+    
 }
 
 .customer-profile-top{
@@ -149,5 +150,9 @@ body {
 
 .submit-btn{
     margin-right:0;
+    padding: 10px 60px 10px 60px;
+    font-size: 14px;
+   
+    
 }
 
