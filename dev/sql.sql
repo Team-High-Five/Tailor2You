@@ -109,6 +109,8 @@ INSERT INTO `colors` (`color_name`) VALUES ('Pink');
 CREATE TABLE `employees` (
     `employee_id` INT(11) NOT NULL AUTO_INCREMENT,
     `user_id` INT(11) NOT NULL,
+    `first_name` VARCHAR(20) NOT NULL,
+    `last_name` VARCHAR(30) NOT NULL,
     `phone_number` VARCHAR(10) NOT NULL,
     `home_town` VARCHAR(20) NOT NULL,
     `email` VARCHAR(30) NOT NULL,

@@ -318,14 +318,74 @@ class Shopkeepers extends Controller
             'employees' => $employees
         ];
 
-        $this->view('users/Shopkeeper/v_s_employees', $data);
+        $this->view('users/ShopKeeper/v_s_employees', $data);
     }
+
     public function addNewEmployee()
     {
-        $data = [
-            'title' => 'Add New Employee'
-        ];
-        $this->view('users/Shopkeeper/v_s_employee_add_new', $data);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'title' => 'Add New Employee',
+                'user_id' => $_SESSION['user_id'],
+                'first_name' => trim($_POST['first_name']),
+                'last_name' => trim($_POST['last_name']),
+                'phone_number' => trim($_POST['phone_number']),
+                'home_town' => trim($_POST['home_town']),
+                'email' => trim($_POST['email']),
+                'first_name_err' => '',
+                'last_name_err' => '',
+                'phone_number_err' => '',
+                'home_town_err' => '',
+                'email_err' => ''
+            ];
+
+            // Validate inputs
+            if (empty($data['first_name'])) {
+                $data['first_name_err'] = 'Please enter first name';
+            }
+            if (empty($data['last_name'])) {
+                $data['last_name_err'] = 'Please enter last name';
+            }
+            if (empty($data['phone_number'])) {
+                $data['phone_number_err'] = 'Please enter phone number';
+            }
+            if (empty($data['home_town'])) {
+                $data['home_town_err'] = 'Please enter home town';
+            }
+            if (empty($data['email'])) {
+                $data['email_err'] = 'Please enter email';
+            }
+
+            // Make sure there are no errors
+            if (empty($data['first_name_err']) && empty($data['last_name_err']) && empty($data['phone_number_err']) && empty($data['home_town_err']) && empty($data['email_err'])) {
+                if ($this->shopkeeperModel->addEmployee($data)) {
+                    flash('employee_message', 'Employee added successfully');
+                    redirect('shopkeepers/displayEmployees');
+                } else {
+                    die('Something went wrong');
+                }
+            } else {
+                $this->view('users/Shopkeeper/v_s_employee_add_new', $data);
+            }
+        } else {
+            $data = [
+                'title' => 'Add New Employee',
+                'first_name' => '',
+                'last_name' => '',
+                'phone_number' => '',
+                'home_town' => '',
+                'email' => '',
+                'first_name_err' => '',
+                'last_name_err' => '',
+                'phone_number_err' => '',
+                'home_town_err' => '',
+                'email_err' => ''
+            ];
+
+            $this->view('users/Shopkeeper/v_s_employee_add_new', $data);
+        }
     }
 
     public function shopkeeperRegister()
