@@ -29,7 +29,7 @@
       <tbody>
         <?php foreach ($data['employees'] as $employee) : ?>
           <tr>
-            <td><img class="employee-table-icon" src="<?php echo URLROOT; ?>/public/img/home/lady1.jpg" alt="Employee" class="product-image"></td>
+            <td><img class="employee-table-icon" src="<?php echo URLROOT; ?>/public/uploads/<?php echo $employee->image; ?>" alt="Employee" class="product-image"></td>
             <td>
               <?php if (isset($employee->first_name) && isset($employee->last_name)): ?>
                 <?php echo $employee->first_name . ' ' . $employee->last_name; ?>

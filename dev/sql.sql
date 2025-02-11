@@ -114,6 +114,7 @@ CREATE TABLE `employees` (
     `phone_number` VARCHAR(10) NOT NULL,
     `home_town` VARCHAR(20) NOT NULL,
     `email` VARCHAR(30) NOT NULL,
+    `image` VARCHAR(255) DEFAULT NULL,
     PRIMARY KEY (`employee_id`),
     FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
