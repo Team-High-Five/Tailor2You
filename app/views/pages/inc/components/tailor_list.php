@@ -29,7 +29,7 @@
                     <div class="profile-card__actions">
                         <a href="<?php echo URLROOT ?>/Pages/tailorProfile/<?php echo $tailor->user_id; ?>"><button class="btn btn--primary">View Profile</button></a>
                         <button class="btn btn--secondary"><i class="fas fa-thumbs-up"></i> Like</button>
-                        <button class="btn btn--secondary">Appointment</button>
+                        <a href="<?php echo URLROOT ?>/Appointments/makeAppointment/<?php echo $tailor->user_id; ?>"><button class="btn btn--secondary"><i class="fas fa-calendar-alt"></i> Appointment</button></a>
                     </div>
                 </div>
             <?php endforeach; ?>

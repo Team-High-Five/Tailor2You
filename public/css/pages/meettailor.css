@@ -119,7 +119,9 @@
   border-radius: 50%;
   border: 3px solid var(--accent-color);
   padding: 2px;
+  overflow: hidden;
   transition: var(--transition);
+  object-fit: cover; 
 }
 
 .profile-card:hover .profile-card__image {

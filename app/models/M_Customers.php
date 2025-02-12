@@ -9,13 +9,15 @@ class M_Customers
         $this->db = new Database;
     }
 
-    public function getShirtmeasurementsbyid($user_id){
+    public function getShirtmeasurementsbyid($user_id)
+    {
         $this->db->query('SELECT * FROM shirt_measurements WHERE user_id = :user_id');
         $this->db->bind(':user_id', $user_id);
         return $this->db->single();
     }
 
-    public function updateShirtMeasurements($data) {
+    public function updateShirtMeasurements($data)
+    {
         $this->db->query('UPDATE shirt_measurements SET collar_size = :collar_size, chest_width = :chest_width, waist_width = :waist_width, bottom_width = :bottom_width, shoulder_width = :shoulder_width, sleeve_length = :sleeve_length, armhole_depth = :armhole_depth, bicep = :bicep, cuff_size = :cuff_size, front_length = :front_length, measure = :measure WHERE user_id = :user_id');
         $this->db->bind(':collar_size', $data['collar_size']);
         $this->db->bind(':chest_width', $data['chest_width']);
@@ -31,10 +33,11 @@ class M_Customers
         $this->db->bind(':user_id', $data['user_id']);
         return $this->db->execute();
     }
-    
-    public function createShirtMeasurements($data) {
+
+    public function createShirtMeasurements($data)
+    {
         $this->db->query('INSERT INTO shirt_measurements (user_id, collar_size, chest_width, waist_width, bottom_width, shoulder_width, sleeve_length, armhole_depth, bicep, cuff_size, front_length, measure) VALUES (:user_id, :collar_size, :chest_width, :waist_width, :bottom_width, :shoulder_width, :sleeve_length, :armhole_depth, :bicep, :cuff_size, :front_length, :measure)');
-        
+
         $this->db->bind(':user_id', $data['user_id']);
         $this->db->bind(':collar_size', $data['collar_size']);
         $this->db->bind(':chest_width', $data['chest_width']);
@@ -47,18 +50,20 @@ class M_Customers
         $this->db->bind(':cuff_size', $data['cuff_size']);
         $this->db->bind(':front_length', $data['front_length']);
         $this->db->bind(':measure', $data['measure']);
-        
+
         return $this->db->execute();
     }
 
 
-    public function getPantmeasurementsbyid($user_id){
+    public function getPantmeasurementsbyid($user_id)
+    {
         $this->db->query('SELECT * FROM pant_measurements WHERE user_id = :user_id');
         $this->db->bind(':user_id', $user_id);
         return $this->db->single();
     }
 
-    public function updatePantMeasurements($data) {
+    public function updatePantMeasurements($data)
+    {
         $this->db->query('UPDATE pant_measurements SET waist_width = :waist_width, seat = :seat, mid_thigh_width = :mid_thigh_width, inseam = :inseam, bottom_width = :bottom_width, rise_height_front = :rise_height_front, rise_height_back = :rise_height_back , measure = :measure WHERE user_id = :user_id');
         $this->db->bind(':waist_width', $data['waist_width']);
         $this->db->bind(':seat', $data['seat']);
@@ -72,11 +77,12 @@ class M_Customers
 
         return $this->db->execute();
     }
-    
-    
-    public function createPantMeasurements($data) {
+
+
+    public function createPantMeasurements($data)
+    {
         $this->db->query('INSERT INTO pant_measurements (user_id, waist_width, seat, mid_thigh_width, inseam, bottom_width, rise_height_front, rise_height_back , measure) VALUES (:user_id, :waist_width, :seat, :mid_thigh_width, :inseam, :bottom_width, :rise_height_front, :rise_height_back , :measure)');
-        
+
         $this->db->bind(':user_id', $data['user_id']);
         $this->db->bind(':waist_width', $data['waist_width']);
         $this->db->bind(':seat', $data['seat']);
@@ -86,11 +92,21 @@ class M_Customers
         $this->db->bind(':rise_height_front', $data['rise_height_front']);
         $this->db->bind(':rise_height_back', $data['rise_height_back']);
         $this->db->bind(':measure', $data['measure']);
-        
+
         return $this->db->execute();
     }
-    
-    
+    public function getCustomerAppointments($customer_id)
+    {
+        $this->db->query('SELECT a.*, 
+                      u.first_name as tailor_first_name, 
+                      u.last_name as tailor_last_name,
+                      u.profile_pic as tailor_profile_pic
+                      FROM appointments a 
+                      LEFT JOIN users u ON a.tailor_shopkeeper_id = u.user_id 
+                      WHERE a.customer_id = :customer_id 
+                      ORDER BY a.appointment_date DESC, a.appointment_time DESC');
+
+        $this->db->bind(':customer_id', $customer_id);
+        return $this->db->resultSet();
+    }
 }
-
-
