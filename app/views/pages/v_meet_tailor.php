@@ -9,4 +9,4 @@
 
 
 <script src="<?php echo URLROOT; ?>/public/js/script.js"></script>
-<script src="<?php echo URLROOT; ?>/public/js/app.js"></script>
+<script src="<?php echo URLROOT; ?>/public/js/slidebar.js"></script>

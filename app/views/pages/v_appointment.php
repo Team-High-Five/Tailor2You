@@ -1,5 +1,5 @@
 <?php
-require_once APPROOT . '/views/designs/inc/header.php';
+require_once APPROOT . '/views/pages/inc/header.php';
 require_once APPROOT . '/views/pages/inc/components/topnav.php';
 ?>
 <div class="measurement-page-container">
@@ -23,7 +23,7 @@ require_once APPROOT . '/views/pages/inc/components/topnav.php';
               <p>Select the date for the appointment</p>
             </td>
             <td>
-              <input type="date" name="appointment_date" class="select" id="date" min="<?php echo date('Y-m-d'); ?>" required>
+              <input type="date" name="appointment_date" class="select" id="date" min="<?php echo date('Y-m-d'); ?>" value="<?php echo isset($_POST['appointment_date']) ? $_POST['appointment_date'] : date('Y-m-d'); ?>" required>
               <span class="error"><?php echo $data['date_err']; ?></span>
             </td>
           </tr>
@@ -33,32 +33,47 @@ require_once APPROOT . '/views/pages/inc/components/topnav.php';
               <p>Select the time for the appointment</p>
             </td>
             <td>
-              <select name="appointment_time" class="select" id="time" required>
+              <div class="time-slots-container">
                 <?php
                 // Get booked appointments for the selected tailor on the selected date
                 $bookedSlots = isset($data['booked_slots']) ? $data['booked_slots'] : [];
 
                 // Generate time slots from 9 AM to 5 PM
                 for ($hour = 9; $hour <= 17; $hour++) {
-                  $period = ($hour >= 12) ? 'PM' : 'AM';
-                  $displayHour = ($hour > 12) ? $hour - 12 : $hour;
-
+                  echo '<div class="time-slot-row">';
                   for ($minute = 0; $minute < 60; $minute += 30) {
                     $time = sprintf("%02d:%02d:00", $hour, $minute);
+                    $period = ($hour >= 12) ? 'PM' : 'AM';
+                    $displayHour = ($hour > 12) ? $hour - 12 : $hour;
                     $displayTime = sprintf("%d:%02d %s", $displayHour, $minute, $period);
 
                     // Check if this time slot is booked
                     $isBooked = in_array($time, $bookedSlots);
+                    $class = $isBooked ? 'time-slot booked' : 'time-slot available';
 
-                    if ($isBooked) {
-                      echo "<option value='$time' disabled class='booked-slot'>$displayTime (Not Available)</option>";
-                    } else {
-                      echo "<option value='$time'>$displayTime</option>";
-                    }
+                    echo "<div class='$class' data-time='$time'>";
+                    echo "<input type='radio' name='appointment_time' value='$time' id='time_$time' " . ($isBooked ? 'disabled' : '') . " required>";
+                    echo "<label for='time_$time'>$displayTime</label>";
+                    echo "</div>";
                   }
+                  echo '</div>';
                 }
                 ?>
-              </select>
+              </div>
+              <div class="time-slots-legend">
+                <div class="legend-item">
+                  <div class="legend-color legend-available"></div>
+                  <span>Available</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color legend-booked"></div>
+                  <span>Booked</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color legend-selected"></div>
+                  <span>Selected</span>
+                </div>
+              </div>
               <span class="error"><?php echo $data['time_err']; ?></span>
             </td>
           </tr>
@@ -85,55 +100,44 @@ require_once APPROOT . '/views/pages/inc/components/topnav.php';
 </div>
 
 <script>
-  // Function to load time slots
-  function loadTimeSlots(date, tailorId) {
-    fetch(`<?php echo URLROOT; ?>/appointments/getAvailableSlots/${tailorId}/${date}`)
-      .then(response => response.json())
-      .then(data => {
-        const timeSelect = document.getElementById('time');
-        timeSelect.innerHTML = ''; // Clear current options
+  // Function to reload the page with the selected date
+  function reloadWithDate(date) {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = window.location.href;
 
-        // Generate time slots
-        for (let hour = 9; hour <= 17; hour++) {
-          const period = (hour >= 12) ? 'PM' : 'AM';
-          const displayHour = (hour > 12) ? hour - 12 : hour;
+    const dateInput = document.createElement('input');
+    dateInput.type = 'hidden';
+    dateInput.name = 'appointment_date';
+    dateInput.value = date;
 
-          for (let minute = 0; $minute < 60; $minute += 30) {
-            const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00`;
-            const displayTime = `${displayHour}:${String(minute).padStart(2, '0')} ${period}`;
-
-            const option = document.createElement('option');
-            option.value = time;
-            option.textContent = displayTime;
-
-            if (data.booked_slots && data.booked_slots.includes(time)) {
-              option.disabled = true;
-              option.className = 'booked-slot';
-              option.textContent += ' (Not Available)';
-            }
-
-            timeSelect.appendChild(option);
-          }
-        }
-      })
-      .catch(error => console.error('Error:', error));
+    form.appendChild(dateInput);
+    document.body.appendChild(form);
+    form.submit();
   }
 
-  // Load time slots on page load
+  // Load time slots on date change
   document.addEventListener('DOMContentLoaded', function() {
     const dateInput = document.getElementById('date');
-    const tailorId = document.querySelector('input[name="tailor_id"]').value;
-
-    // Set default date to today
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.value = today;
-
-    // Load initial time slots
-    loadTimeSlots(today, tailorId);
-
-    // Update time slots when date changes
     dateInput.addEventListener('change', function() {
-      loadTimeSlots(this.value, tailorId);
+      reloadWithDate(this.value);
+    });
+  });
+
+  // Attach event listeners to time slots
+  document.addEventListener('DOMContentLoaded', function() {
+    const timeSlots = document.querySelectorAll('.time-slot.available');
+
+    timeSlots.forEach(slot => {
+      slot.addEventListener('click', function() {
+        // Remove selected class from all slots
+        timeSlots.forEach(s => s.classList.remove('selected'));
+        // Add selected class to clicked slot
+        this.classList.add('selected');
+        // Check the radio input
+        const radio = this.querySelector('input[type="radio"]');
+        radio.checked = true;
+      });
     });
   });
 </script>

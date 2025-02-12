@@ -34,16 +34,21 @@ prevDom.onclick = function () {
 }
 
 function showSlider(type) {
-    let SliderItemsDom = SliderDom.querySelectorAll('.slider .list .item');
-    let thumbnailItemsDom = document.querySelectorAll('.slider .thumbnail .item');
+    let SliderItemsDom = SliderDom.querySelectorAll('.list .item');
+    let thumbnailItemsDom = document.querySelectorAll('.thumbnail .item');
 
     if (type === 'next') {
+        // Move first item to the end
         SliderDom.appendChild(SliderItemsDom[0]);
         thumbnailBorderDom.appendChild(thumbnailItemsDom[0]);
         sliderDom.classList.add('next');
     } else {
-        SliderDom.prepend(SliderItemsDom[SliderItemsDom.length - 1]);
-        thumbnailBorderDom.prepend(thumbnailItemsDom[thumbnailItemsDom.length - 1]);
+        // Move last item to the beginning
+        let lastSlideIndex = SliderItemsDom.length - 1;
+        let lastThumbnailIndex = thumbnailItemsDom.length - 1;
+
+        SliderDom.prepend(SliderItemsDom[lastSlideIndex]);
+        thumbnailBorderDom.prepend(thumbnailItemsDom[lastThumbnailIndex]);
         sliderDom.classList.add('prev');
     }
 
