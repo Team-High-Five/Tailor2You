@@ -13,7 +13,6 @@
             <img src="data:image/jpeg;base64,<?php echo base64_encode($data['image']); ?>" alt="Fabric Image" id="post-preview">
           <?php endif; ?>
         </div>
-
         <input type="file" id="upload-photo" name="image" accept="image/*" style="display: none;">
         <span class="error-message" id="image-error"></span>
         <div class="form-group">
