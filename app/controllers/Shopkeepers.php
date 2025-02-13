@@ -327,42 +327,31 @@ class Shopkeepers extends Controller
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $data = [
-                'title' => 'Add New Employee',
                 'user_id' => $_SESSION['user_id'],
                 'first_name' => trim($_POST['first_name']),
                 'last_name' => trim($_POST['last_name']),
                 'phone_number' => trim($_POST['phone_number']),
-                'home_town' => trim($_POST['home_town']),
                 'email' => trim($_POST['email']),
+                'home_town' => trim($_POST['home_town']),
+                'image' => null,
                 'first_name_err' => '',
                 'last_name_err' => '',
                 'phone_number_err' => '',
+                'email_err' => '',
                 'home_town_err' => '',
-                'email_err' => ''
+                'image_err' => ''
             ];
 
-            // Validate inputs
-            if (empty($data['first_name'])) {
-                $data['first_name_err'] = 'Please enter first name';
-            }
-            if (empty($data['last_name'])) {
-                $data['last_name_err'] = 'Please enter last name';
-            }
-            if (empty($data['phone_number'])) {
-                $data['phone_number_err'] = 'Please enter phone number';
-            }
-            if (empty($data['home_town'])) {
-                $data['home_town_err'] = 'Please enter home town';
-            }
-            if (empty($data['email'])) {
-                $data['email_err'] = 'Please enter email';
+            // Handle image upload
+            if (!empty($_FILES['image']['name'])) {
+                $image = file_get_contents($_FILES['image']['tmp_name']);
+                $data['image'] = $image;
             }
 
-            // Make sure there are no errors
-            if (empty($data['first_name_err']) && empty($data['last_name_err']) && empty($data['phone_number_err']) && empty($data['home_town_err']) && empty($data['email_err'])) {
+            if (empty($data['first_name_err']) && empty($data['last_name_err']) && empty($data['phone_number_err']) && empty($data['email_err']) && empty($data['home_town_err']) && empty($data['image_err'])) {
                 if ($this->shopkeeperModel->addEmployee($data)) {
                     flash('employee_message', 'Employee added successfully');
-                    redirect('shopkeepers/displayEmployees');
+                    redirect('Shopkeepers/displayEmployees');
                 } else {
                     die('Something went wrong');
                 }
@@ -371,23 +360,88 @@ class Shopkeepers extends Controller
             }
         } else {
             $data = [
-                'title' => 'Add New Employee',
                 'first_name' => '',
                 'last_name' => '',
                 'phone_number' => '',
-                'home_town' => '',
                 'email' => '',
+                'home_town' => '',
                 'first_name_err' => '',
                 'last_name_err' => '',
                 'phone_number_err' => '',
+                'email_err' => '',
                 'home_town_err' => '',
-                'email_err' => ''
+                'image_err' => ''
             ];
 
             $this->view('users/Shopkeeper/v_s_employee_add_new', $data);
         }
     }
 
+    public function editEmployee($id)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
+            redirect('users/login');
+        }
+
+        $employee = $this->shopkeeperModel->getEmployeeById($id);
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'employee_id' => $id,
+                'first_name' => trim($_POST['first_name']),
+                'last_name' => trim($_POST['last_name']),
+                'phone_number' => trim($_POST['phone_number']),
+                'email' => trim($_POST['email']),
+                'home_town' => trim($_POST['home_town']),
+                'image' => $employee->image,
+                'first_name_err' => '',
+                'last_name_err' => '',
+                'phone_number_err' => '',
+                'email_err' => '',
+                'home_town_err' => '',
+                'image_err' => ''
+            ];
+
+            // Handle image upload
+            if (!empty($_FILES['image']['name'])) {
+                $image = file_get_contents($_FILES['image']['tmp_name']);
+                $data['image'] = $image;
+            }
+
+            if (empty($data['first_name_err']) && empty($data['last_name_err']) && empty($data['phone_number_err']) && empty($data['email_err']) && empty($data['home_town_err']) && empty($data['image_err'])) {
+                if ($this->shopkeeperModel->updateEmployee($data)) {
+                    flash('employee_message', 'Employee updated successfully');
+                    redirect('Shopkeepers/displayEmployees');
+                } else {
+                    die('Something went wrong');
+                }
+            } else {
+                $this->view('users/Shopkeeper/v_s_employee_edit', $data);
+            }
+        } else {
+            $data = [
+                'employee' => $employee
+            ];
+
+            $this->view('users/Shopkeeper/v_s_employee_edit', $data);
+        }
+    }
+
+    public function deleteEmployee($id)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
+            redirect('users/login');
+        }
+
+        if ($this->shopkeeperModel->deleteEmployee($id)) {
+            flash('employee_message', 'Employee removed successfully');
+            redirect('Shopkeepers/displayEmployees');
+        } else {
+            die('Something went wrong');
+        }
+    }
     public function shopkeeperRegister()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -510,7 +564,7 @@ class Shopkeepers extends Controller
 
                 $shopkeeperData = $_SESSION['shopkeeper_register_data'];
                 $shopkeeperData['password'] = $data['password'];
-                
+
                 if ($this->userModel->register($shopkeeperData)) {
                     flash('register_success', 'You are registered and can log in');
                     redirect('users/login');

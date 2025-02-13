@@ -1,15 +1,17 @@
-<?php require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php'; ?>
-
 <div class="add-new-fabric-container">
     <div class="add-new-fabric-content">
         <div class="modal-header">
             <h1>Add New Employee</h1>
-            <a href="<?php echo URLROOT ?>/Shopkeepers/displayEmployees"><button class="close-btn">&times;</button></a>
+            <button class="close-btn" onclick="document.getElementById('employeeModal').style.display='none'">&times;</button>
         </div>
         <div class="fabric-form-container">
             <form id="addEmployeeForm" action="<?php echo URLROOT; ?>/Shopkeepers/addNewEmployee" method="post" enctype="multipart/form-data">
+                <div class="post-pic-wrapper">
+                    <img src="<?php echo URLROOT; ?>/public/img/add-image.png" alt="Employee Picture" id="post-preview">
+                </div>
+                <input type="file" id="upload-photo" name="image" accept="image/*" style="display: none;">
+                <span class="error-message" id="image-error"></span>
+
                 <div class="form-group">
                     <label for="first_name">First Name</label>
                     <input type="text" id="first_name" name="first_name" placeholder="Enter First Name" required>
@@ -35,29 +37,8 @@
                     <input type="text" id="home_town" name="home_town" placeholder="Enter Home Town" required>
                     <span class="error-message" id="home_town-error"></span>
                 </div>
-                <div class="form-group">
-                    <label for="upload-photo">Upload Photo</label>
-                    <input type="file" id="upload-photo" name="image" accept="image/*">
-                    <span class="error-message" id="image-error"></span>
-                    <button type="button" onclick="document.getElementById('upload-photo').click()">Choose File</button>
-                </div>
-                <div class="post-pic-wrapper">
-                    <img src="<?php echo URLROOT; ?>/public/img/add-image.png" alt="Post Picture" id="post-preview">
-                </div>
                 <button type="submit" class="submit-btn">Submit</button>
             </form>
         </div>
     </div>
 </div>
-
-<script>
-    document.getElementById('upload-photo').addEventListener('change', function(event) {
-        const reader = new FileReader();
-        reader.onload = function() {
-            const output = document.getElementById('post-preview');
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    });
-</script>
-<?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>
