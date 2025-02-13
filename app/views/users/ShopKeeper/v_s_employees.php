@@ -95,11 +95,11 @@
       .then(response => response.text())
       .then(html => {
         document.getElementById('modal-body').innerHTML = html;
-        
+
         // Initialize image upload functionality after modal content is loaded
         const postPreview = document.getElementById('post-preview');
         const uploadPhoto = document.getElementById('upload-photo');
-        
+
         if (postPreview && uploadPhoto) {
           postPreview.addEventListener('click', function() {
             uploadPhoto.click();
@@ -123,7 +123,7 @@
             }
           });
         }
-        
+
       });
   });
 
@@ -133,6 +133,35 @@
       .then(response => response.text())
       .then(html => {
         document.getElementById('edit-modal-body').innerHTML = html;
+
+        // Initialize image upload functionality after modal content is loaded
+        const postPreview = document.getElementById('post-preview');
+        const uploadPhoto = document.getElementById('upload-photo');
+
+        if (postPreview && uploadPhoto) {
+          postPreview.addEventListener('click', function() {
+            uploadPhoto.click();
+          });
+
+          uploadPhoto.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function() {
+                postPreview.src = reader.result;
+              };
+              reader.readAsDataURL(file);
+
+              // Validate image size
+              if (file.size > 1048576) { // 1MB = 1048576 bytes
+                document.getElementById('image-error').textContent = 'Image size cannot exceed 1MB';
+              } else {
+                document.getElementById('image-error').textContent = '';
+              }
+            }
+          });
+        }
+
       });
   }
 
@@ -163,93 +192,6 @@
     }
     if (event.target == document.getElementById('deleteEmployeeModal')) {
       document.getElementById('deleteEmployeeModal').style.display = 'none';
-    }
-  });
-  // Image preview functionality
-  document.getElementById('post-preview').addEventListener('click', function() {
-    document.getElementById('upload-photo').click();
-  });
-
-  document.getElementById('upload-photo').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    reader.onload = function() {
-      const output = document.getElementById('post-preview');
-      output.src = reader.result;
-    };
-    reader.readAsDataURL(file);
-
-    // Validate image size
-    if (file.size > 1048576) { // 1MB = 1048576 bytes
-      document.getElementById('image-error').textContent = 'Image size cannot exceed 1MB';
-    } else {
-      document.getElementById('image-error').textContent = '';
-    }
-  });
-
-  // Form validation
-  document.getElementById('addEmployeeForm').addEventListener('submit', function(event) {
-    let isValid = true;
-
-    // Validate first name
-    const firstName = document.getElementById('first_name').value;
-    if (firstName.trim() === '') {
-      document.getElementById('first_name-error').textContent = 'Please enter first name';
-      isValid = false;
-    } else {
-      document.getElementById('first_name-error').textContent = '';
-    }
-
-    // Validate last name
-    const lastName = document.getElementById('last_name').value;
-    if (lastName.trim() === '') {
-      document.getElementById('last_name-error').textContent = 'Please enter last name';
-      isValid = false;
-    } else {
-      document.getElementById('last_name-error').textContent = '';
-    }
-
-    // Validate phone number
-    const phoneNumber = document.getElementById('phone_number').value;
-    if (phoneNumber.trim() === '' || !/^\d{10}$/.test(phoneNumber)) {
-      document.getElementById('phone_number-error').textContent = 'Please enter a valid 10-digit phone number';
-      isValid = false;
-    } else {
-      document.getElementById('phone_number-error').textContent = '';
-    }
-
-    // Validate email
-    const email = document.getElementById('email').value;
-    if (email.trim() === '' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      document.getElementById('email-error').textContent = 'Please enter a valid email address';
-      isValid = false;
-    } else {
-      document.getElementById('email-error').textContent = '';
-    }
-
-    // Validate home town
-    const homeTown = document.getElementById('home_town').value;
-    if (homeTown.trim() === '') {
-      document.getElementById('home_town-error').textContent = 'Please enter home town';
-      isValid = false;
-    } else {
-      document.getElementById('home_town-error').textContent = '';
-    }
-
-    // Validate image size
-    const imageInput = document.getElementById('upload-photo');
-    if (imageInput.files.length > 0) {
-      const imageFile = imageInput.files[0];
-      if (imageFile.size > 1048576) {
-        document.getElementById('image-error').textContent = 'Image size cannot exceed 1MB';
-        isValid = false;
-      } else {
-        document.getElementById('image-error').textContent = '';
-      }
-    }
-
-    if (!isValid) {
-      event.preventDefault();
     }
   });
 </script>

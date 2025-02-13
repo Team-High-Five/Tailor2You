@@ -153,7 +153,7 @@ class Shopkeepers extends Controller
             redirect('users/login');
         }
 
-        $this->fabricController->editFabric($fabric_id, $_SESSION['user_id'], 'users/Shopkeeper/v_s_edit_fabric', 'shopkeepers');
+        $this->fabricController->editFabric($fabric_id, $_SESSION['user_id'], 'users/Shopkeeper/v_s_fabric_edit', 'shopkeepers');
     }
 
     public function deleteFabric($fabric_id)
@@ -376,6 +376,7 @@ class Shopkeepers extends Controller
             $this->view('users/Shopkeeper/v_s_employee_add_new', $data);
         }
     }
+
 
     public function editEmployee($id)
     {
