@@ -1,27 +1,55 @@
 /* Slider Container */
 .slider {
-    height: 100vh;
+    height: 105vh;
     width: 100vw;
     overflow: hidden;
     position: relative;
     background-color: var(--primary-color);
 }
 
-/* Slider Items */
+/* Update Slider List Styling */
+.slider .list {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
 .slider .list .item {
-    margin-top: 60px;
+    position: absolute;
     width: 100%;
     height: 100%;
-    position: absolute;
-    inset: 0 0;
+    margin-top: 70px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.slider .list .item:first-child {
+    opacity: 1;
+    visibility: visible;
 }
 
 .slider .list .item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+
     filter: brightness(0.5);
     transition: all 0.5s ease;
+}
+
+/* Update Transition Classes */
+.slider.next .list .item,
+.slider.prev .list .item {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.slider.next .list .item:first-child,
+.slider.prev .list .item:first-child {
+    opacity: 1;
+    visibility: visible;
 }
 
 .slider .list .item .overlay {
@@ -195,6 +223,15 @@
     cursor: pointer;
     transition: all 0.3s ease;
     backdrop-filter: blur(5px);
+}
+
+.arrows button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.arrows button:active {
+    transform: scale(0.95);
 }
 
 /* Responsive Design */

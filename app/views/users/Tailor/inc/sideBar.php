@@ -44,7 +44,7 @@ function isCurrentPage($page)
     </a>
   </div>
   <div id="DarkModeToggle" class="sidebar-icon">
-    <button id="darkModeButton" onclick="toggleDarkMode()" style="background: none; border: none; cursor: pointer; color: var(--white-color); font-size: 16px;">
+    <button id="darkModeButton" onclick="toggleDarkMode()" style="background: none; border: none; cursor: pointer; color: white; font-size: 16px;">
       Dark Mode
     </button>
   </div>

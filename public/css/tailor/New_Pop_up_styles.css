@@ -13,14 +13,14 @@
 }
 
 .modal-body {
-    background-color: #fff;
+    background-color: var(--white-color);
     margin: 5% auto;
     padding: 10px 0;
-    border: 1px solid #888;
+    border: 1px solid var(--border-color);
     width: 80%;
     max-width: 600px;
     border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow);
     animation: fadeIn 0.3s ease;
 }
 
@@ -75,16 +75,15 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #fff;
+    background-color: var(--white-color);
     border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow);
     padding: 20px;
     width: 100%;
     max-width: 600px;
     margin: 20px auto;
     /* Add margin to separate from the edges */
     margin-top: 100px;
-
 }
 
 .add-new-post-container .modal-header {
@@ -93,18 +92,18 @@
     align-items: center;
     width: 100%;
     padding-bottom: 20px;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--border-color);
     margin-bottom: 20px;
 }
 
 .add-new-post-container .modal-header h1 {
     font-size: 24px;
-    color: #333;
+    color: var(--text-color);
 }
 
 /* post Form Container */
 .post-form-container {
-    background-color: #fff;
+    background-color: var(--white-color);
     width: 100%;
     max-width: 600px;
     text-align: center;
@@ -122,7 +121,7 @@
 
 .upload-text {
     background-color: var(--primary-color);
-    color: var(--text-light);
+    color: var(--text-light-color);
     padding: 0.5rem 1rem;
     border-radius: 8px;
     cursor: pointer;
@@ -138,7 +137,7 @@
     width: 300px;
     height: 300px;
     margin: 0 auto;
-    border: 2px dashed #ccc;
+    border: 2px dashed var(--border-color);
     border-radius: 8px;
     overflow: hidden;
     cursor: pointer;
@@ -146,7 +145,7 @@
 }
 
 .post-pic-wrapper:hover {
-    border-color: #666;
+    border-color: var(--text-color);
 }
 
 .post-pic-wrapper img {
@@ -167,7 +166,7 @@
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
-    color: white;
+    color: var(--white-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -183,7 +182,7 @@
     display: block;
     text-align: center;
     margin-top: 10px;
-    color: #666;
+    color: var(--text-light-color);
     cursor: pointer;
 }
 
@@ -197,40 +196,43 @@
     display: block;
     font-size: 14px;
     margin-bottom: 5px;
-    color: #333;
+    color: var(--text-color);
 }
 
 .form-group input[type="text"] {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     font-size: 16px;
     transition: border-color 0.3s ease;
 }
 
 .form-group input[type="text"]:focus {
-    border-color: #6c63ff;
+    border-color: var(--primary-color);
     outline: none;
 }
 
 /* Delete Modal Styles */
 /* Modal Content */
 .delete-modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
+    background-color: var(--white-color);
+    margin: 15% auto;
+    /* 15% from the top and centered */
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-    max-width: 500px; /* Maximum width */
+    border: 1px solid var(--border-color);
+    width: 80%;
+    /* Could be more or less, depending on screen size */
+    max-width: 500px;
+    /* Maximum width */
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    box-shadow: var(--shadow);
 }
+
 /* Modal Body */
 .modal-body {
     padding: 10px 0;
 }
-
 
 /* Close Button */
 .close-btn {
@@ -241,14 +243,12 @@
 }
 
 /* Submit Button */
-.submit-btn {
-    background-color: #d9534f;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-right: 10px;
+.delete-modal-body .submit-btn {
+    width: 100%;
+}
+
+.update-modal-body .submit-btn {
+    width: 100%;
 }
 
 .confirm-btn {
@@ -263,6 +263,7 @@
     cursor: pointer;
     transition: background 0.3s;
 }
+
 .confirm-btn:hover {
     width: 100%;
     padding: 0.875rem;
@@ -273,8 +274,8 @@
 
 /* Cancel Button */
 .cancel-btn {
-    background-color:#31b0d5;
-    color:var(--white-color);
+    background-color: var(--secondary-color);
+    color: var(--white-color);
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
@@ -284,9 +285,9 @@
 
 /* Button Hover Effects */
 .submit-btn:hover {
-    background-color: #c9302c;
+    background-color: var(--danger-dark-color);
 }
 
 .cancel-btn:hover {
-    background-color: #31b0d5;
+    background-color: var(--secondary-color);
 }

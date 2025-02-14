@@ -5,7 +5,7 @@
 <div class="login-container">
     <div class="login-box">
         <h2>LOG IN</h2>
-        <form name="Login" action="<?php echo URLROOT?>/Users/login" method="post">
+        <form name="Login" action="<?php echo URLROOT ?>/Users/login" method="post">
             <div class="input-group">
                 <div class="input-group_top">
                     <span>Email</span>
@@ -24,12 +24,13 @@
             <div class="btn-container">
                 <button class="login-btn" type="submit">Log In</button>
                 <button class="google-btn">
-                    <img src="../<?php APPROOT?>/public/img/google_logo.png" alt="Google icon">
+                    <img src="../<?php APPROOT ?>/public/img/google_logo.png" alt="Google icon">
                     Sign up with Google
                 </button>
-                <button class="create-btn" class="create-account-btn">Create Account</button>
+
             </div>
         </form>
+        <a href="<?php echo URLROOT ?>/Users/selectCreateAccount"> <button class="create-btn" class="create-account-btn">Create Account</button></a>
     </div>
 </div>
 <?php require_once APPROOT . '/views/inc/footer.php'; ?>

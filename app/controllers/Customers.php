@@ -195,27 +195,28 @@ class Customers extends Controller
         }
     }
 
-    public function viewProfile(){
+    public function viewProfile()
+    {
         $customer = $this->userModel->getUserById($_SESSION['user_id']);
 
-            if (!$customer) {
-                flash('profile_message', 'Customer not found', 'alert alert-danger');
-                redirect('customers/index');
-            }
+        if (!$customer) {
+            flash('profile_message', 'Customer not found', 'alert alert-danger');
+            redirect('customers/index');
+        }
 
-            $data = [
-                'title' => 'Profile',
-                'user' => $customer,
-                'first_name_err' => '',
-                'last_name_err' => '',
-                'email_err' => '',
-                'phone_number_err' => '',
-                'nic_err' => '',
-                'birth_date_err' => '',
-                'home_town_err' => '',
-                'address_err' => '',
-                'profile_pic_err' => ''
-            ];
+        $data = [
+            'title' => 'Profile',
+            'user' => $customer,
+            'first_name_err' => '',
+            'last_name_err' => '',
+            'email_err' => '',
+            'phone_number_err' => '',
+            'nic_err' => '',
+            'birth_date_err' => '',
+            'home_town_err' => '',
+            'address_err' => '',
+            'profile_pic_err' => ''
+        ];
 
         $this->view('users/Customer/v_c_user_info', $data);
     }
@@ -350,7 +351,7 @@ class Customers extends Controller
                 'rise_height_back' => trim($_POST['rise_height_back']),
                 'measure' => trim($_POST['measurement_unit'])
             ];
-            
+
 
             if ($_POST['is_create'] == '1') {
                 // Create new measurements
@@ -464,9 +465,17 @@ class Customers extends Controller
     }
     public function displayAppointments()
     {
+        if (!isLoggedIn()) {
+            redirect('users/login');
+        }
+
+        $appointments = $this->customerModel->getCustomerAppointments($_SESSION['user_id']);
+
         $data = [
-            'title' => 'Appointments'
+            'title' => 'Appointments',
+            'appointments' => $appointments
         ];
+
         $this->view('users/Customer/v_c_appointments', $data);
     }
 

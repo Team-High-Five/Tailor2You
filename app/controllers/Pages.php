@@ -22,7 +22,7 @@ class Pages extends Controller
     {
         $this->view('pages/404');
     }
-    
+
     public function about()
     {
 
@@ -58,14 +58,12 @@ class Pages extends Controller
 
     public function tailorPage()
     {
-        $users = $this->pageModel->getUsers();
+        $tailors = $this->pageModel->getAllTailors();
         $data = [
-            'users' => $users
-
+            'tailors' => $tailors
         ];
         $this->view('pages/v_meet_tailor', $data);
     }
-
     public function tailorProfile()
     {
         $users = $this->pageModel->getUsers();

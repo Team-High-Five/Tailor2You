@@ -78,6 +78,7 @@
 }
 
 .portfolio-actions {
+    display: flex;
     justify-content: center;
     gap: 10px;
     margin-top: -20px;
@@ -105,6 +106,38 @@
 
 .add-post-btn:active {
     transform: scale(0.98);
+}
+
+/* Edit and Delete Buttons within .portfolio-actions */
+.portfolio-actions .edit-btn,
+.portfolio-actions .delete-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.portfolio-actions .edit-btn {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+}
+
+.portfolio-actions .edit-btn:hover {
+    background-color: var(--primary-hover-color);
+}
+
+.portfolio-actions .delete-btn {
+    background-color: var(--danger-color);
+    color: var(--white-color);
+}
+
+.portfolio-actions .delete-btn:hover {
+    background-color: var(--danger-dark-color);
 }
 
 @keyframes fadeIn {

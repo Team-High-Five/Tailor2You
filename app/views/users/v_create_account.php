@@ -10,19 +10,17 @@
             <h2>You are a</h2>
             <div class="options">
                 <div class="option tailor">
-                    <button class="tailor-btn">Tailor</button>
-                    <div class="tailor-dropdown">
-                        <a href="#">Shop Based</a>
-                        <a href="<?php echo URLROOT?>/Tailors/tailorRegister">Individual</a>
-                    </div>
+                    <a href="<?php echo URLROOT ?>/Tailors/tailorRegister">
+                        <button class="tailor-btn">Tailor</button>
+                    </a>
                 </div>
                 <div class="option shopkeeper">
-                    <a href="<?php echo URLROOT?>/Shopkeepers/shopkeeperRegister">
+                    <a href="<?php echo URLROOT ?>/Shopkeepers/shopkeeperRegister">
                         <button class="shopkeeper-btn">Shopkeeper</button>
                     </a>
                 </div>
                 <div class="option customer">
-                    <a href="<?php echo URLROOT?>/Customers/customerRegister">
+                    <a href="<?php echo URLROOT ?>/Customers/customerRegister">
                         <button class="customer-btn">Customer</button>
                     </a>
                 </div>

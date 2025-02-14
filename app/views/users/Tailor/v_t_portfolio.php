@@ -20,8 +20,8 @@
           <p><?php echo $post->description; ?></p>
           <p class="created-date"><?php echo date('F j, Y', strtotime($post->created_at)); ?></p>
           <div class="portfolio-actions">
-            <button class="btn-primary edit-btn" onclick="openEditPostModal(<?php echo $post->id; ?>)">Edit</button>
-            <button class="btn-danger delete-btn" onclick="openDeletePostModal(<?php echo $post->id; ?>)">Delete</button>
+            <button class="edit-btn" onclick="openEditPostModal(<?php echo $post->id; ?>)"><i class="fas fa-edit"></i></button>
+            <button class="delete-btn" onclick="openDeletePostModal(<?php echo $post->id; ?>)"><i class="fas fa-trash-alt"></i></button>
           </div>
         </div>
       <?php endforeach; ?>
