@@ -15,7 +15,7 @@ class Tailors extends Controller
 
     public function __construct()
     {
-        $this->tailorModel = $this->model('M_Tailors');
+        $this->tailorModel= $this->model('M_Tailors');
         $this->userModel = $this->model('M_Users');
         $this->fabricController = new Fabrics();
     }

@@ -141,18 +141,13 @@ input[type="date"].select::after {
 }
 
 .time-slot-row {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
     gap: 20px;
     margin-bottom: 20px;
-    flex-wrap: wrap;
-    justify-content: space-between;
 }
 
 .time-slot {
-    flex: 1 1 calc(25% - 20px);
-    /* Adjust to fit 4 slots per row */
-    max-width: calc(25% - 20px);
-    /* Adjust to fit 4 slots per row */
     height: 75px;
     border-radius: 10px;
     overflow: hidden;
@@ -189,6 +184,12 @@ input[type="date"].select::after {
     background: var(--accent-gradient);
     border-color: var(--accent-color);
     box-shadow: var(--accent-shadow);
+}
+
+@media (max-width: 968px) {
+    .time-slot-row {
+        grid-template-columns: repeat(auto-fill, minmax(50%, 1fr));
+    }
 }
 
 .design-image-container {
@@ -319,12 +320,5 @@ input[type="date"].select::after {
 
     .time-slot-row {
         justify-content: center;
-    }
-
-    .time-slot {
-        flex: 1 1 calc(50% - 20px);
-        /* Adjust to fit 2 slots per row on smaller screens */
-        max-width: calc(50% - 20px);
-        /* Adjust to fit 2 slots per row on smaller screens */
     }
 }
