@@ -6,6 +6,11 @@ class Appointments extends Controller
     private $appointmentModel;
     public function __construct()
     {
+        if (!isLoggedIn()) {
+            $_SESSION['redirect_url'] = $_SERVER['REQUEST_URI'];
+            redirect('users/login');
+        }
+
         $this->appointmentModel = $this->model('M_Appointments');
     }
     public function index()
