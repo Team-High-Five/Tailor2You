@@ -24,6 +24,34 @@
     animation: fadeIn 0.3s ease;
 }
 
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h1 {
+    font-size: 1.5rem;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.close-btn {
+    font-size: 1.5rem;
+    color: var(--text-light-color);
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: var(--text-color);
+}
+
 .error-message {
     color: var(--danger-color);
     font-size: 14px;
@@ -49,11 +77,13 @@
     justify-content: center;
     background-color: var(--white-color);
     border-radius: 12px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow);
     padding: 20px;
     width: 100%;
     max-width: 600px;
     margin: 20px auto;
+    /* Add margin to separate from the edges */
+    margin-top: 100px;
 }
 
 .add-new-post-container .modal-header {
@@ -71,7 +101,7 @@
     color: var(--text-color);
 }
 
-/* Post Form Container */
+/* post Form Container */
 .post-form-container {
     background-color: var(--white-color);
     width: 100%;
@@ -115,7 +145,7 @@
 }
 
 .post-pic-wrapper:hover {
-    border-color: #666;
+    border-color: var(--text-color);
 }
 
 .post-pic-wrapper img {
@@ -136,7 +166,7 @@
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
-    color: white;
+    color: var(--white-color);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -188,10 +218,13 @@
 .delete-modal-content {
     background-color: var(--white-color);
     margin: 15% auto;
+    /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid var(--border-color);
     width: 80%;
+    /* Could be more or less, depending on screen size */
     max-width: 500px;
+    /* Maximum width */
     border-radius: 10px;
     box-shadow: var(--shadow);
 }
@@ -199,13 +232,6 @@
 /* Modal Body */
 .modal-body {
     padding: 10px 0;
-}
-
-.button-rows {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 10px;
 }
 
 /* Close Button */
@@ -217,91 +243,51 @@
 }
 
 /* Submit Button */
-.submit-btn {
-    background-color: var(--danger-color);
+.delete-modal-body .submit-btn {
+    width: 100%;
+}
+
+.update-modal-body .submit-btn {
+    width: 100%;
+}
+
+.confirm-btn {
+    width: 100%;
+    padding: 0.875rem;
+    background: var(--primary-color);
     color: var(--white-color);
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
     cursor: pointer;
-    margin-right: 10px;
+    transition: background 0.3s;
+}
+
+.confirm-btn:hover {
+    width: 100%;
+    padding: 0.875rem;
+    transition: background 0.3s;
+    translate: scale(1.05);
+    background: var(--primary-hover-color);
 }
 
 /* Cancel Button */
-.reset-btn {
-    background-color: #5bc0de;
+.cancel-btn {
+    background-color: var(--secondary-color);
     color: var(--white-color);
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
     width: 100%;
-    margin-top: 10px;
 }
 
 /* Button Hover Effects */
 .submit-btn:hover {
-    background-color: #c9302c;
+    background-color: var(--danger-dark-color);
 }
 
 .cancel-btn:hover {
-    background-color: #31b0d5;
-}
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    .modal-body {
-        width: 90%;
-    }
-
-    .add-new-post-container {
-        width: 90%;
-        padding: 1rem;
-    }
-
-    .post-form-container {
-        padding: 1rem;
-    }
-
-    .form-group label {
-        font-size: 12px;
-    }
-
-    .form-group input[type="text"] {
-        font-size: 14px;
-    }
-
-    .submit-btn {
-        font-size: 0.875rem;
-        padding: 0.75rem;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .modal-body {
-        width: 100%;
-        padding: 0.5rem;
-    }
-
-    .add-new-post-container {
-        width: 100%;
-        padding: 0.5rem;
-    }
-
-    .post-form-container {
-        padding: 0.5rem;
-    }
-
-    .form-group label {
-        font-size: 10px;
-    }
-
-    .form-group input[type="text"] {
-        font-size: 12px;
-    }
-
-    .submit-btn {
-        font-size: 0.75rem;
-        padding: 0.5rem;
-    }
+    background-color: var(--secondary-color);
 }

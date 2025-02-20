@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcasspD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <section>
     <div class="tailor-section">
         <div class="tailor-section__header">
@@ -17,50 +17,22 @@
         </div>
         <!-- Profile Cards -->
         <div class="profile-container">
-            <div class="profile-card">
-                <div class="profile-card__content">
-                    <img class="profile-card__image" src="<?php echo URLROOT; ?>/public/img/home/lady1.jpg" alt="Profile">
-                    <div class="profile-card__details">
-                        <h3 class="profile-card__name">Saduni Perera</h3>
-                        <p class="profile-card__profession">Professional in Fashion Design</p>
+            <?php foreach ($data['tailors'] as $tailor): ?>
+                <div class="profile-card">
+                    <div class="profile-card__content">
+                        <img class="profile-card__image" src="data:image/jpeg;base64,<?php echo base64_encode($tailor->profile_pic); ?>" alt="Profile">
+                        <div class="profile-card__details">
+                            <h3 class="profile-card__name"><?php echo $tailor->name; ?></h3>
+                            <p class="profile-card__profession"><?php echo $tailor->bio; ?></p>
+                        </div>
+                    </div>
+                    <div class="profile-card__actions">
+                        <a href="<?php echo URLROOT ?>/Pages/tailorProfile/<?php echo $tailor->user_id; ?>"><button class="btn btn--primary">View Profile</button></a>
+                        <button class="btn btn--secondary"><i class="fas fa-thumbs-up"></i> Like</button>
+                        <a href="<?php echo URLROOT ?>/Appointments/makeAppointment/<?php echo $tailor->user_id; ?>"><button class="btn btn--secondary"><i class="fas fa-calendar-alt"></i> Appointment</button></a>
                     </div>
                 </div>
-                <div class="profile-card__actions">
-                    <a href="<?php echo URLROOT ?>/Pages/tailorProfile"><button class="btn btn--primary">View Profile</button></a>
-                    <button class="btn btn--secondary"><i class="fas fa-thumbs-up"></i> Like</button>
-                    <button class="btn btn--secondary">Appointment</button>
-                </div>
-            </div>
-
-            <div class="profile-card">
-                <div class="profile-card__content">
-                    <img class="profile-card__image" src="<?php echo URLROOT; ?>/public/img/home/men1.jpg" alt="Profile">
-                    <div class="profile-card__details">
-                        <h3 class="profile-card__name">Rangika Herath</h3>
-                        <p class="profile-card__profession">Professional in Fashion Design</p>
-                    </div>
-                </div>
-                <div class="profile-card__actions">
-                    <button class="btn btn--primary">View Profile</button>
-                    <button class="btn btn--secondary"><i class="fas fa-thumbs-up"></i> Like</button>
-                    <button class="btn btn--secondary">Appointment</button>
-                </div>
-            </div>
-            <div class="profile-card">
-                <div class="profile-card__content">
-                    <img class="profile-card__image" src="<?php echo URLROOT; ?>/public/img/home/girls2.jpg" alt="Profile">
-                    <div class="profile-card__details">
-                        <h3 class="profile-card__name">Noji Yudara</h3>
-                        <p class="profile-card__profession">Professional in Women Clothes</p>
-                    </div>
-                </div>
-                <div class="profile-card__actions">
-                    <button class="btn btn--primary">View Profile</button>
-                    <button class="btn btn--secondary"><i class="fas fa-thumbs-up"></i> Like</button>
-                    <button class="btn btn--secondary">Appointment</button>
-                </div>
-            </div>
-
+            <?php endforeach; ?>
         </div>
     </div>
 </section>

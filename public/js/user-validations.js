@@ -1,11 +1,20 @@
-document.getElementById('registerForm').addEventListener('input', function (e) {
-    validateField(e.target);
-});
+document.addEventListener('DOMContentLoaded', function () {
+    const forms = ['registerForm', 'customerRegisterForm'];
 
-document.getElementById('registerForm').addEventListener('submit', function (e) {
-    if (!validateForm()) {
-        e.preventDefault();
-    }
+    forms.forEach(function (formId) {
+        const form = document.getElementById(formId);
+        if (form) {
+            form.addEventListener('input', function (e) {
+                validateField(e.target);
+            });
+
+            form.addEventListener('submit', function (e) {
+                if (!validateForm(formId)) {
+                    e.preventDefault();
+                }
+            });
+        }
+    });
 });
 
 function validateField(field) {
@@ -66,9 +75,9 @@ function validateField(field) {
     document.getElementById(fieldName + '_err').textContent = errorMessage;
 }
 
-function validateForm() {
+function validateForm(formId) {
     let isValid = true;
-    document.querySelectorAll('#registerForm .input-field input').forEach(function (field) {
+    document.querySelectorAll(`#${formId} .input-field input`).forEach(function (field) {
         validateField(field);
         if (document.getElementById(field.name + '_err').textContent !== '') {
             isValid = false;
@@ -76,4 +85,3 @@ function validateForm() {
     });
     return isValid;
 }
-

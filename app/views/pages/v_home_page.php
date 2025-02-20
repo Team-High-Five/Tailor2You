@@ -29,7 +29,7 @@
 <section class="appointment">
     <div class="title">Ready to Elevate Your Style?</div><br>
     <div class="italic">Meet with Expert Tailors.</div><br><br>
-    <a href="<?php echo URLROOT ?>/Designs/appointment"><button class="large-button">Book an Appointment</button></a>
+    <a href="<?php echo URLROOT ?>/pages/tailorPage#tailorSection"><button class="large-button">Book an Appointment</button></a>
 </section>
 <span id="genderSection"></span>
 <?php require_once APPROOT . '/views/pages/inc/components/gender_selection.php'; ?>
@@ -101,7 +101,7 @@
     </p>
 </footer>
 <script src="<?php echo URLROOT; ?>/public/js/script.js"></script>
-<script src="<?php echo URLROOT; ?>/public/js/app.js"></script>
+<script src="<?php echo URLROOT; ?>/public/js/slidebar.js"></script>
 
 
 </body>

@@ -1,31 +1,32 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
-<div class="main-content">
-  <div class="appointment-details-container">
-    <div class="appointment-header">
-      <p>Appointment #1067907</p>
+<div class="appointment-details-container">
+  <div class="add-new-post-content">
+    <div class="modal-header">
+      <h1>Appointment #<?php echo $data['appointment']->appointment_id; ?></h1>
       <a href="<?php echo URLROOT ?>/Tailors/displayAppointments"><button class="close-btn">&times;</button></a>
     </div>
     <div class="appointment-info">
-      <p class="appointment-date">22/09/2024 - 4:00 p.m.</p>
+      <p class="appointment-date"><?php echo date('d/m/Y - h:i a', strtotime($data['appointment']->appointment_date . ' ' . $data['appointment']->appointment_time)); ?></p>
       <div class="user-info">
-        <img src="../<?php APPROOT ?>/public/img/woman_avatar.png" alt="User profile" class="user-avatar">
-        <span class="user-name">Christine Brooks</span>
+        <img src="data:image/jpeg;base64,<?php echo $data['appointment']->profile_pic; ?>" alt="User profile" class="user-avatar">
+        <span class="user-name"><?php echo $data['appointment']->first_name . ' ' . $data['appointment']->last_name; ?></span>
       </div>
       <div class="calendar-icon">
-        <div class="month">September</div>
-        <div class="date">22</div>
-        <div class="day">Sunday</div>
+        <div class="month"><?php echo date('F', strtotime($data['appointment']->appointment_date)); ?></div>
+        <div class="date"><?php echo date('d', strtotime($data['appointment']->appointment_date)); ?></div>
+        <div class="day"><?php echo date('l', strtotime($data['appointment']->appointment_date)); ?></div>
       </div>
     </div>
-    <div class="status accepted">Accepted</div>
-
+    <div class="status <?php echo strtolower($data['appointment']->status); ?>"><?php echo ucfirst($data['appointment']->status); ?></div>
     <div class="tailor-info">
-      <p><strong>Assigned Tailor</strong> Sudarshani P.H.</p>
+      <p><strong>Assigned Tailor</strong> <?php echo $data['appointment']->tailor_first_name . ' ' . $data['appointment']->tailor_last_name; ?></p>
     </div>
-    <button class="reschedule-btn">Request For Rescheduling</button>
+    <div class="action-buttons">
+      <?php if ($data['appointment']->status === 'pending') : ?>
+        <form action="<?php echo URLROOT; ?>/tailors/acceptAppointment/<?php echo $data['appointment']->appointment_id; ?>" method="post">
+          <button type="submit" class="action-button accept-button">Accept Appointment</button>
+        </form>
+      <?php endif; ?>
+      <button class="action-button reject-button" data-id="<?php echo $data['appointment']->appointment_id; ?>">Reschedule Appointment</button>
+    </div>
   </div>
 </div>
-
-<?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>

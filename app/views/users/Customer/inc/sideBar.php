@@ -14,17 +14,17 @@ function isCurrentPage($page)
     <img src="../<?php APPROOT ?>/public/img/logo.png" alt="Logo" />
   </a>
   <div id="Profile" class="sidebar-icon <?php echo isCurrentPage('profileUpdate') ? 'active' : ''; ?>">
-    <a href="<?php echo URLROOT ?>/Customer/profileUpdate">
+    <a href="<?php echo URLROOT ?>/Customers/profileUpdate">
       <img src="../<?php APPROOT ?>/public/img/Customer.png">
     </a>
   </div>
   <div id="Orders" class="sidebar-icon <?php echo isCurrentPage('displayOrders') ? 'active' : ''; ?>">
-    <a href="<?php echo URLROOT ?>/Customers/orders">
+    <a href="<?php echo URLROOT ?>/Customers/displayOrders">
       <img src="../<?php APPROOT ?>/public/img/Purchase_Order.png">
     </a>
   </div>
   <div id="Appointments" class="sidebar-icon <?php echo isCurrentPage('displayAppointments') ? 'active' : ''; ?>">
-    <a href="<?php echo URLROOT ?>/Tailors/displayAppointments">
+    <a href="<?php echo URLROOT ?>/Customers/displayAppointments">
       <img src="../<?php APPROOT ?>/public/img/Calendar.png">
     </a>
   </div>

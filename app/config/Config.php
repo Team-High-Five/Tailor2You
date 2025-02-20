@@ -12,5 +12,6 @@ define('APPROOT', dirname(dirname(__FILE__)));
 define('URLROOT', 'http://localhost//Tailor2You'); 
 
 //define('URLROOT', 'http://localhos//Tailor2You'); 
+
 //site name
 define('SITENAME', 'Tailor2You');

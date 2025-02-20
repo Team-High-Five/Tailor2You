@@ -103,7 +103,7 @@
     position: absolute;
     left: 85px;
     background: rgba(0, 0, 0, 0.8);
-    color: var(--white-color);
+    color: white;
     padding: 5px 10px;
     border-radius: 5px;
     font-size: 12px;

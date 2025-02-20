@@ -65,6 +65,76 @@ class Users extends Controller
         }
     }
 
+public function changePassword()
+{
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        // Process form
+        // Sanitize post data
+        $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+        // Input data
+        $data = [
+            'current_password' => trim($_POST['current_password']),
+            'new_password' => trim($_POST['new_password']),
+            'confirm_password' => trim($_POST['confirm_password']),
+            'current_password_err' => '',
+            'new_password_err' => '',
+            'confirm_password_err' => '',
+            'succeed_password' => '',
+            'title' => 'Change Password'
+        ];
+
+        // Validate current password
+        if (empty($data['current_password'])) {
+            $data['current_password_err'] = 'Please enter current password';
+        } elseif (!$this->userModel->checkPassword($_SESSION['user_id'], $data['current_password'])) {
+            $data['current_password_err'] = 'Current password is incorrect';
+        }
+
+        // Validate new password
+        if (empty($data['new_password'])) {
+            $data['new_password_err'] = 'Please enter new password';
+        } elseif (strlen($data['new_password']) < 6) {
+            $data['new_password_err'] = 'Password must be at least 6 characters long';
+        }
+
+        // Validate confirm password
+        if (empty($data['confirm_password'])) {
+            $data['confirm_password_err'] = 'Please confirm password';
+        } elseif ($data['new_password'] != $data['confirm_password']) {
+            $data['confirm_password_err'] = 'Passwords do not match';
+        }
+
+        // Check for errors
+        if (empty($data['current_password_err']) && empty($data['new_password_err']) && empty($data['confirm_password_err'])) {
+            // Update the password in the database
+            if ($this->userModel->updatePassword($_SESSION['user_id'], $data['new_password'])) {
+                flash('user_message', 'Password changed successfully');
+                redirect('/Customers/changePassword');
+            } else {
+                flash('user_message', 'Something went wrong, please try again', 'alert alert-danger');
+                redirect('/Customers/changePassword');
+            }
+        } else {
+            // Load view with errors
+            $this->view('users/Customer/v_c_changepassword', $data);
+        }
+    } else {
+        // Init data
+        $data = [
+            'current_password' => '',
+            'new_password' => '',
+            'confirm_password' => '',
+            'current_password_err' => '',
+            'new_password_err' => '',
+            'confirm_password_err' => '',
+        ];
+
+        // Load view
+        $this->view('/Customers/changePassword', $data);
+    }
+}
+
 
     public function createUserSession($user)
     {
@@ -76,24 +146,29 @@ class Users extends Controller
         $_SESSION['user_last_name'] = $user->last_name;
         $_SESSION['user_profile_pic'] = $user->profile_pic;
 
-        // Redirect to the user's dashboard based on user type
-        switch ($user->user_type) {
-            case 'tailor':
-                redirect('tailors/index');
-                break;
-            case 'customer':
-                redirect('pages/index');
-                break;
-            case 'shopkeeper':
-                redirect('shopkeepers/index');
-                break;
-            case 'admin':
-                redirect('admin/index');
-                break;
-            default:
-
-                redirect('users/login');
-                break;
+        // Redirect to the stored URL if it exists, otherwise redirect to the user's dashboard based on user type
+        if (isset($_SESSION['redirect_url'])) {
+            $redirect_url = $_SESSION['redirect_url'];
+            unset($_SESSION['redirect_url']);
+            redirect($redirect_url);
+        } else {
+            switch ($user->user_type) {
+                case 'tailor':
+                    redirect('tailors/index');
+                    break;
+                case 'customer':
+                    redirect('pages/index');
+                    break;
+                case 'shopkeeper':
+                    redirect('shopkeepers/index');
+                    break;
+                case 'admin':
+                    redirect('admin/index');
+                    break;
+                default:
+                    redirect('users/login');
+                    break;
+            }
         }
     }
 

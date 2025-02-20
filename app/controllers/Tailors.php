@@ -15,7 +15,7 @@ class Tailors extends Controller
 
     public function __construct()
     {
-        $this->tailorModel = $this->model('M_Tailors');
+        $this->tailorModel= $this->model('M_Tailors');
         $this->userModel = $this->model('M_Users');
         $this->fabricController = new Fabrics();
     }
@@ -217,28 +217,147 @@ class Tailors extends Controller
 
     public function displayAppointments()
     {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+        }
+
+        $appointments = $this->tailorModel->getAppointmentsByTailorId($_SESSION['user_id']);
+
         $data = [
-            'title' => 'Appointments'
+            'title' => 'Appointments',
+            'appointments' => $appointments
         ];
+
         $this->view('users/Tailor/v_t_appointment_list', $data);
     }
 
-    public function displayAppointmentDetails()
+    public function displayAppointmentDetails($appointment_id)
     {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+        }
+
+        $appointment = $this->tailorModel->getAppointmentById($appointment_id);
+
+        if (!$appointment) {
+            flash('appointment_message', 'Appointment not found', 'alert alert-danger');
+            redirect('tailors/displayAppointments');
+        }
+
+        // Convert the profile picture to a base64-encoded string
+        $appointment->profile_pic = base64_encode($appointment->profile_pic);
+
         $data = [
-            'title' => 'Appointment Details'
+            'title' => 'Appointment Details',
+            'appointment' => $appointment
         ];
+
         $this->view('users/Tailor/v_t_appointment_card', $data);
     }
 
-    public function displayCalendar()
+    public function rescheduleAppointment($appointment_id)
     {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+        }
+
+        $appointment = $this->tailorModel->getAppointmentById($appointment_id);
+
+        if (!$appointment) {
+            flash('appointment_message', 'Appointment not found', 'alert alert-danger');
+            redirect('tailors/displayAppointments');
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Process form
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'appointment_id' => $appointment_id,
+                'appointment_date' => trim($_POST['appointment_date']),
+                'appointment_time' => trim($_POST['appointment_time']),
+                'status' => 'pending'
+            ];
+
+            // Update appointment
+            if ($this->tailorModel->updateAppointment($data)) {
+                flash('appointment_message', 'Appointment rescheduled successfully');
+                redirect('tailors/displayAppointments');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            $data = [
+                'title' => 'Reschedule Appointment',
+                'appointment' => $appointment
+            ];
+
+            $this->view('users/Tailor/v_t_reschedule_appointment', $data);
+        }
+    }
+    public function acceptAppointment($appointment_id)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+        }
+
+        $appointment = $this->tailorModel->getAppointmentById($appointment_id);
+
+        if (!$appointment) {
+            flash('appointment_message', 'Appointment not found', 'alert alert-danger');
+            redirect('tailors/displayAppointments');
+        }
+
         $data = [
-            'title' => 'Calendar'
+            'appointment_id' => $appointment_id,
+            'status' => 'accepted'
         ];
-        $this->view('users/Tailor/v_t_appointment_calendar', $data);
+
+        // Update appointment status
+        if ($this->tailorModel->updateAppointmentStatus($data)) {
+            flash('appointment_message', 'Appointment accepted successfully');
+            redirect('tailors/displayAppointments');
+        } else {
+            die('Something went wrong');
+        }
     }
 
+    public function displayCalendar($year = null, $month = null)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+        }
+
+        // Get the current year and month if not provided
+        if ($year === null || $month === null) {
+            $year = date('Y');
+            $month = date('m');
+        } else {
+            $year = (int)$year;
+            $month = str_pad((int)$month, 2, '0', STR_PAD_LEFT);
+        }
+
+        // Adjust the year and month if the month goes out of bounds
+        if ($month < 1) {
+            $month = 12;
+            $year--;
+        } elseif ($month > 12) {
+            $month = 1;
+            $year++;
+        }
+
+        // Get appointments for the current month
+        $appointments = $this->tailorModel->getAppointmentsByMonth($_SESSION['user_id'], $year, $month);
+
+        $data = [
+            'title' => 'Calendar',
+            'year' => $year,
+            'month' => $month,
+            'appointments' => $appointments
+        ];
+
+        $this->view('users/Tailor/v_t_appointment_calendar', $data);
+    }
     public function displayCustomizeItems()
     {
         $data = [

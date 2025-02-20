@@ -1,0 +1,189 @@
+.cusmain {
+    justify-items: center;
+}
+
+.cusmain .cusappointment-container {
+    width: 100%;
+    padding: 20px 40px 20px 60px;
+    margin-top: 50px;
+    max-width: 800px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.cusmain .cusappointment {
+    display: flex;
+    padding: 20px;
+    border-bottom: 1px solid #eaeaea;
+    align-items: center;
+}
+
+.cusmain .cusappointment:last-child {
+    border-bottom: none;
+}
+
+.cusmain .calendar {
+    text-align: center;
+    margin-right: 30px;
+    padding: 50px;
+    border: 3px solid #000;
+    border-radius: 10px;
+    min-width: 80px;
+}
+
+.cusmain .calendar .month {
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.cusmain .calendar .date {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+.cusmain .calendar .day {
+    font-size: 12px;
+    color: #777;
+}
+
+.cusmain .details {
+    flex: 1;
+}
+
+.cusmain .details h3 {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.cusmain .details p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.cusmain .tailor-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.cusmain .tailor-info img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.cusmain .tailor-info span {
+    font-size: 14px;
+    color: #555;
+}
+
+.cusmain .actions {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+
+}
+
+.cusmain .status {
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #fff;
+}
+
+.cusmain .status.pending {
+    background: #ffeb3b;
+    color: #333;
+    width: 80px;
+    height: 30px;
+}
+
+.cusmain .status.accepted {
+    background: #4caf50;
+    width: 80px;
+    height: 30px;
+}
+
+.cusmain .action-link {
+    font-size: 14px;
+    text-decoration: none;
+    color: #666;
+    font-weight: bold;
+}
+
+.cusmain .action-link:hover {
+    text-decoration: underline;
+}
+
+.cusmain .cancel {
+    background: #000080;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    font-size: 14px;
+    cursor: pointer;
+    width: 80px;
+    height: 30px;
+    text-transform: inherit;
+}
+
+.cusmain .cancel:hover {
+    background: #00004d;
+}
+
+.no-appointments {
+    text-align: center;
+    padding: 3rem;
+    background: var(--white-color);
+    border-radius: 10px;
+    box-shadow: var(--card-shadow);
+    margin: 2rem auto;
+    max-width: 500px;
+}
+
+.no-appointments i {
+    font-size: 4rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.no-appointments h2 {
+    color: var(--text-dark);
+    margin-bottom: 0.5rem;
+}
+
+.no-appointments p {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.no-appointments .btn {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background: var(--primary-gradient);
+    color: var(--white-color);
+    border-radius: 5px;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.no-appointments .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--card-shadow);
+}   

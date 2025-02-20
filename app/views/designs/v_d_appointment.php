@@ -1,6 +1,9 @@
-<?php require_once APPROOT . '/views/designs/inc/header.php'; ?>
-<?php require_once APPROOT . '/views/pages/inc/components/topnav.php'; ?>
+<?php
+require_once APPROOT . '/views/designs/inc/header.php';
+require_once APPROOT . '/views/pages/inc/components/topnav.php';
+require_once APPROOT . '/helpers/session_helper.php';
 
+?>
 <div class="measurement-page-container">
   <div class="measurement-form-container">
     <div class="success-header">

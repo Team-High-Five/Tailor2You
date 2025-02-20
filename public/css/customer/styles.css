@@ -1,12 +1,158 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('fonts/fonts.css');
-@import url('components/topnav.css');
-@import url('Customer_Dashboard_styles.css');
 @import url('components/footer.css');
 @import url('components/btn.css');
 @import url('components/flash_msg.css');
 @import url('topNavBar_styles.css');
-@import url('Customer_Profile_styles.css');
-@import url('Customer_orders_styles.css')
+@import url('Customer_orders_styles.css');
 @import url('components/chat.css');
+@import url('../tailor/sideBar_styles.css');
+@import url('../tailor/topNavBar_styles.css');
+@import url('../tailor/footer.css');
+@import url('Customer_Profile_styles.css');
+@import url('Customer_profilenew.css');
+@import url('../tailor/New_Pop_up_styles.css');
+/* @import url('../tailor/Tailor_Profile_styles.css'); */
+@import url('../tailor/btn_styles.css');
+@import url('profile_style.css');   
+
+
+
+:root {
+    --primary-color: #6a5acd;
+    --primary-gradient: linear-gradient(180deg, #7a57d1 0%, #6244b8 100%);
+    --secondary-color: #7b68ee;
+    --danger-color: #ff4d4d;
+    --danger-dark-color: #d43f3f;
+    --text-color: #333;
+    --background-color: #f4f4f8;
+    --input-border: #e0e0e0;
+    --error-color: #d9534f;
+    --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --text-dark: #333;
+    --text-muted: #555;
+    --border-color: #e0e0e0;
+    --accent-color: #c4a77d;
+    --accent-hover: #b38f63;
+    --transition: all 0.3s ease;
+    --sidebar-background: var(--primary-gradient);
+    --sidebar-hover-background: rgba(255, 255, 255, 0.15);
+    --sidebar-active-background: rgba(255, 255, 255, 0.2);
+    --sidebar-active-border: #ffffff;
+    --sidebar-icon-brightness: 0.9;
+    --sidebar-icon-hover-brightness: 1.2;
+    --card-gradient: linear-gradient(135deg, #f0f0f0 0%, #ffffff 100%);
+    --glass-effect: rgba(255, 255, 255, 0.95);
+    --measurement-color: #6244b8;
+    --success-gradient: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    --danger-gradient: linear-gradient(135deg, #dc3545 0%, #ff4d4d 100%);
+    --card-hover-transform: translateY(-5px);
+    --measurement-item-background: rgba(122, 87, 209, 0.1);
+    --primary-hover-color: #5849b8;
+    --text-light-color: #666;
+    --white-color: #fff;
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+body {
+    background-image: url('../../img/Tailor.png');
+    color: var(--text-color);
+    line-height: 1.6;
+    overflow-x: hidden;
+    perspective: 1000px;
+}
+
+.main-content {
+    max-width: 1200px;
+    width: 100%;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    border-radius: 16px;
+    transform: translateY(0);
+    transition: all 0.3s ease;
+    margin-bottom: 100px;
+    min-height: 60vh;
+}
+
+.main-content:hover {
+    transform: translateY(-10px);
+}
+
+/* Section Content */
+.Section-content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(4px);
+    margin-left: 80px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .main-content {
+        max-width: 1000px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .main-content {
+        max-width: 800px;
+    }
+}
+
+@media (max-width: 800px) {
+    .main-content {
+        max-width: 600px;
+    }
+}
+
+@media (max-width: 600px) {
+    .main-content {
+        max-width: 100%;
+        padding: 1rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .main-content {
+        padding: 0.5rem;
+    }
+
+    .Section-content {
+        margin-left: 70px;
+    }
+}
+
+.profile-buttons{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    
+}
+
+.customer-profile-top{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 20px;
+}
+
+.profile-pic{
+    padding-left: 10px;
+}
+
+.submit-btn{
+    margin-right:0;
+    padding: 10px 60px 10px 60px;
+    font-size: 14px;
+   
+    
+}
 
