@@ -1,27 +1,36 @@
 <div class="customization-form-container">
-  <form action="<?php echo URLROOT; ?>/tailors/addNewCustomizeItem" method="POST">
+  <form action="<?php echo URLROOT; ?>/Designs/addNewCustomizeItem" method="POST" enctype="multipart/form-data">
     <div class="form-group">
       <label>Gender</label>
       <div class="radio-group">
-        <label><input type="radio" name="gender" value="gents"> Gents</label>
+        <label><input type="radio" name="gender" value="gents" required> Gents</label>
         <label><input type="radio" name="gender" value="ladies"> Ladies</label>
       </div>
     </div>
     <div class="form-group">
       <label for="category">Category</label>
-      <select id="category" name="category">
-        <option>Category</option>
-        <option>Shirts</option>
-        <option>Trousers</option>
+      <select id="category" name="category_id" required>
+        <option value="">Select Category</option>
+        <?php foreach ($data['categories'] as $category): ?>
+          <option value="<?php echo $category->category_id; ?>" data-gender="<?php echo $category->gender_specific; ?>">
+            <?php echo $category->name; ?>
+          </option>
+        <?php endforeach; ?>
       </select>
     </div>
     <div class="form-group">
       <label for="sub-category">Sub Category</label>
-      <select id="sub-category" name="sub_category">
-        <option>Sub Category</option>
-        <option>Formal</option>
-        <option>Casual</option>
+      <select id="sub-category" name="subcategory_id" required>
+        <option value="">Select Sub Category</option>
       </select>
+    </div>
+    <div class="form-group">
+      <label for="design-name">Design Name</label>
+      <input type="text" id="design-name" name="design_name" required>
+    </div>
+    <div class="form-group">
+      <label for="base-price">Base Price</label>
+      <input type="number" id="base-price" name="base_price" step="0.01" required>
     </div>
     <button type="submit" class="submit-btn">Continue</button>
   </form>

@@ -78,21 +78,66 @@
     </div>
   </div>
 </div>
-
 <script>
   document.getElementById('openModalBtn').addEventListener('click', function() {
     document.getElementById('customizeModal').style.display = 'block';
     // Load the content of v_t_customize_add_new.php into the modal
-    fetch('<?php echo URLROOT; ?>/tailors/addCustomizeItem')
+    fetch('<?php echo URLROOT; ?>/designs/addCustomizeItem')
       .then(response => response.text())
       .then(html => {
         document.getElementById('modal-body').innerHTML = html;
+        // Setup form handlers after content is loaded
+        setupFormHandlers();
       });
   });
 
   document.querySelector('.close-btn').addEventListener('click', function() {
     document.getElementById('customizeModal').style.display = 'none';
   });
+
+  function setupFormHandlers() {
+    const categorySelect = document.getElementById('category');
+    const subCategorySelect = document.getElementById('sub-category');
+    const genderInputs = document.querySelectorAll('input[name="gender"]');
+
+    // Store original categories for filtering
+    const originalCategories = [...categorySelect.options].slice(1);
+
+    // Handle gender selection
+    genderInputs.forEach(input => {
+      input.addEventListener('change', function() {
+        const selectedGender = this.value;
+        // Filter categories based on gender
+        categorySelect.innerHTML = '<option value="">Select Category</option>';
+        originalCategories.forEach(option => {
+          if (option.dataset.gender === selectedGender || option.dataset.gender === 'unisex') {
+            categorySelect.appendChild(option.cloneNode(true));
+          }
+        });
+        // Reset subcategories
+        subCategorySelect.innerHTML = '<option value="">Select Sub Category</option>';
+      });
+    });
+
+    // Handle category selection
+    categorySelect.addEventListener('change', function() {
+      const categoryId = this.value;
+      if (categoryId) {
+        // Load subcategories
+        fetch(`${URLROOT}/designs/getSubcategories/${categoryId}`)
+          .then(response => response.text())
+          .then(html => {
+            subCategorySelect.innerHTML = '<option value="">Select Sub Category</option>' + html;
+          })
+          .catch(error => {
+            console.error('Error loading subcategories:', error);
+            subCategorySelect.innerHTML = '<option value="">Error loading subcategories</option>';
+          });
+      } else {
+        subCategorySelect.innerHTML = '<option value="">Select Sub Category</option>';
+      }
+    });
+  }
 
   window.addEventListener('click', function(event) {
     if (event.target == document.getElementById('customizeModal')) {

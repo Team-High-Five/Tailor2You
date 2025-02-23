@@ -13,7 +13,7 @@ class Designs extends Controller
     }
 
     public function index() {}
-
+    // Customer Views of Designs
     public function selectFabric()
     {
         $data = [
@@ -81,5 +81,84 @@ class Designs extends Controller
             'title' => 'Payments '
         ];
         $this->view('Designs/v_d_payments', $data);
+    }
+
+    // Tailor Views of Designs
+
+
+    public function displayCustomizeItemDetails()
+    {
+        $data = [
+            'title' => 'Customize Item Details'
+        ];
+        $this->view('users/Tailor/v_t_customize_item_details', $data);
+    }
+
+    public function addCustomizeItem()
+    {
+
+        $categories = $this->designModel->getCategories();
+        $data = ['categories' => $categories];
+
+        $this->view('users/Tailor/v_t_customize_add_new', $data);
+    }
+    public function getSubcategories($categoryId)
+    {
+        $subcategories = $this->designModel->getSubcategoriesByCategoryId($categoryId);
+
+        if (!empty($subcategories)) {
+            foreach ($subcategories as $subcategory) {
+                echo "<option value='" . $subcategory->subcategory_id . "'>" . htmlspecialchars($subcategory->name) . "</option>";
+            }
+        } else {
+            echo "<option value=''>No subcategories found</option>";
+        }
+    }
+    public function addNewCustomizeItem()
+    {
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'user_id' => $_SESSION['user_id'],
+                'gender' => trim($_POST['gender']),
+                'category_id' => trim($_POST['category_id']),
+                'subcategory_id' => trim($_POST['subcategory_id']),
+                'design_name' => trim($_POST['design_name']),
+                'base_price' => trim($_POST['base_price']),
+                'errors' => []
+            ];
+
+            // Validate inputs
+            if (empty($data['gender'])) {
+                $data['errors']['gender'] = 'Please select gender';
+            }
+            if (empty($data['category_id'])) {
+                $data['errors']['category'] = 'Please select category';
+            }
+            if (empty($data['subcategory_id'])) {
+                $data['errors']['subcategory'] = 'Please select subcategory';
+            }
+            if (empty($data['design_name'])) {
+                $data['errors']['design_name'] = 'Please enter design name';
+            }
+            if (empty($data['base_price'])) {
+                $data['errors']['base_price'] = 'Please enter base price';
+            }
+
+            // If no errors, proceed to next step
+            if (empty($data['errors'])) {
+                $_SESSION['design_data'] = $data;
+                redirect('designs/customizeDesign');
+            } else {
+                // Load view with errors
+                $data['categories'] = $this->designModel->getCategories();
+                $this->view('users/Tailor/v_t_customize_add_new', $data);
+            }
+        } else {
+            redirect('designs/addCustomizeItem');
+        }
     }
 }

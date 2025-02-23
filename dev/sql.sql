@@ -133,3 +133,151 @@ CREATE TABLE `shirt_measurements` (
     `cuff_size` int(11) NOT NULL,
     `front_length` int(11) NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+--- Design Tables ---
+
+-- Create clothing categories table
+CREATE TABLE `clothing_categories` (
+    `category_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(50) NOT NULL,
+    `description` TEXT,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`category_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Create clothing subcategories table
+CREATE TABLE `clothing_subcategories` (
+    `subcategory_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `category_id` INT(11) NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
+    `description` TEXT,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`subcategory_id`),
+    FOREIGN KEY (`category_id`) REFERENCES `clothing_categories`(`category_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Create designs table
+CREATE TABLE `designs` (
+    `design_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `user_id` INT(11) NOT NULL,
+    `category_id` INT(11) NOT NULL,
+    `subcategory_id` INT(11) NOT NULL,
+    `name` VARCHAR(100) NOT NULL,
+    `description` TEXT,
+    `main_image` LONGBLOB,
+    `base_price` DECIMAL(10,2) NOT NULL,
+    `status` ENUM('active', 'inactive') DEFAULT 'active',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`design_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`category_id`) REFERENCES `clothing_categories`(`category_id`),
+    FOREIGN KEY (`subcategory_id`) REFERENCES `clothing_subcategories`(`subcategory_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci; 
+
+-- Create customization types table
+CREATE TABLE `customization_types` (
+    `type_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `category_id` INT(11) NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
+    `description` TEXT,
+    PRIMARY KEY (`type_id`),
+    FOREIGN KEY (`category_id`) REFERENCES `clothing_categories`(`category_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Create customization choices table
+CREATE TABLE `customization_choices` (
+    `choice_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `type_id` INT(11) NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
+    `image` LONGBLOB,
+    `description` TEXT,
+    `price_adjustment` DECIMAL(10,2) DEFAULT 0.00,
+    PRIMARY KEY (`choice_id`),
+    FOREIGN KEY (`type_id`) REFERENCES `customization_types`(`type_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Create design customizations linking table
+CREATE TABLE `design_customizations` (
+    `design_id` INT(11) NOT NULL,
+    `choice_id` INT(11) NOT NULL,
+    PRIMARY KEY (`design_id`, `choice_id`),
+    FOREIGN KEY (`design_id`) REFERENCES `designs`(`design_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`choice_id`) REFERENCES `customization_choices`(`choice_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Create design fabrics linking table
+CREATE TABLE `design_fabrics` (
+    `design_id` INT(11) NOT NULL,
+    `fabric_id` INT(11) NOT NULL,
+    `price_adjustment` DECIMAL(10,2) DEFAULT 0.00,
+    PRIMARY KEY (`design_id`, `fabric_id`),
+    FOREIGN KEY (`design_id`) REFERENCES `designs`(`design_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`fabric_id`) REFERENCES `fabrics`(`fabric_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Insert initial categories
+INSERT INTO `clothing_categories` (`name`, `description`) VALUES 
+('Shirt', 'All types of shirts'),
+('Pants', 'All types of pants and trousers'),
+('Suit', 'Full formal suits'),
+('Dress', 'All types of dresses'),
+('Skirt', 'All types of skirts');
+
+-- Insert initial subcategories
+INSERT INTO `clothing_subcategories` (`category_id`, `name`, `description`) VALUES 
+(1, 'Long Sleeve', 'Full sleeve shirts'),
+(1, 'Short Sleeve', 'Half sleeve shirts'),
+(2, 'Regular Fit', 'Standard fit pants'),
+(2, 'Slim Fit', 'Slim fit pants'),
+(3, 'Two Piece', 'Traditional two piece suit'),
+(3, 'Three Piece', 'Three piece suit with vest');
+
+-- Insert initial customization types for shirts
+INSERT INTO `customization_types` (`category_id`, `name`, `description`) VALUES 
+(1, 'Collar Type', 'Different types of shirt collars'),
+(1, 'Cuff Style', 'Different types of shirt cuffs'),
+(1, 'Pocket Style', 'Different types of shirt pockets'),
+(1, 'Button Type', 'Different types of buttons');
+
+-- Modify designs table to include gender
+ALTER TABLE `designs` 
+ADD COLUMN `gender` ENUM('gents', 'ladies', 'unisex') NOT NULL AFTER `user_id`;
+
+-- Modify clothing_categories to include gender applicability
+ALTER TABLE `clothing_categories`
+ADD COLUMN `gender_specific` ENUM('gents', 'ladies', 'unisex') NOT NULL DEFAULT 'unisex';
+
+-- Update existing categories with gender specificity
+UPDATE `clothing_categories` SET `gender_specific` = 'gents' WHERE `name` IN ('Shirt', 'Suit');
+UPDATE `clothing_categories` SET `gender_specific` = 'ladies' WHERE `name` IN ('Dress', 'Skirt');
+UPDATE `clothing_categories` SET `gender_specific` = 'unisex' WHERE `name` IN ('Pants');
+
+-- Add more gender-specific categories
+INSERT INTO `clothing_categories` (`name`, `description`, `gender_specific`) VALUES 
+('Blouse', 'Women\'s upper garment', 'ladies'),
+('Saree Blouse', 'Traditional blouse for sarees', 'ladies'),
+('Kurta', 'Traditional long shirt', 'gents'),
+('Waistcoat', 'Formal vest', 'gents'),
+('Jacket', 'All types of jackets', 'unisex');
+
+-- Add corresponding subcategories for new categories
+INSERT INTO `clothing_subcategories` (`category_id`, `name`, `description`) VALUES 
+((SELECT category_id FROM clothing_categories WHERE name = 'Blouse'), 'Quarter Sleeve', 'Quarter length sleeve blouse'),
+((SELECT category_id FROM clothing_categories WHERE name = 'Blouse'), 'Sleeveless', 'Sleeveless blouse'),
+((SELECT category_id FROM clothing_categories WHERE name = 'Saree Blouse'), 'Traditional', 'Traditional style blouse'),
+((SELECT category_id FROM clothing_categories WHERE name = 'Saree Blouse'), 'Modern', 'Modern style blouse'),
+((SELECT category_id FROM clothing_categories WHERE name = 'Kurta'), 'Regular', 'Regular fit kurta'),
+((SELECT category_id FROM clothing_categories WHERE name = 'Kurta'), 'Slim', 'Slim fit kurta'),
+((SELECT category_id FROM clothing_categories WHERE name = 'Waistcoat'), 'Single Breasted', 'Single button row'),
+((SELECT category_id FROM clothing_categories WHERE name = 'Waistcoat'), 'Double Breasted', 'Double button rows'),
+((SELECT category_id FROM clothing_categories WHERE name = 'Jacket'), 'Casual', 'Casual style jacket'),
+((SELECT category_id FROM clothing_categories WHERE name = 'Jacket'), 'Formal', 'Formal style jacket');
+
+-- Add customization types for new categories
+INSERT INTO `customization_types` (`category_id`, `name`, `description`) VALUES 
+((SELECT category_id FROM clothing_categories WHERE name = 'Blouse'), 'Neck Design', 'Different types of neck designs'),
+((SELECT category_id FROM clothing_categories WHERE name = 'Blouse'), 'Back Design', 'Different types of back designs'),
+((SELECT category_id FROM clothing_categories WHERE name = 'Saree Blouse'), 'Neck Pattern', 'Different neck patterns'),
+((SELECT category_id FROM clothing_categories WHERE name = 'Kurta'), 'Collar Style', 'Different collar styles'),
+((SELECT category_id FROM clothing_categories WHERE name = 'Waistcoat'), 'Lapel Style', 'Different lapel styles'),
+((SELECT category_id FROM clothing_categories WHERE name = 'Jacket'), 'Closure Type', 'Different closure types');
