@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="<?php echo URLROOT; ?>/css/tailor/footer.css">
+<link rel="stylesheet" href="<?php echo URLROOT; ?>/css/customer/footer.css">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <footer class="site-footer">
     <div class="footer-content">
