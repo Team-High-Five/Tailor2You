@@ -2,9 +2,12 @@
 //start session
 session_start();
 
-function isLoggedIn()
-{
-    return isset($_SESSION['user_id']);
+function isLoggedIn() {
+    if(isset($_SESSION['user_id'])) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 
