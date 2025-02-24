@@ -133,3 +133,15 @@ CREATE TABLE `shirt_measurements` (
     `cuff_size` int(11) NOT NULL,
     `front_length` int(11) NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+CREATE TABLE `pant_measurements` (
+  `user_id` varchar(100) NOT NULL,
+  `measure` int(11) NOT NULL,
+  `waist_width` int(11) NOT NULL,
+  `seat` int(11) NOT NULL,
+  `mid_thigh_width` int(11) NOT NULL,
+  `inseam` int(11) NOT NULL,
+  `bottom_width` int(11) NOT NULL,
+  `rise_height_front` int(11) NOT NULL,
+  `rise_height_back` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
