@@ -34,31 +34,31 @@ require_once APPROOT . '/views/pages/inc/components/topnav.php';
             </td>
             <td>
               <div class="time-slots-container">
-                <?php
-                // Get booked appointments for the selected tailor on the selected date
-                $bookedSlots = isset($data['booked_slots']) ? $data['booked_slots'] : [];
+                <div class="time-slot-row">
+                  <?php
+                  // Get booked appointments for the selected tailor on the selected date
+                  $bookedSlots = isset($data['booked_slots']) ? $data['booked_slots'] : [];
 
-                // Generate time slots from 9 AM to 5 PM
-                for ($hour = 9; $hour <= 17; $hour++) {
-                  echo '<div class="time-slot-row">';
-                  for ($minute = 0; $minute < 60; $minute += 30) {
-                    $time = sprintf("%02d:%02d:00", $hour, $minute);
-                    $period = ($hour >= 12) ? 'PM' : 'AM';
-                    $displayHour = ($hour > 12) ? $hour - 12 : $hour;
-                    $displayTime = sprintf("%d:%02d %s", $displayHour, $minute, $period);
+                  // Generate time slots from 9 AM to 5 PM
+                  for ($hour = 9; $hour <= 17; $hour++) {
+                    for ($minute = 0; $minute < 60; $minute += 30) {
+                      $time = sprintf("%02d:%02d:00", $hour, $minute);
+                      $period = ($hour >= 12) ? 'PM' : 'AM';
+                      $displayHour = ($hour > 12) ? $hour - 12 : $hour;
+                      $displayTime = sprintf("%d:%02d %s", $displayHour, $minute, $period);
 
-                    // Check if this time slot is booked
-                    $isBooked = in_array($time, $bookedSlots);
-                    $class = $isBooked ? 'time-slot booked' : 'time-slot available';
+                      // Check if this time slot is booked
+                      $isBooked = in_array($time, $bookedSlots);
+                      $class = $isBooked ? 'time-slot booked' : 'time-slot available';
 
-                    echo "<div class='$class' data-time='$time'>";
-                    echo "<input type='radio' name='appointment_time' value='$time' id='time_$time' " . ($isBooked ? 'disabled' : '') . " required>";
-                    echo "<label for='time_$time'>$displayTime</label>";
-                    echo "</div>";
+                      echo "<div class='$class' data-time='$time'>";
+                      echo "<input type='radio' name='appointment_time' value='$time' id='time_$time' " . ($isBooked ? 'disabled' : '') . " required>";
+                      echo "<label for='time_$time'>$displayTime</label>";
+                      echo "</div>";
+                    }
                   }
-                  echo '</div>';
-                }
-                ?>
+                  ?>
+                </div>
               </div>
               <div class="time-slots-legend">
                 <div class="legend-item">
@@ -130,11 +130,8 @@ require_once APPROOT . '/views/pages/inc/components/topnav.php';
 
     timeSlots.forEach(slot => {
       slot.addEventListener('click', function() {
-        // Remove selected class from all slots
         timeSlots.forEach(s => s.classList.remove('selected'));
-        // Add selected class to clicked slot
         this.classList.add('selected');
-        // Check the radio input
         const radio = this.querySelector('input[type="radio"]');
         radio.checked = true;
       });

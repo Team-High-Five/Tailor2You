@@ -10,22 +10,22 @@ function isCurrentPage($page)
 ?>
 
 <div class="sidebar">
-  <a href="#">
-    <img src="../<?php APPROOT ?>/public/img/logo.png" alt="Logo" />
+  <a href="<?php echo URLROOT ?>/pages/index">
+    <img src="<?php echo URLROOT; ?>/public/img/logo_brown.png" alt="Logo" />
   </a>
   <div id="Profile" class="sidebar-icon <?php echo isCurrentPage('profileUpdate') ? 'active' : ''; ?>">
-    <a href="<?php echo URLROOT ?>/Customers/profileUpdate">
-      <img src="../<?php APPROOT ?>/public/img/Customer.png">
+    <a href="<?php echo URLROOT ?>/Customers/profileUpdate" data-tooltip="Profile">
+      <img src="<?php echo URLROOT; ?>/public/img/Customer.png">
     </a>
   </div>
   <div id="Orders" class="sidebar-icon <?php echo isCurrentPage('displayOrders') ? 'active' : ''; ?>">
-    <a href="<?php echo URLROOT ?>/Customers/displayOrders">
-      <img src="../<?php APPROOT ?>/public/img/Purchase_Order.png">
+    <a href="<?php echo URLROOT ?>/Customers/displayOrders" data-tooltip="Orders">
+      <img src="<?php echo URLROOT; ?>/public/img/Purchase_Order.png">
     </a>
   </div>
   <div id="Appointments" class="sidebar-icon <?php echo isCurrentPage('displayAppointments') ? 'active' : ''; ?>">
-    <a href="<?php echo URLROOT ?>/Customers/displayAppointments">
-      <img src="../<?php APPROOT ?>/public/img/Calendar.png">
+    <a href="<?php echo URLROOT ?>/Customers/displayAppointments" data-tooltip="Appointments">
+      <img src="<?php echo URLROOT; ?>/public/img/Calendar.png">
     </a>
   </div>
 </div>

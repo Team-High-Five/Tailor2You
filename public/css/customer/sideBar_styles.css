@@ -1,0 +1,124 @@
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 80px;
+    background-color: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(12px);
+    border-right: 1px solid rgba(196, 167, 125, 0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    z-index: 1001;
+    box-shadow: var(--elegant-shadow);
+}
+
+.sidebar>a:first-child {
+    margin-bottom: 30px;
+}
+
+.sidebar>a:first-child img {
+    width: 45px;
+    height: auto;
+    transition: var(--transition);
+}
+
+.sidebar>a:first-child:hover img {
+    transform: scale(1.05);
+}
+
+.sidebar-icon {
+    position: relative;
+    margin: 15px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar-icon a {
+    padding: 12px;
+    border-radius: 12px;
+    transition: var(--transition);
+    position: relative;
+}
+
+.sidebar-icon img {
+    width: 24px;
+    height: 24px;
+    filter: brightness(0.9);
+    transition: var(--transition);
+}
+
+.sidebar-icon:hover img {
+    filter: brightness(1.2);
+}
+
+.sidebar-icon::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    height: 100%;
+    width: 3px;
+    background-color: var(--accent-color);
+    transform: scaleY(0);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-icon:hover::before {
+    transform: scaleY(0.3);
+}
+
+.sidebar-icon.active::before {
+    transform: scaleY(1);
+}
+
+.sidebar-icon:hover a {
+    background-color: rgba(196, 167, 125, 0.1);
+}
+
+.sidebar-icon.active a {
+    background-color: rgba(196, 167, 125, 0.15);
+}
+
+/* Tooltip styles */
+.sidebar-icon a::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%) translateX(10px);
+    background: rgba(26, 26, 26, 0.95);
+    color: var(--white-color);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(196, 167, 125, 0.15);
+    backdrop-filter: blur(12px);
+}
+
+.sidebar-icon a:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-50%) translateX(15px);
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+
+    .sidebar>a:first-child img {
+        width: 40px;
+    }
+
+    .sidebar-icon img {
+        width: 20px;
+        height: 20px;
+    }
+}
