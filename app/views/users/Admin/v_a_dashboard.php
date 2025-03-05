@@ -19,7 +19,7 @@
                     <i class="fas fa-users"></i>
                 </div>
                 <div class="card-content">
-                    <h3>Users</h3>
+                <h3><a href="<?php echo URLROOT; ?>/users" class="no-underline">Users</a></h3>
                     <p>1930</p>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                     <i class="fas fa-boxes"></i>
                 </div>
                 <div class="card-content">
-                    <h3>Orders</h3>
+                    <h3><a href="<?php echo URLROOT; ?>/Admin/displayAllOrders" class="no-underline">Orders</a></h3>
                     <p>480</p>
                 </div>
             </div>

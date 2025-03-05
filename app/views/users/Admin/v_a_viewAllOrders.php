@@ -2,77 +2,41 @@
 <?php require_once APPROOT . '/views/inc/admin/adminsidebar.php'; ?>
 
 <div class="main-content">
-    <div class="tailor-container">
-        <div class="order-list-container">
-            <div class="filter-bar">
-                <button class="filter-btn">Filter By</button>
-                <select>
-                    <option>14 Feb 2019</option>
-                    <!-- Additional dates can go here -->
-                </select>
-                <select>
-                    <option>Order Type</option>
-                    <!-- Additional order types can go here -->
-                </select>
-                <select>
-                    <option>Order Status</option>
-                    <!-- Additional status options can go here -->
-                </select>
-                <button class="reset-filter-btn">Reset Filter</button>
-                <a href="<?php echo URLROOT; ?>/Admin/displayOrderProgress" class="progress-btn">Order Progress</a>
-            </div>
-
-            <div class="table-container">
-                <table class="order-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Customer</th>
-                            <th>Order</th>
-                            <th>Date</th>
-                            <th>Price</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>00001</td>
-                            <td><a href="<?php echo URLROOT; ?>/Admin/displayOrderMeasurements" class="order-link">Pieris M.P</a></td>
-                            <td>Dotted Black Dress</td>
-                            <td>14 Feb 2019</td>
-                            <td>Rs.10,000</td>
-                            <td><span class="status processing">Processing</span></td>
-                        </tr>
-                        <tr>
-                            <td>00002</td>
-                            <td>De Silva N.G</td>
-                            <td>Rockstar Jacket</td>
-                            <td>14 Feb 2019</td>
-                            <td>Rs.12,000</td>
-                            <td><span class="status completed">Completed</span></td>
-                        </tr>
-                        <tr>
-                            <td>00003</td>
-                            <td>Darrell Caldwell</td>
-                            <td>Long Sleeve Shirt</td>
-                            <td>14 Feb 2019</td>
-                            <td>Rs.5,000</td>
-                            <td><span class="status rejected">Rejected</span></td>
-                        </tr>
-                        <tr>
-                            <td>00004</td>
-                            <td>Gilbert Johnston</td>
-                            <td>Casual Dress</td>
-                            <td>14 Feb 2019</td>
-                            <td>Rs.4,000</td>
-                            <td><span class="status pending">Pending</span></td>
-                        </tr>
-                        <!-- Add more rows as needed -->
-                    </tbody>
-                </table>
-            </div>
+    <div class="search-container">
+        <div class="search-bar">
+            <input type="text" placeholder="To quickly find specific orders">
+            <button><i class="fas fa-search"></i></button>
         </div>
     </div>
+    <table class="user-table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Customer</th>
+                <th>Date</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php if (isset($data['orders']) && !empty($data['orders'])): ?>
+                <?php foreach ($data['orders'] as $order): ?>
+                    <tr>
+                        <td><?php echo $order->order_id; ?></td>
+                        <td><?php echo $order->customer_name; ?></a></td>
+                        <td><?php echo $order->order_date; ?></td>
+                        <td><?php echo $order->total_amount; ?></td>
+                        <td><span class="status <?php echo strtolower($order->status); ?>"><?php echo $order->status; ?></span></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="5">No orders found.</td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+    </table>
 </div>
 
-<?php require_once APPROOT . '/views/inc/admin/adminfooter.php'; ?>
+
+

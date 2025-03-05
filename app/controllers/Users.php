@@ -12,6 +12,21 @@ class Users extends Controller
         $this->tailorModel = $this->model('M_Tailors');
         $this->userModel = $this->model('M_Users');
     }
+
+    public function index()
+    {
+        // Redirect to a default method or view
+        $this->viewAllUsers();
+    }
+
+    public function viewAllUsers()
+    {
+        $users = $this->userModel->getAllUsers();
+        $data = ['users' => $users];
+
+        $this->view('users/Admin/v_a_viewAllUsers', $data);
+    }
+
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
