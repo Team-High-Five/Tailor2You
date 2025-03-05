@@ -444,5 +444,47 @@ class Admin extends Controller
 
         $this->view('users/Admin/v_a_viewAllOrders', $data);
     }
+    public function viewComplaints()
+    {
+        $data = [];
+
+        $this->view('users/Admin/v_a_viewComplaints');
+    }
+
+    public function viewRefunds()
+    {
+        $data = [];
+
+        $this->view('users/Admin/v_a_viewRefunds');
+    }
+
+    public function viewReviews()
+    {
+        $data = [];
+
+        $this->view('users/Admin/v_a_viewReviews');
+    }
+    public function complaintsSection()
+    {
+        $this->view('users/Admin/v_a_complaintsSection');
+    }
+
+    public function generateReports()
+    {
+        $this->view('users/Admin/v_a_generateReports');
+    }
+
+    
+
+    public function reviewSection()
+    {
+        $this->view('users/Admin/v_a_reviewSection');
+    }
+
+    public function refundPayments()
+    {
+        $this->view('users/Admin/v_a_refundPayments');
+    }
+
 }
 ?>
