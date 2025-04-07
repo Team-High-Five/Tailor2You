@@ -2,11 +2,11 @@
 <?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
 <?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
 <div class="main-content">
-    <form action="<?php echo URLROOT; ?>/tailors/saveDesign" method="POST" enctype="multipart/form-data">
+    <form action="<?php echo URLROOT; ?>/designs/saveDesign" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="category_id" value="<?php echo $data['category']->category_id; ?>">
         <input type="hidden" name="subcategory_id" value="<?php echo $data['subcategory']->subcategory_id; ?>">
-        <input type="hidden" name="design_name" value="<?php echo $data['design_name']; ?>">
-        <input type="hidden" name="base_price" value="<?php echo $data['base_price']; ?>">
+        <input type="hidden" name="design_name" value="<?php echo $data['design_data']['design_name']; ?>">
+        <input type="hidden" name="base_price" value="<?php echo $data['design_data']['base_price']; ?>">
 
         <div class="top-row">
             <div class="category-section">
@@ -25,6 +25,11 @@
                 <input type="file" name="main_image" id="main-image" accept="image/*" required>
                 <p class="change-photo">Upload Design Photo</p>
             </div>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea name="description" id="description" rows="4" cols="50"></textarea>
         </div>
 
         <div class="option-section">
@@ -49,18 +54,29 @@
         <div class="fabric-section">
             <h2>Available Fabrics</h2>
             <div class="fabric-selection">
-                <?php foreach ($data['fabrics'] as $fabric): ?>
-                    <div class="fabric-item">
-                        <input type="checkbox" name="fabrics[]" value="<?php echo $fabric->fabric_id; ?>" id="fabric_<?php echo $fabric->fabric_id; ?>">
-                        <label for="fabric_<?php echo $fabric->fabric_id; ?>"><?php echo $fabric->name; ?></label>
-                        <input type="number" name="fabric_price[<?php echo $fabric->fabric_id; ?>]" placeholder="Additional Cost" step="0.01">
-                        <div class="fabric-colors">
-                            <?php foreach ($fabric->colors as $color): ?>
-                                <span class="color-dot" style="background-color: <?php echo $color->color_code; ?>" title="<?php echo $color->color_name; ?>"></span>
-                            <?php endforeach; ?>
+                <?php if (!empty($data['fabrics'])): ?>
+                    <?php foreach ($data['fabrics'] as $fabric): ?>
+                        <div class="fabric-item">
+                            <input type="checkbox" name="fabrics[]" value="<?php echo $fabric->fabric_id; ?>" id="fabric_<?php echo $fabric->fabric_id; ?>">
+                            <!-- Change $fabric->name to $fabric->fabric_name -->
+                            <label for="fabric_<?php echo $fabric->fabric_id; ?>"><?php echo $fabric->fabric_name ?? 'Unnamed Fabric'; ?></label>
+                            <input type="number" name="fabric_price[<?php echo $fabric->fabric_id; ?>]" placeholder="Additional Cost" step="0.01">
+                            <div class="fabric-colors">
+                                <?php if (!empty($fabric->colors)): ?>
+                                    <?php foreach ($fabric->colors as $color): ?>
+                                        <span class="color-dot" style="background-color: <?php echo $color->color_code; ?>" title="<?php echo $color->color_name; ?>"></span>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <span class="no-colors">No colors available</span>
+                                <?php endif; ?>
+                            </div>
                         </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="no-fabrics">
+                        <p>No fabrics available. <a href="<?php echo URLROOT; ?>/Tailors/addNewFabric">Add fabric</a> first.</p>
                     </div>
-                <?php endforeach; ?>
+                <?php endif; ?>
             </div>
         </div>
 

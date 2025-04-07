@@ -86,7 +86,6 @@
       .then(response => response.text())
       .then(html => {
         document.getElementById('modal-body').innerHTML = html;
-        // Setup form handlers after content is loaded
         setupFormHandlers();
       });
   });
@@ -99,6 +98,11 @@
     const categorySelect = document.getElementById('category');
     const subCategorySelect = document.getElementById('sub-category');
     const genderInputs = document.querySelectorAll('input[name="gender"]');
+
+    if (!categorySelect || !subCategorySelect || !genderInputs) {
+      console.error('Form elements not found');
+      return;
+    }
 
     // Store original categories for filtering
     const originalCategories = [...categorySelect.options].slice(1);
@@ -119,14 +123,16 @@
       });
     });
 
-    // Handle category selection
     categorySelect.addEventListener('change', function() {
       const categoryId = this.value;
+      console.log('Selected category ID:', categoryId);
+
       if (categoryId) {
         // Load subcategories
-        fetch(`${URLROOT}/designs/getSubcategories/${categoryId}`)
+        fetch('<?php echo URLROOT; ?>/designs/getSubcategories/' + categoryId)
           .then(response => response.text())
           .then(html => {
+            console.log('Received HTML:', html);
             subCategorySelect.innerHTML = '<option value="">Select Sub Category</option>' + html;
           })
           .catch(error => {
@@ -138,12 +144,6 @@
       }
     });
   }
-
-  window.addEventListener('click', function(event) {
-    if (event.target == document.getElementById('customizeModal')) {
-      document.getElementById('customizeModal').style.display = 'none';
-    }
-  });
 </script>
 
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>
