@@ -364,23 +364,7 @@ class Tailors extends Controller
             'title' => 'Customize Items'
         ];
         $this->view('users/Tailor/v_t_customize_item_list', $data);
-    }
-
-    public function displayCustomizeItemDetails()
-    {
-        $data = [
-            'title' => 'Customize Item Details'
-        ];
-        $this->view('users/Tailor/v_t_customize_item_details', $data);
-    }
-
-    public function addCustomizeItem()
-    {
-        $data = [
-            'title' => 'Add Customize Item'
-        ];
-        $this->view('users/Tailor/v_t_customize_add_new', $data);
-    }
+    } 
 
     public function displayPortfolio()
     {
