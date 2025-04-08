@@ -57,6 +57,7 @@ body {
 }
 .main-content .content h2 {
   margin-bottom: 40px;
+  color: black;
 }
 .main-content .content .change-form {
   display: grid;
