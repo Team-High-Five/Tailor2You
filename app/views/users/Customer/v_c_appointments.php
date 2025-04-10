@@ -33,15 +33,70 @@
                         </div>
                     </div>
                     <div class="actions">
-                        <button class="status <?php echo strtolower($appointment->status); ?>"><?php echo ucfirst($appointment->status); ?></button>
-                        <?php if ($appointment->status !== 'accepted') : ?>
-                            <button class="cancel" onclick="cancelAppointment(<?php echo $appointment->appointment_id; ?>)">Cancel</button>
-                            <a href="<?php echo URLROOT; ?>/appointments/reschedule/<?php echo $appointment->appointment_id; ?>" class="action-link">Request For Rescheduling</a>
+                        <button class="status <?php echo strtolower($appointment->status); ?>" disabled>
+                            <?php echo ucfirst(strtolower($appointment->status)); ?>
+                        </button>
+                        <?php if ($appointment->status !== 'completed'): ?>
+                            <button class="reschedule-btn" 
+                                    data-appointment-id="<?php echo $appointment->appointment_id; ?>"
+                                    data-tailor-id="<?php echo $appointment->tailor_id; ?>">
+                                Reschedule
+                            </button>
+                            <button class="cancel">Cancel</button>
                         <?php endif; ?>
                     </div>
                 </div>
             <?php endforeach; ?>
         <?php endif; ?>
+
+        <div id="rescheduleModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Reschedule Appointment</h2>
+                    <span class="close-modal">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <form id="rescheduleForm" method="post">
+                        <input type="hidden" id="appointmentId" name="appointment_id">
+                        <input type="hidden" id="tailorId" name="tailor_id">
+                        
+                        <div class="form-group">
+                            <label for="appointment_date">Select Date</label>
+                            <input type="date" id="appointment_date" name="appointment_date" 
+                                   min="<?php echo date('Y-m-d'); ?>" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Select Time</label>
+                            <div class="time-slots-container">
+                                <div class="time-slots" id="timeSlots">
+                                    <!-- Time slots will be populated dynamically -->
+                                </div>
+                            </div>
+                            <div class="time-slots-legend">
+                                <div class="legend-item">
+                                    <span class="legend-color available"></span>
+                                    <span>Available</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color booked"></span>
+                                    <span>Booked</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-color selected"></span>
+                                    <span>Selected</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="modal-actions">
+                            <button type="submit" class="confirm-btn">Confirm Reschedule</button>
+                            <button type="button" class="cancel-btn">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
