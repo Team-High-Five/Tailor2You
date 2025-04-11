@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('rescheduleModal');
-    const closeBtn = document.querySelector('.close-modal');
+    const closeModal = document.querySelector('.close-modal');
     const cancelBtn = document.querySelector('.cancel-btn');
     const rescheduleForm = document.getElementById('rescheduleForm');
     const dateInput = document.getElementById('appointment_date');
+    const timeSelect = document.getElementById('appointment_time');
 
-    // Open modal when clicking reschedule button
+    // Open modal and set appointment data
     document.querySelectorAll('.reschedule-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const appointmentId = this.dataset.appointmentId;
@@ -15,74 +16,65 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('tailorId').value = tailorId;
             
             modal.style.display = 'block';
-            loadTimeSlots();
+            loadAvailableTimeSlots();
         });
     });
 
     // Close modal functions
-    function closeModal() {
+    function closeRescheduleModal() {
         modal.style.display = 'none';
+        rescheduleForm.reset();
     }
 
-    closeBtn.addEventListener('click', closeModal);
-    cancelBtn.addEventListener('click', closeModal);
+    closeModal.addEventListener('click', closeRescheduleModal);
+    cancelBtn.addEventListener('click', closeRescheduleModal);
+    
+    // Close on outside click
     window.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
+        if (e.target === modal) {
+            closeRescheduleModal();
+        }
     });
 
-    // Load time slots when date changes
-    dateInput.addEventListener('change', loadTimeSlots);
+    // Load available time slots when date changes
+    dateInput.addEventListener('change', loadAvailableTimeSlots);
 
-    function loadTimeSlots() {
+    function loadAvailableTimeSlots() {
         const date = dateInput.value;
         const tailorId = document.getElementById('tailorId').value;
-        
-        fetch(`${URLROOT}/appointments/getAvailableSlots/${tailorId}/${date}`)
+
+        if (!date || !tailorId) return;
+
+        // Disable all time slots initially
+        Array.from(timeSelect.options).forEach(option => {
+            option.disabled = false;
+        });
+
+        // Fetch booked slots from server
+        fetch(`${URLROOT}/appointments/getBookedSlots/${tailorId}/${date}`)
             .then(response => response.json())
             .then(data => {
-                const timeSlotsContainer = document.getElementById('timeSlots');
-                timeSlotsContainer.innerHTML = '';
-
-                // Generate time slots from 9 AM to 5 PM
-                for (let hour = 9; hour <= 17; hour++) {
-                    for (let minute = 0; minute < 60; minute += 30) {
-                        const time = `${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00`;
-                        const period = hour >= 12 ? 'PM' : 'AM';
-                        const displayHour = hour > 12 ? hour - 12 : hour;
-                        const displayTime = `${displayHour}:${String(minute).padStart(2, '0')} ${period}`;
-                        
-                        const isBooked = data.booked_slots.includes(time);
-                        
-                        const slot = document.createElement('div');
-                        slot.className = `time-slot ${isBooked ? 'booked' : 'available'}`;
-                        slot.innerHTML = `
-                            <input type="radio" name="appointment_time" value="${time}" 
-                                id="time_${time}" ${isBooked ? 'disabled' : ''} required>
-                            <label for="time_${time}">${displayTime}</label>
-                        `;
-                        
-                        if (!isBooked) {
-                            slot.addEventListener('click', () => selectTimeSlot(slot));
+                if (data.booked_slots) {
+                    data.booked_slots.forEach(slot => {
+                        const option = Array.from(timeSelect.options)
+                            .find(opt => opt.value === slot);
+                        if (option) {
+                            option.disabled = true;
                         }
-                        
-                        timeSlotsContainer.appendChild(slot);
-                    }
+                    });
                 }
+            })
+            .catch(error => {
+                console.error('Error loading time slots:', error);
             });
-    }
-
-    function selectTimeSlot(slot) {
-        document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('selected'));
-        slot.classList.add('selected');
-        slot.querySelector('input[type="radio"]').checked = true;
     }
 
     // Handle form submission
     rescheduleForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        
+
         const formData = new FormData(this);
-        
+
         fetch(`${URLROOT}/appointments/reschedule`, {
             method: 'POST',
             body: formData
@@ -94,6 +86,10 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 alert(data.message || 'Failed to reschedule appointment');
             }
+        })
+        .catch(error => {
+            console.error('Error rescheduling appointment:', error);
+            alert('An error occurred while rescheduling the appointment');
         });
     });
 });

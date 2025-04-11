@@ -67,26 +67,21 @@
                         </div>
                         
                         <div class="form-group">
-                            <label>Select Time</label>
-                            <div class="time-slots-container">
-                                <div class="time-slots" id="timeSlots">
-                                    <!-- Time slots will be populated dynamically -->
-                                </div>
-                            </div>
-                            <div class="time-slots-legend">
-                                <div class="legend-item">
-                                    <span class="legend-color available"></span>
-                                    <span>Available</span>
-                                </div>
-                                <div class="legend-item">
-                                    <span class="legend-color booked"></span>
-                                    <span>Booked</span>
-                                </div>
-                                <div class="legend-item">
-                                    <span class="legend-color selected"></span>
-                                    <span>Selected</span>
-                                </div>
-                            </div>
+                            <label for="appointment_time">Select Time</label>
+                            <select id="appointment_time" name="appointment_time" required>
+                                <?php
+                                // Generate time slots from 9 AM to 5 PM (business hours)
+                                for ($hour = 9; $hour <= 17; $hour++) {
+                                    for ($minute = 0; $minute < 60; $minute += 30) {
+                                        $timeValue = sprintf('%02d:%02d:00', $hour, $minute);
+                                        $displayHour = $hour > 12 ? $hour - 12 : $hour;
+                                        $ampm = $hour >= 12 ? 'PM' : 'AM';
+                                        $displayTime = sprintf('%d:%02d %s', $displayHour, $minute, $ampm);
+                                        echo "<option value=\"$timeValue\">$displayTime</option>";
+                                    }
+                                }
+                                ?>
+                            </select>
                         </div>
                         
                         <div class="modal-actions">

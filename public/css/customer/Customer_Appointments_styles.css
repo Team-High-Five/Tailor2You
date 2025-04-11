@@ -277,3 +277,28 @@
         max-width: 200px;
     }
 }
+
+/* Form group select styling */
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(196, 167, 125, 0.2);
+    background: rgba(255, 255, 255, 0.03);
+    color: gray;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.form-group select:focus {
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(196, 167, 125, 0.1);
+}
+
+.form-group select option {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    padding: 10px;
+}
