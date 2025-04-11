@@ -6,7 +6,7 @@
   justify-content: space-between;
   background-color: rgba(26, 26, 26, 0.75);
   backdrop-filter: blur(12px);
-  position: fixed;
+  position: sticky;
   top: 0;
   z-index: 1000;
   border-bottom: 1px solid rgba(196, 167, 125, 0.15);

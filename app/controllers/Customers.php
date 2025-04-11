@@ -249,6 +249,9 @@ class Customers extends Controller
                 'birth_date' => trim($_POST['birth_date']),
                 'home_town' => trim($_POST['home_town']),
                 'address' => trim($_POST['address']),
+                'bio' => trim($_POST['bio']),
+                'status' => trim($_POST['status']),
+                'category' => trim($_POST['category']),
                 'profile_pic' => $profilePic,
                 'user' => $customer,
                 'first_name_err' => '',
@@ -485,5 +488,13 @@ class Customers extends Controller
             'title' => 'Orders'
         ];
         $this->view('users/Customer/v_c_orders', $data);
+    }
+
+    public function ordersViews()
+    {
+        $data = [
+            'title' => 'OrdersView'
+        ];
+        $this->view('users/Customer/v_c_order_details', $data);
     }
 }

@@ -3,9 +3,11 @@
 <?php require_once APPROOT . '/views/users/Customer/inc/topNavBar.php'; ?>
 <link rel='stylesheet' type='text/css' media='screen' href='<?php echo URLROOT; ?>/public/css/customer/profilebuttons_styles.css'>
 <div class="passcontainer">
+  <div class="measurement-layout">
     <main class="main-content">
       <section class="content">
-        <h2>Pant Measurement</h2>
+
+      <h2>Pant Measurement</h2>
         <form name="addPants" class="change-form" action="<?php echo URLROOT?>/Customers/addPants" method="post">
           <input type="hidden" name="is_create" value="<?php echo empty($data['pant']) ? '1' : '0'; ?>">
           <label for="measure">Measurement type</label>
@@ -40,6 +42,27 @@
         </form>
       </section>
     </main>
+    
+    <aside class="guide-section">
+            <img src="<?php echo URLROOT; ?>/public/img/pant-measurement-guide.png" 
+                 alt="Pant Measurement Guide" 
+                 class="guide-image">
+            <div class="guide-content">
+                
+                <p>Follow these guidelines for accurate measurements of your pants.</p>
+                
+                <div class="measurement-tip">
+                    
+                    <ul>
+                        <li>Stand straight with feet slightly apart.</li>
+                        <li>Keep the measuring tape straight, not loose or tight.</li>
+                        <li>For waist, measure where you typically wear your pants.</li>
+                        <li>For inseam, measure from crotch to desired length.</li>
+                    </ul>
+                </div>
+            </div>
+        </aside>
+    </div>
 </div>
 
 </body>
@@ -72,3 +95,5 @@
         saveButton.style.display = formChanged ? 'block' : 'none';
     }
 </script>
+<?php require_once APPROOT . '/views/users/Customer/inc/footer.php'; ?>
+
