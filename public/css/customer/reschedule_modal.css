@@ -1,0 +1,174 @@
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+}
+
+.modal-content {
+    position: relative;
+    background: var(--card-gradient);
+    width: 90%;
+    max-width: 600px;
+    margin: 50px auto;
+    border-radius: 16px;
+    border: 1px solid rgba(196, 167, 125, 0.15);
+    box-shadow: var(--elegant-shadow);
+}
+
+.modal-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(196, 167, 125, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    color: var(--white-color);
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.close-modal {
+    color: var(--text-muted);
+    font-size: 24px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.close-modal:hover {
+    color: var(--accent-color);
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    color: var(--text-light);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+#appointment_date {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(196, 167, 125, 0.2);
+    background: rgba(255, 255, 255, 0.03);
+    color: gray;
+    margin-bottom: 20px;
+}
+
+.time-slots-container {
+    margin-bottom: 20px;
+}
+
+.time-slots {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.time-slot {
+    position: relative;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.time-slot.available {
+    background: rgba(196, 167, 125, 0.1);
+    color: var(--white-color);
+}
+
+.time-slot.booked {
+    background: rgba(231, 76, 60, 0.1);
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
+
+.time-slot.selected {
+    background: var(--accent-gradient);
+    color: var(--white-color);
+}
+
+.time-slots-legend {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+}
+
+.legend-color.available {
+    background: rgba(196, 167, 125, 0.1);
+}
+
+.legend-color.booked {
+    background: rgba(231, 76, 60, 0.1);
+}
+
+.legend-color.selected {
+    background: var(--accent-gradient);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.confirm-btn, .cancel-btn {
+    padding: 12px 24px;
+    border-radius: 30px;
+    border: none;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.confirm-btn {
+    background: var(--accent-gradient);
+    color: var(--white-color);
+}
+
+.cancel-btn {
+    background: var(--danger-gradient);
+    color: var(--white-color);
+}
+
+.confirm-btn:hover, .cancel-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--accent-shadow);
+}

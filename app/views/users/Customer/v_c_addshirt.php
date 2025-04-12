@@ -3,54 +3,74 @@
 <?php require_once APPROOT . '/views/users/Customer/inc/topNavBar.php'; ?>
 <link rel='stylesheet' type='text/css' media='screen' href='<?php echo URLROOT; ?>/public/css/customer/profilebuttons_styles.css'>
 <div class="passcontainer">
-    <main class="main-content">
-      <section class="content">
-        <h2>Shirt Measurement</h2>
-         <form name="addShirts" class="change-form" action="<?php echo URLROOT?>/Customers/addShirts" method="post">
-          <input type="hidden" name="is_create" value="<?php echo empty($data['shirt']) ? '1' : '0'; ?>">
-          <label for="measure">Measurement type</label>
-            <div class="radiobtn">
-                <input type="radio" id="cm" name="measurement_unit" value="1" <?php echo isset($data['shirt']->measure) && $data['shirt']->measure == '1' ? 'checked' : ''; ?>>
-                <label for="cm">cm</label>
-                <input type="radio" id="inch" name="measurement_unit" value="2" <?php echo isset($data['shirt']->measure) && $data['shirt']->measure == '2' ? 'checked' : ''; ?>>
-                <label for="inch">inch</label><br><br>
+    <div class="measurement-layout">
+        <!-- Existing form content -->
+        <main class="main-content">
+          <section class="content">
+            <h2>Shirt Measurement</h2>
+             <form name="addShirts" class="change-form" action="<?php echo URLROOT?>/Customers/addShirts" method="post">
+              <input type="hidden" name="is_create" value="<?php echo empty($data['shirt']) ? '1' : '0'; ?>">
+              <label for="measure">Measurement type</label>
+                <div class="radiobtn">
+                    <input type="radio" id="cm" name="measurement_unit" value="1" <?php echo isset($data['shirt']->measure) && $data['shirt']->measure == '1' ? 'checked' : ''; ?>>
+                    <label for="cm">cm</label>
+                    <input type="radio" id="inch" name="measurement_unit" value="2" <?php echo isset($data['shirt']->measure) && $data['shirt']->measure == '2' ? 'checked' : ''; ?>>
+                    <label for="inch">inch</label><br><br>
+                </div>
+              <label for="Collar size">Collar size</label>
+              <input type="text" id="Collar size" name="collar_size" value="<?php echo isset($data['shirt']->collar_size) ? $data['shirt']->collar_size : ''; ?>" required>
+
+              <label for="Chest width">Chest width</label>
+              <input type="text" id="Chest width" name="chest_width" value="<?php echo isset($data['shirt']->chest_width) ? $data['shirt']->chest_width : ''; ?>" required>
+
+              <label for="Waist width">Waist width</label>
+              <input type="text" id="Waist width" name="waist_width" value="<?php echo isset($data['shirt']->waist_width) ? $data['shirt']->waist_width : ''; ?>" required>
+
+              <label for="Bottom width">Bottom width</label>
+              <input type="text" id="Bottom width" name="bottom_width" value="<?php echo isset($data['shirt']->bottom_width) ? $data['shirt']->bottom_width : ''; ?>" required>
+
+              <label for="Shoulder width">Shoulder width</label>
+              <input type="text" id="Shoulder width" name="shoulder_width" value="<?php echo isset($data['shirt']->shoulder_width) ? $data['shirt']->shoulder_width : ''; ?>" required>
+
+              <label for="Sleeve length">Sleeve length</label>
+              <input type="text" id="Sleeve length" name="sleeve_length" value="<?php echo isset($data['shirt']->sleeve_length) ? $data['shirt']->sleeve_length : ''; ?>" required>
+
+              <label for="Armhole depth">Armhole depth</label>
+              <input type="text" id="Armhole depth" name="armhole_depth" value="<?php echo isset($data['shirt']->armhole_depth) ? $data['shirt']->armhole_depth : ''; ?>" required>
+
+              <label for="Bicep">Bicep</label>
+              <input type="text" id="Bicep" name="bicep" value="<?php echo isset($data['shirt']->bicep) ? $data['shirt']->bicep : ''; ?>" required>
+
+              <label for="Cuff size">Cuff size</label>
+              <input type="text" id="Cuff size" name="cuff_size" value="<?php echo isset($data['shirt']->cuff_size) ? $data['shirt']->cuff_size : ''; ?>" required>
+
+              <label for="Front length">Front length</label>
+              <input type="text" id="Front length" name="front_length" value="<?php echo isset($data['shirt']->front_length) ? $data['shirt']->front_length : ''; ?>" required>
+
+              <button type="submit" class="btn-save" style="display: none;">Save Changes</button>
+            </form>
+
+          </section>
+        </main>
+
+        <!-- New guide section -->
+        <aside class="guide-section">
+            <img src="<?php echo URLROOT; ?>/public/img/Shirt_measurement_guide.png" 
+                 alt="Shirt Measurement Guide" 
+                 class="guide-image">
+            <div class="guide-content">
+               <p>Follow these guidelines for accurate measurements of your shirt.</p>
+                <div class="measurement-tip">
+                    <ul>
+                        <li>Stand straight with arms relaxed.</li>
+                        <li>Use a flexible measuring tape.</li>
+                        <li>Don't pull the tape too tight.</li>
+                    </ul>
+                </div>
             </div>
-          <label for="Collar size">Collar size</label>
-          <input type="text" id="Collar size" name="collar_size" value="<?php echo isset($data['shirt']->collar_size) ? $data['shirt']->collar_size : ''; ?>" required>
-
-          <label for="Chest width">Chest width</label>
-          <input type="text" id="Chest width" name="chest_width" value="<?php echo isset($data['shirt']->chest_width) ? $data['shirt']->chest_width : ''; ?>" required>
-
-          <label for="Waist width">Waist width</label>
-          <input type="text" id="Waist width" name="waist_width" value="<?php echo isset($data['shirt']->waist_width) ? $data['shirt']->waist_width : ''; ?>" required>
-
-          <label for="Bottom width">Bottom width</label>
-          <input type="text" id="Bottom width" name="bottom_width" value="<?php echo isset($data['shirt']->bottom_width) ? $data['shirt']->bottom_width : ''; ?>" required>
-
-          <label for="Shoulder width">Shoulder width</label>
-          <input type="text" id="Shoulder width" name="shoulder_width" value="<?php echo isset($data['shirt']->shoulder_width) ? $data['shirt']->shoulder_width : ''; ?>" required>
-
-          <label for="Sleeve length">Sleeve length</label>
-          <input type="text" id="Sleeve length" name="sleeve_length" value="<?php echo isset($data['shirt']->sleeve_length) ? $data['shirt']->sleeve_length : ''; ?>" required>
-
-          <label for="Armhole depth">Armhole depth</label>
-          <input type="text" id="Armhole depth" name="armhole_depth" value="<?php echo isset($data['shirt']->armhole_depth) ? $data['shirt']->armhole_depth : ''; ?>" required>
-
-          <label for="Bicep">Bicep</label>
-          <input type="text" id="Bicep" name="bicep" value="<?php echo isset($data['shirt']->bicep) ? $data['shirt']->bicep : ''; ?>" required>
-
-          <label for="Cuff size">Cuff size</label>
-          <input type="text" id="Cuff size" name="cuff_size" value="<?php echo isset($data['shirt']->cuff_size) ? $data['shirt']->cuff_size : ''; ?>" required>
-
-          <label for="Front length">Front length</label>
-          <input type="text" id="Front length" name="front_length" value="<?php echo isset($data['shirt']->front_length) ? $data['shirt']->front_length : ''; ?>" required>
-
-          <button type="submit" class="btn-save" style="display: none;">Save Changes</button>
-        </form>
-
-      </section>
-    </main>
-  </div>
+        </aside>
+    </div>
+</div>
 
 </body>
 </html>
@@ -82,3 +102,6 @@
         saveButton.style.display = formChanged ? 'block' : 'none';
     }
 </script>
+
+<?php require_once APPROOT . '/views/users/Customer/inc/footer.php'; ?>
+
