@@ -384,6 +384,66 @@ class Shopkeepers extends Controller
         }
     }
 
+    public function editPost($post_id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $image = null;
+            if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+                $image = file_get_contents($_FILES['image']['tmp_name']);
+            } else {
+                $post = $this->userModel->getPostById($post_id);
+                $image = $post->image;
+            }
+
+            $data = [
+                'post_id' => $post_id,
+                'user_id' => $_SESSION['user_id'],
+                'title' => trim($_POST['title']),
+                'description' => trim($_POST['description']),
+                'image' => $image
+            ];
+
+            if ($this->userModel->updatePost($data)) {
+                flash('post_message', 'Post updated successfully');
+                redirect('shopkeepers/displayPortfolio');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            $post = $this->userModel->getPostById($post_id);
+
+            if (!$post) {
+                flash('post_message', 'Post not found', 'alert alert-danger');
+                redirect('shopkeepers/displayPortfolio');
+            }
+
+            $data = [
+                'post_id' => $post->id,
+                'title' => $post->title,
+                'description' => $post->description,
+                'image' => $post->image
+            ];
+
+            $this->view('users/Shopkeeper/v_s_edit_post', $data);
+        }
+    }
+
+    public function deletePost($post_id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if ($this->userModel->deletePost($post_id)) {
+                flash('post_message', 'Post deleted successfully');
+                redirect('shopkeepers/displayPortfolio');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            redirect('shopkeepers/displayPortfolio');
+        }
+    }
+
     public function displayCustomizeItems()
     {
         $data = [
@@ -406,6 +466,14 @@ class Shopkeepers extends Controller
             'title' => 'Add Customize Item'
         ];
         $this->view('users/Shopkeeper/v_s_customize_add_new', $data);
+    }
+
+    public function addNewCustomizeItem()
+    {
+        $data = [
+            'title' => 'Add New Customize Item'
+        ];
+        $this->view('users/Shopkeeper/v_s_customize_add_new_continue', $data);
     }
 
     public function displayEmployees()

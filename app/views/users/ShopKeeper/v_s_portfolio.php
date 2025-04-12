@@ -4,7 +4,7 @@
 <div class="main-content">
   <div class="portfolio-container">
     <div class="portfolio-header">
-      <h2>My Portfolio</h2>
+      <h2>Portfolio</h2>
       <button class="btn-primary add-post-btn" id="openPostModalBtn">Add New Post</button>
     </div>
 
