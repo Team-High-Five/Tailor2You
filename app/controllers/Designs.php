@@ -184,21 +184,39 @@ class Designs extends Controller
 
         // Check if design data is set in session
         if (!isset($_SESSION['design_data'])) {
-            redirect('designs/addCustomizeItem');
+            // Redirect back or show an error
+            flash('design_error', 'Design details not found. Please start again.', 'alert alert-danger');
+            redirect('designs/addCustomizeItem'); // Redirect to the first step
+            return; // Stop execution
         }
 
         $design_data = $_SESSION['design_data'];
-        $category = $this->designModel->getCategoryById($design_data['category_id']);
+
+        // Validate category ID exists in design_data
+        if (!isset($design_data['category_id']) || !is_numeric($design_data['category_id'])) {
+            flash('design_error', 'Invalid category selection. Please start again.', 'alert alert-danger');
+            redirect('designs/addCustomizeItem');
+            return;
+        }
+        $categoryId = $design_data['category_id'];
+
+        $category = $this->designModel->getCategoryById($categoryId);
         $subcategory = $this->designModel->getSubcategoryById($design_data['subcategory_id']);
-        $customization_types = $this->designModel->getCustomizationTypes();
+        $customization_types = $this->designModel->getCustomizationTypesByCategoryId($categoryId);
 
-        // Try to get user-specific fabrics
+        // Log if no customization types are found for the category
+        if (empty($customization_types)) {
+            error_log("No specific customization types found for category ID: " . $categoryId . ". Consider adding associations or a fallback.");
+            // Optional: You could fall back to general types if needed
+            // $customization_types = $this->designModel->getCustomizationTypes();
+        }
+
+
+        // Try to get user-specific fabrics (or general)
         $fabrics = $this->designModel->getFabricsByUserId($_SESSION['user_id']);
-
-        // If no fabrics found, use the general fabrics method as fallback
         if (empty($fabrics)) {
-            error_log("No user-specific fabrics found, using general fabrics");
-            $fabrics = $this->designModel->getFabrics();
+            error_log("No user-specific fabrics found for user ID: " . $_SESSION['user_id'] . ", using general fabrics");
+            $fabrics = $this->designModel->getFabrics(); // Assuming getFabrics() exists and gets all fabrics
         }
 
         $data = [
@@ -206,10 +224,11 @@ class Designs extends Controller
             'design_data' => $design_data,
             'category' => $category,
             'subcategory' => $subcategory,
-            'customization_types' => $customization_types,
+            'customization_types' => $customization_types, // Use the category-specific types
             'fabrics' => $fabrics
         ];
 
+        // Load the view
         $this->view('users/Tailor/v_t_customize_add_new_continue', $data);
     }
 

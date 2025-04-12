@@ -60,6 +60,24 @@ class M_Designs
         $this->db->query('SELECT * FROM customization_types');
         return $this->db->resultSet();
     }
+    public function getCustomizationTypesByCategoryId($categoryId)
+    {
+        try {
+            $this->db->query('
+                SELECT *
+                FROM customization_types 
+                WHERE category_id = :category_id
+                ORDER BY name
+            ');
+            $this->db->bind(':category_id', $categoryId);
+            $results = $this->db->resultSet();
+            error_log("Fetched " . count($results) . " customization types for category ID: " . $categoryId);
+            return $results;
+        } catch (Exception $e) {
+            error_log("Error in getCustomizationTypesByCategoryId: " . $e->getMessage());
+            return []; // Return empty array on error
+        }
+    }
 
     public function getFabrics()
     {

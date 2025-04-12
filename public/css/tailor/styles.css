@@ -64,6 +64,9 @@
     --white-color: #fff;
     --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     --bg-mask: rgba(255, 255, 255, 0.6);
+    --accent-color-rgb: 196, 167, 125; /* RGB for C4A77D */
+    --accent-shadow: 0 8px 16px rgba(196, 167, 125, 0.3);
+    --accent-gradient: linear-gradient(135deg, #c4a77d 0%, #b38f63 100%);
 }
 
 [data-theme="dark"] {

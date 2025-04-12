@@ -1,38 +1,55 @@
-document.addEventListener('DOMContentLoaded', function () {
-    // Image preview handling
-    document.getElementById('main-image').addEventListener('change', function (e) {
-        if (e.target.files && e.target.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                document.getElementById('design-preview').src = e.target.result;
-            }
-            reader.readAsDataURL(e.target.files[0]);
-        }
-    });
+// Add this to a design-customization.js file and include it in your page
 
-    // Add new customization choice
+document.addEventListener('DOMContentLoaded', function () {
+    // Design preview image functionality
+    const designPreview = document.getElementById('design-preview');
+    const mainImage = document.getElementById('main-image');
+
+    if (designPreview && mainImage) {
+        mainImage.addEventListener('change', function () {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    designPreview.src = e.target.result;
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+        // Click on image to trigger file input
+        designPreview.addEventListener('click', function () {
+            mainImage.click();
+        });
+    }
+
+    // Add/remove customization options
     document.querySelectorAll('.add-choice').forEach(button => {
         button.addEventListener('click', function () {
             const typeId = this.dataset.type;
-            const container = document.querySelector(`.customization-choices[data-type="${typeId}"]`);
+            const choicesContainer = document.querySelector(`.customization-choices[data-type="${typeId}"]`);
+            const choiceItem = choicesContainer.querySelector('.choice-item').cloneNode(true);
 
-            const newChoice = document.createElement('div');
-            newChoice.className = 'choice-item';
-            newChoice.innerHTML = `
-                <input type="file" name="choice_image[${typeId}][]" class="choice-image" accept="image/*">
-                <input type="text" name="choice_name[${typeId}][]" placeholder="Option Name" class="name-input" required>
-                <input type="number" name="choice_price[${typeId}][]" placeholder="Additional Cost" step="0.01" class="price-input">
-                <button type="button" class="remove-choice">×</button>
-            `;
+            // Clear inputs in the cloned node
+            choiceItem.querySelectorAll('input[type="text"], input[type="number"]').forEach(input => {
+                input.value = '';
+            });
 
-            container.appendChild(newChoice);
+            // Add event listener to remove button
+            const removeButton = choiceItem.querySelector('.remove-choice');
+            removeButton.addEventListener('click', function () {
+                choiceItem.remove();
+            });
+
+            choicesContainer.appendChild(choiceItem);
         });
     });
 
-    // Remove customization choice
-    document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('remove-choice')) {
-            e.target.closest('.choice-item').remove();
-        }
+    // Initial setup for remove buttons
+    document.querySelectorAll('.remove-choice').forEach(button => {
+        button.addEventListener('click', function () {
+            if (this.closest('.customization-choices').querySelectorAll('.choice-item').length > 1) {
+                this.closest('.choice-item').remove();
+            }
+        });
     });
 });
