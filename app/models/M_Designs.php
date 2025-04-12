@@ -175,6 +175,74 @@ class M_Designs
             return false;
         }
     }
+    public function getDesignsByUserId($user_id)
+    {
+        $this->db->query('
+            SELECT d.*, 
+                   c.name as category_name, 
+                   s.name as subcategory_name
+            FROM designs d
+            LEFT JOIN clothing_categories c ON d.category_id = c.category_id
+            LEFT JOIN clothing_subcategories s ON d.subcategory_id = s.subcategory_id
+            WHERE d.user_id = :user_id
+            ORDER BY d.created_at DESC
+        ');
+        $this->db->bind(':user_id', $user_id);
+        return $this->db->resultSet();
+    }
+    public function getDesignById($id)
+    {
+        $this->db->query('SELECT * FROM designs WHERE design_id = :id');
+        $this->db->bind(':id', $id);
+        return $this->db->single();
+    }
+
+    /**
+     * Delete a design and its related data
+     * 
+     * @param int $id The design ID to delete
+     * @return bool Success/failure
+     */
+    public function deleteDesign($id)
+    {
+        $this->db->beginTransaction();
+
+        try {
+            // Delete design customizations
+            $this->db->query('DELETE FROM design_customizations WHERE design_id = :id');
+            $this->db->bind(':id', $id);
+            $this->db->execute();
+
+            // Delete design fabrics
+            $this->db->query('DELETE FROM design_fabrics WHERE design_id = :id');
+            $this->db->bind(':id', $id);
+            $this->db->execute();
+
+            // Get the design to find the image filename
+            $design = $this->getDesignById($id);
+
+            // Delete the design from the database
+            $this->db->query('DELETE FROM designs WHERE design_id = :id');
+            $this->db->bind(':id', $id);
+            $result = $this->db->execute();
+
+            // Delete the image file if it exists
+            if ($result && $design && !empty($design->main_image)) {
+                $imagePath = ROOTPATH . '/public/img/uploads/designs/' . $design->main_image;
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+            }
+
+            $this->db->commitTransaction();
+            return $result;
+        } catch (Exception $e) {
+            $this->db->rollbackTransaction();
+            error_log("Error deleting design: " . $e->getMessage());
+            return false;
+        }
+    }
+
     public function beginTransaction()
     {
         return $this->db->beginTransaction();

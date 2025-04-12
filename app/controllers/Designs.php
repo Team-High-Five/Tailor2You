@@ -401,5 +401,30 @@ class Designs extends Controller
             redirect('designs/addCustomizeItem');
         }
     }
+    public function deleteDesign($id = null)
+    {
+        // Check if user is logged in
+        if (!isLoggedIn()) {
+            redirect('users/login');
+            return;
+        }
 
+        if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($id)) {
+            // Check if the design belongs to the current user
+            $design = $this->designModel->getDesignById($id);
+
+            if ($design && $design->user_id == $_SESSION['user_id']) {
+                // Delete the design
+                if ($this->designModel->deleteDesign($id)) {
+                    flash('design_message', 'Design removed successfully');
+                } else {
+                    flash('design_message', 'Failed to remove design', 'alert alert-danger');
+                }
+            } else {
+                flash('design_message', 'Unauthorized action', 'alert alert-danger');
+            }
+        }
+
+        redirect('tailors/displayCustomizeItems');
+    }
 }

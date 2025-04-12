@@ -12,11 +12,13 @@ class Tailors extends Controller
     private $tailorModel;
     private $userModel;
     private $fabricController;
+    private $designModel;
 
     public function __construct()
     {
-        $this->tailorModel= $this->model('M_Tailors');
+        $this->tailorModel = $this->model('M_Tailors');
         $this->userModel = $this->model('M_Users');
+        $this->designModel = $this->model('M_Designs');
         $this->fabricController = new Fabrics();
     }
 
@@ -360,12 +362,22 @@ class Tailors extends Controller
     }
     public function displayCustomizeItems()
     {
-        $data = [
-            'title' => 'Customize Items'
-        ];
-        $this->view('users/Tailor/v_t_customize_item_list', $data);
-    } 
+        // Check if user is logged in
+        if (!isLoggedIn()) {
+            redirect('users/login');
+            return;
+        }
 
+        // Get all designs for the current user
+        $designs = $this->designModel->getDesignsByUserId($_SESSION['user_id']);
+
+        $data = [
+            'title' => 'Your Designs',
+            'designs' => $designs
+        ];
+
+        $this->view('users/Tailor/v_t_customize_item_list', $data);
+    }
     public function displayPortfolio()
     {
         $posts = $this->userModel->getPostsByUserId($_SESSION['user_id']);

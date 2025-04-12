@@ -19,51 +19,44 @@
     </select>
   </div>
   <div class="product-grid">
-    <div class="product-card">
-      <img src="<?php echo URLROOT; ?>/public/img/shirt.png" alt="Long Sleeves">
-      <h3>Long Sleeves</h3>
-      <p>Shirts</p>
-      <p class="price">Rs:3000</p>
-      <p>Men</p>
-      <div class="product-actions">
-        <button class="btn-primary">Edit</button>
-        <button class="btn-danger">Delete</button>
+    <?php if (!empty($data['designs'])): ?>
+      <?php foreach ($data['designs'] as $design): ?>
+        <div class="product-card">
+          <?php if (!empty($design->main_image)): ?>
+            <img src="<?php echo URLROOT; ?>/public/img/uploads/designs/<?php echo $design->main_image; ?>" alt="<?php echo htmlspecialchars($design->name); ?>">
+          <?php else: ?>
+            <img src="<?php echo URLROOT; ?>/public/img/shirt.png" alt="No Image">
+          <?php endif; ?>
+          <h3><?php echo htmlspecialchars($design->name); ?></h3>
+          <p><?php echo htmlspecialchars($design->category_name); ?></p>
+          <p class="price">Rs:<?php echo number_format($design->base_price, 0); ?></p>
+          <p><?php echo ucfirst(htmlspecialchars($design->gender)); ?></p>
+          <div class="product-actions">
+            <a href="<?php echo URLROOT; ?>/designs/editDesign/<?php echo $design->design_id; ?>" class="btn-primary">Edit</a>
+            <button class="btn-danger delete-design" data-id="<?php echo $design->design_id; ?>">Delete</button>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    <?php else: ?>
+      <div class="no-designs-message">
+        <p>You haven't created any designs yet. Click "Add New Design" to get started.</p>
       </div>
-    </div>
-    <div class="product-card">
-      <img src="<?php echo URLROOT; ?>/public/img/trouser.png" alt="Trousers">
-      <h3>Trousers</h3>
-      <p>Pants</p>
-      <p class="price">Rs:4000</p>
-      <p>Men</p>
-      <div class="product-actions">
-        <button class="btn-primary">Edit</button>
-        <button class="btn-danger">Delete</button>
-      </div>
-    </div>
-    <div class="product-card">
-      <img src="<?php echo URLROOT; ?>/public/img/shirt.png" alt="Jacket">
-      <h3>Jacket</h3>
-      <p>Shirts</p>
-      <p class="price">Rs:10000</p>
-      <p>Men</p>
-      <div class="product-actions">
-        <button class="btn-primary">Edit</button>
-        <button class="btn-danger">Delete</button>
-      </div>
-    </div>
-    <div class="product-card">
-      <img src="<?php echo URLROOT; ?>/public/img/trouser.png" alt="Trousers">
-      <h3>Trousers</h3>
-      <p>Pants</p>
-      <p class="price">Rs:4000</p>
-      <p>Men</p>
-      <div class="product-actions">
-        <button class="btn-primary">Edit</button>
-        <button class="btn-danger">Delete</button>
-      </div>
-    </div>
+    <?php endif; ?>
   </div>
+
+  <!-- Add this script for delete functionality -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.delete-design').forEach(button => {
+        button.addEventListener('click', function() {
+          const designId = this.getAttribute('data-id');
+          if (confirm('Are you sure you want to delete this design?')) {
+            window.location.href = `<?php echo URLROOT; ?>/designs/deleteDesign/${designId}`;
+          }
+        });
+      });
+    });
+  </script>
 </div>
 
 <!-- Modal Structure -->
