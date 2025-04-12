@@ -110,72 +110,11 @@ class M_Designs
             return false;
         }
     }
-    public function getFabricsByUserId($user_id)
-    {
-        try {
-            // Debug logs
-            error_log("Getting fabrics for user ID: $user_id");
-
-            // First check if fabrics are directly associated with users
-            $this->db->query('
-            SELECT f.*, GROUP_CONCAT(fc.color_id) as color_ids, GROUP_CONCAT(c.color_name) as color_names, 
-            GROUP_CONCAT(c.color_code) as color_codes
-            FROM fabrics f
-            LEFT JOIN fabric_colors fc ON f.fabric_id = fc.fabric_id
-            LEFT JOIN colors c ON fc.color_id = c.color_id
-            WHERE (f.user_id = :user_id OR f.user_id IS NULL)
-            GROUP BY f.fabric_id
-        ');
-            $this->db->bind(':user_id', $user_id);
-            $fabrics = $this->db->resultSet();
-
-            error_log("Found " . count($fabrics) . " fabrics for user ID: $user_id");
-
-            // If no fabrics found, get all available fabrics
-            if (empty($fabrics)) {
-                error_log("No user-specific fabrics found, getting all fabrics");
-                $this->db->query('
-                SELECT f.*, GROUP_CONCAT(fc.color_id) as color_ids, GROUP_CONCAT(c.color_name) as color_names, 
-                GROUP_CONCAT(c.color_code) as color_codes
-                FROM fabrics f
-                LEFT JOIN fabric_colors fc ON f.fabric_id = fc.fabric_id
-                LEFT JOIN colors c ON fc.color_id = c.color_id
-                GROUP BY f.fabric_id
-            ');
-                $fabrics = $this->db->resultSet();
-                error_log("Found " . count($fabrics) . " general fabrics");
-            }
-
-            // Process colors for each fabric
-            foreach ($fabrics as $fabric) {
-                $fabric->colors = [];
-
-                if (!empty($fabric->color_ids)) {
-                    $color_ids = explode(',', $fabric->color_ids);
-                    $color_names = explode(',', $fabric->color_names);
-                    $color_codes = explode(',', $fabric->color_codes);
-
-                    for ($i = 0; $i < count($color_ids); $i++) {
-                        if (isset($color_names[$i]) && isset($color_codes[$i])) {
-                            $fabric->colors[] = (object)[
-                                'color_id' => $color_ids[$i],
-                                'color_name' => $color_names[$i],
-                                'color_code' => $color_codes[$i]
-                            ];
-                        }
-                    }
-                }
-
-                // Remove the concatenated properties
-                unset($fabric->color_ids);
-                unset($fabric->color_names);
-                unset($fabric->color_codes);
-            }
-
-            return $fabrics;
-        } catch (Exception $e) {
-            error_log("Error in getFabricsByUserId: " . $e->getMessage());
-            return [];
-        }
+   public function getFabricsByUserId($user_id){
+        $this->db->query('SELECT * FROM fabrics WHERE user_id = :user_id');
+        $this->db->bind(':user_id', $user_id);
+        return $this->db->resultSet();
     }
+    
+
 }

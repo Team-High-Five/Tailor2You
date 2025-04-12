@@ -3,6 +3,7 @@
 <?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
 <div class="main-content">
     <form action="<?php echo URLROOT; ?>/designs/saveDesign" method="POST" enctype="multipart/form-data">
+
         <input type="hidden" name="category_id" value="<?php echo $data['category']->category_id; ?>">
         <input type="hidden" name="subcategory_id" value="<?php echo $data['subcategory']->subcategory_id; ?>">
         <input type="hidden" name="design_name" value="<?php echo $data['design_data']['design_name']; ?>">
@@ -19,6 +20,7 @@
             </div>
         </div>
 
+
         <div class="photo-section">
             <div class="photo-container">
                 <img src="<?php echo URLROOT; ?>/public/img/add-image.png" alt="Design Preview" id="design-preview">
@@ -33,17 +35,29 @@
         </div>
 
         <div class="option-section">
+            <h2>Optional Customizations</h2>
+            <p class="options-info">You can leave customizations empty or add details for any options you offer.</p>
+
+            <!-- Add this hidden template that will be used by JavaScript -->
+            <div id="choice-template" style="display: none;">
+                <div class="choice-item">
+                    <div class="choice-image-container">
+                        <img src="<?php echo URLROOT; ?>/public/img/add-image.png" alt="Choice Preview" class="choice-preview-img">
+                        <input type="file" name="choice_image[TYPE_ID][]" class="choice-image-input" accept="image/*">
+                        <div class="required-badge">Required if adding option</div>
+                    </div>
+                    <input type="text" name="choice_name[TYPE_ID][]" placeholder="Option Name" class="name-input">
+                    <input type="number" name="choice_price[TYPE_ID][]" placeholder="Additional Cost (Optional)" step="0.01" class="price-input">
+                    <button type="button" class="remove-choice">×</button>
+                </div>
+            </div>
+
             <?php foreach ($data['customization_types'] as $type): ?>
                 <div class="option-group">
                     <h3><?php echo $type->name; ?></h3>
                     <div class="option-photo">
                         <div class="customization-choices" data-type="<?php echo $type->type_id; ?>">
-                            <div class="choice-item">
-                                <input type="file" name="choice_image[<?php echo $type->type_id; ?>][]" class="choice-image" accept="image/*">
-                                <input type="text" name="choice_name[<?php echo $type->type_id; ?>][]" placeholder="Option Name" class="name-input" required>
-                                <input type="number" name="choice_price[<?php echo $type->type_id; ?>][]" placeholder="Additional Cost" step="0.01" class="price-input">
-                                <button type="button" class="remove-choice">×</button>
-                            </div>
+                            <!-- Empty div to start with no options -->
                         </div>
                         <button type="button" class="add-choice" data-type="<?php echo $type->type_id; ?>">+ Add Option</button>
                     </div>
@@ -58,18 +72,8 @@
                     <?php foreach ($data['fabrics'] as $fabric): ?>
                         <div class="fabric-item">
                             <input type="checkbox" name="fabrics[]" value="<?php echo $fabric->fabric_id; ?>" id="fabric_<?php echo $fabric->fabric_id; ?>">
-                            <!-- Change $fabric->name to $fabric->fabric_name -->
+                            <img src="data:image/jpeg;base64,<?php echo base64_encode($fabric->image); ?>" alt="<?php echo $fabric->fabric_name; ?>" class="fabric-image">
                             <label for="fabric_<?php echo $fabric->fabric_id; ?>"><?php echo $fabric->fabric_name ?? 'Unnamed Fabric'; ?></label>
-                            <input type="number" name="fabric_price[<?php echo $fabric->fabric_id; ?>]" placeholder="Additional Cost" step="0.01">
-                            <div class="fabric-colors">
-                                <?php if (!empty($fabric->colors)): ?>
-                                    <?php foreach ($fabric->colors as $color): ?>
-                                        <span class="color-dot" style="background-color: <?php echo $color->color_code; ?>" title="<?php echo $color->color_name; ?>"></span>
-                                    <?php endforeach; ?>
-                                <?php else: ?>
-                                    <span class="no-colors">No colors available</span>
-                                <?php endif; ?>
-                            </div>
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>
@@ -82,11 +86,11 @@
 
         <div class="action-buttons">
             <button type="submit" class="submit-btn">Save Design</button>
-            <a href="<?php echo URLROOT; ?>/tailors/customize" class="cancel-btn">Cancel</a>
+            <a href="<?php echo URLROOT; ?>/tailors/displayCustomizeItems"><button class="exit-btn" type="No"> Cancel</button></a>
         </div>
     </form>
 </div>
 
-<script src="<?php echo URLROOT; ?>/js/design-customization.js"></script>
+<script src="<?php echo URLROOT; ?>/public/js/tailor/design-customization.js"></script>
 
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>

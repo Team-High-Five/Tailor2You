@@ -281,7 +281,7 @@ select {
     background-color: var(--danger-dark-color);
     color: var(--white-color);
     transform: translateY(-3px);
-}   
+}
 
 .edit-btn {
     background-color: #164e1b;
@@ -296,5 +296,45 @@ select {
 .edit-btn:hover {
     background-color: #0d3e13;
     color: var(--white-color);
+    transform: translateY(-3px);
+}
+
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.action-buttons .submit-btn {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.action-buttons .submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--accent-shadow);
+}
+
+.action-buttons .exit-btn {
+    border: none;
+    margin-top: 20px;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.action-buttons .exit-btn:hover {
+    background-color: var(--border-color);
     transform: translateY(-3px);
 }

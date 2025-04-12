@@ -1,121 +1,157 @@
-class DesignManager {
-    constructor() {
-        // Add button and modal elements check
-        const addButton = document.getElementById('openModalBtn');
-        const modal = document.getElementById('customizeModal');
-        const closeBtn = document.querySelector('.close-btn');
+document.addEventListener('DOMContentLoaded', function () {
+    // --- Main Design Preview ---
+    const designPreview = document.getElementById('design-preview');
+    const mainImageInput = document.getElementById('main-image');
 
-        if (!addButton || !modal || !closeBtn) {
-            console.error('Required elements not found');
-            return;
-        }
+    if (designPreview && mainImageInput) {
+        // Handle file selection for main design image
+        mainImageInput.addEventListener('change', function () {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    designPreview.src = e.target.result;
+                }
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
 
-        this.modal = modal;
-        this.modalBody = document.getElementById('modal-body');
-        this.addButton = addButton;
-        this.closeBtn = closeBtn;
-
-        this.init();
+        // Click on image triggers file input
+        designPreview.addEventListener('click', function () {
+            mainImageInput.click();
+        });
     }
 
-    init() {
-        // Bind event listeners with proper context
-        this.addButton.addEventListener('click', () => {
-            console.log('Opening modal...');
-            this.openModal();
+    // --- Customization Choice Management ---
+    const optionSection = document.querySelector('.option-section');
+    if (optionSection) {
+        // --- Create New Choice Item ---
+        const createChoiceItem = (typeId) => {
+            const choiceItem = document.createElement('div');
+            choiceItem.className = 'choice-item';
+            choiceItem.innerHTML = `
+                <div class="choice-image-container">
+                    <img src="${URLROOT}/public/img/add-image.png" alt="Choice Preview" class="choice-preview-img">
+                    <input type="file" name="choice_image[${typeId}][]" class="choice-image-input" accept="image/*">
+                    <div class="required-badge">Required if adding option</div>
+                </div>
+                <input type="text" name="choice_name[${typeId}][]" placeholder="Option Name" class="name-input">
+                <input type="number" name="choice_price[${typeId}][]" placeholder="Additional Cost (Optional)" step="0.01" class="price-input">
+                <button type="button" class="remove-choice">×</button>
+            `;
+            
+            // Add change event for name input
+            const nameInput = choiceItem.querySelector('.name-input');
+            const imageInput = choiceItem.querySelector('.choice-image-input');
+            
+            nameInput.addEventListener('change', function() {
+                validateChoice(choiceItem);
+            });
+            
+            imageInput.addEventListener('change', function() {
+                validateChoice(choiceItem);
+            });
+            
+            return choiceItem;
+        };
+
+        // --- Validate a choice item ---
+        const validateChoice = (choiceItem) => {
+            const nameInput = choiceItem.querySelector('.name-input');
+            const imageInput = choiceItem.querySelector('.choice-image-input');
+            const warning = choiceItem.querySelector('.warning-message') || document.createElement('div');
+            
+            // If either has content, both are required
+            const nameHasContent = nameInput.value.trim() !== '';
+            const imageHasFile = imageInput.files && imageInput.files.length > 0;
+            
+            // Remove previous warning if exists
+            if (warning.parentElement === choiceItem) {
+                choiceItem.removeChild(warning);
+            }
+            
+            // Check if only one is provided but not both
+            if ((nameHasContent && !imageHasFile) || (!nameHasContent && imageHasFile)) {
+                warning.className = 'warning-message';
+                warning.textContent = 'Both image and name are required for each option.';
+                choiceItem.appendChild(warning);
+                return false;
+            }
+            
+            return true;
+        };
+        
+        // --- Add Choice Button Click ---
+        optionSection.addEventListener('click', function(event) {
+            if (event.target.classList.contains('add-choice')) {
+                const button = event.target;
+                const typeId = button.dataset.type;
+                const choicesContainer = button.closest('.option-photo').querySelector(`.customization-choices[data-type="${typeId}"]`);
+                
+                const newChoiceItem = createChoiceItem(typeId);
+                choicesContainer.appendChild(newChoiceItem);
+            }
+
+            // --- Remove Choice ---
+            if (event.target.classList.contains('remove-choice')) {
+                const button = event.target;
+                const choiceItem = button.closest('.choice-item');
+                const choicesContainer = choiceItem.closest('.customization-choices');
+                
+                choiceItem.remove();
+            }
+
+            // --- Trigger Choice File Input ---
+            if (event.target.classList.contains('choice-preview-img')) {
+                const img = event.target;
+                const fileInput = img.closest('.choice-item').querySelector('.choice-image-input');
+                if (fileInput) {
+                    fileInput.click();
+                }
+            }
         });
 
-        this.closeBtn.addEventListener('click', () => {
-            console.log('Closing modal...');
-            this.closeModal();
-        });
+        // --- Handle Choice Image Preview ---
+        optionSection.addEventListener('change', function(event) {
+            if (event.target.classList.contains('choice-image-input')) {
+                const input = event.target;
+                const previewImg = input.closest('.choice-item').querySelector('.choice-preview-img');
 
-        window.addEventListener('click', (e) => {
-            if (e.target === this.modal) {
-                this.closeModal();
+                if (input.files && input.files[0] && previewImg) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        previewImg.src = e.target.result;
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                }
+                
+                // Validate after image change
+                validateChoice(input.closest('.choice-item'));
+            }
+            
+            // Validate choice when name changes
+            if (event.target.classList.contains('name-input')) {
+                validateChoice(event.target.closest('.choice-item'));
             }
         });
     }
-
-    openModal() {
-        console.log('Fetching content...');
-        fetch(`${URLROOT}/designs/addCustomizeItem`)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.text();
-            })
-            .then(html => {
-                this.modalBody.innerHTML = html;
-                this.modal.style.display = 'block';
-                this.setupFormHandlers();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                this.modalBody.innerHTML = '<p class="error">Failed to load content</p>';
-            });
-    }
-    closeModal() {
-        this.modal.style.display = 'none';
-        this.modalBody.innerHTML = '';
-    }
-
-    setupFormHandlers() {
-        const categorySelect = document.getElementById('category');
-        const subCategorySelect = document.getElementById('sub-category');
-        const genderInputs = document.querySelectorAll('input[name="gender"]');
-
-        if (categorySelect) {
-            const originalCategories = [...categorySelect.options].slice(1);
-
-            // Handle gender selection
-            genderInputs.forEach(input => {
-                input.addEventListener('change', () => {
-                    this.filterCategories(input.value, categorySelect, subCategorySelect, originalCategories);
-                });
-            });
-
-            // Handle category selection
-            categorySelect.addEventListener('change', () => {
-                const categoryId = categorySelect.value;
-                if (categoryId) {
-                    this.loadSubcategories(categoryId, subCategorySelect);
-                } else {
-                    subCategorySelect.innerHTML = '<option value="">Select Sub Category</option>';
+    
+    // --- Form Submission Validation ---
+    const designForm = document.querySelector('form[action*="saveDesign"]');
+    if (designForm) {
+        designForm.addEventListener('submit', function(e) {
+            let isValid = true;
+            
+            // Validate all choice items
+            document.querySelectorAll('.choice-item').forEach(item => {
+                if (!validateChoice(item)) {
+                    isValid = false;
                 }
             });
-        }
-    }
-
-    filterCategories(gender, categorySelect, subCategorySelect, originalCategories) {
-        categorySelect.innerHTML = '<option value="">Select Category</option>';
-        originalCategories.forEach(option => {
-            if (option.dataset.gender === gender || option.dataset.gender === 'unisex') {
-                categorySelect.appendChild(option.cloneNode(true));
+            
+            if (!isValid) {
+                e.preventDefault();
+                alert('Please fix the errors in your customization options. Both name and image are required for each option you add.');
             }
         });
-        subCategorySelect.innerHTML = '<option value="">Select Sub Category</option>';
-    }
-
-    loadSubcategories(categoryId, subCategorySelect) {
-        fetch(`${URLROOT}/designs/getSubcategories/${categoryId}`)
-            .then(response => response.text())
-            .then(html => {
-                subCategorySelect.innerHTML = '<option value="">Select Sub Category</option>' + html;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                subCategorySelect.innerHTML = '<option value="">Error loading subcategories</option>';
-            });
-    }
-}
-
-// Initialize with error handling
-document.addEventListener('DOMContentLoaded', () => {
-    try {
-        new DesignManager();
-    } catch (error) {
-        console.error('Failed to initialize DesignManager:', error);
     }
 });
