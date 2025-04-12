@@ -86,6 +86,9 @@
           </div>
         </div>
 
+        <input type="text" id="bio" name="bio" value="" hidden>
+        <input type="text" id="status" name="status" value="" hidden>
+        <input type="text" id="category" name="category" value="" hidden>
       </form>
     </div>
 
