@@ -72,8 +72,17 @@
                     <?php foreach ($data['fabrics'] as $fabric): ?>
                         <div class="fabric-item">
                             <input type="checkbox" name="fabrics[]" value="<?php echo $fabric->fabric_id; ?>" id="fabric_<?php echo $fabric->fabric_id; ?>">
-                            <img src="data:image/jpeg;base64,<?php echo base64_encode($fabric->image); ?>" alt="<?php echo $fabric->fabric_name; ?>" class="fabric-image">
+                            <?php
+                            // Show fabric image from binary data or placeholder if not available
+                            if (isset($fabric->image) && !empty($fabric->image)) {
+                                $imgSrc = 'data:image/jpeg;base64,' . base64_encode($fabric->image);
+                            } else {
+                                $imgSrc = URLROOT . '/public/img/placeholder-fabric.png';
+                            }
+                            ?>
+                            <img src="<?php echo $imgSrc; ?>" alt="<?php echo $fabric->fabric_name; ?>" class="fabric-image">
                             <label for="fabric_<?php echo $fabric->fabric_id; ?>"><?php echo $fabric->fabric_name ?? 'Unnamed Fabric'; ?></label>
+                            <input type="number" name="fabric_price[<?php echo $fabric->fabric_id; ?>]" placeholder="Additional Cost" step="0.01" class="fabric-price">
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>

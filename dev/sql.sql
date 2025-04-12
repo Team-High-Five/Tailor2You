@@ -147,6 +147,8 @@ CREATE TABLE `pant_measurements` (
     `rise_height_front` int(11) NOT NULL,
     `rise_height_back` int(11) NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+
 --- Design Tables ---
 
 -- Create clothing categories table
@@ -173,11 +175,12 @@ CREATE TABLE `clothing_subcategories` (
 CREATE TABLE `designs` (
     `design_id` INT(11) NOT NULL AUTO_INCREMENT,
     `user_id` INT(11) NOT NULL,
+    `gender` ENUM('gents', 'ladies', 'unisex') NOT NULL,
     `category_id` INT(11) NOT NULL,
     `subcategory_id` INT(11) NOT NULL,
     `name` VARCHAR(100) NOT NULL,
     `description` TEXT,
-    `main_image` LONGBLOB,
+    `main_image` VARCHAR(255) NULL COMMENT 'Path to image file',
     `base_price` DECIMAL(10, 2) NOT NULL,
     `status` ENUM('active', 'inactive') DEFAULT 'active',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -202,7 +205,7 @@ CREATE TABLE `customization_choices` (
     `choice_id` INT(11) NOT NULL AUTO_INCREMENT,
     `type_id` INT(11) NOT NULL,
     `name` VARCHAR(50) NOT NULL,
-    `image` LONGBLOB,
+    `image` VARCHAR(255) NULL COMMENT 'Path to image file',
     `description` TEXT,
     `price_adjustment` DECIMAL(10, 2) DEFAULT 0.00,
     PRIMARY KEY (`choice_id`),
