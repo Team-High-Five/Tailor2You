@@ -427,4 +427,169 @@ class Designs extends Controller
 
         redirect('tailors/displayCustomizeItems');
     }
+    public function editDesign($id = null)
+    {
+        // Check if user is logged in
+        if (!isLoggedIn()) {
+            redirect('users/login');
+            return;
+        }
+
+        // Check if ID is provided
+        if (!$id) {
+            flash('design_error', 'No design specified', 'alert alert-danger');
+            redirect('tailors/displayCustomizeItems');
+            return;
+        }
+
+        // Get the design
+        $design = $this->designModel->getDesignById($id);
+
+        // Verify design exists and belongs to current user
+        if (!$design || $design->user_id != $_SESSION['user_id']) {
+            flash('design_error', 'Design not found or you don\'t have permission to edit it', 'alert alert-danger');
+            redirect('tailors/displayCustomizeItems');
+            return;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            // Set up data array with ALL required fields
+            $data = [
+                'design_id' => $id,
+                'user_id' => $_SESSION['user_id'],
+                'gender' => trim($_POST['gender']),
+                'category_id' => trim($_POST['category_id']),
+                'subcategory_id' => trim($_POST['subcategory_id']),
+                'name' => trim($_POST['design_name']), // IMPORTANT: Matching the form field name
+                'description' => trim($_POST['description'] ?? ''),
+                'base_price' => trim($_POST['base_price']),
+                'main_image' => $this->designModel->getDesignById($id)->main_image, // Default to existing image
+                'status' => trim($_POST['status']),
+                'errors' => []
+            ];
+
+            // Validate inputs
+            if (empty($data['gender'])) {
+                $data['errors']['gender'] = 'Please select gender';
+            }
+            if (empty($data['category_id'])) {
+                $data['errors']['category'] = 'Please select category';
+            }
+            if (empty($data['subcategory_id'])) {
+                $data['errors']['subcategory'] = 'Please select subcategory';
+            }
+            if (empty($data['name'])) {
+                $data['errors']['design_name'] = 'Please enter design name';
+            }
+            if (empty($data['base_price'])) {
+                $data['errors']['base_price'] = 'Please enter base price';
+            }
+
+            // Check if a new image was uploaded
+            if (!empty($_FILES['main_image']['name'])) {
+                // Upload new image
+                $newImage = FileUploader::uploadImage(
+                    $_FILES['main_image'],
+                    'designs',
+                    'design_' . $_SESSION['user_id'] . '_'
+                );
+
+                if (!$newImage) {
+                    $data['errors']['main_image'] = 'Failed to upload image. Please try a different file.';
+                } else {
+                    $data['main_image'] = $newImage;
+
+                    // Delete old image if it exists
+                    $oldImage = $this->designModel->getDesignById($id)->main_image;
+                    if (!empty($oldImage)) {
+                        $oldImagePath = ROOTPATH . '/public/img/uploads/designs/' . $oldImage;
+                        if (file_exists($oldImagePath)) {
+                            unlink($oldImagePath);
+                        }
+                    }
+                }
+            }
+
+            // If no errors, begin transaction and update the design
+            if (empty($data['errors'])) {
+                $this->designModel->beginTransaction();
+
+                try {
+                    // Update the basic design information first
+                    if (!$this->designModel->updateDesign($data)) {
+                        throw new Exception("Failed to update design basic information");
+                    }
+
+                    // Continue with the rest of the transaction
+                    // Handle customization options
+                    if (isset($_POST['existing_choices'])) {
+                        // First remove any choices that weren't included in the submission
+                        $this->designModel->removeUnselectedCustomizationChoices($id, $_POST['existing_choices']);
+                    } else {
+                        // If no existing choices were selected, remove all
+                        $this->designModel->removeAllCustomizationChoices($id);
+                    }
+
+                    // Continue with your existing code for customization options and fabrics...
+
+                    // Commit all changes
+                    $this->designModel->commitTransaction();
+
+                    flash('design_success', 'Design updated successfully', 'alert alert-success');
+                    redirect('tailors/displayCustomizeItems');
+                } catch (Exception $e) {
+                    $this->designModel->rollbackTransaction();
+                    flash('design_error', 'Error: ' . $e->getMessage(), 'alert alert-danger');
+                    redirect('designs/editDesign/' . $id);
+                }
+            } else {
+                // Load view with errors
+                $categories = $this->designModel->getCategories();
+                $subcategories = $this->designModel->getSubcategoriesByCategoryId($data['category_id']);
+                $customization_types = $this->designModel->getCustomizationTypesByCategoryId($data['category_id']);
+                $design_choices = $this->designModel->getDesignCustomizationChoices($id);
+                $design_fabrics = $this->designModel->getDesignFabrics($id);
+                $fabrics = $this->designModel->getFabricsByUserId($_SESSION['user_id']);
+
+                $viewData = [
+                    'title' => 'Edit Design',
+                    'design' => (object)$data, // Convert array to object for consistency
+                    'categories' => $categories,
+                    'subcategories' => $subcategories,
+                    'customization_types' => $customization_types,
+                    'design_choices' => $design_choices,
+                    'design_fabrics' => $design_fabrics,
+                    'fabrics' => $fabrics,
+                    'errors' => $data['errors']
+                ];
+
+                $this->view('users/Tailor/v_t_customize_edit', $viewData);
+            }
+        } else {
+            // Display edit form with existing design data
+            $categories = $this->designModel->getCategories();
+            $subcategories = $this->designModel->getSubcategoriesByCategoryId($design->category_id);
+            $customization_types = $this->designModel->getCustomizationTypesByCategoryId($design->category_id);
+            $design_choices = $this->designModel->getDesignCustomizationChoices($id);
+            $design_fabrics = $this->designModel->getDesignFabrics($id);
+            $fabrics = $this->designModel->getFabricsByUserId($_SESSION['user_id']);
+
+            $data = [
+                'title' => 'Edit Design',
+                'design' => $design,
+                'categories' => $categories,
+                'subcategories' => $subcategories,
+                'customization_types' => $customization_types,
+                'design_choices' => $design_choices,
+                'design_fabrics' => $design_fabrics,
+                'fabrics' => $fabrics,
+                'errors' => []
+            ];
+
+            $this->view('users/Tailor/v_t_customize_edit', $data);
+        }
+    }
 }

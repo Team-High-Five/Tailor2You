@@ -45,8 +45,14 @@
           <p class="price">Rs:<?php echo number_format($design->base_price, 0); ?></p>
           <p><?php echo ucfirst(htmlspecialchars($design->gender)); ?></p>
           <div class="product-actions">
-            <a href="<?php echo URLROOT; ?>/designs/editDesign/<?php echo $design->design_id; ?>" class="btn-primary">Edit</a>
-            <button class="btn-danger delete-design" data-id="<?php echo $design->design_id; ?>">Delete</button>
+            <a href="<?php echo URLROOT; ?>/designs/editDesign/<?php echo $design->design_id; ?>" class="action-btn edit-btn">
+              <i class="fas fa-pencil-alt"></i>
+              <span>Edit</span>
+            </a>
+            <button class="action-btn delete-btn" data-id="<?php echo $design->design_id; ?>">
+              <i class="fas fa-trash-alt"></i>
+              <span>Delete</span>
+            </button>
           </div>
         </div>
       <?php endforeach; ?>
