@@ -5,6 +5,9 @@
   background-color: var(--background-color);
   border-radius: 8px;
   box-shadow: var(--card-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the entire container */
 }
 
 .tabs {
@@ -36,7 +39,11 @@
   display: flex;
   gap: 10px;
   align-items: center;
+  justify-content: center; /* Center the content horizontally */
   margin-bottom: 20px;
+  text-align: center;
+  flex-wrap: wrap; /* Ensure items wrap if they don't fit in one row */
+  width: 100%; /* Ensure it spans the container width */
 }
 
 .appointment-table {
@@ -78,6 +85,57 @@
 .status.rejected {
   background-color: #ffc8c8;
   color: var(--danger-color);
+}
+
+.status-dropdown {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--background-color);
+  font-size: 14px;
+  color: #333; /* Default text color */
+  cursor: pointer;
+}
+
+.status-dropdown.pending {
+  background-color: #ffeb3b; /* Yellow */
+  color: #333;
+}
+
+.status-dropdown.processing {
+  background-color: #e4d8ff; /* Light Purple */
+  color: var(--primary-color);
+}
+
+.status-dropdown.completed {
+  background-color: #a5e8c3; /* Light Green */
+  color: #0d7a48;
+}
+
+.status-dropdown.rejected {
+  background-color: #ffc8c8; /* Light Red */
+  color: var(--danger-color);
+}
+
+.status-dropdown option {
+  font-size: 14px;
+  color: #333; /* Ensure options are visible */
+}
+
+.status-dropdown:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 5px var(--primary-color);
+}
+
+.status-dropdown option:checked {
+  background-color: inherit; /* Inherit background color from dropdown */
+  color: inherit; /* Inherit text color from dropdown */
+}
+
+.status-dropdown option:hover {
+  background-color: var(--primary-color); /* Highlight on hover */
+  color: #fff;
 }
 
 /* Responsive Design */

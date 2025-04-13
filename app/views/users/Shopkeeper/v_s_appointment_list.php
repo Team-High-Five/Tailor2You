@@ -5,9 +5,9 @@
 <div class="main-content">
   <div class="appointment-list-container">
     <div class="filter-bar">
-      <button class="filter-btn">Filter By</button>
+      <h6>Filter By</h6>
       <select>
-        <option>14 Feb 2019</option>
+        <option>Date</option>
         <!-- Add more date options as needed -->
       </select>
       <select>
@@ -30,6 +30,7 @@
             <th>Date</th>
             <th>Time</th>
             <th>Status</th>
+            <th>Assign Tailor</th>
           </tr>
         </thead>
         <tbody>
@@ -39,7 +40,27 @@
               <td><a href="<?php echo URLROOT; ?>/shopkeepers/displayAppointmentDetails/<?php echo $appointment->appointment_id; ?>" class="appointment-link"><?php echo $appointment->first_name . ' ' . $appointment->last_name; ?></a></td>
               <td><?php echo date('d M Y', strtotime($appointment->appointment_date)); ?></td>
               <td><?php echo date('h:i a', strtotime($appointment->appointment_time)); ?></td>
-              <td><span class="status <?php echo strtolower($appointment->status); ?>"><?php echo ucfirst($appointment->status); ?></span></td>
+              <td>
+                <form action="<?php echo URLROOT; ?>/shopkeepers/updateAppointmentStatus/<?php echo $appointment->appointment_id; ?>" method="post">
+                  <select name="appointment_status" class="status-dropdown <?php echo strtolower($appointment->status); ?>" onchange="this.form.submit()">
+                    <option value="pending" class="status pending" <?php echo strtolower($appointment->status) == 'pending' ? 'selected' : ''; ?>>Pending</option>
+                    <option value="processing" class="status processing" <?php echo strtolower($appointment->status) == 'processing' ? 'selected' : ''; ?>>Processing</option>
+                    <option value="completed" class="status completed" <?php echo strtolower($appointment->status) == 'completed' ? 'selected' : ''; ?>>Completed</option>
+                    <option value="rejected" class="status rejected" <?php echo strtolower($appointment->status) == 'rejected' ? 'selected' : ''; ?>>Rejected</option>
+                  </select>
+                </form>
+              </td>
+              <td>
+                <form action="<?php echo URLROOT; ?>/shopkeepers/assignTailor/<?php echo $appointment->appointment_id; ?>" method="post">
+                  <select name="tailor_id" required>
+                    <option value="">Select Tailor</option>
+                    <?php foreach ($data['tailors'] as $tailor) : ?>
+                      <option value="<?php echo $tailor->id; ?>"><?php echo $tailor->name; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                  <button type="submit" class="assign-btn">Assign</button>
+                </form>
+              </td>
             </tr>
           <?php endforeach; ?>
         </tbody>
