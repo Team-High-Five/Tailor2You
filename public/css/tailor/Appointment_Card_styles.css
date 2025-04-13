@@ -6,17 +6,17 @@
   font-family: var(--font-family);
 }
 
-.add-new-post-content {
+.appointment-details-container .add-new-post-content {
   background-color: var(--white-color);
   border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.07);
+  box-shadow: var(--card-shadow);
   padding: 30px;
   position: relative;
-  transition: transform 0.3s ease;
+  transition: var(--transition);
 }
 
 /* Header Section */
-.modal-header {
+.appointment-details-container .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -25,7 +25,7 @@
   margin-bottom: 30px;
 }
 
-.modal-header h1 {
+.appointment-details-container .modal-header h1 {
   font-size: 1.8rem;
   color: var(--text-color);
   font-weight: 700;
@@ -49,22 +49,22 @@
 }
 
 /* User Info Section */
-.user-info {
+.appointment-details-container .user-info {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
-.user-avatar {
+.appointment-details-container .user-avatar {
   width: 60px;
   height: 60px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid var(--primary-color);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--soft-shadow);
 }
 
-.user-name {
+.appointment-details-container .user-name {
   font-size: 1.2rem;
   font-weight: 600;
   color: var(--text-dark);
@@ -72,7 +72,7 @@
 
 /* Calendar Icon */
 .calendar-icon {
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  background: var(--primary-gradient);
   color: white;
   width: 110px;
   height: 110px;
@@ -81,7 +81,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 5px 15px rgba(106, 90, 205, 0.3);
+  box-shadow: var(--accent-shadow);
   position: relative;
   overflow: hidden;
 }
@@ -118,7 +118,7 @@
 }
 
 /* Status Indicator */
-.status {
+.appointment-details-container .status {
   display: inline-block;
   padding: 8px 16px;
   border-radius: 30px;
@@ -130,7 +130,7 @@
   position: relative;
 }
 
-.status::before {
+.appointment-details-container .status::before {
   content: "";
   display: inline-block;
   width: 8px;
@@ -140,49 +140,9 @@
   vertical-align: 1px;
 }
 
-.status.pending {
-  background-color: rgba(255, 193, 7, 0.15);
-  color: #e5a000;
-}
-
-.status.pending::before {
-  background-color: #e5a000;
-  box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.3);
-}
-
-.status.confirmed {
-  background-color: rgba(76, 175, 80, 0.15);
-  color: #2e7d32;
-}
-
-.status.confirmed::before {
-  background-color: #2e7d32;
-  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3);
-}
-
-.status.completed {
-  background-color: rgba(33, 150, 243, 0.15);
-  color: #1565c0;
-}
-
-.status.completed::before {
-  background-color: #1565c0;
-  box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.3);
-}
-
-.status.rejected {
-  background-color: rgba(244, 67, 54, 0.15);
-  color: #c62828;
-}
-
-.status.rejected::before {
-  background-color: #c62828;
-  box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.3);
-}
-
 /* Tailor Info */
 .tailor-info {
-  background-color: var(--background-color, #f8f9fa);
+  background-color: var(--background-color);
   padding: 15px 20px;
   border-radius: 10px;
   margin-bottom: 25px;
@@ -200,25 +160,42 @@
   color: var(--text-color);
 }
 
-/* Action Buttons */
-.accept-button {
-  background: linear-gradient(135deg, #4CAF50, #2E7D32);
+/* Action Buttons for Appointment Card Only */
+.appointment-details-container .action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.appointment-details-container .action-button {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+}
+
+.appointment-details-container .accept-button {
+  background: var(--success-gradient);
   color: white;
 }
 
-.accept-button:hover {
+.appointment-details-container .accept-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+  box-shadow: var(--success-shadow);
 }
 
-.reject-button {
-  background: linear-gradient(135deg, #FF9800, #F57C00);
+.appointment-details-container .reject-button {
+  background: var(--warning-gradient);
   color: white;
 }
 
-.reject-button:hover {
+.appointment-details-container .reject-button:hover {
   transform: translateY(-3px);
-  box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
+  box-shadow: var(--warning-shadow);
 }
 
 /* Responsive Design */
@@ -233,17 +210,17 @@
     margin: 0 auto 20px;
   }
 
-  .action-buttons {
+  .appointment-details-container .action-buttons {
     flex-direction: column;
   }
 
-  .action-button {
+  .appointment-details-container .action-button {
     width: 100%;
   }
 }
 
 /* Hover Effect for Card */
-.add-new-post-content:hover {
+.appointment-details-container .add-new-post-content:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--hover-shadow);
 }
