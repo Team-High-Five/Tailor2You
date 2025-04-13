@@ -47,7 +47,7 @@
                         <div class="required-badge">Required if adding option</div>
                     </div>
                     <input type="text" name="choice_name[TYPE_ID][]" placeholder="Option Name" class="name-input">
-                    <input type="number" name="choice_price[TYPE_ID][]" placeholder="Additional Cost (Optional)" step="0.01" class="price-input">
+                    <input type="number" name="choice_price[TYPE_ID][]" placeholder="Additional Cost (Rs)(Optional)" step="0.01" class="price-input">
                     <button type="button" class="remove-choice">×</button>
                 </div>
             </div>
@@ -82,7 +82,7 @@
                             ?>
                             <img src="<?php echo $imgSrc; ?>" alt="<?php echo $fabric->fabric_name; ?>" class="fabric-image">
                             <label for="fabric_<?php echo $fabric->fabric_id; ?>"><?php echo $fabric->fabric_name ?? 'Unnamed Fabric'; ?></label>
-                            <input type="number" name="fabric_price[<?php echo $fabric->fabric_id; ?>]" placeholder="Additional Cost" step="0.01" class="fabric-price">
+                            <input type="number" name="fabric_price[<?php echo $fabric->fabric_id; ?>]" placeholder="Additional Cost (Rs)" step="10" class="fabric-price" min="0" >
                         </div>
                     <?php endforeach; ?>
                 <?php else: ?>

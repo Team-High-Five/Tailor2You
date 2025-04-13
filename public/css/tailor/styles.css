@@ -22,6 +22,7 @@
 @import url('Customization_List_styles.css');
 @import url('Customization_Card_styles.css');
 @import url('btn_styles.css');
+@import url('filter_styles.css');
 @import url('Portfolio_styles.css');
 @import url('New_Pop_up_styles.css');
 @import url('components/chat.css');
@@ -64,7 +65,8 @@
     --white-color: #fff;
     --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     --bg-mask: rgba(255, 255, 255, 0.6);
-    --accent-color-rgb: 196, 167, 125; /* RGB for C4A77D */
+    --accent-color-rgb: 196, 167, 125;
+    /* RGB for C4A77D */
     --accent-shadow: 0 8px 16px rgba(196, 167, 125, 0.3);
     --accent-gradient: linear-gradient(135deg, #c4a77d 0%, #b38f63 100%);
 }
@@ -133,6 +135,28 @@
     --scrollbar-thumb: #2a2a3a;
     --scrollbar-thumb-hover: #3a3a4a;
     --bg-mask: rgba(18, 18, 24, 0.95);
+}
+
+/* Status Colors using variables */
+:root {
+    --status-pending-bg: rgba(255, 193, 7, 0.15);
+    --status-pending-color: #e5a000;
+    --status-confirmed-bg: rgba(76, 175, 80, 0.15);
+    --status-confirmed-color: #2e7d32;
+    --status-completed-bg: rgba(33, 150, 243, 0.15);
+    --status-completed-color: #1565c0;
+    --status-rejected-bg: rgba(244, 67, 54, 0.15);
+    --status-rejected-color: #c62828;
+
+    /* Dark theme variables */
+    --status-pending-bg-dark: rgba(255, 193, 7, 0.2);
+    --status-pending-color-dark: #ffc940;
+    --status-confirmed-bg-dark: rgba(76, 175, 80, 0.2);
+    --status-confirmed-color-dark: #4caf50;
+    --status-completed-bg-dark: rgba(33, 150, 243, 0.2);
+    --status-completed-color-dark: #42a5f5;
+    --status-rejected-bg-dark: rgba(244, 67, 54, 0.2);
+    --status-rejected-color-dark: #ef5350;
 }
 
 [data-theme="dark"] {

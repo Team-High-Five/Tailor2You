@@ -1,129 +1,217 @@
+/* Main Container */
 .appointment-list-container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 20px;
-  background-color: var(--background-color);
-  border-radius: 8px;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 30px;
+  background-color: var(--white-color);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+
+/* Table Container */
+.table-container {
+  overflow-x: auto;
+  border-radius: 12px;
   box-shadow: var(--card-shadow);
+  background: var(--white-color);
 }
 
-.tabs {
-  display: flex;
-  gap: 10px;
-}
-
-.tab {
-  background-color: var(--background-color);
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.tab.active {
-  background-color: var(--primary-color);
-  color: #fff;
-}
-
-.search-box {
-  padding: 8px;
-  border: 1px solid var(--input-border);
-  border-radius: 4px;
-  width: 200px;
-}
-
-.filter-bar {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  margin-bottom: 20px;
-}
-
+/* Appointment Table */
 .appointment-table {
   width: 100%;
-  border-collapse: collapse;
-}
-
-.appointment-table th,
-.appointment-table td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid var(--border-color);
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 0;
+  table-layout: fixed;
 }
 
 .appointment-table th {
   background-color: var(--background-color);
-  font-weight: bold;
+  color: var(--text-dark);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 13px;
+  padding: 18px 15px;
+  border-bottom: 2px solid var(--border-color);
+  text-align: left;
 }
 
-.status {
-  padding: 4px 8px;
-  border-radius: 4px;
-  color: #fff;
-  font-size: 12px;
-  font-weight: bold;
-  text-align: center;
+.appointment-table th:first-child {
+  border-top-left-radius: 12px;
 }
 
-.status.accepted {
-  background-color: #a5e8c3;
-  color: #0d7a48;
+.appointment-table th:last-child {
+  border-top-right-radius: 12px;
 }
 
-.status.processing {
-  background-color: #e4d8ff;
+.appointment-table td {
+  padding: 16px 15px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--text-color);
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.appointment-table tr:last-child td:first-child {
+  border-bottom-left-radius: 12px;
+}
+
+.appointment-table tr:last-child td:last-child {
+  border-bottom-right-radius: 12px;
+}
+
+.appointment-table tr:hover {
+  background-color: var(--hover-bg);
+}
+
+/* Appointment Link */
+.appointment-link {
   color: var(--primary-color);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.appointment-link:hover {
+  color: var(--secondary-color);
+  text-decoration: underline;
+}
+
+/* Status Badges */
+.status {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: relative;
+  line-height: 1;
+}
+
+.status::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+
+.status.pending {
+  background-color: var(--status-pending-bg);
+  color: var(--status-pending-color);
+}
+
+.status.pending::before {
+  background-color: var(--status-pending-color);
+  box-shadow: 0 0 0 2px var(--status-pending-bg);
+}
+
+.status.confirmed {
+  background-color: var(--status-confirmed-bg);
+  color: var(--status-confirmed-color);
+}
+
+.status.confirmed::before {
+  background-color: var(--status-confirmed-color);
+  box-shadow: 0 0 0 2px var(--status-confirmed-bg);
+}
+
+.status.completed {
+  background-color: var(--status-completed-bg);
+  color: var(--status-completed-color);
+}
+
+.status.completed::before {
+  background-color: var(--status-completed-color);
+  box-shadow: 0 0 0 2px var(--status-completed-bg);
 }
 
 .status.rejected {
-  background-color: #ffc8c8;
-  color: var(--danger-color);
+  background-color: var(--status-rejected-bg);
+  color: var(--status-rejected-color);
 }
 
-/* Responsive Design */
+.status.rejected::before {
+  background-color: var(--status-rejected-color);
+  box-shadow: 0 0 0 2px var(--status-rejected-bg);
+}
+
+/* For dark theme compatibility */
+[data-theme="dark"] .status.pending {
+  background-color: var(--status-pending-bg-dark);
+  color: var(--status-pending-color-dark);
+}
+
+[data-theme="dark"] .status.confirmed {
+  background-color: var(--status-confirmed-bg-dark);
+  color: var(--status-confirmed-color-dark);
+}
+
+[data-theme="dark"] .status.completed {
+  background-color: var(--status-completed-bg-dark);
+  color: var(--status-completed-color-dark);
+}
+
+[data-theme="dark"] .status.rejected {
+  background-color: var(--status-rejected-bg-dark);
+  color: var(--status-rejected-color-dark);
+}
+
+/* No Results Message */
+.no-results {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 16px;
+  color: var(--text-muted);
+  font-style: italic;
+  background-color: var(--light-bg-transparent, rgba(248, 249, 250, 0.7));
+  border-radius: 12px;
+  border: 1px dashed var(--border-color);
+}
+
+[data-theme="dark"] .no-results {
+  background-color: var(--dark-bg-transparent, rgba(30, 30, 45, 0.5));
+  border-color: var(--border-color-dark, var(--border-color));
+}
+
+/* Responsive Design - Table Only */
 @media screen and (max-width: 768px) {
-  .appointment-list-container {
-    width: 90%;
-    padding: 1rem;
-  }
-
-  .filter-bar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .tabs {
-    flex-direction: column;
+  .appointment-table {
+    font-size: 13px;
   }
 
   .appointment-table th,
   .appointment-table td {
-    padding: 0.5rem;
-  }
-}
-
-@media screen and (max-width: 480px) {
-  .appointment-list-container {
-    width: 100%;
-    padding: 0.5rem;
-  }
-
-  .filter-bar {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .tabs {
-    flex-direction: column;
-  }
-
-  .appointment-table th,
-  .appointment-table td {
-    padding: 0.5rem;
+    padding: 12px 10px;
   }
 
   .status {
-    font-size: 0.75rem;
-    padding: 0.2rem 0.4rem;
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .appointment-list-container {
+    border-radius: 10px;
+    padding: 15px;
+  }
+
+  .appointment-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .status::before {
+    margin-right: 5px;
+    width: 6px;
+    height: 6px;
   }
 }

@@ -378,7 +378,7 @@ class Designs extends Controller
 
                 // Success message and redirect
                 flash('design_success', 'Design has been successfully saved!', 'alert alert-success');
-                redirect('designs/displayCustomizeItems');
+                redirect('Tailors/displayCustomizeItems');
             } catch (Exception $e) {
                 // Rollback transaction on error
                 $this->designModel->rollbackTransaction();

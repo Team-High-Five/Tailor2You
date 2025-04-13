@@ -175,18 +175,21 @@ class M_Designs
             return false;
         }
     }
+
     public function getDesignsByUserId($user_id)
     {
         $this->db->query('
-            SELECT d.*, 
-                   c.name as category_name, 
-                   s.name as subcategory_name
-            FROM designs d
-            LEFT JOIN clothing_categories c ON d.category_id = c.category_id
-            LEFT JOIN clothing_subcategories s ON d.subcategory_id = s.subcategory_id
-            WHERE d.user_id = :user_id
-            ORDER BY d.created_at DESC
-        ');
+        SELECT d.*, 
+               c.name as category_name, 
+               s.name as subcategory_name,
+               d.created_at,
+               d.status
+        FROM designs d
+        LEFT JOIN clothing_categories c ON d.category_id = c.category_id
+        LEFT JOIN clothing_subcategories s ON d.subcategory_id = s.subcategory_id
+        WHERE d.user_id = :user_id
+        ORDER BY d.created_at DESC
+    ');
         $this->db->bind(':user_id', $user_id);
         return $this->db->resultSet();
     }
