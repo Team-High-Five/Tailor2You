@@ -16,6 +16,7 @@ class Designs extends Controller
     }
 
     public function index() {}
+    // Customer Views of Designs
     public function selectFabric()
     {
         $data = [

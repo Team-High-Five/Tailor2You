@@ -13,8 +13,11 @@ class Pages extends Controller
     }
     public function index()
     {
+        $featuredDesigns = $this->pageModel->getFeaturedDesigns(6);
+
         $data = [
-            'title' => 'Home Page'
+            'title' => 'Home Page',
+            'designs' => $featuredDesigns
         ];
         $this->view('pages/v_home_page', $data);
     }
