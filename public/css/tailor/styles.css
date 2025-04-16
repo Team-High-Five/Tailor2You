@@ -1,128 +1,192 @@
+/*--------------------------------------------------------------
+# IMPORTS
+--------------------------------------------------------------*/
+/* Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 @import url('fonts/fonts.css');
+
+/* Core Components */
 @import url('components/topnav.css');
-@import url('Tailor_Dashboard_styles.css');
 @import url('components/footer.css');
 @import url('components/btn.css');
 @import url('components/flash_msg.css');
+@import url('components/chat.css');
+@import url('components/status-badges.css');
+
+/* Layout Components */
+@import url('sideBar_styles.css');
 @import url('topNavBar_styles.css');
-@import url('New_Fabric_styles.css');
+@import url('footer.css');
+
+/* Page Specific Styles */
+@import url('Tailor_Dashboard_styles.css');
 @import url('Tailor_Profile_styles.css');
+
+/* Feature Styles */
+@import url('New_Fabric_styles.css');
 @import url('Fabric_Stock_styles.css');
 @import url('Order_List_styels.css');
 @import url('Order_Progress_styles.css');
-@import url('footer.css');
 @import url('Orde_item_styles.css');
 @import url('Order_measurements_styels.css');
-@import url('Order_List_styels.css');
+
+/* Appointment Styles */
 @import url('Appointment_List_styles.css');
 @import url('Appointment_Card_styles.css');
 @import url('Appointment_Calender_styles.css');
-@import url('sideBar_styles.css');
+
+/* Customization Styles */
 @import url('Customization_List_styles.css');
 @import url('Customization_Card_styles.css');
+
+/* Utility Styles */
 @import url('btn_styles.css');
+@import url('filter_styles.css');
 @import url('Portfolio_styles.css');
 @import url('New_Pop_up_styles.css');
-@import url('components/chat.css');
 @import url('dark_mode_styles.css');
 
+/*--------------------------------------------------------------
+# THEME VARIABLES - LIGHT MODE
+--------------------------------------------------------------*/
 :root {
-    /* Light Mode Colors */
+    /* Background */
     --bg-img: url('../../img/Tailor.png');
+    --background-color: #f4f4f8;
+    --white-color: #fff;
+    --glass-effect: rgba(255, 255, 255, 0.95);
+    --bg-mask: rgba(255, 255, 255, 0.6);
+
+    /* Primary Colors */
     --primary-color: #6a5acd;
     --primary-gradient: linear-gradient(180deg, #7a57d1 0%, #6244b8 100%);
     --secondary-color: #7b68ee;
-    --danger-color: #ff4d4d;
-    --danger-dark-color: #d43f3f;
-    --text-color: #333;
-    --background-color: #f4f4f8;
-    --input-border: #e0e0e0;
-    --error-color: #d9534f;
-    --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    --text-dark: #333;
-    --text-muted: #555;
-    --border-color: #e0e0e0;
+    --primary-hover-color: #5849b8;
+
+    /* Accent Colors */
     --accent-color: #c4a77d;
     --accent-hover: #b38f63;
+    --accent-color-rgb: 196, 167, 125;
+
+    /* RGB for C4A77D */
+    --accent-gradient: linear-gradient(135deg, #c4a77d 0%, #b38f63 100%);
+    --accent-shadow: 0 8px 16px rgba(196, 167, 125, 0.3);
+
+    /* Text Colors */
+    --text-color: #333;
+    --text-dark: #333;
+    --text-muted: #555;
+    --text-light-color: #666;
+
+    /* Alert Colors */
+    --danger-color: #ff4d4d;
+    --danger-dark-color: #d43f3f;
+    --error-color: #d9534f;
+
+    /* Borders & Inputs */
+    --border-color: #e0e0e0;
+    --input-border: #e0e0e0;
+
+    /* Shadows & Effects */
+    --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     --transition: all 0.3s ease;
+    --card-hover-transform: translateY(-5px);
+
+    /* Sidebar Styles */
     --sidebar-background: var(--primary-gradient);
     --sidebar-hover-background: rgba(255, 255, 255, 0.15);
     --sidebar-active-background: rgba(255, 255, 255, 0.2);
     --sidebar-active-border: #ffffff;
     --sidebar-icon-brightness: 0.9;
     --sidebar-icon-hover-brightness: 1.2;
+
+    /* Card & UI Components */
     --card-gradient: linear-gradient(135deg, #f0f0f0 0%, #ffffff 100%);
-    --glass-effect: rgba(255, 255, 255, 0.95);
-    --measurement-color: #6244b8;
     --success-gradient: linear-gradient(135deg, #28a745 0%, #20c997 100%);
     --danger-gradient: linear-gradient(135deg, #dc3545 0%, #ff4d4d 100%);
-    --card-hover-transform: translateY(-5px);
+    --measurement-color: #6244b8;
     --measurement-item-background: rgba(122, 87, 209, 0.1);
-    --primary-hover-color: #5849b8;
-    --text-light-color: #666;
-    --white-color: #fff;
-    --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    --bg-mask: rgba(255, 255, 255, 0.6);
-    --accent-color-rgb: 196, 167, 125; /* RGB for C4A77D */
-    --accent-shadow: 0 8px 16px rgba(196, 167, 125, 0.3);
-    --accent-gradient: linear-gradient(135deg, #c4a77d 0%, #b38f63 100%);
+
+    /* Status Colors */
+    --status-pending-bg: rgba(255, 193, 7, 0.15);
+    --status-pending-color: #e5a000;
+    --status-accepted-bg: rgba(143, 188, 143, 0.15);
+    --status-accepted-color: #3cb371;
+    --status-confirmed-bg: rgba(76, 175, 80, 0.15);
+    --status-confirmed-color: #2e7d32;
+    --status-completed-bg: rgba(33, 150, 243, 0.15);
+    --status-completed-color: #1565c0;
+    --status-rejected-bg: rgba(244, 67, 54, 0.15);
+    --status-rejected-color: #c62828;
+
+    /* Dark Theme Status Colors (for reference) */
+    --status-pending-bg-dark: rgba(255, 193, 7, 0.2);
+    --status-pending-color-dark: #ffc940;
+    --status-confirmed-bg-dark: rgba(76, 175, 80, 0.2);
+    --status-confirmed-color-dark: #4caf50;
+    --status-completed-bg-dark: rgba(33, 150, 243, 0.2);
+    --status-completed-color-dark: #42a5f5;
+    --status-rejected-bg-dark: rgba(244, 67, 54, 0.2);
+    --status-rejected-color-dark: #ef5350;
 }
 
+/*--------------------------------------------------------------
+# THEME VARIABLES - DARK MODE
+--------------------------------------------------------------*/
 [data-theme="dark"] {
+    /* Background */
     --bg-img: url('../../img/Tailor.png');
+    --background-color: #121218;
+    --white-color: #121218;
+    /* Inverted for dark mode */
+    --glass-effect: rgba(30, 30, 45, 0.95);
+    --bg-mask: rgba(18, 18, 24, 0.95);
+
     /* Primary Colors */
     --primary-color: #8a7ad1;
     /* Lighter version of original primary */
     --primary-gradient: linear-gradient(180deg, #8a7ad1 0%, #7a68ee 100%);
     --secondary-color: #9185ee;
 
-    /* Background Colors */
-    --background-color: #121218;
-    /* Dark background */
-    --sidebar-background: linear-gradient(180deg, #1a1a2e 0%, #16162c 100%);
-    --card-gradient: linear-gradient(135deg, #1e1e2d 0%, #252538 100%);
+    /* Accent Colors */
+    --accent-color: #d4b78d;
+    /* Slightly lighter for better contrast */
+    --accent-hover: #e5c89e;
 
     /* Text Colors */
     --text-color: #e0e0e0;
     --text-dark: #ffffff;
     --text-muted: #9999a9;
     --text-light-color: #b4b4c0;
-    --white-color: #121218;
-    /* Inverted for dark mode */
 
-    /* Accent Colors */
-    --accent-color: #d4b78d;
-    /* Slightly lighter for better contrast */
-    --accent-hover: #e5c89e;
+    /* Alert Colors */
+    --danger-color: #ff6b6b;
+    --danger-dark-color: #ff4d4d;
+    --error-color: #ff6b6b;
 
-    /* Interactive Elements */
+    /* Borders & Inputs */
+    --input-border: #2a2a3a;
+    --border-color: #2a2a3a;
+
+    /* Shadows & Effects */
+    --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    --shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+
+    /* Sidebar Styles */
+    --sidebar-background: linear-gradient(180deg, #1a1a2e 0%, #16162c 100%);
     --sidebar-hover-background: rgba(255, 255, 255, 0.1);
     --sidebar-active-background: rgba(255, 255, 255, 0.15);
     --sidebar-active-border: #8a7ad1;
     --sidebar-icon-brightness: 1.1;
     --sidebar-icon-hover-brightness: 1.3;
 
-    /* Borders and Shadows */
-    --input-border: #2a2a3a;
-    --border-color: #2a2a3a;
-    --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-    --shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-
-    /* Status Colors */
-    --danger-color: #ff6b6b;
-    --danger-dark-color: #ff4d4d;
-    --error-color: #ff6b6b;
-    --measurement-color: #8a7ad1;
-
-    /* Gradients */
+    /* Card & UI Components */
+    --card-gradient: linear-gradient(135deg, #1e1e2d 0%, #252538 100%);
     --success-gradient: linear-gradient(135deg, #2dd36f 0%, #28c76f 100%);
     --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ff4d4d 100%);
-
-    /* Special Effects */
-    --glass-effect: rgba(30, 30, 45, 0.95);
+    --measurement-color: #8a7ad1;
     --measurement-item-background: rgba(138, 122, 209, 0.15);
-    --card-hover-transform: translateY(-5px);
 
     /* Additional Dark Mode Specific Variables */
     --overlay-color: rgba(18, 18, 24, 0.8);
@@ -132,14 +196,19 @@
     --scrollbar-track: #1a1a2e;
     --scrollbar-thumb: #2a2a3a;
     --scrollbar-thumb-hover: #3a3a4a;
-    --bg-mask: rgba(18, 18, 24, 0.95);
-}
 
-[data-theme="dark"] {
+    /* Dark Mode Scrollbar */
     scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
     scrollbar-width: thin;
+
+    /* Status Colors for Dark Mode */
+    --status-accepted-bg-dark: rgba(143, 188, 143, 0.2);
+    --status-accepted-color-dark: #5cb85c;
 }
 
+/*--------------------------------------------------------------
+# DARK MODE SCROLLBAR STYLES
+--------------------------------------------------------------*/
 [data-theme="dark"]::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -158,13 +227,15 @@
     background: var(--scrollbar-thumb-hover);
 }
 
+/*--------------------------------------------------------------
+# BASE STYLES
+--------------------------------------------------------------*/
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: 'Inter', Arial, sans-serif;
 }
-
 
 body {
     background-image: var(--bg-img);
@@ -175,6 +246,9 @@ body {
     transition: background-color var(--transition), color var(--transition);
 }
 
+/*--------------------------------------------------------------
+# LAYOUT
+--------------------------------------------------------------*/
 .main-content {
     max-width: 1200px;
     width: 100%;
@@ -185,7 +259,7 @@ body {
     transition: all 0.3s ease;
     margin-bottom: 100px;
     min-height: 60vh;
-    background-color: var(back);
+    background-color: var(--back);
 }
 
 .main-content:hover {
@@ -202,7 +276,9 @@ body {
     margin-left: 80px;
 }
 
-/* Responsive Design */
+/*--------------------------------------------------------------
+# RESPONSIVE STYLES
+--------------------------------------------------------------*/
 @media (max-width: 1200px) {
     .main-content {
         max-width: 1000px;

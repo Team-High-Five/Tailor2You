@@ -4,24 +4,37 @@
 <div class="main-content">
   <button class="add-fabric-btn" id="openModalBtn">Add New Design</button>
   <div class="filter-bar">
-    <button class="filter-btn">Filter By</button>
-    <select>
-      <option>14 Feb 2019</option>
-      <!-- Add more date options as needed -->
+    <div class="filter-label">
+      <i class="fas fa-filter"></i> Filter Designs
+    </div>
+    <select id="filter-date" class="filter-select">
+      <option value="">All Dates</option>
+      <option value="7">Last 7 Days</option>
+      <option value="30">Last 30 Days</option>
+      <option value="90">Last 3 Months</option>
+      <option value="180">Last 6 Months</option>
+      <option value="365">Last Year</option>
     </select>
-    <select>
-      <option>Order Type</option>
-      <!-- Add more order types as needed -->
+    <select id="filter-gender" class="filter-select">
+      <option value="">All Genders</option>
+      <option value="gents">Men's</option>
+      <option value="ladies">Women's</option>
+      <option value="unisex">Unisex</option>
     </select>
-    <select>
-      <option>Order Status</option>
-      <!-- Add more statuses as needed -->
+    <select id="filter-status" class="filter-select">
+      <option value="">All Status</option>
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
     </select>
+    <button id="reset-filters" class="rst-btn">Reset</button>
   </div>
   <div class="product-grid">
     <?php if (!empty($data['designs'])): ?>
       <?php foreach ($data['designs'] as $design): ?>
-        <div class="product-card">
+        <div class="product-card"
+          data-gender="<?php echo htmlspecialchars($design->gender); ?>"
+          data-status="<?php echo htmlspecialchars($design->status); ?>"
+          data-created-at="<?php echo htmlspecialchars($design->created_at); ?>">
           <?php if (!empty($design->main_image)): ?>
             <img src="<?php echo URLROOT; ?>/public/img/uploads/designs/<?php echo $design->main_image; ?>" alt="<?php echo htmlspecialchars($design->name); ?>">
           <?php else: ?>
@@ -32,8 +45,14 @@
           <p class="price">Rs:<?php echo number_format($design->base_price, 0); ?></p>
           <p><?php echo ucfirst(htmlspecialchars($design->gender)); ?></p>
           <div class="product-actions">
-            <a href="<?php echo URLROOT; ?>/designs/editDesign/<?php echo $design->design_id; ?>" class="btn-primary">Edit</a>
-            <button class="btn-danger delete-design" data-id="<?php echo $design->design_id; ?>">Delete</button>
+            <a href="<?php echo URLROOT; ?>/designs/editDesign/<?php echo $design->design_id; ?>" class="action-btn edit-btn">
+              <i class="fas fa-pencil-alt"></i>
+              <span>Edit</span>
+            </a>
+            <button class="action-btn delete-btn" data-id="<?php echo $design->design_id; ?>">
+              <i class="fas fa-trash-alt"></i>
+              <span>Delete</span>
+            </button>
           </div>
         </div>
       <?php endforeach; ?>
@@ -43,6 +62,7 @@
       </div>
     <?php endif; ?>
   </div>
+  <script src="<?php echo URLROOT; ?>/public/js/tailor/design-filters.js"></script>
 
   <!-- Add this script for delete functionality -->
   <script>

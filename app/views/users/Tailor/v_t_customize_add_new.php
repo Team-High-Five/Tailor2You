@@ -10,6 +10,7 @@
         <div class="radio-group">
           <label><input type="radio" name="gender" value="gents" required> Gents</label>
           <label><input type="radio" name="gender" value="ladies"> Ladies</label>
+          <label><input type="radio" name="gender" value="unisex"> Unisex </label>
         </div>
       </div>
       <div class="form-group">
@@ -34,8 +35,8 @@
         <input type="text" id="design-name" name="design_name" required>
       </div>
       <div class="form-group">
-        <label for="base-price">Base Price</label>
-        <input type="number" id="base-price" name="base_price" step="0.01" required>
+        <label for="base-price">Base Price (Rs)</label>
+        <input type="number" id="base-price" name="base_price" step="10" value="0.00" min="0" required>
       </div>
       <button type="submit" class="submit-btn">Continue</button>
     </form>

@@ -1,0 +1,72 @@
+/* Status Badges - For use across the application */
+.status {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 30px;
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1;
+}
+
+.status::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.status.pending {
+    background-color: var(--status-pending-bg);
+    color: var(--status-pending-color);
+}
+
+.status.pending::before {
+    background-color: var(--status-pending-color);
+    box-shadow: 0 0 0 2px var(--status-pending-bg);
+}
+
+/* Add styles for accepted status */
+.status.accepted {
+    background-color: var(--status-accepted-bg);
+    color: var(--status-accepted-color);
+}
+
+.status.accepted::before {
+    background-color: var(--status-accepted-color);
+    box-shadow: 0 0 0 2px var(--status-accepted-bg);
+}
+
+.status.confirmed {
+    background-color: var(--status-confirmed-bg);
+    color: var(--status-confirmed-color);
+}
+
+.status.confirmed::before {
+    background-color: var(--status-confirmed-color);
+    box-shadow: 0 0 0 2px var(--status-confirmed-bg);
+}
+
+.status.completed {
+    background-color: var(--status-completed-bg);
+    color: var(--status-completed-color);
+}
+
+.status.completed::before {
+    background-color: var(--status-completed-color);
+    box-shadow: 0 0 0 2px var(--status-completed-bg);
+}
+
+.status.rejected {
+    background-color: var(--status-rejected-bg);
+    color: var(--status-rejected-color);
+}
+
+.status.rejected::before {
+    background-color: var(--status-rejected-color);
+    box-shadow: 0 0 0 2px var(--status-rejected-bg);
+}

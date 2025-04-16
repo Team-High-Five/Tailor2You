@@ -175,18 +175,21 @@ class M_Designs
             return false;
         }
     }
+
     public function getDesignsByUserId($user_id)
     {
         $this->db->query('
-            SELECT d.*, 
-                   c.name as category_name, 
-                   s.name as subcategory_name
-            FROM designs d
-            LEFT JOIN clothing_categories c ON d.category_id = c.category_id
-            LEFT JOIN clothing_subcategories s ON d.subcategory_id = s.subcategory_id
-            WHERE d.user_id = :user_id
-            ORDER BY d.created_at DESC
-        ');
+        SELECT d.*, 
+               c.name as category_name, 
+               s.name as subcategory_name,
+               d.created_at,
+               d.status
+        FROM designs d
+        LEFT JOIN clothing_categories c ON d.category_id = c.category_id
+        LEFT JOIN clothing_subcategories s ON d.subcategory_id = s.subcategory_id
+        WHERE d.user_id = :user_id
+        ORDER BY d.created_at DESC
+    ');
         $this->db->bind(':user_id', $user_id);
         return $this->db->resultSet();
     }
@@ -197,43 +200,32 @@ class M_Designs
         return $this->db->single();
     }
 
-    /**
-     * Delete a design and its related data
-     * 
-     * @param int $id The design ID to delete
-     * @return bool Success/failure
-     */
+
     public function deleteDesign($id)
     {
         $this->db->beginTransaction();
 
         try {
-            // Delete design customizations
             $this->db->query('DELETE FROM design_customizations WHERE design_id = :id');
             $this->db->bind(':id', $id);
             $this->db->execute();
 
-            // Delete design fabrics
             $this->db->query('DELETE FROM design_fabrics WHERE design_id = :id');
             $this->db->bind(':id', $id);
             $this->db->execute();
 
-            // Get the design to find the image filename
             $design = $this->getDesignById($id);
 
-            // Delete the design from the database
             $this->db->query('DELETE FROM designs WHERE design_id = :id');
             $this->db->bind(':id', $id);
             $result = $this->db->execute();
 
-            // Delete the image file if it exists
             if ($result && $design && !empty($design->main_image)) {
                 $imagePath = ROOTPATH . '/public/img/uploads/designs/' . $design->main_image;
                 if (file_exists($imagePath)) {
                     unlink($imagePath);
                 }
             }
-
             $this->db->commitTransaction();
             return $result;
         } catch (Exception $e) {
@@ -243,6 +235,108 @@ class M_Designs
         }
     }
 
+
+    public function updateDesign($data)
+    {
+        $this->db->query('
+        UPDATE designs 
+        SET gender = :gender,
+            category_id = :category_id,
+            subcategory_id = :subcategory_id,
+            name = :name,
+            description = :description,
+            main_image = :main_image,
+            base_price = :base_price,
+            status = :status
+        WHERE design_id = :design_id AND user_id = :user_id
+    ');
+
+        $this->db->bind(':design_id', $data['design_id']);
+        $this->db->bind(':user_id', $data['user_id']);
+        $this->db->bind(':gender', $data['gender']);
+        $this->db->bind(':category_id', $data['category_id']);
+        $this->db->bind(':subcategory_id', $data['subcategory_id']);
+        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':description', $data['description']);
+        $this->db->bind(':main_image', $data['main_image']);
+        $this->db->bind(':base_price', $data['base_price']);
+        $this->db->bind(':status', $data['status']);
+
+        return $this->db->execute();
+    }
+    /**
+     * Get all customization choices for a design
+     */
+    public function getDesignCustomizationChoices($designId)
+    {
+        $this->db->query('
+        SELECT c.*, t.name as type_name, t.type_id
+        FROM customization_choices c
+        JOIN design_customizations dc ON c.choice_id = dc.choice_id
+        JOIN customization_types t ON c.type_id = t.type_id
+        WHERE dc.design_id = :design_id
+    ');
+        $this->db->bind(':design_id', $designId);
+        return $this->db->resultSet();
+    }
+
+    /**
+     * Get all fabrics associated with a design
+     */
+    public function getDesignFabrics($designId)
+    {
+        $this->db->query('
+        SELECT df.*, f.fabric_name, f.price_per_meter, f.image
+        FROM design_fabrics df
+        JOIN fabrics f ON df.fabric_id = f.fabric_id
+        WHERE df.design_id = :design_id
+    ');
+        $this->db->bind(':design_id', $designId);
+        return $this->db->resultSet();
+    }
+
+    /**
+     * Remove customization choices that were not selected during edit
+     */
+    public function removeUnselectedCustomizationChoices($designId, $choiceIds)
+    {
+        // Convert to a comma-separated string of IDs for the query
+        $choiceIdsStr = implode(',', array_map('intval', $choiceIds));
+
+        $this->db->query('
+        DELETE FROM design_customizations 
+        WHERE design_id = :design_id 
+        AND choice_id NOT IN (' . $choiceIdsStr . ')
+    ');
+        $this->db->bind(':design_id', $designId);
+        return $this->db->execute();
+    }
+
+    /**
+     * Remove all customization choices for a design
+     */
+    public function removeAllCustomizationChoices($designId)
+    {
+        $this->db->query('
+        DELETE FROM design_customizations 
+        WHERE design_id = :design_id
+    ');
+        $this->db->bind(':design_id', $designId);
+        return $this->db->execute();
+    }
+
+    /**
+     * Remove all fabric associations for a design
+     */
+    public function removeAllDesignFabrics($designId)
+    {
+        $this->db->query('
+        DELETE FROM design_fabrics
+        WHERE design_id = :design_id
+    ');
+        $this->db->bind(':design_id', $designId);
+        return $this->db->execute();
+    }
     public function beginTransaction()
     {
         return $this->db->beginTransaction();
