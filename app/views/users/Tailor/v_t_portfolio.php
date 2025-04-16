@@ -17,8 +17,11 @@
             <img src="<?php echo URLROOT; ?>/public/img/default_image.png" alt="<?php echo $post->title; ?>">
           <?php endif; ?>
           <h3><?php echo $post->title; ?></h3>
-          <p><?php echo $post->description; ?></p>
-          <p class="created-date"><?php echo date('F j, Y', strtotime($post->created_at)); ?></p>
+          <div class="portfolio-description">
+            <p><?php echo $post->description; ?></p>
+            <p class="created-date"><?php echo date('F j, Y', strtotime($post->created_at)); ?></p>
+          </div>
+
           <div class="portfolio-actions">
             <button class="edit-btn" onclick="openEditPostModal(<?php echo $post->id; ?>)"><i class="fas fa-edit"></i></button>
             <button class="delete-btn" onclick="openDeletePostModal(<?php echo $post->id; ?>)"><i class="fas fa-trash-alt"></i></button>

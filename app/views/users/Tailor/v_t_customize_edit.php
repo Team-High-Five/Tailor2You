@@ -110,7 +110,6 @@
                     </div>
                 </div>
 
-                <!-- Current Main Image -->
                 <div class="form-group">
                     <label>Current Image</label>
                     <div class="current-image-container">
@@ -124,7 +123,6 @@
                     </div>
                 </div>
 
-                <!-- Upload New Main Image -->
                 <div class="form-group file-upload">
                     <label for="main_image">Upload New Image (optional)</label>
                     <input type="file" id="main_image" name="main_image" accept="image/*">
@@ -140,23 +138,16 @@
             <!-- Customization Options Section -->
             <div class="form-section">
                 <h2>Customization Options</h2>
-                <?php if (!empty($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin'): ?>
-                    <button type="button" id="debug-images" class="debug-btn">Debug Image Paths</button>
-                    <div id="debug-output" style="display: none;" class="debug-output"></div>
-                <?php endif; ?>
                 <?php if (!empty($data['customization_types'])): ?>
                     <?php foreach ($data['customization_types'] as $type): ?>
                         <div class="customization-type">
                             <h3><?php echo $type->name; ?></h3>
-
-                            <!-- Existing Options -->
                             <?php
                             $existingChoices = array_filter($data['design_choices'] ?? [], function ($choice) use ($type) {
                                 return $choice->type_id == $type->type_id;
                             });
                             ?>
 
-                            <!-- Existing Options Section - Replace the current code with this improved version -->
                             <?php if (!empty($existingChoices)): ?>
                                 <div class="existing-choices">
                                     <h4>Current Options</h4>
@@ -185,7 +176,6 @@
                                     </div>
                                 </div>
                             <?php endif; ?>
-                            <!-- Add New Options -->
                             <div class="add-customization">
                                 <h4>Add New Options</h4>
                                 <div class="customization-options">
@@ -214,7 +204,6 @@
                     <p class="no-customizations">No customization types available for this category</p>
                 <?php endif; ?>
             </div>
-
             <!-- Fabrics Section -->
             <div class="form-section">
                 <h2>Available Fabrics</h2>
@@ -222,18 +211,14 @@
                 <?php if (!empty($data['fabrics'])): ?>
                     <div class="fabrics-container">
                         <?php
-                        // Get an array of selected fabric IDs for easy checking
                         $selectedFabricIds = array_map(function ($item) {
                             return $item->fabric_id;
                         }, $data['design_fabrics'] ?? []);
-
-                        // Get fabric prices map
                         $fabricPriceMap = [];
                         foreach ($data['design_fabrics'] ?? [] as $designFabric) {
                             $fabricPriceMap[$designFabric->fabric_id] = $designFabric->price_adjustment;
                         }
                         ?>
-
                         <?php foreach ($data['fabrics'] as $fabric): ?>
                             <div class="fabric-item">
                                 <input type="checkbox" name="fabrics[]" value="<?php echo $fabric->fabric_id; ?>" id="fabric_<?php echo $fabric->fabric_id; ?>"
@@ -262,7 +247,7 @@
                     <p class="no-fabrics">No fabrics available. <a href="<?php echo URLROOT; ?>/fabrics/add">Add fabrics</a> first.</p>
                 <?php endif; ?>
             </div>
-            <!-- Submit Button -->
+
             <div class="form-actions">
                 <a href="<?php echo URLROOT; ?>/tailors/displayCustomizeItems" class="btn-secondary">Cancel</a>
                 <button type="submit" class="btn-primary">Save Changes</button>
@@ -285,14 +270,13 @@
             const selectedGender = document.querySelector('input[name="gender"]:checked').value;
 
             Array.from(categorySelect.options).forEach(option => {
-                if (option.value === '') return; // Skip the placeholder option
+                if (option.value === '') return;
 
                 const optionGender = option.getAttribute('data-gender');
                 if (optionGender === selectedGender || optionGender === 'unisex') {
                     option.style.display = '';
                 } else {
                     option.style.display = 'none';
-
                     // If the hidden option is currently selected, reset the selection
                     if (option.selected) {
                         categorySelect.value = '';
@@ -303,7 +287,7 @@
             });
         }
 
-        // Update subcategories when category changes
+
         categorySelect.addEventListener('change', function() {
             const categoryId = this.value;
 
@@ -364,9 +348,9 @@
             input.addEventListener('change', filterCategories);
         });
 
-        // Apply initial filter
         filterCategories();
     });
+
     // Add to existing script at the bottom
     // Handle adding more customization options
     document.querySelectorAll('.add-more-btn').forEach(button => {
@@ -446,8 +430,5 @@
         });
     }
 </script>
-
-<!-- Add this CSS section -->
-
 
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>
