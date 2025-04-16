@@ -1,4 +1,3 @@
-<!-- filepath: c:\xampp\htdocs\Tailor2You\app\views\designs\v_d_enter_measurement.php -->
 <?php require_once APPROOT . '/views/designs/inc/header.php'; ?>
 <?php require_once APPROOT . '/views/pages/inc/components/topnav.php'; ?>
 
