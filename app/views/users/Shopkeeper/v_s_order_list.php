@@ -41,32 +41,16 @@
               <td>Dotted Black Dress</td>
               <td>14 Feb 2019</td>
               <td>Rs.10,000</td>
-              <td><span class="status processing">Processing</span></td>
+              <td>
+                <select class="status-dropdown">
+                  <option value="processing" class="status-processing" selected>Processing</option>
+                  <option value="completed" class="status-completed">Completed</option>
+                  <option value="rejected" class="status-rejected">Rejected</option>
+                  <option value="pending" class="status-pending">Pending</option>
+                </select>
+              </td>
             </tr>
-            <tr>
-              <td>00002</td>
-              <td>De Silva N.G</td>
-              <td>Rockstar Jacket</td>
-              <td>14 Feb 2019</td>
-              <td>Rs.12,000</td>
-              <td><span class="status completed">Completed</span></td>
-            </tr>
-            <tr>
-              <td>00003</td>
-              <td>Darrell Caldwell</td>
-              <td>Long Sleeve Shirt</td>
-              <td>14 Feb 2019</td>
-              <td>Rs.5,000</td>
-              <td><span class="status rejected">Rejected</span></td>
-            </tr>
-            <tr>
-              <td>00004</td>
-              <td>Gilbert Johnston</td>
-              <td>Casual Dress</td>
-              <td>14 Feb 2019</td>
-              <td>Rs.4,000</td>
-              <td><span class="status pending">Pending</span></td>
-            </tr>
+            
             <!-- Add more rows as needed -->
           </tbody>
         </table>
@@ -74,4 +58,22 @@
     </div>
   </div>
 </div>
+<style>
+  .status-dropdown option.status-processing {
+    background-color: #f0ad4e; /* Orange */
+    color: white;
+  }
+  .status-dropdown option.status-completed {
+    background-color: #5cb85c; /* Green */
+    color: white;
+  }
+  .status-dropdown option.status-rejected {
+    background-color: #d9534f; /* Red */
+    color: white;
+  }
+  .status-dropdown option.status-pending {
+    background-color: #5bc0de; /* Blue */
+    color: white;
+  }
+</style>
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>

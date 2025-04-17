@@ -13,16 +13,14 @@
   overflow-x: auto;
   border-radius: 12px;
   box-shadow: var(--card-shadow);
-  background: var(--white-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center the entire container */
 }
 
-/* Appointment Table */
-.appointment-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0;
-  margin-bottom: 0;
-  table-layout: fixed;
+.tabs {
+  display: flex;
+  gap: 10px;
 }
 
 .appointment-table th {
@@ -37,8 +35,15 @@
   text-align: left;
 }
 
-.appointment-table th:first-child {
-  border-top-left-radius: 12px;
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center; /* Center the content horizontally */
+  margin-bottom: 20px;
+  text-align: center;
+  flex-wrap: wrap; /* Ensure items wrap if they don't fit in one row */
+  width: 100%; /* Ensure it spans the container width */
 }
 
 .appointment-table th:last-child {
@@ -48,55 +53,89 @@
 .appointment-table td {
   padding: 16px 15px;
   border-bottom: 1px solid var(--border-color);
-  color: var(--text-color);
-  font-size: 14px;
-  vertical-align: middle;
 }
 
-.appointment-table tr:last-child td:first-child {
-  border-bottom-left-radius: 12px;
+.appointment-table th {
+  background-color: var(--background-color);
+  font-weight: bold;
 }
 
-.appointment-table tr:last-child td:last-child {
-  border-bottom-right-radius: 12px;
-}
-
-.appointment-table tr:hover {
-  background-color: var(--hover-bg);
-}
-
-/* Appointment Link */
-.appointment-link {
-  color: var(--primary-color);
-  font-weight: 600;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.appointment-link:hover {
-  color: var(--secondary-color);
-  text-decoration: underline;
-}
-
-
-/* No Results Message */
-.no-results {
+.status {
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
   text-align: center;
-  padding: 40px 20px;
-  font-size: 16px;
-  color: var(--text-muted);
-  font-style: italic;
-  background-color: var(--light-bg-transparent, rgba(248, 249, 250, 0.7));
-  border-radius: 12px;
-  border: 1px dashed var(--border-color);
 }
 
-[data-theme="dark"] .no-results {
-  background-color: var(--dark-bg-transparent, rgba(30, 30, 45, 0.5));
-  border-color: var(--border-color-dark, var(--border-color));
+.status.accepted {
+  background-color: #a5e8c3;
+  color: #0d7a48;
 }
 
-/* Responsive Design - Table Only */
+.status.processing {
+  background-color: #e4d8ff;
+  color: var(--primary-color);
+}
+
+.status.rejected {
+  background-color: #ffc8c8;
+  color: var(--danger-color);
+}
+
+.status-dropdown {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--background-color);
+  font-size: 14px;
+  color: #333; /* Default text color */
+  cursor: pointer;
+}
+
+.status-dropdown.pending {
+  background-color: #ffeb3b; /* Yellow */
+  color: #333;
+}
+
+.status-dropdown.processing {
+  background-color: #e4d8ff; /* Light Purple */
+  color: var(--primary-color);
+}
+
+.status-dropdown.completed {
+  background-color: #a5e8c3; /* Light Green */
+  color: #0d7a48;
+}
+
+.status-dropdown.rejected {
+  background-color: #ffc8c8; /* Light Red */
+  color: var(--danger-color);
+}
+
+.status-dropdown option {
+  font-size: 14px;
+  color: #333; /* Ensure options are visible */
+}
+
+.status-dropdown:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 5px var(--primary-color);
+}
+
+.status-dropdown option:checked {
+  background-color: inherit; /* Inherit background color from dropdown */
+  color: inherit; /* Inherit text color from dropdown */
+}
+
+.status-dropdown option:hover {
+  background-color: var(--primary-color); /* Highlight on hover */
+  color: #fff;
+}
+
+/* Responsive Design */
 @media screen and (max-width: 768px) {
   .appointment-table {
     font-size: 13px;
