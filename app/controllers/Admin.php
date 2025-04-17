@@ -34,9 +34,14 @@ class Admin extends Controller
             'userCount' => $this->adminModel->getUserCount(),
             'orderCount' => $this->adminModel->getOrderCount(),
             'inventoryCount' => $this->adminModel->getInventoryCount(),
-            'complaintCount' => $this->adminModel->getComplaintCount(),
             'reviewCount' => $this->adminModel->getReviewCount()
         ];
+
+        // Debugging: Print the data
+        echo '<pre>';
+        print_r($data);
+        echo '</pre>';
+        die();
 
         // Load the dashboard view with data
         $this->view('users/Admin/v_a_dashboard', $data);

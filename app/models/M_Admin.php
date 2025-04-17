@@ -21,13 +21,8 @@ class M_Admin {
         return $this->db->single()->count;
     }
 
-    public function getComplaintCount() {
-        $this->db->query("SELECT COUNT(*) AS count FROM complaints");
-        return $this->db->single()->count;
-    }
-
     public function getReviewCount() {
-        $this->db->query("SELECT COUNT(*) AS count FROM reviews"); // Assuming you have a `reviews` table
+        $this->db->query("SELECT COUNT(*) AS count FROM posts"); // Assuming reviews are stored in the `posts` table
         return $this->db->single()->count;
     }
 }
