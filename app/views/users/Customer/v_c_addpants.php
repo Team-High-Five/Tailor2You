@@ -44,15 +44,44 @@
     </main>
     
     <aside class="guide-section">
-            <img src="<?php echo URLROOT; ?>/public/img/pant-measurement-guide.png" 
-                 alt="Pant Measurement Guide" 
-                 class="guide-image">
+        <div class="guide-content-wrapper">
+            <div class="guide-images">
+                <div class="guide-image-wrapper">
+                    <img src="<?php echo URLROOT; ?>/public/img/pantmeasfront.png" 
+                         alt="Front Measurements" 
+                         class="guide-image">
+                    <div class="measurement-tooltip">
+                        <div class="tooltip-content">
+                            <h4>Front Measurements</h4>
+                            <ul class="tooltip-list">
+                              <li>Waist: Around natural waistline</li>
+                              <li>Rise Height Front: Waistband to crotch</li>
+                              <li>Thigh Width: Across thigh from crotch</li>
+                              <li>Inseam: Crotch to bottom hem</li>
+                              <li>Bottom Width: Across leg opening</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="guide-image-wrapper">
+                    <img src="<?php echo URLROOT; ?>/public/img/pantmeasback.png" 
+                         alt="Back Measurements" 
+                         class="guide-image">
+                    <div class="measurement-tooltip">
+                        <div class="tooltip-content">
+                            <h4>Back Measurements</h4>
+                            <ul class="tooltip-list">
+                              <li>Rise Height Back: Back waistband to crotch</li>
+                              <li>Seat Width: Across widest hips</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="guide-content">
-                
                 <p>Follow these guidelines for accurate measurements of your pants.</p>
-                
                 <div class="measurement-tip">
-                    
                     <ul>
                         <li>Stand straight with feet slightly apart.</li>
                         <li>Keep the measuring tape straight, not loose or tight.</li>
@@ -61,8 +90,9 @@
                     </ul>
                 </div>
             </div>
-        </aside>
-    </div>
+        </div>
+    </aside>
+  </div>
 </div>
 
 </body>

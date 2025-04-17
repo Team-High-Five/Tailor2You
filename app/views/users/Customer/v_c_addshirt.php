@@ -3,7 +3,7 @@
 <?php require_once APPROOT . '/views/users/Customer/inc/topNavBar.php'; ?>
 <link rel='stylesheet' type='text/css' media='screen' href='<?php echo URLROOT; ?>/public/css/customer/profilebuttons_styles.css'>
 <div class="passcontainer">
-    <div class="measurement-layout">
+    <div class="shirt-measurement-layout">
         <!-- Existing form content -->
         <main class="main-content">
           <section class="content">
@@ -53,18 +53,39 @@
           </section>
         </main>
 
-        <!-- New guide section -->
-        <aside class="guide-section">
-            <img src="<?php echo URLROOT; ?>/public/img/Shirt_measurement_guide.png" 
-                 alt="Shirt Measurement Guide" 
-                 class="guide-image">
+        <!-- Updated guide section -->
+        <aside class="shirt-guide-section">
+            <div class="guide-image-wrapper">
+                <img src="<?php echo URLROOT; ?>/public/img/Shirtmes.png" 
+                     alt="Shirt Measurement Guide" 
+                     class="shirt-guide-image">
+                <div class="measurement-tooltip">
+                    <div class="tooltip-content">
+                        <h4>Shirt Measurements</h4>
+                        <ul class="tooltip-list">
+                            <li>Collar Size: Around base of neck</li>
+                            <li>Chest Width: Around fullest chest</li>
+                            <li>Waist Width: Around natural waist</li>
+                            <li>Bottom Width: Around hip level</li>
+                            <li>Shoulder Width: Across shoulders</li>
+                            <li>Sleeve Length: Shoulder to wrist</li>
+                            <li>Armhole Depth: Shoulder to armpit</li>
+                            <li>Bicep: Around upper arm</li>
+                            <li>Cuff Size: Around wrist</li>
+                            <li>Front Length: Shoulder to hem</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- Keep original guide content -->
             <div class="guide-content">
-               <p>Follow these guidelines for accurate measurements of your shirt.</p>
+                <p>Follow these guidelines for accurate measurements of your shirt.</p>
                 <div class="measurement-tip">
                     <ul>
                         <li>Stand straight with arms relaxed.</li>
                         <li>Use a flexible measuring tape.</li>
                         <li>Don't pull the tape too tight.</li>
+                        <li>Measure over a well-fitting shirt</li>
                     </ul>
                 </div>
             </div>
