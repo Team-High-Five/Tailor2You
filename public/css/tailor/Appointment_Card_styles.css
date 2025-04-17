@@ -1,228 +1,226 @@
+/* Main Container */
 .appointment-details-container {
-  width: 400px;
-  margin: 40px auto;
-  background-color: var(--background-color);
-  border-radius: 12px;
-  box-shadow: var(--card-shadow);
-  padding: 20px;
-  text-align: center;
-  position: relative;
+  max-width: 700px;
+  margin: 30px auto;
+  padding: 0;
+  font-family: var(--font-family);
 }
 
-.appointment-header {
+.appointment-details-container .add-new-post-content {
+  background-color: var(--white-color);
+  border-radius: 16px;
+  box-shadow: var(--card-shadow);
+  padding: 30px;
+  position: relative;
+  transition: var(--transition);
+}
+
+/* Header Section */
+.appointment-details-container .modal-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 18px;
-  font-weight: bold;
-  color: var(--text-dark);
-  margin-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 20px;
+  margin-bottom: 30px;
 }
 
+.appointment-details-container .modal-header h1 {
+  font-size: 1.8rem;
+  color: var(--text-color);
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Appointment Info Section */
 .appointment-info {
-  margin-bottom: 20px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 25px;
+  margin-bottom: 30px;
 }
 
 .appointment-date {
-  font-size: 16px;
-  color: var(--text-muted);
-  margin-bottom: 10px;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 15px;
+  grid-column: 1 / -1;
 }
 
-.user-info {
+/* User Info Section */
+.appointment-details-container .user-info {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
+  gap: 15px;
 }
 
-.user-avatar {
-  width: 50px;
-  height: 50px;
+.appointment-details-container .user-avatar {
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  margin-right: 10px;
+  object-fit: cover;
+  border: 3px solid var(--primary-color);
+  box-shadow: var(--soft-shadow);
 }
 
-.user-info .user-name {
-  font-size: 18px;
-  font-weight: bold;
-  color: var(--text-muted);
+.appointment-details-container .user-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-dark);
 }
 
+/* Calendar Icon */
 .calendar-icon {
-  display: inline-block;
-  text-align: center;
-  border: 2px solid var(--text-dark);
-  border-radius: 8px;
-  padding: 10px 15px;
-  margin-bottom: 20px;
+  background: var(--primary-gradient);
+  color: white;
+  width: 110px;
+  height: 110px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--accent-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.calendar-icon::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .calendar-icon .month {
-  font-size: 14px;
-  font-weight: bold;
-  color: var(--text-dark);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
 }
 
 .calendar-icon .date {
-  font-size: 36px;
-  font-weight: bold;
-  color: var(--text-dark);
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1;
+  margin-bottom: 5px;
 }
 
 .calendar-icon .day {
-  font-size: 14px;
-  color: var(--text-dark);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
 }
 
-.status {
+/* Status Indicator */
+.appointment-details-container .status {
   display: inline-block;
-  padding: 6px 12px;
-  font-size: 12px;
-  font-weight: bold;
-  border-radius: 4px;
-  color: #fff;
-  margin-top: 10px;
-}
-
-.status.accepted {
-  background-color: #a5e8c3;
-}
-
-.tailor-info {
-  margin-top: 20px;
-  font-size: 14px;
-  color: var(--text-dark);
-}
-
-/* Appointment Link Styling */
-.appointment-link {
-  color: var(--primary-color);
-  text-decoration: none;
-  font-weight: bold;
-  transition: color var(--transition);
-}
-
-.appointment-link:hover {
-  color: var(--secondary-color);
-}
-
-.add-new-post-content .accept-button {
-  font-size: 10px;
-}
-
-.add-new-post-content .reject-button {
-  font-size: 10px;
-}
-
-.pop-modal-container{
-  padding: 20px;
-  text-align: center;
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  margin: 15px 0 25px;
+  letter-spacing: 1px;
   position: relative;
 }
 
-.reschedule-appointment-container {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-  background-color: var(--white-color);
-  border-radius: 8px;
-  box-shadow: var(--card-shadow);
+.appointment-details-container .status::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: 1px;
 }
 
-.reschedule-appointment-container .form-group {
-  margin-bottom: 15px;
+/* Tailor Info */
+.tailor-info {
+  background-color: var(--background-color);
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 25px;
+  border-left: 4px solid var(--primary-color);
 }
 
-.reschedule-appointment-container .form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
+.tailor-info p {
+  margin: 0;
+  font-size: 1rem;
   color: var(--text-dark);
 }
 
-.reschedule-appointment-container .form-group input {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--input-border);
-  border-radius: 4px;
+.tailor-info strong {
+  margin-right: 10px;
+  color: var(--text-color);
 }
 
-.reschedule-appointment-container .submit-btn {
-  background-color: var(--primary-color);
-  color: var(--white-color);
-  border: none;
-  padding: 10px 20px;
-  border-radius: 4px;
+/* Action Buttons for Appointment Card Only */
+.appointment-details-container .action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.appointment-details-container .action-button {
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 14px;
-  font-weight: bold;
-  transition: background-color var(--transition);
+  transition: var(--transition);
+  border: none;
 }
 
-.reschedule-appointment-container .submit-btn:hover {
-  background-color: var(--primary-hover-color);
+.appointment-details-container .accept-button {
+  background: var(--success-gradient);
+  color: white;
+}
+
+.appointment-details-container .accept-button:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--success-shadow);
+}
+
+.appointment-details-container .reject-button {
+  background: var(--warning-gradient);
+  color: white;
+}
+
+.appointment-details-container .reject-button:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--warning-shadow);
 }
 
 /* Responsive Design */
 @media screen and (max-width: 768px) {
-  .appointment-details-container {
-    width: 100%;
-    padding: 1rem;
-  }
-
-  .appointment-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .user-info {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .user-avatar {
-    margin-bottom: 10px;
+  .appointment-info {
+    grid-template-columns: 1fr;
   }
 
   .calendar-icon {
-    margin-bottom: 10px;
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+  }
+
+  .appointment-details-container .action-buttons {
+    flex-direction: column;
+  }
+
+  .appointment-details-container .action-button {
+    width: 100%;
   }
 }
 
-@media screen and (max-width: 480px) {
-  .appointment-details-container {
-    width: 90%;
-    padding: 0.5rem;
-  }
-
-  .appointment-header {
-    font-size: 16px;
-  }
-
-  .appointment-date {
-    font-size: 14px;
-  }
-
-  .user-name {
-    font-size: 16px;
-  }
-
-  .calendar-icon .month,
-  .calendar-icon .day {
-    font-size: 12px;
-  }
-
-  .calendar-icon .date {
-    font-size: 28px;
-  }
-
-  .status {
-    font-size: 10px;
-    padding: 4px 8px;
-  }
-
-  .tailor-info {
-    font-size: 12px;
-  }
+/* Hover Effect for Card */
+.appointment-details-container .add-new-post-content:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--hover-shadow);
 }

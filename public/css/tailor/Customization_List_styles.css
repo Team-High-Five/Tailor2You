@@ -53,22 +53,106 @@
     font-size: 16px;
 }
 
-.product-card .product-actions {
+/*--------------------------------------------------------------
+# PRODUCT ACTION BUTTONS
+--------------------------------------------------------------*/
+.product-actions {
     display: flex;
-    justify-content: center;
+    gap: 12px;
     margin-top: 15px;
+    justify-content: center;
 }
 
-.product-card .product-actions button {
-    border: none;
+.action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
     cursor: pointer;
-    margin: 0 10px;
-    font-size: 12px;
-    transition: transform 0.2s ease;
+    transition: all 0.3s ease;
+    border: none;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    min-width: 95px;
 }
 
-.product-card .product-actions button:hover {
-    transform: scale(1.2);
+/* Edit Button */
+.edit-btn {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+}
+
+.edit-btn:hover,
+.edit-btn:focus {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(106, 90, 205, 0.4);
+    color: white;
+}
+
+/* Delete Button */
+.delete-btn {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5253 100%);
+    color: white;
+}
+
+.delete-btn:hover,
+.delete-btn:focus {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+}
+
+/* Button Icons */
+.action-btn i {
+    font-size: 1rem;
+}
+
+/* Active/Pressed State */
+.action-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark Mode Support */
+[data-theme="dark"] .edit-btn {
+    background: linear-gradient(135deg, #8a7ad1 0%, #7a68ee 100%);
+}
+
+[data-theme="dark"] .delete-btn {
+    background: linear-gradient(135deg, #ff7675 0%, #ff4757 100%);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .product-actions {
+        flex-direction: row;
+        gap: 8px;
+    }
+
+    .action-btn {
+        padding: 8px 12px;
+        min-width: 85px;
+    }
+}
+
+@media (max-width: 480px) {
+    .action-btn span {
+        display: none;
+    }
+
+    .action-btn {
+        padding: 10px;
+        min-width: 40px;
+        border-radius: 50%;
+    }
+
+    .action-btn i {
+        font-size: 1.1rem;
+        margin: 0;
+    }
 }
 
 /* Responsive Design */

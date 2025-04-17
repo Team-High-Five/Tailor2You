@@ -4,89 +4,97 @@
 <div class="main-content">
   <button class="add-fabric-btn" id="openModalBtn">Add New Design</button>
   <div class="filter-bar">
-    <button class="filter-btn">Filter By</button>
-    <select>
-      <option>14 Feb 2019</option>
-      <!-- Add more date options as needed -->
+    <div class="filter-label">
+      <i class="fas fa-filter"></i> Filter Designs
+    </div>
+    <select id="filter-date" class="filter-select">
+      <option value="">All Dates</option>
+      <option value="7">Last 7 Days</option>
+      <option value="30">Last 30 Days</option>
+      <option value="90">Last 3 Months</option>
+      <option value="180">Last 6 Months</option>
+      <option value="365">Last Year</option>
     </select>
-    <select>
-      <option>Order Type</option>
-      <!-- Add more order types as needed -->
+    <select id="filter-gender" class="filter-select">
+      <option value="">All Genders</option>
+      <option value="gents">Men's</option>
+      <option value="ladies">Women's</option>
+      <option value="unisex">Unisex</option>
     </select>
-    <select>
-      <option>Order Status</option>
-      <!-- Add more statuses as needed -->
+    <select id="filter-status" class="filter-select">
+      <option value="">All Status</option>
+      <option value="active">Active</option>
+      <option value="inactive">Inactive</option>
     </select>
+    <button id="reset-filters" class="rst-btn">Reset</button>
   </div>
   <div class="product-grid">
-    <div class="product-card">
-      <img src="<?php echo URLROOT; ?>/public/img/shirt.png" alt="Long Sleeves">
-      <h3>Long Sleeves</h3>
-      <p>Shirts</p>
-      <p class="price">Rs:3000</p>
-      <p>Men</p>
-      <div class="product-actions">
-        <button class="btn-primary">Edit</button>
-        <button class="btn-danger">Delete</button>
+    <?php if (!empty($data['designs'])): ?>
+      <?php foreach ($data['designs'] as $design): ?>
+        <div class="product-card"
+          data-gender="<?php echo htmlspecialchars($design->gender); ?>"
+          data-status="<?php echo htmlspecialchars($design->status); ?>"
+          data-created-at="<?php echo htmlspecialchars($design->created_at); ?>">
+          <?php if (!empty($design->main_image)): ?>
+            <img src="<?php echo URLROOT; ?>/public/img/uploads/designs/<?php echo $design->main_image; ?>" alt="<?php echo htmlspecialchars($design->name); ?>">
+          <?php else: ?>
+            <img src="<?php echo URLROOT; ?>/public/img/shirt.png" alt="No Image">
+          <?php endif; ?>
+          <h3><?php echo htmlspecialchars($design->name); ?></h3>
+          <p><?php echo htmlspecialchars($design->category_name); ?></p>
+          <p class="price">Rs:<?php echo number_format($design->base_price, 0); ?></p>
+          <p><?php echo ucfirst(htmlspecialchars($design->gender)); ?></p>
+          <div class="product-actions">
+            <a href="<?php echo URLROOT; ?>/designs/editDesign/<?php echo $design->design_id; ?>" class="action-btn edit-btn">
+              <i class="fas fa-pencil-alt"></i>
+              <span>Edit</span>
+            </a>
+            <button class="action-btn delete-btn" data-id="<?php echo $design->design_id; ?>">
+              <i class="fas fa-trash-alt"></i>
+              <span>Delete</span>
+            </button>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    <?php else: ?>
+      <div class="no-designs-message">
+        <p>You haven't created any designs yet. Click "Add New Design" to get started.</p>
       </div>
-    </div>
-    <div class="product-card">
-      <img src="<?php echo URLROOT; ?>/public/img/trouser.png" alt="Trousers">
-      <h3>Trousers</h3>
-      <p>Pants</p>
-      <p class="price">Rs:4000</p>
-      <p>Men</p>
-      <div class="product-actions">
-        <button class="btn-primary">Edit</button>
-        <button class="btn-danger">Delete</button>
-      </div>
-    </div>
-    <div class="product-card">
-      <img src="<?php echo URLROOT; ?>/public/img/shirt.png" alt="Jacket">
-      <h3>Jacket</h3>
-      <p>Shirts</p>
-      <p class="price">Rs:10000</p>
-      <p>Men</p>
-      <div class="product-actions">
-        <button class="btn-primary">Edit</button>
-        <button class="btn-danger">Delete</button>
-      </div>
-    </div>
-    <div class="product-card">
-      <img src="<?php echo URLROOT; ?>/public/img/trouser.png" alt="Trousers">
-      <h3>Trousers</h3>
-      <p>Pants</p>
-      <p class="price">Rs:4000</p>
-      <p>Men</p>
-      <div class="product-actions">
-        <button class="btn-primary">Edit</button>
-        <button class="btn-danger">Delete</button>
-      </div>
-    </div>
+    <?php endif; ?>
   </div>
+  <script src="<?php echo URLROOT; ?>/public/js/tailor/design-filters.js"></script>
+
+  <!-- Add this script for delete functionality -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.delete-design').forEach(button => {
+        button.addEventListener('click', function() {
+          const designId = this.getAttribute('data-id');
+          if (confirm('Are you sure you want to delete this design?')) {
+            window.location.href = `<?php echo URLROOT; ?>/designs/deleteDesign/${designId}`;
+          }
+        });
+      });
+    });
+  </script>
 </div>
 
 <!-- Modal Structure -->
 <div id="customizeModal" class="modal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h1>Add New Design</h1>
-      <button class="close-btn">&times;</button>
-    </div>
-    <div id="modal-body">
-      <!-- Content from v_t_customize_add_new.php will be loaded here -->
-    </div>
+
+  <div id="modal-body">
+    <!-- Content from v_t_customize_add_new.php will be loaded here -->
   </div>
 </div>
-
 <script>
   document.getElementById('openModalBtn').addEventListener('click', function() {
     document.getElementById('customizeModal').style.display = 'block';
     // Load the content of v_t_customize_add_new.php into the modal
-    fetch('<?php echo URLROOT; ?>/tailors/addCustomizeItem')
+    fetch('<?php echo URLROOT; ?>/designs/addCustomizeItem')
       .then(response => response.text())
       .then(html => {
         document.getElementById('modal-body').innerHTML = html;
+        setupFormHandlers();
       });
   });
 
@@ -94,11 +102,56 @@
     document.getElementById('customizeModal').style.display = 'none';
   });
 
-  window.addEventListener('click', function(event) {
-    if (event.target == document.getElementById('customizeModal')) {
-      document.getElementById('customizeModal').style.display = 'none';
+  function setupFormHandlers() {
+    const categorySelect = document.getElementById('category');
+    const subCategorySelect = document.getElementById('sub-category');
+    const genderInputs = document.querySelectorAll('input[name="gender"]');
+
+    if (!categorySelect || !subCategorySelect || !genderInputs) {
+      console.error('Form elements not found');
+      return;
     }
-  });
+
+    // Store original categories for filtering
+    const originalCategories = [...categorySelect.options].slice(1);
+
+    // Handle gender selection
+    genderInputs.forEach(input => {
+      input.addEventListener('change', function() {
+        const selectedGender = this.value;
+        // Filter categories based on gender
+        categorySelect.innerHTML = '<option value="">Select Category</option>';
+        originalCategories.forEach(option => {
+          if (option.dataset.gender === selectedGender || option.dataset.gender === 'unisex') {
+            categorySelect.appendChild(option.cloneNode(true));
+          }
+        });
+        // Reset subcategories
+        subCategorySelect.innerHTML = '<option value="">Select Sub Category</option>';
+      });
+    });
+
+    categorySelect.addEventListener('change', function() {
+      const categoryId = this.value;
+      console.log('Selected category ID:', categoryId);
+
+      if (categoryId) {
+        // Load subcategories
+        fetch('<?php echo URLROOT; ?>/designs/getSubcategories/' + categoryId)
+          .then(response => response.text())
+          .then(html => {
+            console.log('Received HTML:', html);
+            subCategorySelect.innerHTML = '<option value="">Select Sub Category</option>' + html;
+          })
+          .catch(error => {
+            console.error('Error loading subcategories:', error);
+            subCategorySelect.innerHTML = '<option value="">Error loading subcategories</option>';
+          });
+      } else {
+        subCategorySelect.innerHTML = '<option value="">Select Sub Category</option>';
+      }
+    });
+  }
 </script>
 
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>

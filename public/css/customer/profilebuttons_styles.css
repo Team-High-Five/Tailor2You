@@ -15,13 +15,17 @@ body {
 }
 
 .main-content {
-  padding: 20px;
-  padding: 0 80 0 80px;
-  margin-top: -10px;
+  padding: 0;
+  margin: 0;
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
 }
+
+.passcontainer {
+  padding: 2rem;
+  margin-top: 80px;
+}
+
 .main-content .header {
   display: flex;
   justify-content: space-between;
@@ -46,61 +50,408 @@ body {
   border-radius: 50%;
 }
 .main-content .content {
-  margin-top: 20px;
-  background: #fff;
-  padding: 20px;
-  padding-left: 100px;
-  padding-top: 50px;
-  padding-bottom: 50px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: var(--card-gradient);
+  border-radius: 16px;
+  border: 1px solid rgba(196, 167, 125, 0.15);
+  box-shadow: var(--elegant-shadow);
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
 }
 .main-content .content h2 {
-  margin-bottom: 40px;
+  color: var(--white-color);
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(196, 167, 125, 0.1);
 }
 .main-content .content .change-form {
   display: grid;
-  grid-template-columns: 150px 400px; /* Adjust column widths as needed */
-  gap: 10px;
-  -moz-column-gap: 30px;
-       column-gap: 30px;
+  grid-template-columns: 200px 1fr;
+  gap: 1.5rem;
+  align-items: center;
 }
 .main-content .content .change-form label {
-  display: inline-block;
-  width: 150px; /* Adjust the width as needed */
-  margin-right: 10px;
-  text-align: left;
-  grid-column: 1;
+  color: var(--text-muted);
+  font-size: 0.95rem;
 }
-.main-content .content .change-form input {
-  width: 200px; /* Adjust the width as needed */
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
+.main-content .content .change-form input[type="text"] {
+  width: 100%;
+  padding: 0.8rem 1rem;
   border-radius: 8px;
-  grid-column: 2;
+  border: 1px solid rgba(196, 167, 125, 0.2);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--white-color);
+  transition: var(--transition);
 }
-
-.main-content .content .change-form .radiobtn input{
-  width: 20px;
+.main-content .content .change-form input[type="text"]:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(196, 167, 125, 0.1);
 }
-
-.main-content .content .change-form .radiobtn label{
-  width: 50px;
+.main-content .content .change-form .radiobtn {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
-
-.main-content .content .change-form .btn-save {
-  padding: 8px;
-  background: #5a5cce;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
+.main-content .content .change-form .radiobtn label {
+  color: var(--text-muted);
+  margin-right: 1rem;
+}
+.main-content .content .change-form .radiobtn input[type="radio"] {
+  appearance: none;
+  width: 1.2rem;
+  height: 1.2rem;
+  border: 2px solid rgba(196, 167, 125, 0.3);
+  border-radius: 50%;
+  margin: 0;
   cursor: pointer;
-  width: 150px;
-  grid-column: 2;
-  height: 40px;
-  margin-left: 25px;
+  position: relative;
+  transition: var(--transition);
+}
+.main-content .content .change-form .radiobtn input[type="radio"]:checked {
+  border-color: var(--accent-color);
+  background: var(--accent-gradient);
+}
+.main-content .content .change-form .radiobtn input[type="radio"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--white-color);
+  border-radius: 50%;
+}
+.main-content .content .change-form .btn-save {
+  grid-column: 1 / -1;
+  justify-self: end;
+  padding: 0.8rem 2rem;
+  background: var(--accent-gradient);
+  color: var(--white-color);
+  border: none;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-top: 1.5rem;
 }
 .main-content .content .change-form .btn-save:hover {
-  background: #6b6dff;
-}/*# sourceMappingURL=profilebuttons_styles.css.map */
+  transform: translateY(-2px);
+  box-shadow: var(--accent-shadow);
+}
+.main-content .content .measurement-icon {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+}
+.main-content .content .measurement-icon i {
+  font-size: 1.2rem;
+}
+
+/* Update measurement layout to be wider */
+.measurement-layout {
+  display: grid;
+  grid-template-columns: 1fr 800px; /* Increased from 500px for wider guide section */
+  gap: 2rem;
+  padding: 2rem;
+  margin-top: 80px;
+  max-width: 1800px; /* Increased from 1400px */
+  margin: 0 auto;
+}
+
+/* Update guide section styles */
+.guide-section {
+  width: 100%;
+  background: var(--card-gradient);
+  border-radius: 16px;
+  border: 1px solid rgba(196, 167, 125, 0.15);
+  box-shadow: var(--elegant-shadow);
+  padding: 2rem;
+  position: sticky;
+  top: 100px;
+}
+
+.guide-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.guide-images {
+  display: flex;
+  gap: 2rem; /* Increased gap between images */
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.guide-image-wrapper {
+  position: relative;
+  width: calc(50% - 1rem); /* Adjusted for new gap */
+}
+
+.guide-image {
+  width: 100%;
+  height: 600px; /* Increased from 400px */
+  object-fit: calc(200,100); /* Changed to contain to show full image clearly */
+  border-radius: 20px;
+  border: 1px solid rgba(196, 167, 125, 0.15);
+  background: rgba(255, 255, 255, 0.02); /* Added slight background */
+  padding: 1rem;
+}
+
+.measurement-tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(26, 26, 26, 0.95);
+  border-radius: 20px;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.guide-image-wrapper:hover .measurement-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.tooltip-content {
+  color: var(--white-color);
+}
+
+.tooltip-content h4 {
+  color: var(--accent-color);
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.tooltip-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tooltip-list li {
+  color: var(--text-muted);
+  margin-bottom: 0.8rem;
+  font-size: 0.95rem;
+  padding-left: 1.2rem;
+  position: relative;
+}
+
+.tooltip-list li:before {
+  content: "→";
+  color: var(--accent-color);
+  position: absolute;
+  left: 0;
+}
+
+.guide-content {
+  padding: 1rem;
+  background: rgba(196, 167, 125, 0.05);
+  border-radius: 8px;
+}
+
+.guide-content h3 {
+  color: var(--white-color);
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.guide-content p {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.measurement-tip {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  padding: 1.5rem;
+}
+
+.measurement-tip h4 {
+  color: var(--white-color);
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+}
+
+.measurement-tip ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.measurement-tip li {
+  color: var(--text-muted);
+  margin-bottom: 0.8rem;
+  font-size: 0.95rem;
+  padding-left: 1.5rem;
+  position: relative;
+  line-height: 1.5;
+}
+
+.measurement-tip li:before {
+  content: "•";
+  color: var(--accent-color);
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.2rem;
+}
+
+/* Shirt Measurement Specific Styles */
+.shirt-measurement-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 2rem;
+    padding: 2rem;
+    margin-top: 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.shirt-guide-section {
+    width: 100%;
+    background: var(--card-gradient);
+    border-radius: 16px;
+    border: 1px solid rgba(196, 167, 125, 0.15);
+    box-shadow: var(--elegant-shadow);
+    padding: 1.5rem;
+    position: sticky;
+    top: 100px;
+}
+
+.guide-image-wrapper {
+    position: relative;
+    width: 100%;
+    margin-bottom: 1.5rem;
+}
+
+.shirt-guide-image {
+    width: 100%;
+    height: 500px;
+    object-fit: calc(200,100);
+    border-radius: 20px;
+    border: 1px solid rgba(196, 167, 125, 0.15);
+    background: rgba(255, 255, 255, 0.02); /* Added slight background */
+    padding: 1rem;
+}
+
+.measurement-tooltip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(26, 26, 26, 0.95);
+    border-radius: 8px;
+    padding: 1.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.guide-image-wrapper:hover .measurement-tooltip {
+    opacity: 1;
+    visibility: visible;
+}
+
+.tooltip-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    columns: 2;
+    column-gap: 2rem;
+}
+
+.tooltip-list li {
+    color: var(--text-muted);
+    margin-bottom: 0.8rem;
+    font-size: 0.95rem;
+    padding-left: 1.2rem;
+    position: relative;
+    break-inside: avoid;
+}
+
+.tooltip-list li:before {
+    content: "→";
+    color: var(--accent-color);
+    position: absolute;
+    left: 0;
+}
+
+/* Update media queries */
+@media screen and (max-width: 1800px) {
+  .measurement-layout {
+    grid-template-columns: 1fr 650px;
+    max-width: 1400px;
+  }
+  
+  .guide-image {
+    height: 500px;
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  .measurement-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .guide-section {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .measurement-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .guide-section {
+    position: static;
+    margin-top: 2rem;
+    min-height: auto;
+  }
+
+  .guide-image {
+    height: 300px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .main-content .content .change-form {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .main-content .content .change-form .btn-save {
+    justify-self: center;
+    width: 100%;
+  }
+
+  .guide-images {
+    flex-direction: column;
+  }
+
+  .guide-image {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+}

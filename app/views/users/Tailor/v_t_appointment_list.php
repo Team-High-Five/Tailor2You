@@ -5,22 +5,35 @@
 <div class="main-content">
   <div class="appointment-list-container">
     <div class="filter-bar">
-      <button class="filter-btn">Filter By</button>
-      <select>
-        <option>14 Feb 2019</option>
-        <!-- Add more date options as needed -->
+      <div class="filter-label">
+        <i class="fas fa-filter"></i> Filter Appointments
+      </div>
+      <select id="filter-date" class="filter-select">
+        <option value="">All Dates</option>
+        <option value="today">Today</option>
+        <option value="tomorrow">Tomorrow</option>
+        <option value="week">Next 7 Days</option>
+        <option value="month">Next 30 Days</option>
       </select>
-      <select>
-        <option>Order Type</option>
-        <!-- Add more order types as needed -->
+      <select id="filter-time" class="filter-select">
+        <option value="">All Times</option>
+        <option value="morning">Morning (Before 12PM)</option>
+        <option value="afternoon">Afternoon (12PM-5PM)</option>
+        <option value="evening">Evening (After 5PM)</option>
       </select>
-      <select>
-        <option>Order Status</option>
-        <!-- Add more statuses as needed -->
+      <select id="filter-status" class="filter-select">
+        <option value="">All Statuses</option>
+        <option value="pending">Pending</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="completed">Completed</option>
+        <option value="rejected">Rejected</option>
       </select>
-      <button class="reset-filter-btn">Reset Filter</button>
-      <a href="<?php echo URLROOT; ?>/Tailors/displayCalendar" class="progress-btn">Calender</a>
+      <button id="reset-filters" class="rst-btn">Reset</button>
+      <a href="<?php echo URLROOT; ?>/Tailors/displayCalendar" class="calendar-btn">
+        <i class="fas fa-calendar-alt"></i> Calendar
+      </a>
     </div>
+
     <div class="table-container">
       <table class="appointment-table">
         <thead>
@@ -33,17 +46,43 @@
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($data['appointments'] as $appointment) : ?>
-            <tr>
+          <?php foreach ($data['appointments'] as $appointment) :
+            // Format date for display
+            $displayDate = date('d M Y', strtotime($appointment->appointment_date));
+            // Get timestamp for easy date comparison
+            $dateTimestamp = strtotime($appointment->appointment_date);
+
+            // Format time for display
+            $displayTime = date('h:i a', strtotime($appointment->appointment_time));
+            // Get 24-hour format time for easy filtering
+            $hour24 = date('H', strtotime($appointment->appointment_time));
+
+            // Determine time period
+            $timePeriod = '';
+            if ($hour24 < 12) {
+              $timePeriod = 'morning';
+            } else if ($hour24 >= 12 && $hour24 < 17) {
+              $timePeriod = 'afternoon';
+            } else {
+              $timePeriod = 'evening';
+            }
+          ?>
+            <tr
+              data-date="<?php echo $appointment->appointment_date; ?>"
+              data-timestamp="<?php echo $dateTimestamp; ?>"
+              data-time="<?php echo $appointment->appointment_time; ?>"
+              data-time-period="<?php echo $timePeriod; ?>"
+              data-status="<?php echo strtolower($appointment->status); ?>">
               <td><?php echo $appointment->appointment_id; ?></td>
               <td><a href="<?php echo URLROOT; ?>/tailors/displayAppointmentDetails/<?php echo $appointment->appointment_id; ?>" class="appointment-link"><?php echo $appointment->first_name . ' ' . $appointment->last_name; ?></a></td>
-              <td><?php echo date('d M Y', strtotime($appointment->appointment_date)); ?></td>
-              <td><?php echo date('h:i a', strtotime($appointment->appointment_time)); ?></td>
+              <td><?php echo $displayDate; ?></td>
+              <td><?php echo $displayTime; ?></td>
               <td><span class="status <?php echo strtolower($appointment->status); ?>"><?php echo ucfirst($appointment->status); ?></span></td>
             </tr>
           <?php endforeach; ?>
         </tbody>
       </table>
+      <div class="no-results" style="display: none;">No appointments match your filter criteria</div>
     </div>
   </div>
 </div>
@@ -130,4 +169,5 @@
   });
 </script>
 <script src="<?php echo URLROOT; ?>/public/js/appointment.js"></script>
+<script src="<?php echo URLROOT; ?>/public/js/tailor/appointment-filters.js"></script>
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>
