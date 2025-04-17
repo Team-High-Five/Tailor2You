@@ -6,12 +6,14 @@ require_once APPROOT . '/helpers/session_helper.php';
 class Admin extends Controller
 {
     private $orderModel;
+    private $adminModel;
 
     public function __construct()
     {
         // Load the user model
         $this->userModel = $this->model('M_Users');
         $this->orderModel = $this->model('M_Orders');
+        $this->adminModel = $this->model('M_Admin'); // Load the model
     }
 
     public function index()
@@ -27,18 +29,16 @@ class Admin extends Controller
 
     public function dashboard()
     {
-        $userCount = $this->userModel->getUserCount();
-        $orderCount = $this->userModel->getOrderCount();
-        $inventoryCount = $this->userModel->getInventoryCount();
-        $reviewCount = $this->userModel->getReviewCount();
-
+        // Fetch counts from the database
         $data = [
-            'userCount' => $userCount,
-            'orderCount' => $orderCount,
-            'inventoryCount' => $inventoryCount,
-            'reviewCount' => $reviewCount
+            'userCount' => $this->adminModel->getUserCount(),
+            'orderCount' => $this->adminModel->getOrderCount(),
+            'inventoryCount' => $this->adminModel->getInventoryCount(),
+            'complaintCount' => $this->adminModel->getComplaintCount(),
+            'reviewCount' => $this->adminModel->getReviewCount()
         ];
 
+        // Load the dashboard view with data
         $this->view('users/Admin/v_a_dashboard', $data);
     }
 
