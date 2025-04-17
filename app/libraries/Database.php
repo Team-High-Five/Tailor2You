@@ -84,4 +84,15 @@ $stmt;
     public function lastInsertId() {
         return $this->dbh->lastInsertId();
     }
+    public function beginTransaction() {
+        $this->dbh->beginTransaction();
+    }
+    
+    public function commitTransaction() {
+        return $this->dbh->commit();
+    }
+    
+    public function rollbackTransaction() {
+        return $this->dbh->rollBack();
+    }
 }

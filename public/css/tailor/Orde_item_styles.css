@@ -171,13 +171,6 @@
     border-radius: 10px;
 }
 
-.action-buttons {
-    display: flex;
-    gap: 1rem;
-    padding: 2rem;
-    background: var(--white-color);
-    border-top: 1px solid var(--border-color);
-}
 
 .action-button {
     flex: 1;

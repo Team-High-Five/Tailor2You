@@ -1,113 +1,78 @@
-/* Primary Button */
-.btn-primary {
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-    color: var(--white-color);
-    border: none;
+/*--------------------------------------------------------------
+# BUTTON BASE STYLES
+--------------------------------------------------------------*/
+.btn,
+.btn-primary,
+.submit-btn,
+.progress-btn,
+.btn-accept-btn,
+.reschedule-btn {
+    display: inline-block;
     padding: 10px 20px;
     border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
+    border: none;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+/*--------------------------------------------------------------
+# PRIMARY BUTTONS
+--------------------------------------------------------------*/
+.btn-primary {
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    color: var(--white-color);
 }
 
 .btn-primary:hover {
-    background-color: var(--secondary-color);
-    transform: scale(1.05);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(106, 90, 205, 0.3);
 }
 
 .btn-primary:active {
     transform: scale(0.98);
 }
 
-/* Danger Button */
-.btn-danger {
+/*--------------------------------------------------------------
+# DANGER BUTTONS
+--------------------------------------------------------------*/
+.btn-danger,
+.btn-cancel,
+.btn-reject-btn {
     background-color: var(--danger-color);
     color: var(--white-color);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
 }
 
-.btn-danger:hover {
+.btn-danger:hover,
+.btn-cancel:hover,
+.btn-reject-btn:hover {
     background-color: var(--danger-dark-color);
-    transform: scale(1.05);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
 }
 
-.btn-danger:active {
+.btn-danger:active,
+.btn-cancel:active,
+.btn-reject-btn:active {
     transform: scale(0.98);
 }
 
-/* Cancel Button */
-.btn-cancel {
-    background-color: var(--danger-color);
-    color: var(--white-color);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-.btn-cancel:hover {
-    background-color: var(--danger-dark-color);
-    transform: scale(1.05);
-}
-
-.btn-cancel:active {
-    transform: scale(0.98);
-}
-
-/* Other Button Styles */
-.btn {
-    padding: 10px 20px;
-    font-size: 14px;
-    border-radius: 5px;
-    cursor: pointer;
-    border: none;
-    background: var(--primary-color);
-    color: var(--white-color);
-}
-
-.btn:hover {
-    background: var(--secondary-color);
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: var(--text-dark);
-    transition: color 0.3s ease;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-    color: var(--danger-color);
-    text-decoration: none;
-    cursor: pointer;
-}
-
-/* Submit Button */
+/*--------------------------------------------------------------
+# SUBMIT BUTTONS
+--------------------------------------------------------------*/
 .submit-btn {
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
     color: var(--white-color);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
     margin-top: 20px;
-    /* Add margin to separate it from the form */
 }
 
 
 .submit-btn:hover {
-    background-color: var(--secondary-color);
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(106, 90, 205, 0.3);
 }
 
 .submit-btn:active {
@@ -125,44 +90,9 @@
     margin-top: 20px;
 }
 
-.btn-cancel {
-    display: inline-block;
-    padding: 10px 20px;
-    margin-top: 10px;
-    background-color: var(--danger-color);
-    color: var(--white-color);
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-}
-
-.btn-cancel:hover {
-    background-color: var(--danger-dark-color);
-    transform: scale(1.05);
-}
-
-.btn-cancel:active {
-    transform: scale(0.98);
-}
-
-.action-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 6px;
-}
-
-.delete-btn {
-    color: var(--danger-color);
-}
-
-.action-btn:hover {
-    opacity: 0.7;
-}
-
+/*--------------------------------------------------------------
+# RESET & FILTER BUTTONS
+--------------------------------------------------------------*/
 .reset-btn {
     background-color: #5bc0de;
     color: var(--white-color);
@@ -172,53 +102,13 @@
     cursor: pointer;
     width: 100%;
     margin-top: 10px;
-}
-
-.submit-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(106, 90, 205, 0.3);
+    transition: var(--transition);
 }
 
 .reset-btn:hover {
     background-color: var(--danger-color);
-    color: var(--text-dark);
     transform: translateY(-3px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.progress-btn {
-    display: inline-block;
-    padding: 8px 12px;
-    background-color: #6c63ff;
-    color: var(--white-color);
-    border-radius: 4px;
-    text-decoration: none;
-    font-size: 0.875rem;
-    transition: background-color 0.3s ease;
-}
-
-.progress-btn:hover {
-    background-color: #5a52d1;
-}
-
-.btn-accept-btn {
-    padding: 10px 20px;
-    font-size: 14px;
-    border-radius: 5px;
-    cursor: pointer;
-    border: none;
-    background: #6c63ff;
-    color: var(--white-color);
-}
-
-.btn-reject-btn {
-    padding: 10px 20px;
-    font-size: 14px;
-    border-radius: 5px;
-    cursor: pointer;
-    border: none;
-    background: #f44336;
-    color: var(--white-color);
 }
 
 .filter-btn,
@@ -229,6 +119,7 @@ select {
     border: 1px solid #ddd;
     border-radius: 4px;
     cursor: pointer;
+    background-color: var(--white-color);
 }
 
 .reset-filter-btn {
@@ -245,6 +136,27 @@ select {
     font-size: 14px;
 }
 
+/*--------------------------------------------------------------
+# CLOSE BUTTONS
+--------------------------------------------------------------*/
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-dark);
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: var(--danger-color);
+    text-decoration: none;
+}
+
+/*--------------------------------------------------------------
+# SPECIALIZED BUTTONS
+--------------------------------------------------------------*/
 .add-fabric-btn {
     background-color: #6a1b9a;
     color: var(--white-color);
@@ -253,60 +165,66 @@ select {
     border-radius: 5px;
     cursor: pointer;
     margin-bottom: 20px;
+    transition: var(--transition);
 }
 
 .add-fabric-btn:hover {
     background-color: #510a87;
-    transition: background-color 0.3s ease;
     transform: scale(1.05);
-    transition: transform 0.3s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.reschedule-btn {
-    display: inline-block;
-    padding: 10px 20px;
+.btn-accept-btn {
+    background: #6c63ff;
+    color: var(--white-color);
+}
+
+.progress-btn {
     background-color: #6c63ff;
     color: var(--white-color);
-    border: none;
+    font-size: 0.875rem;
+}
+
+.progress-btn:hover,
+.btn-accept-btn:hover {
+    background-color: #5a52d1;
+    transform: translateY(-3px);
+}
+
+.reschedule-btn {
+    background-color: #6c63ff;
+    color: var(--white-color);
     border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
     margin-top: 20px;
 }
 
 .reschedule-btn:hover {
     background-color: #5a53cc;
-}
-
-.delete-btn {
-    background-color: var(--danger-color);
-    color: var(--white-color);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px;
-}
-
-.delete-btn:hover {
-    background-color: var(--danger-dark-color);
-    color: var(--white-color);
     transform: translateY(-3px);
-}   
-
-.edit-btn {
-    background-color: #164e1b;
-    color: var(--white-color);
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 20px;
 }
 
-.edit-btn:hover {
-    background-color: #0d3e13;
-    color: var(--white-color);
+.exit-btn {
+    border: none;
+    margin-top: 20px;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.exit-btn:hover {
+    background-color: var(--border-color);
     transform: translateY(-3px);
+}
+
+/*--------------------------------------------------------------
+# BUTTON GROUPS
+--------------------------------------------------------------*/
+.action-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
 }

@@ -5,63 +5,93 @@
 
 <div class="container">
     <div class="order-container">
+        <h2 class="section-title">My Orders</h2>
+        
         <!-- Order 1 -->
         <div class="order">
             <div class="order-image">
-                <img src="<?php echo URLROOT; ?>/public/img/designs/shirt1.jpg" alt="Dotted Black Dress">
-                <div class="order-image-text">
-                    <p>Black Shirt</p>
-                    <p>Rs.2500 <span style="color: #888;"></span></p>
+                <div class="image-wrapper">
+                    <img src="<?php echo URLROOT; ?>/public/img/designs/shirt1.jpg" alt="Black Shirt">
+                    <div class="order-image-text">
+                        <h4>Black Shirt</h4>
+                        <p class="price">Rs.2500</p>
+                    </div>
                 </div>
             </div>
             <div class="right-text">
                 <div class="order-details">
-                    <h3>Order #1067907</h3>
-                    <p>Placed on 02/09/2024</p>
+                    <div class="order-header">
+                        <h3>Order #1067907</h3>
+                        <span class="order-date">
+                            <i class="far fa-calendar-alt"></i>
+                            Placed on 02/09/2024
+                        </span>
+                    </div>
                     <div class="tailor-info">
                         <img src="<?php echo URLROOT; ?>/public/img/designs/tailordp.jpeg" alt="Tailor">
-                        <p><strong>Tailor</strong> - Pieris M.P Tailors</p>
+                        <div class="tailor-details">
+                            <p class="tailor-label">Tailor</p>
+                            <p class="tailor-name">Pieris M.P Tailors</p>
+                        </div>
                     </div>
                 </div>
                 <div class="order-status">
-                    <button class="status pending">Pending</button>
-                    <button class="view-order-btn">View Order</button>
-                    <button class="view-order-btn">Go to payments</button>
+                    <div class="status-wrapper">
+                        <span class="status-dot pending"></span>
+                        <button class="status pending">Pending</button>
+                    </div>
+                    <button class="view-order-btn">
+                        <i class="fas fa-eye"></i>
+                        View Details
+                    </button>
                 </div>
             </div>
         </div>
 
+        <!-- Order 2 -->
         <div class="order">
             <div class="order-image">
-                <img src="<?php echo URLROOT; ?>/public/img/designs/shirt2.jpg" alt="Dotted Black Dress">
-                <div class="order-image-text">
-                    <p>Rockstar shirt</p>
-                    <p>Rs.2500 <span style="color: #888;"></span></p>
+                <div class="image-wrapper">
+                    <img src="<?php echo URLROOT; ?>/public/img/designs/shirt2.jpg" alt="Rockstar shirt">
+                    <div class="order-image-text">
+                        <h4>Rockstar shirt</h4>
+                        <p class="price">Rs.2500</p>
+                    </div>
                 </div>
             </div>
             <div class="right-text">
                 <div class="order-details">
-                    <h3>Order #1064509</h3>
-                    <p>Placed on 30/09/2024</p>
+                    <div class="order-header">
+                        <h3>Order #1064509</h3>
+                        <span class="order-date">
+                            <i class="far fa-calendar-alt"></i>
+                            Placed on 30/09/2024
+                        </span>
+                    </div>
                     <div class="tailor-info">
                         <img src="<?php echo URLROOT; ?>/public/img/designs/tailordp.jpeg" alt="Tailor">
-                        <p><strong>Tailor</strong> - Bandara M.P</p>
+                        <div class="tailor-details">
+                            <p class="tailor-label">Tailor</p>
+                            <p class="tailor-name">Bandara M.P</p>
+                        </div>
                     </div>
-
-                    <div class="progress-container">
-                        <div class="progress-bar" style="width: 50%;"></div>
+                    <div class="progress-wrapper">
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 50%;"></div>
+                        </div>
                         <p class="progress-status">50% completed</p>
                     </div>
                 </div>
                 <div class="order-status">
-                    <button class="status accepted">Accepted</button>
-                    <button class="view-order-btn">View Order</button>
-                    <button class="view-order-btn">Go to payments</button>
+                    <div class="status-wrapper">
+                        <span class="status-dot accepted"></span>
+                        <button class="status accepted">Accepted</button>
+                    </div>
+                    <button class="view-order-btn" class="fas fa-eye" onclick="ordersViews()">View Details</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
-</body>
 
-</html>
+<?php require_once APPROOT . '/views/users/Customer/inc/footer.php'; ?>

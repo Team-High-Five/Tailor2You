@@ -1,0 +1,119 @@
+/* Add this to your Customization_List_styles.css file */
+.filter-bar {
+    display: flex;
+    align-items: center;
+    background: var(--white-color);
+    border-radius: 10px;
+    padding: 12px 15px;
+    gap: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.filter-label {
+    font-weight: 600;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-label i {
+    color: var(--accent-color);
+}
+
+.filter-select {
+    padding: 8px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--background-color);
+    color: var(--text-dark);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 140px;
+}
+
+.filter-select:hover,
+.filter-select:focus {
+    border-color: var(--accent-color);
+    outline: none;
+}
+
+.rst-btn {
+    background-color: #f8f9fa;
+    border: 1px solid var(--border-color);
+    color: var(--text-muted);
+    padding: 8px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    margin-left: auto;
+}
+
+.rst-btn:hover {
+    background-color: #e9ecef;
+    color: var(--text-dark);
+}
+
+/* Filtered item styling */
+.product-card.hidden {
+    display: none;
+}
+
+.no-results-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 30px;
+    background: var(--white-color);
+    border-radius: 10px;
+    color: var(--text-muted);
+    font-style: italic;
+    display: none;
+}
+
+
+.calendar-btn {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--accent-color, #4e73df);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.calendar-btn:hover {
+    background-color: var(--accent-hover, #2e59d9);
+    color: white;
+    text-decoration: none;
+}
+
+/* Responsive designs */
+@media screen and (max-width: 768px) {
+    .filter-bar {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .filter-label {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .filter-select {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .rst-btn  .calendar-btn{
+        width: 100%;
+        margin-top: 5px;
+    }
+}

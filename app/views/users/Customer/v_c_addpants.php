@@ -3,9 +3,11 @@
 <?php require_once APPROOT . '/views/users/Customer/inc/topNavBar.php'; ?>
 <link rel='stylesheet' type='text/css' media='screen' href='<?php echo URLROOT; ?>/public/css/customer/profilebuttons_styles.css'>
 <div class="passcontainer">
+  <div class="measurement-layout">
     <main class="main-content">
       <section class="content">
-        <h2>Pant Measurement</h2>
+
+      <h2>Pant Measurement</h2>
         <form name="addPants" class="change-form" action="<?php echo URLROOT?>/Customers/addPants" method="post">
           <input type="hidden" name="is_create" value="<?php echo empty($data['pant']) ? '1' : '0'; ?>">
           <label for="measure">Measurement type</label>
@@ -40,6 +42,57 @@
         </form>
       </section>
     </main>
+    
+    <aside class="guide-section">
+        <div class="guide-content-wrapper">
+            <div class="guide-images">
+                <div class="guide-image-wrapper">
+                    <img src="<?php echo URLROOT; ?>/public/img/pantmeasfront.png" 
+                         alt="Front Measurements" 
+                         class="guide-image">
+                    <div class="measurement-tooltip">
+                        <div class="tooltip-content">
+                            <h4>Front Measurements</h4>
+                            <ul class="tooltip-list">
+                              <li>Waist: Around natural waistline</li>
+                              <li>Rise Height Front: Waistband to crotch</li>
+                              <li>Thigh Width: Across thigh from crotch</li>
+                              <li>Inseam: Crotch to bottom hem</li>
+                              <li>Bottom Width: Across leg opening</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="guide-image-wrapper">
+                    <img src="<?php echo URLROOT; ?>/public/img/pantmeasback.png" 
+                         alt="Back Measurements" 
+                         class="guide-image">
+                    <div class="measurement-tooltip">
+                        <div class="tooltip-content">
+                            <h4>Back Measurements</h4>
+                            <ul class="tooltip-list">
+                              <li>Rise Height Back: Back waistband to crotch</li>
+                              <li>Seat Width: Across widest hips</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="guide-content">
+                <p>Follow these guidelines for accurate measurements of your pants.</p>
+                <div class="measurement-tip">
+                    <ul>
+                        <li>Stand straight with feet slightly apart.</li>
+                        <li>Keep the measuring tape straight, not loose or tight.</li>
+                        <li>For waist, measure where you typically wear your pants.</li>
+                        <li>For inseam, measure from crotch to desired length.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </aside>
+  </div>
 </div>
 
 </body>
@@ -72,3 +125,5 @@
         saveButton.style.display = formChanged ? 'block' : 'none';
     }
 </script>
+<?php require_once APPROOT . '/views/users/Customer/inc/footer.php'; ?>
+

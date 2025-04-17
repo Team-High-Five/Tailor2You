@@ -1,0 +1,250 @@
+.container {
+    padding: 2rem;
+    margin-top: 80px;
+}
+
+.order-details-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background: var(--card-gradient);
+    border-radius: 16px;
+    border: 1px solid rgba(196, 167, 125, 0.15);
+    box-shadow: var(--elegant-shadow);
+    padding: 2rem;
+}
+
+.back-button a {
+    color: var(--text-muted);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    transition: var(--transition);
+}
+
+.back-button a:hover {
+    color: var(--accent-color);
+}
+
+.order-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(196, 167, 125, 0.1);
+}
+
+.order-title h2 {
+    color: var(--white-color);
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.order-date {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.order-status {
+    padding: 0.6rem 1.2rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.order-status.pending {
+    background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+    color: #000;
+}
+
+.order-status.accepted {
+    background: var(--accent-gradient);
+    color: var(--white-color);
+}
+
+.section {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(196, 167, 125, 0.1);
+}
+
+.section h3 {
+    color: var(--white-color);
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(196, 167, 125, 0.1);
+}
+
+.design-info {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 2rem;
+}
+
+.design-image img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 12px;
+    border: 2px solid rgba(196, 167, 125, 0.2);
+}
+
+.design-text h4 {
+    color: var(--white-color);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.design-description {
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.design-price {
+    color: var(--accent-color);
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+.measurements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.measurement-item {
+    background: rgba(196, 167, 125, 0.05);
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+.measurement-item .label {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.measurement-item .value {
+    color: var(--white-color);
+    font-weight: 500;
+}
+
+.tailor-card {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem;
+    background: rgba(196, 167, 125, 0.05);
+    border-radius: 12px;
+}
+
+.tailor-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid var(--accent-color);
+}
+
+.tailor-info h4 {
+    color: var(--white-color);
+    margin-bottom: 0.5rem;
+}
+
+.rating {
+    color: var(--text-muted);
+}
+
+.receipt {
+    background: rgba(196, 167, 125, 0.05);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+.receipt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(196, 167, 125, 0.1);
+}
+
+.receipt-header h4 {
+    color: var(--white-color);
+}
+
+.receipt-date {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.receipt-items {
+    margin-bottom: 1.5rem;
+}
+
+.receipt-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    color: var(--text-muted);
+}
+
+.receipt-total {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(196, 167, 125, 0.1);
+    color: var(--white-color);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.payment-status {
+    text-align: center;
+    padding: 0.6rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: 1rem;
+}
+
+.payment-status.paid {
+    background: var(--success-gradient);
+    color: var(--white-color);
+}
+
+.payment-status.pending {
+    background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
+    color: #000;
+}
+
+@media screen and (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .order-header {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .design-info {
+        grid-template-columns: 1fr;
+    }
+
+    .design-image img {
+        height: 300px;
+    }
+
+    .measurements-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}

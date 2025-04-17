@@ -92,21 +92,6 @@
     background: var(--sidebar-hover-background);
 }
 
-.action-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.action-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
 .request-edit-button {
     background: var(--primary-color);
     color: white;
