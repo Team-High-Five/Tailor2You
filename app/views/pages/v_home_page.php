@@ -21,6 +21,11 @@
         </button>
     </div>
 </section>
+
+<?php
+$designs = $data['designs'] ?? [];
+require_once APPROOT . '/views/pages/inc/components/design.php';
+?>
 <!-- Image Section -->
 <!-- <section class="image-section">
         <img src="image/image.png" alt="Tailoring Image">

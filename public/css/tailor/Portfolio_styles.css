@@ -71,6 +71,7 @@
     margin-bottom: 10px;
 }
 
+
 .portfolio-item .created-date {
     font-size: 12px;
     color: var(--text-muted);
@@ -81,7 +82,7 @@
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: -20px;
+
 }
 
 
