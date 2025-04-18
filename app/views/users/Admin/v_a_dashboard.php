@@ -2,7 +2,6 @@
 <?php require_once APPROOT . '/views/inc/admin/adminheader.php'; ?>
 <!-- sidebar -->
 <?php require_once APPROOT . '/views/inc/admin/adminsidebar.php'; ?>
-
 <!-- Admin Dashboard -->
 <!-- Dashboard Content -->
 <div class="main-content">
@@ -13,44 +12,44 @@
     <!-- Statistics Cards -->
     <section class="Cards">
         <div class="card-container">
-            <!-- Card 1 -->
+            <!-- Card 1: Users -->
             <div class="card">
                 <div class="icon-container">
                     <i class="fas fa-users"></i>
                 </div>
                 <div class="card-content">
-                    <h3>Users</h3>
-                    <p>1930</p>
+                    <h3><a href="<?php echo URLROOT; ?>/admin/viewAllUsers" class="no-underline">Users</a></h3>
+                    <p><?php echo isset($data['userCount']) ? $data['userCount'] : '0'; ?></p>
                 </div>
             </div>
-            <!-- Card 2 -->
+            <!-- Card 2: Orders -->
             <div class="card">
                 <div class="icon-container">
                     <i class="fas fa-boxes"></i>
                 </div>
                 <div class="card-content">
-                    <h3>Orders</h3>
-                    <p>480</p>
+                    <h3><a href="<?php echo URLROOT; ?>/admin/displayAllOrders" class="no-underline">Orders</a></h3>
+                    <p><?php echo isset($data['orderCount']) ? $data['orderCount'] : '0'; ?></p>
                 </div>
             </div>
-            <!-- Card 3 -->
+            <!-- Card 3: Inventory -->
             <div class="card">
                 <div class="icon-container">
                     <i class="fas fa-warehouse"></i>
                 </div>
                 <div class="card-content">
                     <h3>Inventory</h3>
-                    <p>120</p>
+                    <p><?php echo isset($data['inventoryCount']) ? $data['inventoryCount'] : '0'; ?></p>
                 </div>
             </div>
-            <!-- Card 4 -->
+            <!-- Card 4: Reviews -->
             <div class="card">
                 <div class="icon-container">
                     <i class="fas fa-comments"></i>
                 </div>
                 <div class="card-content">
                     <h3>Reviews</h3>
-                    <p>45</p>
+                    <p><?php echo isset($data['reviewCount']) ? $data['reviewCount'] : '0'; ?></p>
                 </div>
             </div>
         </div>
@@ -181,5 +180,6 @@
         }
     });
 </script>
+<?php require_once APPROOT.'/views/inc/components/footer.php'; ?>
 </body>
 </html>
