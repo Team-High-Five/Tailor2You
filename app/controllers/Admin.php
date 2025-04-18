@@ -2,12 +2,20 @@
 
 require_once APPROOT . '/helpers/url_helper.php';
 require_once APPROOT . '/helpers/session_helper.php';
-class admin extends controller
+
+class Admin extends Controller
 {
+    private $orderModel;
+    private $adminModel;
+
     public function __construct()
     {
-
+        $this->userModel = $this->model('M_Users');
+        $this->orderModel = $this->model('M_Orders');
+       // $this->inventoryModel = $this->model('M_Inventory');
+        // $this->reviewModel = $this->model('M_Reviews');
     }
+
     public function index()
     {
         $this->admindashboard();
@@ -16,30 +24,27 @@ class admin extends controller
     public function admindashboard()
     {
         $data = [];
-
         $this->view('users/Admin/v_a_dashboard');
     }
+
     public function dashboard()
     {
-        $userModel = $this->model('M_Users');
-        $userCount = $userModel->getUserCount();
-        $orderCount = $userModel->getOrderCount();
-        $inventoryCount = $userModel->getInventoryCount();
-        $reviewCount = $userModel->getReviewCount();
+        $adminId = $_SESSION['user_id']; // Assuming the admin's user ID is stored in the session
 
+        // Fetch admin details
+        $adminDetails = $this->userModel->getAdminDetails($adminId);
+
+        // Pass the details to the view
         $data = [
-            'userCount' => $userCount,
-            'orderCount' => $orderCount,
-            'inventoryCount' => $inventoryCount,
-            'reviewCount' => $reviewCount
+            'adminDetails' => $adminDetails
         ];
 
         $this->view('users/Admin/v_a_dashboard', $data);
     }
+
     public function manageCustomer()
     {
-        $userModel = $this->model('M_Users');
-        $customers = $userModel->getAllCustomers();
+        $customers = $this->userModel->getAllCustomers();
         $data = ['customers' => $customers];
 
         $this->view('users/Admin/v_a_manageCustomer', $data);
@@ -71,12 +76,11 @@ class admin extends controller
                 'bio' => trim($_POST['bio']),
                 'category' => trim($_POST['category']),
                 'status' => trim($_POST['status']),
-                'password' => password_hash('defaultpassword', PASSWORD_DEFAULT), // Set a default password
+                'password' => password_hash(trim($_POST['password']), PASSWORD_DEFAULT), // Set a default password
                 'profile_pic' => $profilePic // Set profile picture
             ];
 
-            $userModel = $this->model('M_Users');
-            if ($userModel->addUser($data)) {
+            if ($this->userModel->addUser($data)) {
                 flash('customer_message', 'Customer Added');
                 redirect('admin/manageCustomer');
             } else {
@@ -86,30 +90,18 @@ class admin extends controller
             $this->view('users/Admin/v_a_addCustomer');
         }
     }
+
     public function editCustomer($id)
     {
-        $userModel = $this->model('M_Users');
-        $customer = $userModel->getUserById($id);
+        $customer = $this->userModel->getUserById($id);
         $data = ['customer' => $customer];
 
         $this->view('users/Admin/v_a_editCustomer', $data);
-    }
-    public function deleteCustomer($id)
-    {
-        $userModel = $this->model('M_Users');
-        if ($userModel->deleteCustomerById($id)) {
-            flash('customer_message', 'Customer Removed');
-            redirect('admin/manageCustomer');
-        } else {
-            die('Something went wrong');
-        }
     }
 
     public function updateCustomer()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-
             // Sanitize POST data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $profilePic = null;
@@ -117,7 +109,6 @@ class admin extends controller
                 $profilePic = file_get_contents($_FILES['profile_pic']['tmp_name']);
             }
 
-            
             $data = [
                 'user_id' => trim($_POST['user_id']),
                 'first_name' => trim($_POST['first_name']),
@@ -134,8 +125,7 @@ class admin extends controller
                 'status' => trim($_POST['status'])
             ];
 
-            $userModel = $this->model('M_Users');
-            if ($userModel->updateUser($data)) {
+            if ($this->userModel->updateUser($data)) {
                 flash('customer_message', 'Customer Updated');
                 redirect('admin/manageCustomer');
             } else {
@@ -145,75 +135,29 @@ class admin extends controller
             redirect('admin/manageCustomer');
         }
     }
-    
+
+    public function deleteCustomer($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if ($this->userModel->deleteCustomerById($id)) {
+                flash('customer_message', 'Customer Removed');
+                redirect('admin/manageCustomer');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            redirect('admin/manageCustomer');
+        }
+    }
+
     public function manageTailor()
     {
-        $userModel = $this->model('M_Users');
-        $tailors = $userModel->getAllTailors();
+        $tailors = $this->userModel->getAllTailors();
         $data = ['tailors' => $tailors];
 
         $this->view('users/Admin/v_a_manageTailor', $data);
     }
 
-    public function editTailor($id)
-    {
-        $userModel = $this->model('M_Users');
-        $tailor = $userModel->getUserById($id);
-        $data = ['tailor' => $tailor];
-
-        $this->view('users/Admin/v_a_editTailor', $data);
-    }
-
-    public function updateTailor()
-    {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Sanitize POST data
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-            // Sanitize POST data
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-            $profilePic = null;
-            if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] == 0) {
-                $profilePic = file_get_contents($_FILES['profile_pic']['tmp_name']);
-            }
-            $data = [
-                'user_id' => trim($_POST['user_id']),
-                'first_name' => trim($_POST['first_name']),
-                'last_name' => trim($_POST['last_name']),
-                'email' => trim($_POST['email']),
-                'phone_number' => trim($_POST['phone_number']),
-                'nic' => trim($_POST['nic']),
-                'birth_date' => trim($_POST['birth_date']),
-                'home_town' => trim($_POST['home_town']),
-                'address' => trim($_POST['address']),
-                'bio' => trim($_POST['bio']),
-                'category' => trim($_POST['category']),
-                'profile_pic' => $profilePic,
-                'status' => trim($_POST['status'])
-            ];
-
-            $userModel = $this->model('M_Users');
-            if ($userModel->updateUser($data)) {
-                flash('tailor_message', 'Tailor Updated');
-                redirect('admin/manageTailor');
-            } else {
-                die('Something went wrong');
-            }
-        } else {
-            redirect('admin/manageTailor');
-        }
-    }
-
-    public function deleteTailor($id)
-    {
-        $userModel = $this->model('M_Users');
-        if ($userModel->deleteTailorById($id)) {
-            flash('tailor_message', 'Tailor Removed');
-            redirect('admin/manageTailor');
-        } else {
-            die('Something went wrong');
-        }
-    }
     public function addTailor()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -221,11 +165,11 @@ class admin extends controller
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             // Handle file upload
-        if (!empty($_FILES['profile_pic']['name'])) {
-            $profilePic = file_get_contents($_FILES['profile_pic']['tmp_name']);
-        } else {
-            $profilePic = null; // No image uploaded
-        }
+            if (!empty($_FILES['profile_pic']['name'])) {
+                $profilePic = file_get_contents($_FILES['profile_pic']['tmp_name']);
+            } else {
+                $profilePic = null; // No image uploaded
+            }
 
             $data = [
                 'user_type' => 'tailor',
@@ -244,8 +188,7 @@ class admin extends controller
                 'profile_pic' => $profilePic // Set profile picture
             ];
 
-            $userModel = $this->model('M_Users');
-            if ($userModel->addUser($data)) {
+            if ($this->userModel->addUser($data)) {
                 flash('tailor_message', 'Tailor Added');
                 redirect('admin/manageTailor');
             } else {
@@ -255,31 +198,25 @@ class admin extends controller
             $this->view('users/Admin/v_a_addTailor');
         }
     }
-    public function manageShopkeeper()
-    {
-        $userModel = $this->model('M_Users');
-        $shopkeepers = $userModel->getAllShopkeepers();
-        $data = ['shopkeepers' => $shopkeepers];
 
-        $this->view('users/Admin/v_a_manageShopkeeper', $data);
-    }
-    public function editShopkeeper($id)
+    public function editTailor($id)
     {
-        $userModel = $this->model('M_Users');
-        $shopkeeper = $userModel->getUserById($id);
-        $data = ['shopkeeper' => $shopkeeper];
+        $tailor = $this->userModel->getUserById($id);
+        $data = ['tailor' => $tailor];
 
-        $this->view('users/Admin/v_a_editShopkeeper', $data);
+        $this->view('users/Admin/v_a_editTailor', $data);
     }
-    public function updateShopkeeper()
+
+    public function updateTailor()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Sanitize POST data
-                $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
             $profilePic = null;
             if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] == 0) {
                 $profilePic = file_get_contents($_FILES['profile_pic']['tmp_name']);
             }
+
             $data = [
                 'user_id' => trim($_POST['user_id']),
                 'first_name' => trim($_POST['first_name']),
@@ -295,39 +232,53 @@ class admin extends controller
                 'profile_pic' => $profilePic,
                 'status' => trim($_POST['status'])
             ];
-            $userModel = $this->model('M_Users');
-            if ($userModel->updateUser($data)) {
-                flash('shopkeeper_message', 'Shopkeeper Updated');
-                redirect('admin/manageShopkeeper');
+
+            if ($this->userModel->updateUser($data)) {
+                flash('tailor_message', 'Tailor Updated');
+                redirect('admin/manageTailor');
             } else {
                 die('Something went wrong');
             }
         } else {
-            redirect('admin/manageShopkeeper');
+            redirect('admin/manageTailor');
         }
     }
-    public function deleteShopkeeper($id)
+
+    public function deleteTailor($id)
     {
-        $userModel = $this->model('M_Users');
-        if ($userModel->deleteShopkeeperById($id)) {
-            flash('shopkeeper_message', 'Shopkeeper Removed');
-            redirect('admin/manageShopkeeper');
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if ($this->userModel->deleteTailorById($id)) {
+                flash('tailor_message', 'Tailor Removed');
+                redirect('admin/manageTailor');
+            } else {
+                die('Something went wrong');
+            }
         } else {
-            die('Something went wrong');
+            redirect('admin/manageTailor');
         }
     }
+
+    public function manageShopkeeper()
+    {
+        $shopkeepers = $this->userModel->getAllShopkeepers();
+        $data = ['shopkeepers' => $shopkeepers];
+
+        $this->view('users/Admin/v_a_manageShopkeeper', $data);
+    }
+
     public function addShopkeeper()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Sanitize POST data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-    
+
             // Handle file upload
             if (!empty($_FILES['profile_pic']['name'])) {
                 $profilePic = file_get_contents($_FILES['profile_pic']['tmp_name']);
             } else {
                 $profilePic = null; // No image uploaded
             }
+
             $data = [
                 'user_type' => 'shopkeeper',
                 'first_name' => trim($_POST['first_name']),
@@ -345,8 +296,7 @@ class admin extends controller
                 'profile_pic' => $profilePic // Set profile picture
             ];
 
-            $userModel = $this->model('M_Users');
-            if ($userModel->addUser($data)) {
+            if ($this->userModel->addUser($data)) {
                 flash('shopkeeper_message', 'Shopkeeper Added');
                 redirect('admin/manageShopkeeper');
             } else {
@@ -355,6 +305,144 @@ class admin extends controller
         } else {
             $this->view('users/Admin/v_a_addShopkeeper');
         }
+    }
+
+    public function editShopkeeper($id)
+    {
+        $shopkeeper = $this->userModel->getUserById($id);
+        $data = ['shopkeeper' => $shopkeeper];
+
+        $this->view('users/Admin/v_a_editShopkeeper', $data);
+    }
+
+    public function updateShopkeeper()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $profilePic = null;
+            if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] == 0) {
+                $profilePic = file_get_contents($_FILES['profile_pic']['tmp_name']);
+            }
+
+            $data = [
+                'user_id' => trim($_POST['user_id']),
+                'first_name' => trim($_POST['first_name']),
+                'last_name' => trim($_POST['last_name']),
+                'email' => trim($_POST['email']),
+                'phone_number' => trim($_POST['phone_number']),
+                'nic' => trim($_POST['nic']),
+                'birth_date' => trim($_POST['birth_date']),
+                'home_town' => trim($_POST['home_town']),
+                'address' => trim($_POST['address']),
+                'bio' => trim($_POST['bio']),
+                'category' => trim($_POST['category']),
+                'profile_pic' => $profilePic,
+                'status' => trim($_POST['status'])
+            ];
+
+            if ($this->userModel->updateUser($data)) {
+                flash('shopkeeper_message', 'Shopkeeper Updated');
+                redirect('admin/manageShopkeeper');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            redirect('admin/manageShopkeeper');
+        }
+    }
+
+    public function deleteShopkeeper($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if ($this->userModel->deleteShopkeeperById($id)) {
+                flash('shopkeeper_message', 'Shopkeeper Removed');
+                redirect('admin/manageShopkeeper');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            redirect('admin/manageShopkeeper');
+        }
+    }
+
+    public function viewAllUsers()
+    {
+        $users = $this->userModel->getAllUsers();
+        $data = ['users' => $users];
+
+        $this->view('users/Admin/v_a_viewAllUsers', $data);
+    }
+
+    public function editUser($id)
+    {
+        $user = $this->userModel->getUserById($id);
+        $data = ['user' => $user];
+
+        $this->view('users/Admin/v_a_editUser', $data);
+    }
+
+    public function updateUser()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $profilePic = null;
+            if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] == 0) {
+                $profilePic = file_get_contents($_FILES['profile_pic']['tmp_name']);
+            }
+
+            $data = [
+                'user_id' => trim($_POST['user_id']),
+                'first_name' => trim($_POST['first_name']),
+                'last_name' => trim($_POST['last_name']),
+                'email' => trim($_POST['email']),
+                'phone_number' => trim($_POST['phone_number']),
+                'nic' => trim($_POST['nic']),
+                'birth_date' => trim($_POST['birth_date']),
+                'home_town' => trim($_POST['home_town']),
+                'address' => trim($_POST['address']),
+                'bio' => trim($_POST['bio']),
+                'category' => trim($_POST['category']),
+                'profile_pic' => $profilePic,
+                'status' => trim($_POST['status'])
+            ];
+
+            if ($this->userModel->updateUser($data)) {
+                flash('user_message', 'User Updated');
+                redirect('admin/viewAllUsers');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            redirect('admin/viewAllUsers');
+        }
+    }
+
+    public function deleteUser($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if ($this->userModel->deleteUserById($id)) {
+                flash('user_message', 'User Removed');
+                redirect('admin/viewAllUsers');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            redirect('admin/viewAllUsers');
+        }
+    }
+
+    public function displayAllOrders() {
+        // Fetch orders from the database
+        $orders = $this->orderModel->getOrders();
+
+        // Pass orders to the view
+        $data = [
+            'orders' => $orders
+        ];
+
+        $this->view('users/Admin/v_a_viewAllOrders', $data);
     }
     public function viewComplaints()
     {
