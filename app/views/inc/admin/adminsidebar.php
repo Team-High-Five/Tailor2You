@@ -7,7 +7,6 @@
         <a href="<?php echo URLROOT; ?>/admin/manageTailor">Manage Tailors</a>
         <a href="<?php echo URLROOT; ?>/admin/manageShopkeeper">Manage Shopkeepers</a>
     </div>
-    <a href="<?php echo URLROOT; ?>/admin/inventoryManagement"><i class="fas fa-boxes"></i> Inventory Management</a>
     <a href="<?php echo URLROOT; ?>/admin/refundPayments"><i class="fas fa-dollar-sign"></i> Refund Payments</a>
     <a href="<?php echo URLROOT; ?>/admin/complaintsSection"><i class="fas fa-comments"></i> Complaints</a>
     <a href="<?php echo URLROOT; ?>/admin/reviewSection"><i class="fas fa-comments"></i> Reviews</a>

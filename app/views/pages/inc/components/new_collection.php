@@ -2,7 +2,7 @@
   <div class="topic">New collection</div>
   <section class="product-grid">
     <div class="product-card">
-      <img src="<?php echo URLROOT; ?>/public/img/designs/me6.jpeg" alt="White Shirt">
+      <img src="<?php echo URLROOT; ?>/public/img/designs/still-life-with-classic-shirts-hanger.jpg" alt="White Shirt">
       <p class="tailor">Tailor - B.A.Bandara</p>
       <p class="price">Rs. 3500</p>
       <div class="buttons">

@@ -25,7 +25,6 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     background-image: url('../../img/admin/bg1.png');
-
 }
 
 /* Background Overlay */
@@ -115,6 +114,19 @@ body {
     font-size: 12px;
     color: #ffffff;
     /* Makes the description white */
+}
+
+/* Logout Icon */
+.logout-icon {
+    font-size: 18px;
+    color: white;
+    margin-left: 20px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.logout-icon:hover {
+    color: #ff0000;
 }
 
 /* Dropdown Menu Styles */
@@ -443,7 +455,7 @@ body {
     transform: scale(1.05);
 }
 
-Dropdown Styling
+/* Dropdown Styling */
 .dropdown {
     position: relative;
 }

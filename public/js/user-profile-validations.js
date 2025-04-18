@@ -70,15 +70,81 @@ function validateField(field) {
 
     document.getElementById(fieldName + '_err').textContent = errorMessage;
 }
-
 function validateForm() {
     let isValid = true;
-    document.querySelectorAll('#profileForm .form-group input, #profileForm .form-group textarea').forEach(function (field) {
-        validateField(field);
-        if (document.getElementById(field.name + '_err').textContent !== '') {
-            isValid = false;
-        }
-    });
+
+    // Validate first name
+    const firstName = document.getElementById('first_name').value.trim();
+    if (firstName === '') {
+        document.getElementById('first_name_err').textContent = 'Please enter the shop name';
+        isValid = false;
+    } else {
+        document.getElementById('first_name_err').textContent = '';
+    }
+
+    // Validate last name
+    const lastName = document.getElementById('last_name').value.trim();
+    if (lastName === '') {
+        document.getElementById('last_name_err').textContent = 'Please enter the owner\'s name';
+        isValid = false;
+    } else {
+        document.getElementById('last_name_err').textContent = '';
+    }
+
+    // Validate phone number
+    const phoneNumber = document.getElementById('phone_number').value.trim();
+    if (phoneNumber === '') {
+        document.getElementById('phone_number_err').textContent = 'Please enter the phone number';
+        isValid = false;
+    } else {
+        document.getElementById('phone_number_err').textContent = '';
+    }
+
+    // Validate NIC
+    const nic = document.getElementById('nic').value.trim();
+    if (nic === '') {
+        document.getElementById('nic_err').textContent = 'Please enter the NIC';
+        isValid = false;
+    } else {
+        document.getElementById('nic_err').textContent = '';
+    }
+
+    // Validate birth date
+    const birthDate = document.getElementById('birth_date').value.trim();
+    if (birthDate === '') {
+        document.getElementById('birth_date_err').textContent = 'Please enter the birth date';
+        isValid = false;
+    } else {
+        document.getElementById('birth_date_err').textContent = '';
+    }
+
+    // Validate home town
+    const homeTown = document.getElementById('home_town').value.trim();
+    if (homeTown === '') {
+        document.getElementById('home_town_err').textContent = 'Please enter the home town';
+        isValid = false;
+    } else {
+        document.getElementById('home_town_err').textContent = '';
+    }
+
+    // Validate address
+    const address = document.getElementById('address').value.trim();
+    if (address === '') {
+        document.getElementById('address_err').textContent = 'Please enter the address';
+        isValid = false;
+    } else {
+        document.getElementById('address_err').textContent = '';
+    }
+
+    // Validate bio
+    const bio = document.getElementById('bio').value.trim();
+    if (bio === '') {
+        document.getElementById('bio_err').textContent = 'Please enter the bio';
+        isValid = false;
+    } else {
+        document.getElementById('bio_err').textContent = '';
+    }
+
     return isValid;
 }
 

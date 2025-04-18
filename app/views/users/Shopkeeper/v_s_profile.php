@@ -51,8 +51,8 @@
                 <div class="form-two-group">
                     <div class="form-group">
                         <label for="nic">NIC</label>
-                        <input type="text" id="nic" name="NIC" value="<?php echo $data['user']->nic; ?>" required>
-                        <span class="error" id="NIC_err"></span>
+                        <input type="text" id="nic" name="nic" value="<?php echo $data['user']->nic; ?>" required>
+                        <span class="error" id="nic_err"></span>
                     </div>
                     <div class="form-group">
                         <label for="birth_date">Birth Date</label>
@@ -97,7 +97,7 @@
                 </div>
 
                 <button type="button" class="submit-btn" onclick="confirmUpdate()">Update Profile</button>
-                <button type="button" class="delete-btn" onclick="confirmDelete()">Delete Profile</button>
+                <button type="button" class="profile-delete-btn" onclick="confirmDelete()">Delete Profile</button>
             </form>
         </div>
     </div>
@@ -114,7 +114,7 @@
             <i class="ri-error-warning-line"></i>
             <p>Are you sure you want to make changes?</p>
             <div class="button-rows">
-                <button type="submit" class="submit-btn" onclick="submitForm()">Yes, Update</button>
+                <button type="button" class="submit-btn" onclick="submitForm()">Yes, Update</button>
                 <button type="button" class="reset-btn" onclick="closePopup()">Cancel</button>
             </div>
         </div>
