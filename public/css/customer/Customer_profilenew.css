@@ -205,7 +205,7 @@
 
     .meas-btn {
         padding: 10px 20px;
-        background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+        background: var(--primary-color);
         /* background-color: #007bff; */
         color: white;
         border: none;
@@ -239,4 +239,23 @@
 
   .drop-btn a:hover {
     color: #007bff;
+  }
+
+  .delete-btn{
+    padding: 10px 20px;
+    background: var(--danger-dark-color);;
+    /* background-color: #007bff; */
+    color: rgb(255, 255, 255);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 14px;
+    font-style: bold;
+  }
+
+  .delete-btn:hover{
+    background-color: var(--danger-color);
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
