@@ -205,13 +205,15 @@ class Designs extends Controller
         $subcategory = $this->designModel->getSubcategoryById($design_data['subcategory_id']);
         $customization_types = $this->designModel->getCustomizationTypesByCategoryId($categoryId);
 
+        // Get category measurements - Add this line
+        $category_measurements = $this->designModel->getCategoryMeasurements($categoryId);
+
         // Log if no customization types are found for the category
         if (empty($customization_types)) {
             error_log("No specific customization types found for category ID: " . $categoryId . ". Consider adding associations or a fallback.");
             // Optional: You could fall back to general types if needed
             // $customization_types = $this->designModel->getCustomizationTypes();
         }
-
 
         // Try to get user-specific fabrics (or general)
         $fabrics = $this->designModel->getFabricsByUserId($_SESSION['user_id']);
@@ -225,14 +227,14 @@ class Designs extends Controller
             'design_data' => $design_data,
             'category' => $category,
             'subcategory' => $subcategory,
-            'customization_types' => $customization_types, // Use the category-specific types
-            'fabrics' => $fabrics
+            'customization_types' => $customization_types,
+            'fabrics' => $fabrics,
+            'category_measurements' => $category_measurements // Add this line
         ];
 
         // Load the view
         $this->view('users/Tailor/v_t_customize_add_new_continue', $data);
     }
-
     public function saveDesign()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -366,6 +368,33 @@ class Designs extends Controller
 
                         if (!$this->designModel->addDesignFabric($fabricData)) {
                             throw new Exception("Failed to add design fabric");
+                        }
+                    }
+                }
+                // Process measurements
+                if (isset($_POST['measurements']) && is_array($_POST['measurements'])) {
+                    $measurementRequired = $_POST['measurement_required'] ?? [];
+                    if (!$this->designModel->addDesignMeasurements($designId, $_POST['measurements'], $measurementRequired)) {
+                        throw new Exception("Failed to save design measurements");
+                    }
+                }
+
+                // Process custom measurements
+                if (isset($_POST['custom_name']) && is_array($_POST['custom_name'])) {
+                    foreach ($_POST['custom_name'] as $index => $name) {
+                        if (empty($name)) continue;
+
+                        $customMeasurementData = [
+                            'design_id' => $designId,
+                            'name' => $name,
+                            'display_name' => $_POST['custom_display_name'][$index] ?? $name,
+                            'description' => $_POST['custom_description'][$index] ?? null,
+                            'is_required' => $_POST['custom_required'][$index] ?? 1,
+                            'unit_type' => $_POST['custom_unit_type'][$index] ?? 'length'
+                        ];
+
+                        if (!$this->designModel->addCustomDesignMeasurement($customMeasurementData)) {
+                            throw new Exception("Failed to add custom measurement");
                         }
                     }
                 }
