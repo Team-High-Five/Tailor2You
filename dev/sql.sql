@@ -122,19 +122,28 @@ CREATE TABLE `employees` (
 -- Mesurements Tables--
 
 CREATE TABLE `shirt_measurements` (
-    `user_id` varchar(100) NOT NULL,
-    `measure` int(11) NOT NULL,
-    `collar_size` int(11) NOT NULL,
-    `chest_width` int(11) NOT NULL,
-    `waist_width` int(11) NOT NULL,
-    `bottom_width` int(11) NOT NULL,
-    `shoulder_width` int(11) NOT NULL,
-    `sleeve_length` int(11) NOT NULL,
-    `armhole_depth` int(11) NOT NULL,
-    `bicep` int(11) NOT NULL,
-    `cuff_size` int(11) NOT NULL,
-    `front_length` int(11) NOT NULL
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+  `user_id` int(11) DEFAULT NULL,
+  `measure` enum('cm','inch') DEFAULT NULL,
+  `collar_size` decimal(5,2) NOT NULL,
+  `chest_width` decimal(5,2) NOT NULL,
+  `waist_width` decimal(5,2) NOT NULL,
+  `bottom_width` decimal(5,2) NOT NULL,
+  `shoulder_width` decimal(5,2) NOT NULL,
+  `sleeve_length` decimal(5,2) NOT NULL,
+  `armhole_depth` decimal(5,2) NOT NULL,
+  `bicep` decimal(5,2) NOT NULL,
+  `cuff_size` decimal(5,2) NOT NULL,
+  `front_length` decimal(5,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+ALTER TABLE `shirt_measurements`
+  ADD KEY `user_id` (`user_id`);
+
+ALTER TABLE `shirt_measurements`
+  ADD CONSTRAINT `shirt_measurements_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+COMMIT;
+
+
 
 CREATE TABLE `pant_measurements` (
     `user_id` varchar(100) NOT NULL,
