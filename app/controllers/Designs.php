@@ -542,14 +542,13 @@ class Designs extends Controller
                         throw new Exception("Failed to update design basic information");
                     }
 
-                    // Handle existing choices
                     if (isset($_POST['existing_choices'])) {
                         $this->designModel->removeUnselectedCustomizationChoices($id, $_POST['existing_choices']);
                     } else {
                         $this->designModel->removeAllCustomizationChoices($id);
                     }
 
-                    // ADD THIS CODE: Process new customization choices
+                    // Process customization choices
                     if (isset($_POST['choice_name'])) {
                         foreach ($_POST['choice_name'] as $type_id => $names) {
                             foreach ($names as $index => $name) {
@@ -604,11 +603,9 @@ class Designs extends Controller
                             }
                         }
                     }
-
-                    // ADD THIS CODE: Handle fabrics
+                    // Process selected fabrics
                     $this->designModel->removeAllDesignFabrics($id);
 
-                    // Then add the selected fabrics
                     if (isset($_POST['fabrics']) && is_array($_POST['fabrics'])) {
                         foreach ($_POST['fabrics'] as $fabricId) {
                             $priceAdjustment = isset($_POST['fabric_price'][$fabricId])
@@ -627,6 +624,55 @@ class Designs extends Controller
                         }
                     }
 
+                    // Process measurements
+                    $this->designModel->removeAllDesignMeasurements($id);
+                    if (isset($_POST['measurements']) && is_array($_POST['measurements'])) {
+                        $measurementRequired = $_POST['measurement_required'] ?? [];
+                        if (!$this->designModel->addDesignMeasurements($id, $_POST['measurements'], $measurementRequired)) {
+                            throw new Exception("Failed to save design measurements");
+                        }
+                    }
+                    if (isset($_POST['custom_measurement_id']) && is_array($_POST['custom_measurement_id'])) {
+                        $existingIds = $_POST['custom_measurement_id'];
+                        for ($i = 0; $i < count($existingIds); $i++) {
+                            // Skip if no ID (shouldn't happen)
+                            if (empty($existingIds[$i])) continue;
+
+                            $customMeasurementData = [
+                                'id' => $existingIds[$i],
+                                'design_id' => $id,
+                                'name' => $_POST['custom_name'][$i] ?? '',
+                                'display_name' => $_POST['custom_display_name'][$i] ?? '',
+                                'description' => $_POST['custom_description'][$i] ?? null,
+                                'is_required' => $_POST['custom_required'][$i] ?? 1,
+                                'unit_type' => $_POST['custom_unit_type'][$i] ?? 'length'
+                            ];
+
+                            if (!$this->designModel->updateCustomDesignMeasurement($customMeasurementData)) {
+                                throw new Exception("Failed to update custom measurement");
+                            }
+                        }
+                    }
+                    $savedCustomIds = isset($_POST['custom_measurement_id']) ? count($_POST['custom_measurement_id']) : 0;
+                    $totalCustom = isset($_POST['custom_name']) ? count($_POST['custom_name']) : 0;
+                    if ($totalCustom > $savedCustomIds) {
+                        for ($i = $savedCustomIds; $i < $totalCustom; $i++) {
+                            if (empty($_POST['custom_name'][$i])) continue;
+
+                            $customMeasurementData = [
+                                'design_id' => $id,
+                                'name' => $_POST['custom_name'][$i],
+                                'display_name' => $_POST['custom_display_name'][$i] ?? $_POST['custom_name'][$i],
+                                'description' => $_POST['custom_description'][$i] ?? null,
+                                'is_required' => $_POST['custom_required'][$i] ?? 1,
+                                'unit_type' => $_POST['custom_unit_type'][$i] ?? 'length'
+                            ];
+
+                            if (!$this->designModel->addCustomDesignMeasurement($customMeasurementData)) {
+                                throw new Exception("Failed to add custom measurement");
+                            }
+                        }
+                    }
                     $this->designModel->commitTransaction();
                     flash('design_success', 'Design updated successfully', 'alert alert-success');
                     redirect('tailors/displayCustomizeItems');
@@ -641,7 +687,16 @@ class Designs extends Controller
             $design_choices = $this->designModel->getDesignCustomizationChoices($id);
             $design_fabrics = $this->designModel->getDesignFabrics($id);
             $fabrics = $this->designModel->getFabricsByUserId($_SESSION['user_id']);
+            $category_measurements = $this->designModel->getCategoryMeasurements($design->category_id);
+            $design_measurements = $this->designModel->getDesignMeasurements($id);
+            $custom_measurements = $this->designModel->getCustomDesignMeasurements($id);
 
+            $selected_measurement_ids = [];
+            $measurement_required = [];
+            foreach ($design_measurements as $measurement) {
+                $selected_measurement_ids[] = $measurement->measurement_id;
+                $measurement_required[$measurement->measurement_id] = $measurement->is_required;
+            }
             $data = [
                 'title' => 'Edit Design',
                 'design' => $design,
@@ -651,8 +706,13 @@ class Designs extends Controller
                 'design_choices' => $design_choices,
                 'design_fabrics' => $design_fabrics,
                 'fabrics' => $fabrics,
+                'category_measurements' => $category_measurements,
+                'selected_measurement_ids' => $selected_measurement_ids,
+                'measurement_required' => $measurement_required,
+                'custom_measurements' => $custom_measurements,
                 'errors' => []
             ];
+
 
             $this->view('users/Tailor/v_t_customize_edit', $data);
         }
