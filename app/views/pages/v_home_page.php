@@ -51,29 +51,43 @@ require_once APPROOT . '/views/pages/inc/components/design.php';
         <div class="feedback-cards">
             <h1 class="main-heading">We would love to hear about your experience!</h1>
             <div id="feedback-list">
-                <!-- Feedback dynamically loaded -->
+                <div class="loading-feedback">Loading feedback...</div>
             </div>
         </div>
         <!-- Feedback Form -->
         <div class="feedback-form-container">
-
-            <form id="feedback-form">
+            <form id="feedback-form" action="<?php echo URLROOT; ?>/feedback/submit" method="post">
+                <?php flash('feedback_message'); ?>
+                
                 <label for="name">Full Name</label>
                 <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                <?php if(isset($data['name_err'])): ?>
+                    <span class="error-message"><?php echo $data['name_err']; ?></span>
+                <?php endif; ?>
+                
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <?php if(isset($data['email_err'])): ?>
+                    <span class="error-message"><?php echo $data['email_err']; ?></span>
+                <?php endif; ?>
 
                 <label for="rating">Rate Us</label>
-                <select id="rating" name="rating" required>
-                    <option value="5">5 Stars</option>
-                    <option value="4">4 Stars</option>
-                    <option value="3">3 Stars</option>
-                    <option value="2">2 Stars</option>
-                    <option value="1">1 Star</option>
+                <select id="rating" name="rating" required style="color: white;">
+                    <option value="5" style="color: #666;">5 Stars</option>
+                    <option value="4" style="color: #666;">4 Stars</option>
+                    <option value="3" style="color: #666;">3 Stars</option>
+                    <option value="2" style="color: #666;">2 Stars</option>
+                    <option value="1" style="color: #666;">1 Star</option>
                 </select>
+                <?php if(isset($data['rating_err'])): ?>
+                    <span class="error-message"><?php echo $data['rating_err']; ?></span>
+                <?php endif; ?>
 
                 <label for="feedback">Your Feedback</label>
                 <textarea id="feedback" name="feedback" placeholder="Write feedback" rows="4" required></textarea>
+                <?php if(isset($data['feedback_text_err'])): ?>
+                    <span class="error-message"><?php echo $data['feedback_text_err']; ?></span>
+                <?php endif; ?>
 
                 <button type="submit">Submit</button>
             </form>
@@ -107,7 +121,7 @@ require_once APPROOT . '/views/pages/inc/components/design.php';
 </footer>
 <script src="<?php echo URLROOT; ?>/public/js/script.js"></script>
 <script src="<?php echo URLROOT; ?>/public/js/slidebar.js"></script>
-
+<script src="<?php echo URLROOT; ?>/public/js/feedback.js"></script>
 
 </body>
 
