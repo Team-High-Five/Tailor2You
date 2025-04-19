@@ -148,7 +148,6 @@ CREATE TABLE `pant_measurements` (
     `rise_height_back` int(11) NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
-
 --- Design Tables ---
 
 -- Create clothing categories table
@@ -553,3 +552,117 @@ VALUES (
         'Closure Type',
         'Different closure types'
     );
+
+--Order Table--
+
+-- Orders main table
+CREATE TABLE `orders` (
+    `order_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `customer_id` INT(11) NOT NULL,
+    `tailor_id` INT(11) NOT NULL,
+    `order_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `total_amount` DECIMAL(10, 2) NOT NULL,
+    `status` ENUM(
+        'pending',
+        'processing',
+        'completed',
+        'cancelled'
+    ) DEFAULT 'pending',
+    `appointment_id` INT(11) NULL,
+    `delivery_address` VARCHAR(255) NOT NULL,
+    `expected_delivery_date` DATE NULL,
+    `actual_delivery_date` DATE NULL,
+    `notes` TEXT,
+    PRIMARY KEY (`order_id`),
+    FOREIGN KEY (`customer_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`tailor_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`appointment_id`) ON DELETE SET NULL
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Order items table (one order can have multiple items)
+CREATE TABLE `order_items` (
+    `item_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `order_id` INT(11) NOT NULL,
+    `design_id` INT(11) NOT NULL,
+    `fabric_id` INT(11) NOT NULL,
+    `color_id` INT(11) NOT NULL,
+    `quantity` INT(2) DEFAULT 1,
+    `base_price` DECIMAL(10, 2) NOT NULL,
+    `customization_price` DECIMAL(10, 2) DEFAULT 0.00,
+    `fabric_price` DECIMAL(10, 2) DEFAULT 0.00,
+    `total_price` DECIMAL(10, 2) NOT NULL,
+    `status` ENUM(
+        'pending',
+        'in_progress',
+        'ready',
+        'delivered'
+    ) DEFAULT 'pending',
+    PRIMARY KEY (`item_id`),
+    FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE RESTRICT,
+    FOREIGN KEY (`fabric_id`) REFERENCES `fabrics` (`fabric_id`) ON DELETE RESTRICT,
+    FOREIGN KEY (`color_id`) REFERENCES `colors` (`color_id`) ON DELETE RESTRICT
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Order item customizations (which customization choices were selected for each item)
+CREATE TABLE `order_item_customizations` (
+    `item_id` INT(11) NOT NULL,
+    `customization_type_id` INT(11) NOT NULL,
+    `choice_id` INT(11) NOT NULL,
+    `price_adjustment` DECIMAL(10, 2) DEFAULT 0.00,
+    PRIMARY KEY (
+        `item_id`,
+        `customization_type_id`
+    ),
+    FOREIGN KEY (`item_id`) REFERENCES `order_items` (`item_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`customization_type_id`) REFERENCES `customization_types` (`type_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`choice_id`) REFERENCES `customization_choices` (`choice_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Order item measurements
+CREATE TABLE `order_item_measurements` (
+    `item_id` INT(11) NOT NULL,
+    `measurement_source` ENUM('profile', 'manual', 'adjusted') NOT NULL DEFAULT 'profile',
+    `measurement_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `measured_by` INT(11) NULL REFERENCES `users`(`user_id`),
+    
+    /* Standard shirt measurements from profile */
+    `collar_size` DECIMAL(5, 2) NULL,
+    `chest_width` DECIMAL(5, 2) NULL,
+    `waist_width` DECIMAL(5, 2) NULL,
+    `bottom_width` DECIMAL(5, 2) NULL,
+    `shoulder_width` DECIMAL(5, 2) NULL,
+    `sleeve_length` DECIMAL(5, 2) NULL,
+    `armhole_depth` DECIMAL(5, 2) NULL,
+    `bicep` DECIMAL(5, 2) NULL,
+    `cuff_size` DECIMAL(5, 2) NULL,
+    `front_length` DECIMAL(5, 2) NULL,
+    
+    /* Standard pant measurements from profile */
+    `seat` DECIMAL(5, 2) NULL,
+    `mid_thigh_width` DECIMAL(5, 2) NULL,
+    `inseam` DECIMAL(5, 2) NULL,
+    `rise_height_front` DECIMAL(5, 2) NULL,
+    `rise_height_back` DECIMAL(5, 2) NULL,
+    
+    /* Additional/specialized measurements as JSON */
+    `additional_measurements` JSON NULL,
+    `tailor_notes` TEXT NULL,
+    
+    PRIMARY KEY (`item_id`),
+    FOREIGN KEY (`item_id`) REFERENCES `order_items` (`item_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+
+-- create a table for required measurements for each design
+-- This table will store the required measurements for each design
+CREATE TABLE `design_required_measurements` (
+    `design_id` INT(11) NOT NULL,
+    `measurement_name` VARCHAR(50) NOT NULL,
+    `measurement_description` TEXT,
+    `is_required` BOOLEAN DEFAULT TRUE,
+    `default_value` DECIMAL(5,2) NULL,
+    `measurement_type` ENUM('shirt', 'pant', 'other') NOT NULL,
+    PRIMARY KEY (`design_id`, `measurement_name`),
+    FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
