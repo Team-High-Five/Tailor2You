@@ -12,7 +12,6 @@
         <tr>
           <th>Measurement Type</th>
           <th>Value (inches)</th>
-          <th>Options</th>
         </tr>
       </thead>
       <tbody>
@@ -34,7 +33,6 @@
               </select>
             </div>
           </td>
-          <td><a href="<?php echo URLROOT ?>/Designs/collarDesigns"><button class="design-button">Collar Designs</button></a></td>
         </tr>
         <tr>
           <td>
@@ -54,7 +52,6 @@
               </select>
             </div>
           </td>
-          <td></td>
         </tr>
         <tr>
           <td>
@@ -74,7 +71,6 @@
               </select>
             </div>
           </td>
-          <td></td>
         </tr>
         <tr>
           <td>
@@ -94,7 +90,6 @@
               </select>
             </div>
           </td>
-          <td></td>
         </tr>
         <tr>
           <td>
@@ -114,7 +109,6 @@
               </select>
             </div>
           </td>
-          <td></td>
         </tr>
         <tr>
           <td>
@@ -134,7 +128,6 @@
               </select>
             </div>
           </td>
-          <td></td>
         </tr>
         <tr>
           <td>
@@ -154,7 +147,6 @@
               </select>
             </div>
           </td>
-          <td></td>
         </tr>
         <tr>
           <td>
@@ -174,7 +166,6 @@
               </select>
             </div>
           </td>
-          <td></td>
         </tr>
         <tr>
           <td>
@@ -194,12 +185,17 @@
               </select>
             </div>
           </td>
-          <td><a href="<?php echo URLROOT ?>/Designs/cuffDesigns"><button class="design-button">Cuff Designs</button></a></td>
         </tr>
       </tbody>
     </table>
 
     <div class="buttons">
+      <a href="<?php echo URLROOT ?>/Designs/customizations" class="customization-link">
+        <button class="customization-button">
+          Customize Design
+          <i class="fas fa-tshirt"></i>
+        </button>
+      </a>
       <a href="<?php echo URLROOT ?>/Designs/appointment">
         <button class="submit-button">
           Continue to Appointment

@@ -8,11 +8,13 @@ class Designs extends Controller
 {
     private $designModel;
     private $fabricModel;
+    private $orderModel;
 
     public function __construct()
     {
         $this->designModel = $this->model('M_Designs');
         $this->fabricModel = $this->model('M_Fabrics');
+        $this->orderModel = $this->model('M_Orders');
     }
 
     public function index() {}
@@ -84,6 +86,15 @@ class Designs extends Controller
             'title' => 'Payments '
         ];
         $this->view('Designs/v_d_payments', $data);
+    }
+
+    public function customizations()
+    {
+        $data = [
+            'title' => 'Design Customizations',
+        ];
+
+        $this->view('designs/v_d_customizations', $data);
     }
 
     // Tailor Views of Designs
