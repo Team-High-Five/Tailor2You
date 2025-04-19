@@ -6,11 +6,14 @@ class Database {
     private $pass = DB_PASS;
     private $dbname = DB_NAME;
 
+// Database handler
     // Database handler
-    private $dbh;
-    // Statement
-    private $stmt;
-    // Error handler
+    private $dbh;// Statement
+
+// Statement
+    private // Error handler
+$stmt;
+// Error handler
     private $error;
 
     public function __construct() {
@@ -21,7 +24,7 @@ class Database {
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
         );
 
-        // Create a new PDO instance
+        // Create PDO instance
         try {
             $this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
         } catch (PDOException $e) {
@@ -52,7 +55,6 @@ class Database {
                     $type = PDO::PARAM_STR;
             }
         }
-
         $this->stmt->bindValue($param, $value, $type);
     }
 
