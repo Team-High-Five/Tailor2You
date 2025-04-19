@@ -243,8 +243,7 @@
 
   .delete-btn{
     padding: 10px 20px;
-    background: var(--danger-dark-color);;
-    /* background-color: #007bff; */
+    background: var(--danger-dark-color);
     color: rgb(255, 255, 255);
     border: none;
     border-radius: 5px;
