@@ -344,14 +344,10 @@ class Shopkeepers extends Controller
         $this->view('users/Shopkeeper/v_s_portfolio', $data);
     }
 
-    public function addNewPost()
-    {
-        $data = [
-            'title' => 'Add New Post'
-        ];
-
-        $this->view('users/Shopkeeper/v_s_add_new_post', $data);
+    public function addNewPost() {
+        $this->view('users/ShopKeeper/v_s_profile_portfolio_add_new');
     }
+    
 
     public function addPost()
     {
@@ -367,6 +363,8 @@ class Shopkeepers extends Controller
                 'user_id' => $_SESSION['user_id'],
                 'title' => trim($_POST['title']),
                 'description' => trim($_POST['description']),
+                'gender' => isset($_POST['gender']) ? trim($_POST['gender']) : 'unisex',
+                'item_type' => isset($_POST['item_type']) ? trim($_POST['item_type']) : null,
                 'image' => $image
             ];
 
@@ -380,7 +378,7 @@ class Shopkeepers extends Controller
             $data = [
                 'title' => 'Add New Post'
             ];
-            $this->view('users/Shopkeeper/v_s_add_new_post', $data);
+            $this->view('users/Shopkeeper/v_s_profile_portfolio_add_new', $data);
         }
     }
 
@@ -402,6 +400,8 @@ class Shopkeepers extends Controller
                 'user_id' => $_SESSION['user_id'],
                 'title' => trim($_POST['title']),
                 'description' => trim($_POST['description']),
+                'gender' => isset($_POST['gender']) ? trim($_POST['gender']) : 'unisex',
+                'item_type' => isset($_POST['item_type']) ? trim($_POST['item_type']) : null,
                 'image' => $image
             ];
 
@@ -423,12 +423,15 @@ class Shopkeepers extends Controller
                 'post_id' => $post->id,
                 'title' => $post->title,
                 'description' => $post->description,
+                'gender' => $post->gender,
+                'item_type' => $post->item_type,
                 'image' => $post->image
             ];
 
             $this->view('users/Shopkeeper/v_s_edit_post', $data);
         }
     }
+    
 
     public function deletePost($post_id)
     {

@@ -47,6 +47,8 @@ CREATE TABLE `posts` (
     `user_id` INT(11) NOT NULL,
     `title` VARCHAR(255) NOT NULL,
     `description` TEXT NOT NULL,
+    `gender` ENUM('men', 'women', 'unisex') DEFAULT 'unisex',
+    `item_type` ENUM('shirt', 'pant', 'frock', 'skirt', 'blouse') NULL,
     `image` LONGBLOB,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
