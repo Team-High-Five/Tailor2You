@@ -3,7 +3,10 @@
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php'; ?>
 
 <div class="main-content">
-  <button class="add-fabric-btn" id="openFabricModalBtn">Add New Fabric</button>
+  <button class="btn-primary add-post-btn" id="openFabricModalBtn">Add New Fabric</button>
+  
+  <!-- Add vertical space between button and filter bar -->
+  <div style="margin: 20px 0;"></div>
 
   <div class="filter-bar">
     <div class="filter-label">

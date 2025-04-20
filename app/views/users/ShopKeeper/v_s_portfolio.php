@@ -6,12 +6,13 @@
 <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/shopkeeper/portfolio.css">
 
 <div class="main-content">
+  <!-- Add New Post button moved outside portfolio-container like in fabric page -->
+  <button class="btn-primary add-post-btn" id="openPostModalBtn">Add New Post</button>
+  
+  <!-- Add vertical space between button and filter bar -->
+  <div style="margin: 20px 0;"></div>
+  
   <div class="portfolio-container">
-    <div class="portfolio-header">
-      <h2>Portfolio</h2>
-      <button class="btn-primary add-post-btn" id="openPostModalBtn">Add New Post</button>
-    </div>
-
     <!-- Filter Bar -->
     <div class="filter-bar">
       <div class="filter-label">

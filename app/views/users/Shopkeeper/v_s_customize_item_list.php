@@ -2,8 +2,11 @@
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php'; ?>
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php'; ?>
 <div class="main-content">
-  <!-- Changed back to a button with direct onclick handler -->
-  <button class="add-fabric-btn" onclick="window.location.href='<?php echo URLROOT; ?>/customize'">Add New Design</button>
+  <!-- Changed to match portfolio button style -->
+  <button class="btn-primary add-post-btn" onclick="window.location.href='<?php echo URLROOT; ?>/customize'">Add New Design</button>
+  
+  <!-- Add vertical space between button and filter bar -->
+  <div style="margin: 20px 0;"></div>
   
   <div class="filter-bar">
     <h6>Filter By</h6>

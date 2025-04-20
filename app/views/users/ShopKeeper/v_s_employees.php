@@ -13,7 +13,10 @@
   }
 </style>
 <div class="main-content">
-  <button class="add-fabric-btn" id="openEmployeeModalBtn">Add New Employee</button>
+  <button class="btn-primary add-post-btn" id="openEmployeeModalBtn">Add New Employee</button>
+  
+  <!-- Add vertical space between button and filter bar -->
+  <div style="margin: 20px 0;"></div>
 
   <div class="filter-bar">
     <div class="filter-label">
