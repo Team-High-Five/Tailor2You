@@ -85,8 +85,10 @@
               <?php endforeach; ?>
             </td>
             <td>
-              <button class="action-btn edit-btn" onclick="openEditFabricModal(<?php echo $fabric->fabric_id; ?>)">✎</button>
-              <button class="action-btn delete-btn" onclick="confirmDelete(<?php echo $fabric->fabric_id; ?>)">🗑</button>
+              <div class="portfolio-actions">
+                <button class="edit-btn" onclick="openEditFabricModal(<?php echo $fabric->fabric_id; ?>)"><i class="fas fa-edit"></i></button>
+                <button class="delete-btn" onclick="confirmDelete(<?php echo $fabric->fabric_id; ?>)"><i class="fas fa-trash-alt"></i></button>
+              </div>
             </td>
           </tr>
         <?php endforeach; ?>

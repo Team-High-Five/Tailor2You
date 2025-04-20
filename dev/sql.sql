@@ -115,6 +115,7 @@ CREATE TABLE `employees` (
     `last_name` VARCHAR(30) NOT NULL,
     `phone_number` VARCHAR(10) NOT NULL,
     `home_town` VARCHAR(20) NOT NULL,
+    `district` VARCHAR(50) DEFAULT NULL,
     `email` VARCHAR(30) NOT NULL,
     `image` LONGBLOB DEFAULT NULL,
     PRIMARY KEY (`employee_id`),
