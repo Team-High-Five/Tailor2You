@@ -5,6 +5,50 @@
 <div class="main-content">
   <button class="add-fabric-btn" id="openFabricModalBtn">Add New Fabric</button>
 
+  <div class="filter-bar">
+    <div class="filter-label">
+      <i class="fas fa-filter"></i> Filter Fabrics
+    </div>
+    
+    <div class="price-filter">
+      <label>Price:</label>
+      <select id="price-sort" class="filter-select">
+        <option value="">Default</option>
+        <option value="asc">Lowest to Highest</option>
+        <option value="desc">Highest to Lowest</option>
+      </select>
+    </div>
+    
+    <div class="stock-filter">
+      <label>Stock:</label>
+      <select id="stock-sort" class="filter-select">
+        <option value="">Default</option>
+        <option value="asc">Lowest to Highest</option>
+        <option value="desc">Highest to Lowest</option>
+      </select>
+    </div>
+    
+    <div class="color-filter">
+      <label>Colors:</label>
+      <select id="color-select" class="filter-select">
+        <option value="">All Colors</option>
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="black">Black</option>
+        <option value="white">White</option>
+        <option value="yellow">Yellow</option>
+        <option value="purple">Purple</option>
+        <option value="orange">Orange</option>
+        <option value="gray">Gray</option>
+        <option value="brown">Brown</option>
+      </select>
+    </div>
+    
+    <button id="apply-filters" class="filter-btn">Apply</button>
+    <button id="reset-filters" class="rst-btn">Reset</button>
+  </div>
+
   <div class="table-container">
     <table class="product-table">
       <thead>
@@ -48,6 +92,7 @@
         <?php endforeach; ?>
       </tbody>
     </table>
+    <div class="no-results" style="display: none;">No fabrics match your filter criteria</div>
   </div>
 </div>
 
@@ -289,3 +334,4 @@
 </script>
 
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>
+<script src="<?php echo URLROOT; ?>/public/js/shopkeeper/fabric-filters.js"></script>
