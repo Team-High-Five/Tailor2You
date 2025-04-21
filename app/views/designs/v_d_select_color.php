@@ -46,9 +46,14 @@
                         </div>
                     <?php endif; ?>
                 </section>
-
+                <div class="button-group">
+                    <a href="<?php echo URLROOT; ?>/Orders/selectFabric" class="back-btn">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+                    <button type="submit" class="continue-btn" id="continueBtn" <?php echo empty($data['colors']) || !isset($_SESSION['order_details']['color']) ? 'disabled' : ''; ?>>Continue <i class="fas fa-arrow-right"></i></button>
+                </div>
                 <div class="continue-button">
-                    <button type="submit" class="continue-btn" id="continueBtn" <?php echo empty($data['colors']) || !isset($_SESSION['order_details']['color']) ? 'disabled' : ''; ?>>Continue</button>
+
                 </div>
             </form>
         </div>

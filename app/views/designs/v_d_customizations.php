@@ -1,216 +1,136 @@
 <?php require_once APPROOT . '/views/designs/inc/header.php'; ?>
 <?php require_once APPROOT . '/views/pages/inc/components/topnav.php'; ?>
 
-<div class="customization-page-container">
-    <div class="customization-content">
-        <div class="customization-header">
-            <h1>Customize Your Design</h1>
-            <p>Select your preferred style elements to create your perfect garment</p>
-        </div>
-
-        <div class="customization-categories">
-            <!-- Collar Options -->
-            <div class="customization-category">
-                <h2>Collar Styles</h2>
-                <div class="customization-options">
-                    <div class="option-card selected">
-                        <div class="option-image">
-                            <img src="<?php echo URLROOT; ?>/public/img/designs/customization/collar-regular.jpg" alt="Regular Collar">
-                        </div>
-                        <div class="option-details">
-                            <h3>Regular</h3>
-                            <p>Classic collar style suitable for formal occasions</p>
-                        </div>
-                    </div>
-                    <div class="option-card">
-                        <div class="option-image">
-                            <img src="<?php echo URLROOT; ?>/public/img/designs/customization/collar-button-down.jpg" alt="Button-Down Collar">
-                        </div>
-                        <div class="option-details">
-                            <h3>Button-Down</h3>
-                            <p>Collar points fastened down with buttons</p>
-                        </div>
-                    </div>
-                    <div class="option-card">
-                        <div class="option-image">
-                            <img src="<?php echo URLROOT; ?>/public/img/designs/customization/collar-spread.jpg" alt="Spread Collar">
-                        </div>
-                        <div class="option-details">
-                            <h3>Spread</h3>
-                            <p>Wider angle between collar points</p>
-                        </div>
-                    </div>
-                </div>
+<div class="design-page-container">
+    <div class="design-details-container">
+        <div class="customization-content">
+            <div class="customization-header">
+                <span>Customize Your Design</span>
+                <p>Select your preferred style elements to create your perfect garment</p>
             </div>
 
-            <!-- Cuff Options -->
-            <div class="customization-category">
-                <h2>Cuff Styles</h2>
-                <div class="customization-options">
-                    <div class="option-card selected">
-                        <div class="option-image">
-                            <img src="<?php echo URLROOT; ?>/public/img/designs/customization/cuff-barrel.jpg" alt="Barrel Cuff">
-                        </div>
-                        <div class="option-details">
-                            <h3>Barrel</h3>
-                            <p>Standard cuff with buttons</p>
-                        </div>
-                    </div>
-                    <div class="option-card">
-                        <div class="option-image">
-                            <img src="<?php echo URLROOT; ?>/public/img/designs/customization/cuff-french.jpg" alt="French Cuff">
-                        </div>
-                        <div class="option-details">
-                            <h3>French</h3>
-                            <p>Double-length cuff folded back, secured with cufflinks</p>
-                        </div>
-                    </div>
-                    <div class="option-card">
-                        <div class="option-image">
-                            <img src="<?php echo URLROOT; ?>/public/img/designs/customization/cuff-convertible.jpg" alt="Convertible Cuff">
-                        </div>
-                        <div class="option-details">
-                            <h3>Convertible</h3>
-                            <p>Can be worn with buttons or cufflinks</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- Form to submit customization choices -->
+            <form action="<?php echo URLROOT; ?>/Orders/processCustomizations" method="post">
 
-            <!-- Button Options -->
-            <div class="customization-category">
-                <h2>Button Style</h2>
-                <div class="customization-options button-options">
-                    <div class="option-card selected">
-                        <div class="option-circle" style="background-color: #f5f5f5;"></div>
-                        <span>Pearl White</span>
-                    </div>
-                    <div class="option-card">
-                        <div class="option-circle" style="background-color: #222;"></div>
-                        <span>Black</span>
-                    </div>
-                    <div class="option-card">
-                        <div class="option-circle" style="background-color: #8B4513;"></div>
-                        <span>Brown</span>
-                    </div>
-                    <div class="option-card">
-                        <div class="option-circle" style="background-color: #c4a77d;"></div>
-                        <span>Gold</span>
-                    </div>
-                </div>
-            </div>
+                <?php if (!empty($data['customizations'])): ?>
+                    <div class="customization-categories">
+                        <?php foreach ($data['customizations'] as $typeId => $customization): ?>
+                            <!-- Customization Type Section -->
+                            <div class="customization-category">
+                                <h2><?php echo $customization['type']->name; ?></h2>
+                                <?php if (!empty($customization['type']->description)): ?>
+                                    <p class="type-description"><?php echo $customization['type']->description; ?></p>
+                                <?php endif; ?>
 
-            <!-- Pocket Options -->
-            <div class="customization-category">
-                <h2>Pocket Style</h2>
-                <div class="customization-options">
-                    <div class="option-card selected">
-                        <div class="option-image">
-                            <img src="<?php echo URLROOT; ?>/public/img/designs/customization/pocket-single.jpg" alt="Single Pocket">
-                        </div>
-                        <div class="option-details">
-                            <h3>Single Pocket</h3>
-                            <p>Standard left breast pocket</p>
-                        </div>
-                    </div>
-                    <div class="option-card">
-                        <div class="option-image">
-                            <img src="<?php echo URLROOT; ?>/public/img/designs/customization/pocket-none.jpg" alt="No Pocket">
-                        </div>
-                        <div class="option-details">
-                            <h3>No Pocket</h3>
-                            <p>Clean, pocket-free design</p>
-                        </div>
-                    </div>
-                    <div class="option-card">
-                        <div class="option-image">
-                            <img src="<?php echo URLROOT; ?>/public/img/designs/customization/pocket-double.jpg" alt="Double Pocket">
-                        </div>
-                        <div class="option-details">
-                            <h3>Double Pocket</h3>
-                            <p>Pockets on both sides</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                                <div class="customization-options <?php echo strtolower(str_replace(' ', '-', $customization['type']->name)) . '-options'; ?>">
+                                    <?php foreach ($customization['choices'] as $index => $choice): ?>
+                                        <div class="option-card <?php echo $index === 0 ? 'selected' : ''; ?>"
+                                            data-choice-id="<?php echo $choice->choice_id; ?>"
+                                            onclick="selectOption(this, '<?php echo $typeId; ?>', <?php echo $choice->choice_id; ?>)">
 
-        <div class="customization-actions">
-            <a href="<?php echo URLROOT; ?>/Designs/enterMeasurement" class="back-button">
-                <i class="fas fa-arrow-left"></i> Back to Measurements
-            </a>
-            <a href="<?php echo URLROOT; ?>/Designs/appointment" class="continue-button">
-                Continue to Appointment <i class="fas fa-arrow-right"></i>
-            </a>
+                                            <?php if (!empty($choice->image)): ?>
+                                                <div class="option-image">
+                                                    <img src="<?php echo URLROOT; ?>/public/img/uploads/customizations/<?php echo $choice->image; ?>"
+                                                        alt="<?php echo $choice->name; ?>">
+                                                </div>
+                                            <?php elseif (strpos(strtolower($customization['type']->name), 'button') !== false): ?>
+                                                <!-- For button types with no image, show a circle -->
+                                                <div class="option-circle" style="background-color: <?php echo !empty($choice->description) ? $choice->description : '#ccc'; ?>"></div>
+                                            <?php endif; ?>
+
+                                            <div class="option-details">
+                                                <h3><?php echo $choice->name; ?></h3>
+                                                <?php if (!empty($choice->description) && strpos(strtolower($customization['type']->name), 'button') === false): ?>
+                                                    <p><?php echo $choice->description; ?></p>
+                                                <?php endif; ?>
+
+                                                <?php if ($choice->price_adjustment != 0): ?>
+                                                    <p class="price-adjustment <?php echo $choice->price_adjustment > 0 ? 'price-increase' : 'price-decrease'; ?>">
+                                                        <?php echo $choice->price_adjustment > 0 ? '+' : ''; ?>Rs. <?php echo number_format($choice->price_adjustment, 2); ?>
+                                                    </p>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+
+                                <!-- Hidden input to store selected option -->
+                                <input type="hidden"
+                                    name="customization_<?php echo $typeId; ?>"
+                                    id="customization_<?php echo $typeId; ?>"
+                                    value="<?php echo $customization['choices'][0]->choice_id; ?>">
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                <?php else: ?>
+                    <div class="no-customizations">
+                        <p>No customization options available for this design.</p>
+                    </div>
+                <?php endif; ?>
+
+                <div class="button-group">
+                    <a href="<?php echo URLROOT; ?>/Orders/selectColor" class="back-btn">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+                    <button type="submit" class="continue-btn">Continue <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </form>
         </div>
     </div>
 
-    <div class="design-preview">
-        <div class="preview-header">
-            <h2>Design Preview</h2>
+    <div class="design-image-container">
+        <div class="design-image-wrapper">
+            <?php if (isset($_SESSION['order_details']['design']) && !empty($_SESSION['order_details']['design']->main_image)) : ?>
+                <img src="<?php echo URLROOT; ?>/public/img/uploads/designs/<?php echo $_SESSION['order_details']['design']->main_image; ?>"
+                    alt="<?php echo $_SESSION['order_details']['design']->name; ?>"
+                    onerror="this.src='<?php echo URLROOT; ?>/public/img/designs/placeholder.jpg'">
+            <?php else : ?>
+                <img src="<?php echo URLROOT; ?>/public/img/designs/placeholder.jpg" alt="Design Image">
+            <?php endif; ?>
         </div>
-        <div class="preview-image">
-            <img src="<?php echo URLROOT; ?>/public/img/designs/shirt-preview.jpg" alt="Shirt Preview">
+
+        <div class="design-details">
+            <?php if (isset($_SESSION['order_details']['design'])): ?>
+                <div class="design-name">
+                    <span><?php echo $_SESSION['order_details']['design']->name; ?></span>
+                </div>
+                <div class="design-description">
+                    <span><?php echo $_SESSION['order_details']['design']->description; ?></span>
+                </div>
+            <?php else: ?>
+                <div class="design-name">
+                    <span>Design Name</span>
+                </div>
+                <div class="design-description">
+                    <span>Design Description</span>
+                </div>
+            <?php endif; ?>
         </div>
-        <div class="preview-details">
-            <div class="preview-item">
-                <span class="label">Design:</span>
-                <span class="value">Classic Shirt</span>
-            </div>
-            <div class="preview-item">
-                <span class="label">Collar:</span>
-                <span class="value">Regular</span>
-            </div>
-            <div class="preview-item">
-                <span class="label">Cuff:</span>
-                <span class="value">Barrel</span>
-            </div>
-            <div class="preview-item">
-                <span class="label">Pocket:</span>
-                <span class="value">Single</span>
-            </div>
-            <div class="preview-item">
-                <span class="label">Buttons:</span>
-                <span class="value">Pearl White</span>
-            </div>
-        </div>
+
+        <!-- Add Order Summary Component -->
+        <?php require_once APPROOT . '/views/designs/components/order-summary.php'; ?>
     </div>
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Simple option selection functionality
-        const optionCards = document.querySelectorAll('.option-card');
-
-        optionCards.forEach(card => {
-            card.addEventListener('click', function() {
-                // Remove selected class from siblings
-                const siblings = card.parentElement.querySelectorAll('.option-card');
-                siblings.forEach(sibling => {
-                    sibling.classList.remove('selected');
-                });
-
-                // Add selected class to clicked card
-                card.classList.add('selected');
-
-                // Update preview (in a real app, this would be more sophisticated)
-                const optionType = card.closest('.customization-category').querySelector('h2').textContent;
-                const optionName = card.querySelector('h3') ?
-                    card.querySelector('h3').textContent :
-                    card.querySelector('span').textContent;
-
-                // Find the right preview item to update
-                if (optionType.includes('Collar')) {
-                    document.querySelector('.preview-item:nth-child(2) .value').textContent = optionName;
-                } else if (optionType.includes('Cuff')) {
-                    document.querySelector('.preview-item:nth-child(3) .value').textContent = optionName;
-                } else if (optionType.includes('Pocket')) {
-                    document.querySelector('.preview-item:nth-child(4) .value').textContent = optionName;
-                } else if (optionType.includes('Button')) {
-                    document.querySelector('.preview-item:nth-child(5) .value').textContent = optionName;
-                }
-            });
+    function selectOption(element, typeId, choiceId) {
+        // Remove selected class from siblings
+        const siblings = element.parentElement.querySelectorAll('.option-card');
+        siblings.forEach(sibling => {
+            sibling.classList.remove('selected');
         });
+
+        // Add selected class to clicked card
+        element.classList.add('selected');
+
+        // Update hidden input with selected choice ID
+        document.getElementById('customization_' + typeId).value = choiceId;
+    }
+
+    // Pre-select any saved customizations when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        // This would load any previously selected customizations from session
+        // You'll need to pass this data to the view if implementing this feature
     });
 </script>
 

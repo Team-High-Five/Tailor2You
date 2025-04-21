@@ -40,8 +40,10 @@
                     <?php endif; ?>
                 </section>
 
-                <div class="continue-button">
-                    <button type="submit" class="continue-btn" id="continueBtn" <?php echo empty($data['fabrics']) || !isset($_SESSION['order_details']['fabric']) ? 'disabled' : ''; ?>>Continue</button>
+                <div class="button-group">
+                    <button type="submit" class="continue-btn" id="continueBtn" <?php echo empty($data['fabrics']) || !isset($_SESSION['order_details']['fabric']) ? 'disabled' : ''; ?>>
+                        Continue <i class="fas fa-arrow-right"></i>
+                    </button>
                 </div>
             </form>
         </div>

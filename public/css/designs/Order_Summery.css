@@ -45,11 +45,89 @@
     text-align: right;
 }
 
-.color-swatch {
-    width: 20px;
-    height: 20px;
+/* Add this to your existing file */
+.item-color {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 25%;
+}
+
+.summary-color-swatch {
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
-    margin-left: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+    display: inline-block;
+}
+
+/* Color swatch mappings for the summary swatch */
+.summary-color-swatch[data-color="Black"],
+.summary-color-swatch[data-color="black"] {
+    background-color: #000000 !important;
+}
+
+.summary-color-swatch[data-color="Red"],
+.summary-color-swatch[data-color="red"] {
+    background-color: #FF0000 !important;
+}
+
+.summary-color-swatch[data-color="Blue"],
+.summary-color-swatch[data-color="blue"] {
+    background-color: #0000FF !important;
+}
+
+.summary-color-swatch[data-color="Purple"],
+.summary-color-swatch[data-color="purple"] {
+    background-color: #800080 !important;
+}
+
+.summary-color-swatch[data-color="Orange"],
+.summary-color-swatch[data-color="orange"] {
+    background-color: #FFA500 !important;
+}
+
+.summary-color-swatch[data-color="Yellow"],
+.summary-color-swatch[data-color="yellow"] {
+    background-color: #FFFF00 !important;
+}
+
+.summary-color-swatch[data-color="Green"],
+.summary-color-swatch[data-color="green"] {
+    background-color: #008000 !important;
+}
+
+.summary-color-swatch[data-color="White"],
+.summary-color-swatch[data-color="white"] {
+    background-color: #FFFFFF !important;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+.summary-color-swatch[data-color="Gray"],
+.summary-color-swatch[data-color="gray"] {
+    background-color: #808080 !important;
+}
+
+.summary-color-swatch[data-color="Pink"],
+.summary-color-swatch[data-color="pink"] {
+    background-color: #FFC0CB !important;
+}
+
+/* Additional fashion colors */
+.summary-color-swatch[data-color="Navy"],
+.summary-color-swatch[data-color="navy"] {
+    background-color: #000080 !important;
+}
+
+.summary-color-swatch[data-color="Burgundy"],
+.summary-color-swatch[data-color="burgundy"] {
+    background-color: #800020 !important;
+}
+
+.summary-color-swatch[data-color="Brown"],
+.summary-color-swatch[data-color="brown"] {
+    background-color: #A52A2A !important;
 }
 
 .price-summary {

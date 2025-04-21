@@ -4,7 +4,7 @@
 .color-form {
   background: var(--card-gradient);
   border-radius: 1.5rem;
-  padding: 2rem;
+  padding: 1rem;
   box-shadow: var(--elegant-shadow);
   border: 1px solid var(--glass-effect);
   width: 100%;
@@ -43,7 +43,7 @@
 .color-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  gap: 1rem;
   margin: 2rem 0;
 }
 
@@ -283,3 +283,40 @@
   background-color: #FFA500;
 }
 
+.color-swatch[data-color="yellow"] {
+  background-color: #FFFF00;
+}
+
+.color-swatch[data-color="green"] {
+  background-color: #008000;
+}
+
+.color-swatch[data-color="white"] {
+  background-color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.color-swatch[data-color="gray"] {
+  background-color: #808080;
+}
+
+.color-swatch[data-color="pink"] {
+  background-color: #FFC0CB;
+}
+
+
+/* Additional fashion colors */
+.color-swatch[data-color="navy"] {
+  background-color: #000080;
+}
+
+.color-swatch[data-color="teal"] {
+  background-color: #008080;
+}
+
+.color-swatch[data-color="burgundy"] {
+  background-color: #800020;
+}
+.color-swatch[data-color="pink"] {
+  background-color: #FFC0CB;
+}

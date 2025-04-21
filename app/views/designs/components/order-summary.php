@@ -31,31 +31,30 @@
             <div class="summary-item">
                 <span class="item-label">Color:</span>
                 <span class="item-value"><?php echo $_SESSION['order_details']['color']->color_name; ?></span>
-                <div class="color-swatch" style="background-color: <?php echo $_SESSION['order_details']['color']->color_code ?? '#000'; ?>"></div>
+                <span class="item-color">
+                    <div class="summary-color-swatch"
+                        data-color="<?php echo $_SESSION['order_details']['color']->color_name; ?>"
+                        style="background-color: <?php echo $_SESSION['order_details']['color']->color_code ?? '#000'; ?>">
+                    </div>
+                </span>
             </div>
         <?php endif; ?>
 
-        <?php
-        $customization_total = 0;
-        if (isset($_SESSION['order_details']['customizations']) && !empty($_SESSION['order_details']['customizations'])):
-        ?>
+        <?php if (isset($_SESSION['order_details']['customizations'])): ?>
             <div class="summary-section">
-                <h4>Customizations</h4>
-                <?php foreach ($_SESSION['order_details']['customizations'] as $type => $choice):
-                    if (isset($choice->price_adjustment)):
-                        $customization_total += $choice->price_adjustment;
-                ?>
-                        <div class="summary-item <?php echo $choice->price_adjustment > 0 ? 'price-increase' : ''; ?>">
-                            <span class="item-label"><?php echo $type; ?>:</span>
-                            <span class="item-value"><?php echo $choice->name; ?></span>
+                <h4>Customizations:</h4>
+                <?php foreach ($_SESSION['order_details']['customizations'] as $typeId => $choice): ?>
+                    <div class="summary-item">
+                        <span class="item-label"><?php echo $choice->name; ?>:</span>
+                        <span class="item-price">
                             <?php if ($choice->price_adjustment != 0): ?>
-                                <span class="item-price"><?php echo $choice->price_adjustment > 0 ? '+' : ''; ?>Rs. <?php echo number_format($choice->price_adjustment, 2); ?></span>
+                                <p class="fabric-price-impact <?php echo $choice->price_adjustment > 0 ? 'price-increase' : 'price-decrease'; ?>">
+                                    <?php echo $choice->price_adjustment > 0 ? '+' : ''; ?>Rs. <?php echo number_format($choice->price_adjustment, 2); ?>
+                                </p>
                             <?php endif; ?>
-                        </div>
-                <?php
-                    endif;
-                endforeach;
-                ?>
+                        </span>
+                    </div>
+                <?php endforeach; ?>
             </div>
         <?php endif; ?>
 

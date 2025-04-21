@@ -62,11 +62,18 @@ class Orders extends Controller
                         // Store in session
                         $_SESSION['order_details']['fabric'] = $fabric;
 
-                        // Recalculate total price
+                    
+                        $customizationIds = [];
+                        if (isset($_SESSION['order_details']['customizations'])) {
+                            foreach ($_SESSION['order_details']['customizations'] as $customization) {
+                                $customizationIds[] = $customization->choice_id;
+                            }
+                        }
+
                         $_SESSION['order_details']['total_price'] = $this->orderModel->calculateDesignPrice(
                             $_SESSION['order_details']['design']->design_id,
                             $fabricId,
-                            isset($_SESSION['order_details']['customizations']) ? array_values($_SESSION['order_details']['customizations']) : []
+                            $customizationIds
                         );
 
                         // Redirect to next step
@@ -126,7 +133,6 @@ class Orders extends Controller
             ];
         }
 
-        // Get available fabrics for this design
         $fabrics = $this->orderModel->getFabricsByDesignId($_SESSION['order_details']['design']->design_id);
 
         $data = [
@@ -137,44 +143,6 @@ class Orders extends Controller
         $this->view('designs/v_d_select_fabric', $data);
     }
 
-    // Update fabric selection via AJAX
-    public function updateFabricSelection($fabricId = null)
-    {
-        // Only process AJAX requests
-        if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest') {
-            redirect('designs');
-            return;
-        }
-
-        if ($fabricId === null || !isset($_SESSION['order_details']['design'])) {
-            echo json_encode(['success' => false, 'message' => 'Invalid request']);
-            return;
-        }
-
-        // Get fabric details
-        $fabric = $this->orderModel->getFabricById($fabricId);
-
-        if (!$fabric) {
-            echo json_encode(['success' => false, 'message' => 'Fabric not found']);
-            return;
-        }
-
-        // Update session
-        $_SESSION['order_details']['fabric'] = $fabric;
-
-        // Recalculate total price
-        $_SESSION['order_details']['total_price'] = $this->orderModel->calculateDesignPrice(
-            $_SESSION['order_details']['design']->design_id,
-            $fabricId,
-            isset($_SESSION['order_details']['customizations']) ? array_values($_SESSION['order_details']['customizations']) : []
-        );
-
-        echo json_encode([
-            'success' => true,
-            'fabric' => $fabric,
-            'total_price' => $_SESSION['order_details']['total_price']
-        ]);
-    }
 
     // Select color for the chosen fabric
     public function selectColor($fabricId = null)
@@ -187,7 +155,6 @@ class Orders extends Controller
 
         // If fabric ID provided but not in session, fetch and store it
         if ($fabricId !== null && (!isset($_SESSION['order_details']['fabric']) || $_SESSION['order_details']['fabric']->fabric_id != $fabricId)) {
-            // Pass design ID to get price adjustment
             $fabric = $this->orderModel->getFabricById(
                 $fabricId,
                 $_SESSION['order_details']['design']->design_id
@@ -199,15 +166,20 @@ class Orders extends Controller
             }
 
             $_SESSION['order_details']['fabric'] = $fabric;
-            // Recalculate total price
+            $customizationIds = [];
+            if (isset($_SESSION['order_details']['customizations'])) {
+                foreach ($_SESSION['order_details']['customizations'] as $customization) {
+                    $customizationIds[] = $customization->choice_id;
+                }
+            }
+
             $_SESSION['order_details']['total_price'] = $this->orderModel->calculateDesignPrice(
                 $_SESSION['order_details']['design']->design_id,
                 $fabricId,
-                isset($_SESSION['order_details']['customizations']) ? array_values($_SESSION['order_details']['customizations']) : []
+                $customizationIds
             );
         }
 
-        // Get available colors for this fabric
         $colors = $this->orderModel->getColorsByFabricId($_SESSION['order_details']['fabric']->fabric_id);
 
         $data = [
@@ -218,50 +190,27 @@ class Orders extends Controller
         $this->view('designs/v_d_select_color', $data);
     }
 
-    // Update color selection via AJAX
-    public function updateColorSelection($colorId = null)
-    {
-        // Only process AJAX requests
-        if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || $_SERVER['HTTP_X_REQUESTED_WITH'] !== 'XMLHttpRequest') {
-            redirect('designs');
-            return;
-        }
-
-        if ($colorId === null || !isset($_SESSION['order_details']['fabric'])) {
-            echo json_encode(['success' => false, 'message' => 'Invalid request']);
-            return;
-        }
-
-        // Get color details
-        $color = $this->orderModel->getColorById($colorId);
-
-        if (!$color) {
-            echo json_encode(['success' => false, 'message' => 'Color not found']);
-            return;
-        }
-
-        // Update session
-        $_SESSION['order_details']['color'] = $color;
-
-        echo json_encode(['success' => true, 'color' => $color]);
-    }
-
-    // Show customization options
+    // Select customizations for the chosen design
     public function customizations()
     {
-        // Check if fabric and color are selected
-        if (!isset($_SESSION['order_details']['fabric']) || !isset($_SESSION['order_details']['color'])) {
-            redirect('designs/selectFabric');
+        if (!isset($_SESSION['order_details']['design']) || !isset($_SESSION['order_details']['fabric'])) {
+            redirect('Orders/selectFabric');
             return;
         }
 
-        // Get customization types for this design
-        $customizationTypes = $this->orderModel->getCustomizationTypesByDesignId($_SESSION['order_details']['design']->design_id);
+        if (!isset($_SESSION['order_details']['color'])) {
+            redirect('Orders/selectColor');
+            return;
+        }
 
-        // Get customization choices for each type
+        $designId = $_SESSION['order_details']['design']->design_id;
+
+        $customizationTypes = $this->orderModel->getCustomizationTypesByDesignId($designId);
+
+        // For each type, get the available choices
         $customizationData = [];
         foreach ($customizationTypes as $type) {
-            $choices = $this->orderModel->getDesignCustomizationChoices($_SESSION['order_details']['design']->design_id, $type->type_id);
+            $choices = $this->orderModel->getDesignCustomizationChoices($designId, $type->type_id);
             if (!empty($choices)) {
                 $customizationData[$type->type_id] = [
                     'type' => $type,
@@ -269,156 +218,53 @@ class Orders extends Controller
                 ];
             }
         }
-
         $data = [
-            'title' => 'Customize Your Design',
+            'title' => 'Select Customizations',
             'customizations' => $customizationData
         ];
 
-        $this->view('designs/customization/v_d_customizations', $data);
+        $this->view('designs/v_d_customizations', $data);
     }
 
-    // Update customization selection via AJAX
-
-    // Show measurements form
-    public function enterMeasurement()
-    {
-        // Check if prior steps are completed
-        if (!isset($_SESSION['order_details']['design']) || !isset($_SESSION['order_details']['fabric']) || !isset($_SESSION['order_details']['color'])) {
-            redirect('designs');
-            return;
-        }
-
-        // Get required measurements for this design
-        $standardMeasurements = $this->orderModel->getDesignRequiredMeasurements($_SESSION['order_details']['design']->design_id);
-        $customMeasurements = $this->orderModel->getCustomDesignMeasurements($_SESSION['order_details']['design']->design_id);
-
-        // Check if user has saved measurements and pre-fill if available
-        $userMeasurements = [];
-        if (isset($_SESSION['user_id'])) {
-            // Fetch user measurements if the model supports it
-            // $userMeasurements = $this->orderModel->getUserMeasurements($_SESSION['user_id']);
-        }
-
-        $data = [
-            'title' => 'Enter Measurements',
-            'standardMeasurements' => $standardMeasurements,
-            'customMeasurements' => $customMeasurements,
-            'userMeasurements' => $userMeasurements
-        ];
-
-        $this->view('designs/v_d_enter_measurement', $data);
-    }
-
-    // Process measurement submission
-    public function saveMeasurements()
+    public function processCustomizations()
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-            redirect('designs/enterMeasurement');
+            redirect('Orders/customizations');
             return;
         }
 
-        // Validate input
-        $measurements = [];
+        if (!isset($_SESSION['order_details']['customizations'])) {
+            $_SESSION['order_details']['customizations'] = [];
+        }
 
-        // Extract and sanitize standard measurements
-        if (isset($_POST['standard']) && is_array($_POST['standard'])) {
-            foreach ($_POST['standard'] as $id => $value) {
-                if (is_numeric($value)) {
-                    $measurements['standard'][$id] = (float)$value;
+        // Get selected customizations from form
+        $selectedCustomizations = [];
+        foreach ($_POST as $key => $value) {
+            if (strpos($key, 'customization_') === 0) {
+                $typeId = substr($key, 14); // Remove 'customization_' to get type ID
+                $choiceId = $value;
+
+                // Get choice details to store in session
+                $choice = $this->orderModel->getCustomizationChoiceById($choiceId);
+                if ($choice) {
+                    $selectedCustomizations[$typeId] = $choice;
                 }
             }
         }
 
-        // Extract and sanitize custom measurements
-        if (isset($_POST['custom']) && is_array($_POST['custom'])) {
-            foreach ($_POST['custom'] as $id => $value) {
-                if (is_numeric($value)) {
-                    $measurements['custom'][$id] = (float)$value;
-                }
-            }
+
+        $_SESSION['order_details']['customizations'] = $selectedCustomizations;
+
+        $choiceIds = [];
+        foreach ($selectedCustomizations as $customization) {
+            $choiceIds[] = $customization->choice_id;
         }
+        $_SESSION['order_details']['total_price'] = $this->orderModel->calculateDesignPrice(
+            $_SESSION['order_details']['design']->design_id,
+            $_SESSION['order_details']['fabric']->fabric_id,
+            $choiceIds
+        );
 
-        // Save to session
-        $_SESSION['order_details']['measurements'] = $measurements;
-
-        // Redirect to appointment
-        redirect('designs/appointment');
-    }
-
-    // Show appointment scheduling
-    public function appointment()
-    {
-        // Check if prior steps are completed
-        if (!isset($_SESSION['order_details']['measurements'])) {
-            redirect('designs/enterMeasurement');
-            return;
-        }
-
-        $data = [
-            'title' => 'Schedule Appointment'
-        ];
-
-        $this->view('designs/v_d_appointment', $data);
-    }
-
-    // Final order review
-    public function reviewOrder()
-    {
-        // Check if all steps are completed
-        if (
-            !isset($_SESSION['order_details']['design']) ||
-            !isset($_SESSION['order_details']['fabric']) ||
-            !isset($_SESSION['order_details']['color']) ||
-            !isset($_SESSION['order_details']['measurements'])
-        ) {
-            redirect('designs');
-            return;
-        }
-
-        $data = [
-            'title' => 'Review Your Order',
-            'order' => $_SESSION['order_details']
-        ];
-
-        $this->view('designs/v_d_review_order', $data);
-    }
-
-    // Place the final order
-    public function placeOrder()
-    {
-        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-            redirect('designs/reviewOrder');
-            return;
-        }
-
-        // Validate that user is logged in
-        if (!isset($_SESSION['user_id'])) {
-            flash('order_error', 'You must be logged in to place an order', 'alert alert-danger');
-            redirect('users/login');
-            return;
-        }
-
-        // Validate that all order details exist
-        if (
-            !isset($_SESSION['order_details']['design']) ||
-            !isset($_SESSION['order_details']['fabric']) ||
-            !isset($_SESSION['order_details']['color']) ||
-            !isset($_SESSION['order_details']['measurements'])
-        ) {
-            flash('order_error', 'Please complete all order steps', 'alert alert-danger');
-            redirect('designs');
-            return;
-        }
-
-        // Implement order saving logic...
-        // This would involve inserting into the orders and order_items tables
-
-        // Clear the session order details
-        unset($_SESSION['order_details']);
-
-        // Redirect to order confirmation
-        flash('order_success', 'Your order has been placed successfully!', 'alert alert-success');
-        redirect('users/orders');
+        redirect('Orders/enterMeasurements');
     }
 }

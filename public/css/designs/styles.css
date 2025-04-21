@@ -42,13 +42,13 @@
 --------------------------------------------------------------*/
 
 .design-image-container {
-    position: sticky;
+    margin-top: 40px;
     top: 2rem;
     transform: none;
     flex: 3;
     align-self: flex-start;
     height: fit-content;
-    max-height: calc(100vh - 4rem);
+    max-height: 100vh;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -62,6 +62,9 @@
 
 .design-image-wrapper {
     width: 100%;
+    height: 100%;
+    max-height: 40vh;
+    min-height: 40vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -73,6 +76,7 @@
     width: 100%;
     height: auto;
     max-height: 40vh;
+    min-height: 40vh;
     border-radius: 1rem;
     object-fit: cover;
     transition: var(--transition);
@@ -105,6 +109,7 @@
 # COMMON CONTENT CONTAINERS
 --------------------------------------------------------------*/
 .design-details-container {
+    margin-top: 40px;
     flex: 7;
     margin-right: 2rem;
     width: 100%;
@@ -141,27 +146,99 @@
 }
 
 /*--------------------------------------------------------------
-# COMMON BUTTON STYLES
+# NAVIGATION BUTTONS - UPDATED
 --------------------------------------------------------------*/
-.continue-button {
-    text-align: center;
-    margin-top: 3rem;
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2.5rem;
+    gap: 1.5rem;
+}
+
+.back-btn {
+    margin-top: 10px;
+    background: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--accent-color);
+    padding: 0.6rem 1rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    text-decoration: none;
+    position: relative;
+    min-width: auto;
+    width: auto;
+}
+
+/* Make the icon larger */
+.back-btn i {
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+/* Arrow hover effect */
+.back-btn:hover {
+    background-color: transparent;
+    transform: translateX(-5px);
+    /* Move left instead of up */
+    box-shadow: 0 0 15px rgba(196, 167, 125, 0.2);
+    color: var(--accent-color);
+}
+
+/* Make arrow icon emphasize movement on hover */
+.back-btn:hover i {
+    transform: translateX(-3px);
+}
+
+/* Optional: if you want a more arrow-like shape */
+.back-btn::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid var(--accent-color);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.back-btn:hover::before {
+    opacity: 1;
+}
+
+.back-btn:active {
+    transform: translateY(0);
 }
 
 .continue-btn {
     background: var(--accent-gradient);
     color: var(--text-light);
     border: none;
-    padding: 1.25rem 3.5rem;
+    padding: 0.875rem 1.75rem;
     border-radius: 0.75rem;
     font-weight: 600;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: var(--transition);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
+    justify-content: center;
+    gap: 0.5rem;
+    flex: 1;
+    max-width: 160px;
 }
 
 .continue-btn:hover {
@@ -200,6 +277,36 @@
 }
 
 /*--------------------------------------------------------------
+# CUSTOM SCROLLBAR FOR IMAGE CONTAINER
+--------------------------------------------------------------*/
+/* Webkit browsers (Chrome, Safari, Edge) */
+.design-image-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.design-image-container::-webkit-scrollbar-track {
+    background: rgba(30, 30, 30, 0.6);
+    border-radius: 10px;
+    margin: 8px 0;
+}
+
+.design-image-container::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.design-image-container::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-hover);
+}
+
+/* Firefox */
+.design-image-container {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) rgba(30, 30, 30, 0.6);
+}
+
+/*--------------------------------------------------------------
 # RESPONSIVE LAYOUT ADJUSTMENTS
 --------------------------------------------------------------*/
 @media (max-width: 1200px) {
@@ -217,7 +324,6 @@
         margin-bottom: 2rem;
     }
 
-
     .design-image-container img {
         width: 40%;
         max-width: 300px;
@@ -226,6 +332,18 @@
 
     .design-details {
         flex: 1;
+    }
+}
+
+@media (max-width: 992px) {
+    .button-group {
+        flex-direction: row;
+    }
+
+    .back-btn,
+    .continue-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.85rem;
     }
 }
 
@@ -250,17 +368,43 @@
         font-size: 1.25rem;
     }
 
-
     .form-header span {
         font-size: 1.75rem;
     }
 
+    .button-group {
+        margin-top: 2rem;
+    }
+
+    .back-btn,
     .continue-btn {
-        padding: 1.125rem 2.5rem;
+        padding: 0.75rem 1.25rem;
+        min-width: 100px;
     }
 
     .order-summary {
         margin-top: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .button-group {
+        flex-direction: column-reverse;
+        width: 100%;
+        gap: 1rem;
+    }
+
+    .back-btn,
+    .continue-btn {
+        width: 100%;
+        max-width: 100%;
+        padding: 0.875rem 0;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .continue-btn {
+        margin-bottom: 1rem;
     }
 }
 
@@ -276,6 +420,8 @@
 
     .continue-btn {
         width: 100%;
-        padding: 1.125rem 0;
+        padding: 0.875rem 0;
+        text-align: center;
+        font-size: 0.9rem;
     }
 }

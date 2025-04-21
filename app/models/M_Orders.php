@@ -209,4 +209,11 @@ class M_Orders
 
         return $totalPrice;
     }
+
+    public function getCustomizationChoiceById($choiceId)
+    {
+        $this->db->query('SELECT * FROM customization_choices WHERE choice_id = :choice_id');
+        $this->db->bind(':choice_id', $choiceId);
+        return $this->db->single();
+    }
 }
