@@ -1,13 +1,12 @@
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php'; ?>
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php'; ?>
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php'; ?>
-
 <div class="main-content">
   <div class="appointment-list-container">
     <div class="filter-bar">
-      <h6>Filter By</h6>
+      <button class="filter-btn">Filter By</button>
       <select>
-        <option>Date</option>
+        <option>14 Feb 2019</option>
         <!-- Add more date options as needed -->
       </select>
       <select>
@@ -27,42 +26,57 @@
           <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Assign Tailor</th>
             <th>Date</th>
             <th>Time</th>
             <th>Status</th>
-            <th>Assign Tailor</th>
           </tr>
         </thead>
         <tbody>
-          <?php foreach ($data['appointments'] as $appointment) : ?>
-            <tr>
-              <td><?php echo $appointment->appointment_id; ?></td>
-              <td><a href="<?php echo URLROOT; ?>/shopkeepers/displayAppointmentDetails/<?php echo $appointment->appointment_id; ?>" class="appointment-link"><?php echo $appointment->first_name . ' ' . $appointment->last_name; ?></a></td>
-              <td><?php echo date('d M Y', strtotime($appointment->appointment_date)); ?></td>
-              <td><?php echo date('h:i a', strtotime($appointment->appointment_time)); ?></td>
-              <td>
-                <form action="<?php echo URLROOT; ?>/shopkeepers/updateAppointmentStatus/<?php echo $appointment->appointment_id; ?>" method="post">
-                  <select name="appointment_status" class="status-dropdown <?php echo strtolower($appointment->status); ?>" onchange="this.form.submit()">
-                    <option value="pending" class="status pending" <?php echo strtolower($appointment->status) == 'pending' ? 'selected' : ''; ?>>Pending</option>
-                    <option value="processing" class="status processing" <?php echo strtolower($appointment->status) == 'processing' ? 'selected' : ''; ?>>Processing</option>
-                    <option value="completed" class="status completed" <?php echo strtolower($appointment->status) == 'completed' ? 'selected' : ''; ?>>Completed</option>
-                    <option value="rejected" class="status rejected" <?php echo strtolower($appointment->status) == 'rejected' ? 'selected' : ''; ?>>Rejected</option>
-                  </select>
-                </form>
-              </td>
-              <td>
-                <form action="<?php echo URLROOT; ?>/shopkeepers/assignTailor/<?php echo $appointment->appointment_id; ?>" method="post">
-                  <select name="tailor_id" required>
-                    <option value="">Select Tailor</option>
-                    <?php foreach ($data['tailors'] as $tailor) : ?>
-                      <option value="<?php echo $tailor->id; ?>"><?php echo $tailor->name; ?></option>
-                    <?php endforeach; ?>
-                  </select>
-                  <button type="submit" class="assign-btn">Assign</button>
-                </form>
-              </td>
-            </tr>
-          <?php endforeach; ?>
+          <tr>
+            <td>00001</td>
+            <td><a href="<?php echo URLROOT; ?>/Shopkeepers/displayAppointmentDetails" class="appointment-link" data-id="1067907">Christine
+                Brooks</a></td>
+            <td>
+              <select class="assign-tailor">
+                <option>Assign a Tailor</option>
+                <option>Tailor 1</option>
+                <option>Tailor 2</option>
+              </select>
+            </td>
+            <td>14 Feb 2019</td>
+            <td>4:00 p.m.</td>
+            <td><span class="status accepted">Accepted</span></td>
+          </tr>
+          <tr>
+            <td>00002</td>
+            <td>Rosie Pearson</td>
+            <td>
+              <select class="assign-tailor">
+                <option>Assign a Tailor</option>
+                <option>Tailor 1</option>
+                <option>Tailor 2</option>
+              </select>
+            </td>
+            <td>14 Feb 2019</td>
+            <td>3:00 p.m.</td>
+            <td><span class="status processing">Processing</span></td>
+          </tr>
+          <tr>
+            <td>00003</td>
+            <td>Darrell Caldwell</td>
+            <td>
+              <select class="assign-tailor">
+                <option>Assign a Tailor</option>
+                <option>Tailor 1</option>
+                <option>Tailor 2</option>
+              </select>
+            </td>
+            <td>14 Feb 2019</td>
+            <td>10:30 a.m.</td>
+            <td><span class="status rejected">Rejected</span></td>
+          </tr>
+          <!-- Add more rows as needed -->
         </tbody>
       </table>
     </div>
@@ -71,42 +85,10 @@
 
 <!-- Modal Structure -->
 <div id="AppointmentCard" class="modal">
-  <div id="modal-body">
-    <!-- Content from v_s_appointment_card.php will be loaded here -->
-  </div>
-</div>
-
-<!-- Reschedule Appointment Modal -->
-<div id="rescheduleAppointmentModal" class="modal">
-  <div class="modal-body">
-    <div class="pop-modal-container">
-      <div class="add-new-post-content">
-        <div class="modal-header">
-          <h1>Reschedule Appointment</h1>
-          <button class="close-btn">&times;</button>
-        </div>
-        <form id="reschedule-form" action="" method="post">
-          <div class="form-group">
-            <label for="appointment_date">New Date</label>
-            <input type="date" id="appointment_date" name="appointment_date" required>
-          </div>
-          <div class="form-group">
-            <label for="appointment_time">New Time</label>
-            <select id="appointment_time" name="appointment_time" required>
-              <?php
-              // Generate 30-minute time slots from 00:00 to 23:30
-              for ($hour = 0; $hour < 24; $hour++) {
-                for ($minute = 0; $minute < 60; $minute += 30) {
-                  $time = sprintf('%02d:%02d', $hour, $minute);
-                  echo "<option value=\"$time\">$time</option>";
-                }
-              }
-              ?>
-            </select>
-          </div>
-          <button type="submit" class="submit-btn">Reschedule</button>
-        </form>
-      </div>
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <div id="modal-body">
+      <!-- Content from v_t_customize_add_new.php will be loaded here -->
     </div>
   </div>
 </div>
@@ -116,6 +98,7 @@
     link.addEventListener('click', function(event) {
       event.preventDefault();
       document.getElementById('AppointmentCard').style.display = 'block';
+      // Load the content of v_t_customize_add_new.php into the modal
       fetch(this.href)
         .then(response => response.text())
         .then(html => {
@@ -124,31 +107,14 @@
     });
   });
 
-  document.querySelectorAll('.close-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      document.getElementById('AppointmentCard').style.display = 'none';
-      document.getElementById('rescheduleAppointmentModal').style.display = 'none';
-    });
+  document.querySelector('.close-btn').addEventListener('click', function() {
+    document.getElementById('AppointmentCard').style.display = 'none';
   });
 
   window.addEventListener('click', function(event) {
     if (event.target == document.getElementById('AppointmentCard')) {
       document.getElementById('AppointmentCard').style.display = 'none';
     }
-    if (event.target == document.getElementById('rescheduleAppointmentModal')) {
-      document.getElementById('rescheduleAppointmentModal').style.display = 'none';
-    }
-  });
-
-  document.addEventListener('click', function(event) {
-    if (event.target.classList.contains('reject-button')) {
-      event.preventDefault();
-      const appointmentId = event.target.dataset.id;
-      document.getElementById('reschedule-form').action = '<?php echo URLROOT; ?>/shopkeepers/rescheduleAppointment/' + appointmentId;
-      document.getElementById('rescheduleAppointmentModal').style.display = 'block';
-    }
   });
 </script>
-
-<script src="<?php echo URLROOT; ?>/public/js/appointment.js"></script>
-<?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>
+<?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>

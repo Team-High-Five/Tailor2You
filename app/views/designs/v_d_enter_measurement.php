@@ -3,16 +3,12 @@
 
 <div class="measurement-page-container">
   <div class="measurement-form-container">
-    <div class="measurement-header">
-      <span>Enter Your Measurements</span>
-    </div>
-
-    <table class="measurement-table">
+    <table>
       <thead>
         <tr>
-          <th>Measurement Type</th>
-          <th>Value (inches)</th>
-          <th>Options</th>
+          <th>Measurement Type & Description</th>
+          <th>Measurement (inch)</th>
+          <th>Designs</th>
         </tr>
       </thead>
       <tbody>
@@ -22,17 +18,15 @@
             <p>Around the base of the neck</p>
           </td>
           <td>
-            <div class="select-container">
-              <select class="select" name="neck">
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-                <option>11</option>
-                <option>12</option>
-              </select>
-            </div>
+            <select class="select">
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+            </select>
           </td>
           <td><a href="<?php echo URLROOT ?>/Designs/collarDesigns"><button class="design-button">Collar Designs</button></a></td>
         </tr>
@@ -42,17 +36,15 @@
             <p>Fullest part of the chest</p>
           </td>
           <td>
-            <div class="select-container">
-              <select class="select" name="chest">
-                <option>14</option>
-                <option>15</option>
-                <option>16</option>
-                <option>17</option>
-                <option>18</option>
-                <option>19</option>
-                <option>20</option>
-              </select>
-            </div>
+            <select class="select">
+              <option>14</option>
+              <option>15</option>
+              <option>16</option>
+              <option>17</option>
+              <option>18</option>
+              <option>19</option>
+              <option>20</option>
+            </select>
           </td>
           <td></td>
         </tr>
@@ -62,17 +54,15 @@
             <p>Narrowest part of the waist</p>
           </td>
           <td>
-            <div class="select-container">
-              <select class="select" name="waist">
-                <option>14</option>
-                <option>15</option>
-                <option>16</option>
-                <option>17</option>
-                <option>18</option>
-                <option>19</option>
-                <option>20</option>
-              </select>
-            </div>
+            <select class="select">
+              <option>14</option>
+              <option>15</option>
+              <option>16</option>
+              <option>17</option>
+              <option>18</option>
+              <option>19</option>
+              <option>20</option>
+            </select>
           </td>
           <td></td>
         </tr>
@@ -82,17 +72,15 @@
             <p>Fullest part of the hips</p>
           </td>
           <td>
-            <div class="select-container">
-              <select class="select" name="hip">
-                <option>14</option>
-                <option>15</option>
-                <option>16</option>
-                <option>17</option>
-                <option>18</option>
-                <option>19</option>
-                <option>20</option>
-              </select>
-            </div>
+            <select class="select">
+              <option>14</option>
+              <option>15</option>
+              <option>16</option>
+              <option>17</option>
+              <option>18</option>
+              <option>19</option>
+              <option>20</option>
+            </select>
           </td>
           <td></td>
         </tr>
@@ -102,17 +90,15 @@
             <p>Distance between shoulder seams</p>
           </td>
           <td>
-            <div class="select-container">
-              <select class="select" name="shoulder">
-                <option>14</option>
-                <option>15</option>
-                <option>16</option>
-                <option>17</option>
-                <option>18</option>
-                <option>19</option>
-                <option>20</option>
-              </select>
-            </div>
+            <select class="select">
+              <option>14</option>
+              <option>15</option>
+              <option>16</option>
+              <option>17</option>
+              <option>18</option>
+              <option>19</option>
+              <option>20</option>
+            </select>
           </td>
           <td></td>
         </tr>
@@ -122,17 +108,15 @@
             <p>From shoulder seam to wrist</p>
           </td>
           <td>
-            <div class="select-container">
-              <select class="select" name="sleeve">
-                <option>14</option>
-                <option>15</option>
-                <option>16</option>
-                <option>17</option>
-                <option>18</option>
-                <option>19</option>
-                <option>20</option>
-              </select>
-            </div>
+            <select class="select">
+              <option>14</option>
+              <option>15</option>
+              <option>16</option>
+              <option>17</option>
+              <option>18</option>
+              <option>19</option>
+              <option>20</option>
+            </select>
           </td>
           <td></td>
         </tr>
@@ -142,17 +126,15 @@
             <p>Circumference of the armhole</p>
           </td>
           <td>
-            <div class="select-container">
-              <select class="select" name="armhole">
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-                <option>11</option>
-                <option>12</option>
-              </select>
-            </div>
+            <select class="select">
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+            </select>
           </td>
           <td></td>
         </tr>
@@ -162,17 +144,15 @@
             <p>From the base of the neck to the hem</p>
           </td>
           <td>
-            <div class="select-container">
-              <select class="select" name="shirt_length">
-                <option>18</option>
-                <option>19</option>
-                <option>20</option>
-                <option>21</option>
-                <option>22</option>
-                <option>23</option>
-                <option>24</option>
-              </select>
-            </div>
+            <select class="select">
+              <option>18</option>
+              <option>19</option>
+              <option>20</option>
+              <option>21</option>
+              <option>22</option>
+              <option>23</option>
+              <option>24</option>
+            </select>
           </td>
           <td></td>
         </tr>
@@ -182,17 +162,15 @@
             <p>Around the wrist</p>
           </td>
           <td>
-            <div class="select-container">
-              <select class="select" name="cuff">
-                <option>6</option>
-                <option>7</option>
-                <option>8</option>
-                <option>9</option>
-                <option>10</option>
-                <option>11</option>
-                <option>12</option>
-              </select>
-            </div>
+            <select class="select">
+              <option>6</option>
+              <option>7</option>
+              <option>8</option>
+              <option>9</option>
+              <option>10</option>
+              <option>11</option>
+              <option>12</option>
+            </select>
           </td>
           <td><a href="<?php echo URLROOT ?>/Designs/cuffDesigns"><button class="design-button">Cuff Designs</button></a></td>
         </tr>
@@ -200,15 +178,9 @@
     </table>
 
     <div class="buttons">
-      <a href="<?php echo URLROOT ?>/Designs/appointment">
-        <button class="submit-button">
-          Continue to Appointment
-          <i class="fas fa-arrow-right"></i>
-        </button>
-      </a>
+      <a href="<?php echo URLROOT ?>/Designs/appointment"><button class="submit-button">Submit</button></a>
     </div>
   </div>
-
   <div class="design-image-container">
     <img src="<?php echo URLROOT; ?>/public/img/designs/still-life-with-classic-shirts-hanger.jpg" alt="Design">
     <div class="design-details">
@@ -220,6 +192,6 @@
       </div>
     </div>
   </div>
-</div>
+  </body>
 
-<?php require_once APPROOT . '/views/designs/inc/footer.php'; ?>
+  </html>

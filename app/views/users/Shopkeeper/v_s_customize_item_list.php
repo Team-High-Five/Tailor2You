@@ -2,13 +2,11 @@
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php'; ?>
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php'; ?>
 <div class="main-content">
-  <!-- Changed back to a button with direct onclick handler -->
-  <button class="add-fabric-btn" onclick="window.location.href='<?php echo URLROOT; ?>/customize'">Add New Design</button>
-  
+  <button class="add-fabric-btn" id="openModalBtn">Add New Design</button>
   <div class="filter-bar">
-    <h6>Filter By</h6>
+    <button class="filter-btn">Filter By</button>
     <select>
-      <option>Date</option>
+      <option>14 Feb 2019</option>
       <!-- Add more date options as needed -->
     </select>
     <select>
@@ -67,5 +65,37 @@
     </div>
   </div>
 </div>
+
+<!-- Modal Structure -->
+<div id="customizeModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn">&times;</span>
+    <div id="modal-body">
+      <!-- Content from v_t_customize_add_new.php will be loaded here -->
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById('openModalBtn').addEventListener('click', function() {
+    document.getElementById('customizeModal').style.display = 'block';
+    // Load the content of v_t_customize_add_new.php into the modal
+    fetch('<?php echo URLROOT; ?>/Shopkeepers/addCustomizeItem')
+      .then(response => response.text())
+      .then(html => {
+        document.getElementById('modal-body').innerHTML = html;
+      });
+  });
+
+  document.querySelector('.close-btn').addEventListener('click', function() {
+    document.getElementById('customizeModal').style.display = 'none';
+  });
+
+  window.addEventListener('click', function(event) {
+    if (event.target == document.getElementById('customizeModal')) {
+      document.getElementById('customizeModal').style.display = 'none';
+    }
+  });
+</script>
 
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>

@@ -1,10 +1,7 @@
-/*--------------------------------------------------------------
-# COLOR FORM STYLING
---------------------------------------------------------------*/
 .color-form {
   background: var(--card-gradient);
   border-radius: 1.5rem;
-  padding: 2.5rem;
+  padding: 40px;
   box-shadow: var(--elegant-shadow);
   border: 1px solid var(--glass-effect);
   backdrop-filter: blur(10px);
@@ -12,6 +9,7 @@
 
 .color-header {
   margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
   position: relative;
   text-align: center;
 }
@@ -19,50 +17,43 @@
 .color-header::after {
   content: '';
   position: absolute;
-  bottom: -0.75rem;
+  bottom: 0;
   left: 50%;
   transform: translateX(-50%);
   width: 100px;
-  height: 3px;
-  background: var(--accent-gradient);
-  border-radius: 3px;
+  height: 2px;
+  background: var(--accent-color);
+  background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
 }
 
 .color-header span {
-  font-size: 1.75rem;
+  font-size: 2rem;
   color: var(--text-light);
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 1px;
   text-transform: uppercase;
 }
 
-/*--------------------------------------------------------------
-# COLOR GRID & CARDS
---------------------------------------------------------------*/
 .color-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
   margin: 2rem 0;
 }
 
 .color-card {
-  background: linear-gradient(145deg, #252525, #1e1e1e);
-  border-radius: 0.75rem;
+  background: var(--card-gradient);
+  border-radius: 1rem;
   overflow: hidden;
   transition: var(--transition);
   position: relative;
   border: 1px solid var(--glass-effect);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  display: flex;
-  flex-direction: column;
   padding: 1rem;
 }
 
 .color-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  border-color: rgba(196, 167, 125, 0.3);
+  box-shadow: var(--elegant-shadow);
 }
 
 .color-card img {
@@ -80,24 +71,14 @@
 .color-name {
   color: var(--text-light);
   font-size: 1rem;
-  font-weight: 600;
   margin: 1rem 0;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-weight: 500;
+  letter-spacing: 0.5px;
 }
 
-/*--------------------------------------------------------------
-# COLOR SELECTION BUTTON & STATES
---------------------------------------------------------------*/
-.buttons {
-  margin-top: auto;
-}
-
-.color-card .buttons button {
+.buttons button {
   width: 100%;
-  padding: 0.75rem 0.5rem;
+  padding: 0.875rem;
   background: transparent;
   border: 2px solid var(--accent-color);
   color: var(--accent-color);
@@ -106,74 +87,59 @@
   transition: var(--transition);
   border-radius: 0.5rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-size: 0.8rem;
+  letter-spacing: 1px;
+  font-size: 0.875rem;
 }
 
-.color-card .buttons button:hover {
-  background: var(--accent-color);
-  color: #1a1a1a;
-}
-
-.color-card.selected {
-  border: 2px solid var(--accent-color);
-  background: linear-gradient(145deg, #2a2a2a, #252525);
-}
-
-.color-card.selected::before {
-  content: '✓';
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 25px;
-  height: 25px;
+.buttons button:hover {
   background: var(--accent-color);
   color: var(--primary-color);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  z-index: 2;
+  transform: translateY(-2px);
 }
 
-.color-card.selected .buttons button {
-  background: var(--accent-color);
-  color: var(--primary-color);
+.continue-button {
+  text-align: center;
+  margin-top: 3rem;
 }
 
-/*--------------------------------------------------------------
-# RESPONSIVE COLOR GRID
---------------------------------------------------------------*/
-@media (min-width: 1600px) {
-  .color-grid {
-    grid-template-columns: repeat(3, 1fr);
-   
+.continue-btn {
+  background: var(--accent-gradient);
+  color: var(--text-light);
+  border: none;
+  padding: 1.25rem 3.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.continue-btn:hover {
+  transform: translateY(-2px);
+  background-color: var(--accent-hover);
+  box-shadow: var(--accent-shadow);
+  color: var(--text-light);
+  background-position: right center;
+  background-size: 200% auto;
+}
+
+@media (max-width: 768px) {
+  .color-form {
+    padding: 25px;
   }
-}
 
-@media (max-width: 1200px) {
-  .color-grid {
-    grid-template-columns: repeat(3, 1fr);
-   
+  .color-header span {
+    font-size: 1.5rem;
   }
-}
 
-@media (max-width: 992px) {
   .color-grid {
-    grid-template-columns: repeat(2, 1fr);
-  
-  }
-}
-
-@media (max-width: 576px) {
-  .color-grid {
-    grid-template-columns: 1fr;
-    
+    gap: 1rem;
   }
 
   .color-card img {
-    height: 220px;
-    
+    height: 150px;
   }
 }
