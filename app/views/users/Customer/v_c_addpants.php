@@ -12,9 +12,9 @@
           <input type="hidden" name="is_create" value="<?php echo empty($data['pant']) ? '1' : '0'; ?>">
           <label for="measure">Measurement type</label>
             <div class="radiobtn">
-                <input type="radio" id="cm" name="measurement_unit" value="1" <?php echo isset($data['pant']->measure) && $data['pant']->measure == '1' ? 'checked' : ''; ?>>
+                <input type="radio" id="cm" name="measurement_unit" value="cm" <?php echo isset($data['pant']->measure) && $data['pant']->measure == 'cm' ? 'checked' : ''; ?>>
                 <label for="cm">cm</label>
-                <input type="radio" id="inch" name="measurement_unit" value="2" <?php echo isset($data['pant']->measure) && $data['pant']->measure == '2' ? 'checked' : ''; ?>>
+                <input type="radio" id="inch" name="measurement_unit" value="inch" <?php echo isset($data['pant']->measure) && $data['pant']->measure == 'inch' ? 'checked' : ''; ?>>
                 <label for="inch">inch</label><br><br>
             </div>
           <label for="waist_width">Waist Width</label>
@@ -98,32 +98,104 @@
 </body>
 </html>
 <script>
-    const form = document.querySelector('.change-form');
-    const inputs = form.querySelectorAll('input[type="text"], input[type="radio"]'); // Select all relevant inputs
-    const saveButton = form.querySelector('.btn-save');
+  const form = document.querySelector('.change-form');
+  const inputs = form.querySelectorAll('input[type="text"]');
+  const cmRadio = document.getElementById('cm');
+  const inchRadio = document.getElementById('inch');
+  const saveButton = form.querySelector('.btn-save');
 
-    let originalValues = {}; // Store original values
+  // Conversion constants
+  const CM_TO_INCH = 0.393701;
+  const INCH_TO_CM = 2.54;
 
-    inputs.forEach(input => {
-        originalValues[input.id] = input.value; // Store initial values
-        input.addEventListener('input', enableSaveButton);
-        input.addEventListener('change', enableSaveButton); // For radio buttons
-    });
+  // Store original values and their units
+  let measurementStore = {};
 
-    function enableSaveButton() {
-        let formChanged = false;
-        inputs.forEach(input => {
-          if (input.type === 'radio') {
-            if (input.checked !== (originalValues[input.id] === input.value)) {
-                formChanged = true;
-            }
-          } else if (input.value !== originalValues[input.id]) {
-                formChanged = true;
-            }
-        });
+  // Initialize measurement store based on database value and unit
+  window.addEventListener('load', function() {
+      inputs.forEach(input => {
+          const measurementId = input.id.replace(' ', ''); // Adjust if your database column names differ
+          const databaseValue = parseFloat(input.value);
+          const databaseUnit = cmRadio.checked ? 'cm' : (inchRadio.checked ? 'inch' : 'cm'); // Default to cm if neither is checked initially
 
-        saveButton.style.display = formChanged ? 'block' : 'none';
-    }
+          if (!isNaN(databaseValue)) {
+              if (databaseUnit === 'cm') {
+                  measurementStore[input.id] = {
+                      cm: databaseValue,
+                      inch: (databaseValue * CM_TO_INCH).toFixed(2)
+                  };
+              } else if (databaseUnit === 'inch') {
+                  measurementStore[input.id] = {
+                      cm: (databaseValue * INCH_TO_CM).toFixed(2),
+                      inch: databaseValue
+                  };
+              } else {
+                  // Handle unknown unit (shouldn't happen if radio buttons are correctly set)
+                  measurementStore[input.id] = { cm: databaseValue, inch: (databaseValue * CM_TO_INCH).toFixed(2) }; // Default to cm
+              }
+          } else {
+              measurementStore[input.id] = { cm: '', inch: '' };
+          }
+      });
+      toggleInputs(); // Initial display based on checked radio
+  });
+
+  // Show inputs based on selected unit
+  function toggleInputs() {
+      inputs.forEach(input => {
+          const currentUnit = cmRadio.checked ? 'cm' : 'inch';
+          input.value = measurementStore[input.id][currentUnit] || ''; // Use empty string if value is undefined
+          input.style.display = measurementStore[input.id][currentUnit] !== undefined ? 'block' : 'none';
+      });
+  }
+
+  // Handle unit change
+  cmRadio.addEventListener('change', toggleInputs);
+  inchRadio.addEventListener('change', toggleInputs);
+
+  // Update both cm and inch values when input changes
+  inputs.forEach(input => {
+      input.addEventListener('input', function() {
+          // Allow only numerical input
+          this.value = this.value.replace(/[^0-9.]/g, '');
+
+          if (this.value) {
+              const currentValue = parseFloat(this.value);
+              if (!isNaN(currentValue)) {
+                  enableSaveButton();
+                  if (cmRadio.checked) {
+                      measurementStore[this.id] = {
+                          cm: currentValue,
+                          inch: (currentValue * CM_TO_INCH).toFixed(2)
+                      };
+                  } else {
+                      measurementStore[this.id] = {
+                          cm: (currentValue * INCH_TO_CM).toFixed(2),
+                          inch: currentValue
+                      };
+                  }
+              }
+          } else {
+              measurementStore[this.id].cm = '';
+              measurementStore[this.id].inch = '';
+              enableSaveButton();
+          }
+      });
+  });
+
+  // Enable save button if form changes
+  function enableSaveButton() {
+      let formChanged = false;
+      inputs.forEach(input => {
+          const originalValue = cmRadio.checked ?
+              (measurementStore[input.id] ? measurementStore[input.id].cm : '') :
+              (measurementStore[input.id] ? measurementStore[input.id].inch : '');
+          if (parseFloat(input.value) !== parseFloat(originalValue)) {
+              formChanged = true;
+          }
+      });
+      saveButton.style.display = formChanged ? 'block' : 'none';
+  }
 </script>
 <?php require_once APPROOT . '/views/users/Customer/inc/footer.php'; ?>
 

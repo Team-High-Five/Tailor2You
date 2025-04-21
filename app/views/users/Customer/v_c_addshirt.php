@@ -96,102 +96,102 @@
 </body>
 </html>
 <script>
-const form = document.querySelector('.change-form');
-const inputs = form.querySelectorAll('input[type="text"]');
-const cmRadio = document.getElementById('cm');
-const inchRadio = document.getElementById('inch');
-const saveButton = form.querySelector('.btn-save');
+    const form = document.querySelector('.change-form');
+    const inputs = form.querySelectorAll('input[type="text"]');
+    const cmRadio = document.getElementById('cm');
+    const inchRadio = document.getElementById('inch');
+    const saveButton = form.querySelector('.btn-save');
 
-// Conversion constants
-const CM_TO_INCH = 0.393701;
-const INCH_TO_CM = 2.54;
+    // Conversion constants
+    const CM_TO_INCH = 0.393701;
+    const INCH_TO_CM = 2.54;
 
-// Store original values and their units
-let measurementStore = {};
+    // Store original values and their units
+    let measurementStore = {};
 
-// Initialize measurement store based on database value and unit
-window.addEventListener('load', function() {
-    inputs.forEach(input => {
-        const measurementId = input.id.replace(' ', ''); // Adjust if your database column names differ
-        const databaseValue = parseFloat(input.value);
-        const databaseUnit = cmRadio.checked ? 'cm' : (inchRadio.checked ? 'inch' : 'cm'); // Default to cm if neither is checked initially
+    // Initialize measurement store based on database value and unit
+    window.addEventListener('load', function() {
+        inputs.forEach(input => {
+            const measurementId = input.id.replace(' ', ''); // Adjust if your database column names differ
+            const databaseValue = parseFloat(input.value);
+            const databaseUnit = cmRadio.checked ? 'cm' : (inchRadio.checked ? 'inch' : 'cm'); // Default to cm if neither is checked initially
 
-        if (!isNaN(databaseValue)) {
-            if (databaseUnit === 'cm') {
-                measurementStore[input.id] = {
-                    cm: databaseValue,
-                    inch: (databaseValue * CM_TO_INCH).toFixed(2)
-                };
-            } else if (databaseUnit === 'inch') {
-                measurementStore[input.id] = {
-                    cm: (databaseValue * INCH_TO_CM).toFixed(2),
-                    inch: databaseValue
-                };
-            } else {
-                // Handle unknown unit (shouldn't happen if radio buttons are correctly set)
-                measurementStore[input.id] = { cm: databaseValue, inch: (databaseValue * CM_TO_INCH).toFixed(2) }; // Default to cm
-            }
-        } else {
-            measurementStore[input.id] = { cm: '', inch: '' };
-        }
-    });
-    toggleInputs(); // Initial display based on checked radio
-});
-
-// Show inputs based on selected unit
-function toggleInputs() {
-    inputs.forEach(input => {
-        const currentUnit = cmRadio.checked ? 'cm' : 'inch';
-        input.value = measurementStore[input.id][currentUnit] || ''; // Use empty string if value is undefined
-        input.style.display = measurementStore[input.id][currentUnit] !== undefined ? 'block' : 'none';
-    });
-}
-
-// Handle unit change
-cmRadio.addEventListener('change', toggleInputs);
-inchRadio.addEventListener('change', toggleInputs);
-
-// Update both cm and inch values when input changes
-inputs.forEach(input => {
-    input.addEventListener('input', function() {
-        // Allow only numerical input
-        this.value = this.value.replace(/[^0-9.]/g, '');
-
-        if (this.value) {
-            const currentValue = parseFloat(this.value);
-            if (!isNaN(currentValue)) {
-                enableSaveButton();
-                if (cmRadio.checked) {
-                    measurementStore[this.id] = {
-                        cm: currentValue,
-                        inch: (currentValue * CM_TO_INCH).toFixed(2)
+            if (!isNaN(databaseValue)) {
+                if (databaseUnit === 'cm') {
+                    measurementStore[input.id] = {
+                        cm: databaseValue,
+                        inch: (databaseValue * CM_TO_INCH).toFixed(2)
+                    };
+                } else if (databaseUnit === 'inch') {
+                    measurementStore[input.id] = {
+                        cm: (databaseValue * INCH_TO_CM).toFixed(2),
+                        inch: databaseValue
                     };
                 } else {
-                    measurementStore[this.id] = {
-                        cm: (currentValue * INCH_TO_CM).toFixed(2),
-                        inch: currentValue
-                    };
+                    // Handle unknown unit (shouldn't happen if radio buttons are correctly set)
+                    measurementStore[input.id] = { cm: databaseValue, inch: (databaseValue * CM_TO_INCH).toFixed(2) }; // Default to cm
                 }
+            } else {
+                measurementStore[input.id] = { cm: '', inch: '' };
             }
-        } else {
-            measurementStore[this.id].cm = '';
-            measurementStore[this.id].inch = '';
-            enableSaveButton();
-        }
+        });
+        toggleInputs(); // Initial display based on checked radio
     });
-});
 
-// Enable save button if form changes
-function enableSaveButton() {
-    let formChanged = false;
+    // Show inputs based on selected unit
+    function toggleInputs() {
+        inputs.forEach(input => {
+            const currentUnit = cmRadio.checked ? 'cm' : 'inch';
+            input.value = measurementStore[input.id][currentUnit] || ''; // Use empty string if value is undefined
+            input.style.display = measurementStore[input.id][currentUnit] !== undefined ? 'block' : 'none';
+        });
+    }
+
+    // Handle unit change
+    cmRadio.addEventListener('change', toggleInputs);
+    inchRadio.addEventListener('change', toggleInputs);
+
+    // Update both cm and inch values when input changes
     inputs.forEach(input => {
-        const originalValue = cmRadio.checked ?
-            (measurementStore[input.id] ? measurementStore[input.id].cm : '') :
-            (measurementStore[input.id] ? measurementStore[input.id].inch : '');
-        if (parseFloat(input.value) !== parseFloat(originalValue)) {
-            formChanged = true;
-        }
+        input.addEventListener('input', function() {
+            // Allow only numerical input
+            this.value = this.value.replace(/[^0-9.]/g, '');
+
+            if (this.value) {
+                const currentValue = parseFloat(this.value);
+                if (!isNaN(currentValue)) {
+                    enableSaveButton();
+                    if (cmRadio.checked) {
+                        measurementStore[this.id] = {
+                            cm: currentValue,
+                            inch: (currentValue * CM_TO_INCH).toFixed(2)
+                        };
+                    } else {
+                        measurementStore[this.id] = {
+                            cm: (currentValue * INCH_TO_CM).toFixed(2),
+                            inch: currentValue
+                        };
+                    }
+                }
+            } else {
+                measurementStore[this.id].cm = '';
+                measurementStore[this.id].inch = '';
+                enableSaveButton();
+            }
+        });
     });
-    saveButton.style.display = formChanged ? 'block' : 'none';
-}
+
+    // Enable save button if form changes
+    function enableSaveButton() {
+        let formChanged = false;
+        inputs.forEach(input => {
+            const originalValue = cmRadio.checked ?
+                (measurementStore[input.id] ? measurementStore[input.id].cm : '') :
+                (measurementStore[input.id] ? measurementStore[input.id].inch : '');
+            if (parseFloat(input.value) !== parseFloat(originalValue)) {
+                formChanged = true;
+            }
+        });
+        saveButton.style.display = formChanged ? 'block' : 'none';
+    }
 </script>
