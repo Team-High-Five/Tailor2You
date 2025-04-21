@@ -344,14 +344,10 @@ class Shopkeepers extends Controller
         $this->view('users/Shopkeeper/v_s_portfolio', $data);
     }
 
-    public function addNewPost()
-    {
-        $data = [
-            'title' => 'Add New Post'
-        ];
-
-        $this->view('users/Shopkeeper/v_s_add_new_post', $data);
+    public function addNewPost() {
+        $this->view('users/ShopKeeper/v_s_profile_portfolio_add_new');
     }
+    
 
     public function addPost()
     {
@@ -367,6 +363,8 @@ class Shopkeepers extends Controller
                 'user_id' => $_SESSION['user_id'],
                 'title' => trim($_POST['title']),
                 'description' => trim($_POST['description']),
+                'gender' => isset($_POST['gender']) ? trim($_POST['gender']) : 'unisex',
+                'item_type' => isset($_POST['item_type']) ? trim($_POST['item_type']) : null,
                 'image' => $image
             ];
 
@@ -380,7 +378,7 @@ class Shopkeepers extends Controller
             $data = [
                 'title' => 'Add New Post'
             ];
-            $this->view('users/Shopkeeper/v_s_add_new_post', $data);
+            $this->view('users/Shopkeeper/v_s_profile_portfolio_add_new', $data);
         }
     }
 
@@ -402,6 +400,8 @@ class Shopkeepers extends Controller
                 'user_id' => $_SESSION['user_id'],
                 'title' => trim($_POST['title']),
                 'description' => trim($_POST['description']),
+                'gender' => isset($_POST['gender']) ? trim($_POST['gender']) : 'unisex',
+                'item_type' => isset($_POST['item_type']) ? trim($_POST['item_type']) : null,
                 'image' => $image
             ];
 
@@ -423,12 +423,15 @@ class Shopkeepers extends Controller
                 'post_id' => $post->id,
                 'title' => $post->title,
                 'description' => $post->description,
+                'gender' => $post->gender,
+                'item_type' => $post->item_type,
                 'image' => $post->image
             ];
 
             $this->view('users/Shopkeeper/v_s_edit_post', $data);
         }
     }
+    
 
     public function deletePost($post_id)
     {
@@ -504,12 +507,14 @@ class Shopkeepers extends Controller
                 'phone_number' => trim($_POST['phone_number']),
                 'email' => trim($_POST['email']),
                 'home_town' => trim($_POST['home_town']),
+                'district' => trim($_POST['district']),
                 'image' => null,
                 'first_name_err' => '',
                 'last_name_err' => '',
                 'phone_number_err' => '',
                 'email_err' => '',
                 'home_town_err' => '',
+                'district_err' => '',
                 'image_err' => ''
             ];
 
@@ -519,7 +524,10 @@ class Shopkeepers extends Controller
                 $data['image'] = $image;
             }
 
-            if (empty($data['first_name_err']) && empty($data['last_name_err']) && empty($data['phone_number_err']) && empty($data['email_err']) && empty($data['home_town_err']) && empty($data['image_err'])) {
+            if (empty($data['first_name_err']) && empty($data['last_name_err']) && 
+                empty($data['phone_number_err']) && empty($data['email_err']) && 
+                empty($data['home_town_err']) && empty($data['district_err']) && 
+                empty($data['image_err'])) {
                 if ($this->shopkeeperModel->addEmployee($data)) {
                     flash('employee_message', 'Employee added successfully');
                     redirect('Shopkeepers/displayEmployees');
@@ -536,11 +544,13 @@ class Shopkeepers extends Controller
                 'phone_number' => '',
                 'email' => '',
                 'home_town' => '',
+                'district' => '',
                 'first_name_err' => '',
                 'last_name_err' => '',
                 'phone_number_err' => '',
                 'email_err' => '',
                 'home_town_err' => '',
+                'district_err' => '',
                 'image_err' => ''
             ];
 
@@ -567,12 +577,14 @@ class Shopkeepers extends Controller
                 'phone_number' => trim($_POST['phone_number']),
                 'email' => trim($_POST['email']),
                 'home_town' => trim($_POST['home_town']),
+                'district' => trim($_POST['district']),
                 'image' => $employee->image,
                 'first_name_err' => '',
                 'last_name_err' => '',
                 'phone_number_err' => '',
                 'email_err' => '',
                 'home_town_err' => '',
+                'district_err' => '',
                 'image_err' => ''
             ];
 
@@ -582,7 +594,10 @@ class Shopkeepers extends Controller
                 $data['image'] = $image;
             }
 
-            if (empty($data['first_name_err']) && empty($data['last_name_err']) && empty($data['phone_number_err']) && empty($data['email_err']) && empty($data['home_town_err']) && empty($data['image_err'])) {
+            if (empty($data['first_name_err']) && empty($data['last_name_err']) && 
+                empty($data['phone_number_err']) && empty($data['email_err']) && 
+                empty($data['home_town_err']) && empty($data['district_err']) && 
+                empty($data['image_err'])) {
                 if ($this->shopkeeperModel->updateEmployee($data)) {
                     flash('employee_message', 'Employee updated successfully');
                     redirect('Shopkeepers/displayEmployees');

@@ -22,7 +22,7 @@
             <p class="created-date"><?php echo date('F j, Y', strtotime($post->created_at)); ?></p>
           </div>
 
-          <div class="portfolio-actions">
+          <div class="portfolio-actions" style="margin-top: 20px;">
             <button class="edit-btn" onclick="openEditPostModal(<?php echo $post->id; ?>)"><i class="fas fa-edit"></i></button>
             <button class="delete-btn" onclick="openDeletePostModal(<?php echo $post->id; ?>)"><i class="fas fa-trash-alt"></i></button>
           </div>
