@@ -89,25 +89,16 @@ class M_Users
 
     public function addPost($data)
     {
-        $this->db->query('INSERT INTO posts (user_id, title, description, gender, item_type, image) 
-                          VALUES (:user_id, :title, :description, :gender, :item_type, :image)');
-        
+        $this->db->query('INSERT INTO posts (user_id, title, description, image) VALUES (:user_id, :title, :description, :image)');
         // Bind values
         $this->db->bind(':user_id', $data['user_id']);
         $this->db->bind(':title', $data['title']);
         $this->db->bind(':description', $data['description']);
-        $this->db->bind(':gender', $data['gender']);
-        $this->db->bind(':item_type', $data['item_type']);
         $this->db->bind(':image', $data['image']);
 
         // Execute
-        if ($this->db->execute()) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->db->execute();
     }
-
     public function getPostById($post_id)
     {
         $this->db->query('SELECT * FROM posts WHERE id = :post_id');
@@ -117,25 +108,15 @@ class M_Users
 
     public function updatePost($data)
     {
-        $this->db->query('UPDATE posts SET title = :title, description = :description, 
-                          gender = :gender, item_type = :item_type, image = :image 
-                          WHERE id = :id AND user_id = :user_id');
-        
+        $this->db->query('UPDATE posts SET title = :title, description = :description, image = :image WHERE id = :post_id');
         // Bind values
-        $this->db->bind(':id', $data['post_id']);
-        $this->db->bind(':user_id', $data['user_id']);
         $this->db->bind(':title', $data['title']);
         $this->db->bind(':description', $data['description']);
-        $this->db->bind(':gender', $data['gender']);
-        $this->db->bind(':item_type', $data['item_type']);
         $this->db->bind(':image', $data['image']);
+        $this->db->bind(':post_id', $data['post_id']);
 
         // Execute
-        if ($this->db->execute()) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->db->execute();
     }
 
     public function deletePost($post_id)

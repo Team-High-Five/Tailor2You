@@ -1,8 +1,5 @@
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php'; ?>
 
-<!-- Link to the external CSS file -->
-<link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/shopkeeper/edit-post.css">
-
 <div class="edit-post-container">
     <div class="edit-post-content centered-card">
         <div class="modal-header">
@@ -30,37 +27,41 @@
                     <textarea id="description" name="description" rows="5" required><?php echo $data['description']; ?></textarea>
                     <span class="error-message" id="description-error"></span>
                 </div>
-                
-                <!-- Gender selection -->
-                <div class="form-group">
-                    <label for="gender">Gender</label>
-                    <select id="gender" name="gender" required>
-                        <option value="">Select Gender</option>
-                        <option value="men" <?php echo (isset($data['gender']) && $data['gender'] == 'men') ? 'selected' : ''; ?>>Men</option>
-                        <option value="women" <?php echo (isset($data['gender']) && $data['gender'] == 'women') ? 'selected' : ''; ?>>Women</option>
-                        <option value="unisex" <?php echo (isset($data['gender']) && $data['gender'] == 'unisex') ? 'selected' : ''; ?>>Unisex</option>
-                    </select>
-                    <span class="error-message" id="gender-error"></span>
-                </div>
-                
-                <!-- Item Type selection -->
-                <div class="form-group">
-                    <label for="item-type">Item Type</label>
-                    <select id="item-type" name="item_type" required>
-                        <option value="">Select Item Type</option>
-                        <option value="shirt" <?php echo (isset($data['item_type']) && $data['item_type'] == 'shirt') ? 'selected' : ''; ?>>Shirt</option>
-                        <option value="pant" <?php echo (isset($data['item_type']) && $data['item_type'] == 'pant') ? 'selected' : ''; ?>>Pant</option>
-                        <option value="frock" <?php echo (isset($data['item_type']) && $data['item_type'] == 'frock') ? 'selected' : ''; ?>>Frock</option>
-                        <option value="skirt" <?php echo (isset($data['item_type']) && $data['item_type'] == 'skirt') ? 'selected' : ''; ?>>Skirt</option>
-                        <option value="blouse" <?php echo (isset($data['item_type']) && $data['item_type'] == 'blouse') ? 'selected' : ''; ?>>Blouse</option>
-                    </select>
-                    <span class="error-message" id="item-type-error"></span>
-                </div>
-                
                 <button type="submit" class="submit-btn">Save Changes</button>
             </form>
         </div>
     </div>
 </div>
+
+<style>
+    .centered-card {
+        margin: 0 auto;
+        max-width: 600px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        position: relative;
+    }
+    .edit-post-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .close-btn {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+    }
+</style>
 
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>
