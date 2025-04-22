@@ -7,58 +7,120 @@
             <div class="color-header">
                 <span>Select a Color</span>
             </div>
-            <section class="color-grid">
-                <div class="color-card">
-                    <img src="<?php echo URLROOT; ?>/public/img/designs/shadeblue1.jpg" alt="Shade Blue">
-                    <p class="color-name">Shade Blue</p>
-                    <div class="buttons">
-                        <button>Select</button>
-                    </div>
+
+            <form action="<?php echo URLROOT; ?>/Orders/processSelection" method="post">
+                <input type="hidden" name="selection_type" value="color">
+                <input type="hidden" name="selected_color_id" id="selected_color_id" value="<?php echo isset($_SESSION['order_details']['color']) ? $_SESSION['order_details']['color']->color_id : ''; ?>">
+
+                <section class="color-grid">
+                    <?php if (!empty($data['colors'])): ?>
+                        <?php foreach ($data['colors'] as $color): ?>
+
+                            <div class="color-card <?php echo (isset($_SESSION['order_details']['color']) && $_SESSION['order_details']['color']->color_id == $color->color_id) ? 'selected' : ''; ?>"
+                                data-color-id="<?php echo $color->color_id; ?>"
+                                onclick="selectColor(this, <?php echo $color->color_id; ?>)">
+
+                                <?php if (!empty($color->image)): ?>
+                                    <img src="<?php echo !empty($color->image) ? 'data:image/jpeg;base64,' . base64_encode($color->image) : URLROOT . '/public/img/designs/color-placeholder.jpg'; ?>" alt="<?php echo $color->color_name; ?>">
+                                <?php else: ?>
+                                    <div class="color-swatch"
+                                        data-color="<?php echo htmlspecialchars($color->color_name); ?>"
+                                        style="<?php echo empty($color->color_code) ? '' : 'background-color: ' . $color->color_code . ';'; ?>">
+                                    </div>
+                                <?php endif; ?>
+                                <!-- Add this content wrapper div like in fabric cards -->
+                                <div class="color-card-content">
+                                    <h3 class="color-name"><?php echo $color->color_name; ?></h3>
+                                    <?php if (!empty($color->color_code)): ?>
+                                        <p class="color-code">Color code: <?php echo $color->color_code; ?></p>
+                                    <?php endif; ?>
+                                    <?php if (!empty($color->description)): ?>
+                                        <p class="color-desc"><?php echo $color->description; ?></p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="no-results">
+                            <p>No colors available for this fabric. Please contact the tailor.</p>
+                        </div>
+                    <?php endif; ?>
+                </section>
+                <div class="button-group">
+                    <a href="<?php echo URLROOT; ?>/Orders/selectFabric" class="back-btn">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>
+                    <button type="submit" class="continue-btn" id="continueBtn" <?php echo empty($data['colors']) || !isset($_SESSION['order_details']['color']) ? 'disabled' : ''; ?>>Continue <i class="fas fa-arrow-right"></i></button>
                 </div>
-                <div class="color-card">
-                    <img src="<?php echo URLROOT; ?>/public/img/designs/gray1.jpg" alt="Gray">
-                    <p class="color-name">Gray</p>
-                    <div class="buttons">
-                        <button>Select</button>
-                    </div>
+                <div class="continue-button">
+
                 </div>
-                <div class="color-card">
-                    <img src="<?php echo URLROOT; ?>/public/img/designs/yellow1.jpg" alt="Yellow">
-                    <p class="color-name">Yellow</p>
-                    <div class="buttons">
-                        <button>Select</button>
-                    </div>
-                </div>
-                <div class="color-card">
-                    <img src="<?php echo URLROOT; ?>/public/img/designs/Greenblank1.jpg" alt="Green">
-                    <p class="color-name">Green</p>
-                    <div class="buttons">
-                        <button>Select</button>
-                    </div>
-                </div>
-                <div class="color-card">
-                    <img src="<?php echo URLROOT; ?>/public/img/designs/black1.jpg" alt="Black">
-                    <p class="color-name">Black</p>
-                    <div class="buttons">
-                        <button>Select</button>
-                    </div>
-                </div>
-            </section>
-            <div class="continue-button">
-                <a href="<?php echo URLROOT ?>/Designs/enterMeasurement"><button class="continue-btn">Continue</button></a>
-            </div>
+            </form>
         </div>
     </div>
+
     <div class="design-image-container">
-        <img src="<?php echo URLROOT; ?>/public/img/designs/still-life-with-classic-shirts-hanger.jpg" alt="Design">
-        <div class="design-details">
-            <div class="design-name">
-                <span>Design Name</span>
-            </div>
-            <div class="design-description">
-                <span>Design Description</span>
-            </div>
+        <div class="design-image-wrapper">
+            <?php if (isset($_SESSION['order_details']['design']) && !empty($_SESSION['order_details']['design']->main_image)) : ?>
+                <img src="<?php echo URLROOT; ?>/public/img/uploads/designs/<?php echo $_SESSION['order_details']['design']->main_image; ?>"
+                    alt="<?php echo $_SESSION['order_details']['design']->name; ?>"
+                    onerror="this.src='<?php echo URLROOT; ?>/public/img/designs/placeholder.jpg'">
+            <?php else : ?>
+                <img src="<?php echo URLROOT; ?>/public/img/designs/placeholder.jpg" alt="Design Image">
+            <?php endif; ?>
         </div>
+
+        <div class="design-details">
+            <?php if (isset($_SESSION['order_details']['design'])): ?>
+                <div class="design-name">
+                    <span><?php echo $_SESSION['order_details']['design']->name; ?></span>
+                </div>
+                <div class="design-description">
+                    <span><?php echo $_SESSION['order_details']['design']->description; ?></span>
+                </div>
+            <?php else: ?>
+                <div class="design-name">
+                    <span>Design Name</span>
+                </div>
+                <div class="design-description">
+                    <span>Design Description</span>
+                </div>
+            <?php endif; ?>
+        </div>
+
+        <!-- Add Order Summary Component -->
+        <?php require_once APPROOT . '/views/designs/components/order-summary.php'; ?>
     </div>
 </div>
-</body>
+
+<script>
+    function selectColor(element, colorId) {
+        // Remove selected class from all color cards
+        document.querySelectorAll('.color-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+
+        // Add selected class to the clicked card
+        element.classList.add('selected');
+
+        // Update hidden input with selected color ID
+        document.getElementById('selected_color_id').value = colorId;
+
+        // Enable continue button if it was disabled
+        document.getElementById('continueBtn').removeAttribute('disabled');
+    }
+
+    // Pre-select the color on page load if one was previously selected
+    window.addEventListener('DOMContentLoaded', function() {
+        const selectedColorId = document.getElementById('selected_color_id').value;
+        if (selectedColorId) {
+            const selectedCard = document.querySelector(`.color-card[data-color-id="${selectedColorId}"]`);
+            if (selectedCard) {
+                selectedCard.classList.add('selected');
+                document.getElementById('continueBtn').removeAttribute('disabled');
+            }
+        }
+    });
+</script>
+
+<?php require_once APPROOT . '/views/designs/inc/footer.php'; ?>
