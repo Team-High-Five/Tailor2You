@@ -19,6 +19,11 @@ class M_Pages
         $this->db->query("SELECT user_id, CONCAT(first_name, ' ', last_name) AS name, bio, profile_pic FROM users WHERE user_type = 'tailor'");
         return $this->db->resultSet();
     }
+    public function getAllSellers()
+    {
+        $this->db->query("SELECT user_id, CONCAT(first_name, ' ', last_name) AS name, bio, profile_pic FROM users WHERE user_type = 'shopkeeper' OR user_type = 'tailor'");
+        return $this->db->resultSet();
+    }
     public function getFeaturedDesigns()
     {
         $this->db->query("
@@ -31,5 +36,156 @@ class M_Pages
             LIMIT 6
         ");
         return $this->db->resultSet();
+    }
+    // Add these new methods to the existing M_Pages class
+    public function getSellerById($id)
+    {
+        $this->db->query("SELECT user_id, first_name, last_name, 
+                      CONCAT(first_name, ' ', last_name) AS name, 
+                      bio, profile_pic, home_town, user_type 
+                      FROM users 
+                      WHERE (user_type = 'shopkeeper' OR user_type = 'tailor') 
+                      AND user_id = :id");
+        $this->db->bind(':id', $id);
+        return $this->db->single();
+    }
+
+    public function getPostCountByUserId($id)
+    {
+        $this->db->query("SELECT COUNT(*) as count FROM posts WHERE user_id = :id");
+        $this->db->bind(':id', $id);
+        $result = $this->db->single();
+        return $result->count;
+    }
+
+    public function getLikeCountByUserId($id)
+    {
+
+        $this->db->query("SELECT COUNT(*) as count FROM likes WHERE tailor_id = :id");
+        $this->db->bind(':id', $id);
+        $result = $this->db->single();
+
+        // If the query fails (e.g., no likes table), return a default value
+        return $result ? $result->count : 0;
+    }
+    // Update the getPostsByUserId method to include like counts
+    public function getPostsByUserId($id)
+    {
+        $this->db->query("SELECT p.*, 
+                     (SELECT COUNT(*) FROM post_likes WHERE post_id = p.id AND status = 'active') as like_count 
+                     FROM posts p 
+                     WHERE p.user_id = :id 
+                     ORDER BY p.created_at DESC");
+        $this->db->bind(':id', $id);
+        return $this->db->resultSet();
+    }
+
+    // Get posts that a user has liked
+    public function getLikedPostsByUser($userId)
+    {
+        $this->db->query("SELECT post_id FROM post_likes WHERE user_id = :userId AND status = 'active'");
+        $this->db->bind(':userId', $userId);
+        $results = $this->db->resultSet();
+
+        $likedPosts = [];
+        foreach ($results as $result) {
+            $likedPosts[] = $result->post_id;
+        }
+
+        return $likedPosts;
+    }
+
+    // Toggle like on a post
+    public function togglePostLike($userId, $postId)
+    {
+        // First check if this like already exists
+        $this->db->query("SELECT * FROM post_likes WHERE post_id = :postId AND user_id = :userId");
+        $this->db->bind(':postId', $postId);
+        $this->db->bind(':userId', $userId);
+
+        $existingLike = $this->db->single();
+
+        if ($existingLike) {
+            // Like exists - toggle status
+            if ($existingLike->status === 'active') {
+                $this->db->query("UPDATE post_likes SET status = 'removed' WHERE post_id = :postId AND user_id = :userId");
+            } else {
+                $this->db->query("UPDATE post_likes SET status = 'active' WHERE post_id = :postId AND user_id = :userId");
+            }
+            $this->db->bind(':postId', $postId);
+            $this->db->bind(':userId', $userId);
+            return $this->db->execute();
+        } else {
+            // Like doesn't exist - create it
+            $this->db->query("INSERT INTO post_likes (post_id, user_id, status) VALUES (:postId, :userId, 'active')");
+            $this->db->bind(':postId', $postId);
+            $this->db->bind(':userId', $userId);
+            return $this->db->execute();
+        }
+    }
+
+    // Check if a user has liked a post
+    public function hasUserLikedPost($userId, $postId)
+    {
+        $this->db->query("SELECT * FROM post_likes WHERE post_id = :postId AND user_id = :userId AND status = 'active'");
+        $this->db->bind(':postId', $postId);
+        $this->db->bind(':userId', $userId);
+
+        return $this->db->single() ? true : false;
+    }
+    public function getDesignsByUserId($id)
+    {
+        $this->db->query("SELECT d.*, c.name as category_name 
+                      FROM designs d 
+                      JOIN clothing_categories c ON d.category_id = c.category_id 
+                      WHERE d.user_id = :id AND d.status = 'active'
+                      ORDER BY d.created_at DESC");
+        $this->db->bind(':id', $id);
+        return $this->db->resultSet();
+    }
+    public function toggleLike($customerId, $tailorId)
+    {
+        // First check if this like already exists
+        $this->db->query("SELECT * FROM likes WHERE customer_id = :customerId AND tailor_id = :tailorId");
+        $this->db->bind(':customerId', $customerId);
+        $this->db->bind(':tailorId', $tailorId);
+
+        $existingLike = $this->db->single();
+
+        if ($existingLike) {
+            // Like exists - toggle status
+            if ($existingLike->status === 'active') {
+                $this->db->query("UPDATE likes SET status = 'removed' WHERE customer_id = :customerId AND tailor_id = :tailorId");
+            } else {
+                $this->db->query("UPDATE likes SET status = 'active' WHERE customer_id = :customerId AND tailor_id = :tailorId");
+            }
+            $this->db->bind(':customerId', $customerId);
+            $this->db->bind(':tailorId', $tailorId);
+            return $this->db->execute();
+        } else {
+            // Like doesn't exist - create it
+            $this->db->query("INSERT INTO likes (customer_id, tailor_id, status) VALUES (:customerId, :tailorId, 'active')");
+            $this->db->bind(':customerId', $customerId);
+            $this->db->bind(':tailorId', $tailorId);
+            return $this->db->execute();
+        }
+    }
+
+    // Add a method to check if a user has liked a tailor
+    public function hasUserLikedTailor($customerId, $tailorId)
+    {
+        $this->db->query("SELECT * FROM likes WHERE customer_id = :customerId AND tailor_id = :tailorId AND status = 'active'");
+        $this->db->bind(':customerId', $customerId);
+        $this->db->bind(':tailorId', $tailorId);
+
+        return $this->db->single() ? true : false;
+    }
+
+    // Get a single post by ID
+    public function getPostById($id)
+    {
+        $this->db->query("SELECT * FROM posts WHERE id = :id");
+        $this->db->bind(':id', $id);
+        return $this->db->single();
     }
 }

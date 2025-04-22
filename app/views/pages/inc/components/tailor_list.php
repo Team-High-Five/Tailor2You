@@ -17,7 +17,7 @@
         </div>
         <!-- Profile Cards -->
         <div class="profile-container">
-            <?php foreach ($data['tailors'] as $tailor): ?>
+            <?php foreach ($data['sellers'] as $tailor): ?>
                 <div class="profile-card">
                     <div class="profile-card__content">
                         <img class="profile-card__image" src="data:image/jpeg;base64,<?php echo base64_encode($tailor->profile_pic); ?>" alt="Profile">

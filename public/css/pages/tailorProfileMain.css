@@ -106,7 +106,18 @@
 
 .menu-button.active {
     border-bottom: 2px solid var(--accent-color);
-}   
+}
+
+/* Add to your tailorProfileMain.css */
+.follow-button.liked {
+    background-color: #4CAF50;
+    /* Green color for liked state */
+}
+
+form {
+    display: inline;
+    /* To prevent form from breaking layout */
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {
