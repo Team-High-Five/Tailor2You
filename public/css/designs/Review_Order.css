@@ -1,0 +1,340 @@
+/*--------------------------------------------------------------
+# ORDER REVIEW CONTAINER & LAYOUT
+--------------------------------------------------------------*/
+.order-review-container {
+    
+    display: flex;
+    gap: 2.5rem;
+    padding: 1rem;
+    max-width: 1800px;
+    margin: 0 auto;
+    background: var(--gradient-background);
+    min-height: calc(100vh - 80px);
+  }
+  
+  .order-details-card {
+    margin-top: 60px;
+    flex: 7;
+    background: var(--card-gradient);
+    border-radius: 1rem;
+    padding: 1rem;
+    box-shadow: var(--elegant-shadow);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-effect);
+    min-width: 300px;
+    max-width: 900px;
+  }
+  
+  .design-preview {
+    margin-top: 60px;
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    height: fit-content;
+    position: sticky;
+    top: 2rem;
+    min-width: 300px;
+    max-width: 400px;
+  }
+  
+  .design-image {
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: var(--elegant-shadow);
+    border: 1px solid var(--glass-effect);
+    background: var(--card-gradient);
+  }
+  
+  .design-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .tailor-info {
+    background: var(--card-gradient);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: var(--elegant-shadow);
+    border: 1px solid var(--glass-effect);
+  }
+  
+  .tailor-info h4 {
+    color: var(--text-light);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    position: relative;
+    padding-bottom: 0.75rem;
+  }
+  
+  .tailor-info h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--accent-color);
+  }
+  
+  .tailor-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .tailor-name {
+    color: var(--accent-color);
+    font-weight: 500;
+    font-size: 1.1rem;
+  }
+  
+  /*--------------------------------------------------------------
+  # REVIEW HEADER STYLING
+  --------------------------------------------------------------*/
+  .review-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    position: relative;
+  }
+  
+  .review-header span {
+    font-size: 2rem;
+    color: var(--accent-color);
+    font-weight: 700;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .review-header p {
+    color: var(--text-muted);
+    font-size: 1rem;
+  }
+  
+  .review-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--accent-gradient);
+    border-radius: 2px;
+  }
+  
+  /*--------------------------------------------------------------
+  # ORDER SECTION STYLING
+  --------------------------------------------------------------*/
+  .order-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .order-section {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .order-section h3 {
+    color: var(--text-light);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(196, 167, 125, 0.2);
+  }
+  
+  .section-content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  /*--------------------------------------------------------------
+  # DETAIL ROWS & VALUES
+  --------------------------------------------------------------*/
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+  }
+  
+  .detail-label {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+  
+  .detail-value {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  /*--------------------------------------------------------------
+  # MEASUREMENTS DISPLAY
+  --------------------------------------------------------------*/
+  .measurements-table {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+  
+  .measurement-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 0.5rem;
+  }
+  
+  .measurement-name {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  
+  .measurement-value {
+    color: var(--text-light);
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+  
+  /*--------------------------------------------------------------
+  # APPOINTMENT SECTION
+  --------------------------------------------------------------*/
+  .skipped-appointment {
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 0.5rem;
+  }
+  
+  /*--------------------------------------------------------------
+  # PRICE SUMMARY
+  --------------------------------------------------------------*/
+  .price-summary {
+    background: rgba(196, 167, 125, 0.1);
+    border: 1px solid rgba(196, 167, 125, 0.3);
+    margin-top: 1rem;
+  }
+  
+  .total-price .detail-label,
+  .total-price .detail-value {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--accent-color);
+  }
+  
+  /*--------------------------------------------------------------
+  # NO ORDER MESSAGE
+  --------------------------------------------------------------*/
+  .no-order {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-muted);
+  }
+  
+  .no-order a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  
+  .no-order a:hover {
+    text-decoration: underline;
+  }
+  
+  /*--------------------------------------------------------------
+  # ACTION GROUP
+  --------------------------------------------------------------*/
+  .action-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2.5rem;
+  }
+  
+  /*--------------------------------------------------------------
+  # RESPONSIVE ADJUSTMENTS
+  --------------------------------------------------------------*/
+  @media (max-width: 1200px) {
+    .order-review-container {
+      padding: 2rem;
+      min-width: 0;
+    }
+  }
+  
+  @media (max-width: 992px) {
+    .order-review-container {
+      flex-direction: column;
+    }
+    .order-details-card{
+        min-width: 0;
+    }
+    
+    .design-preview {
+      position: relative;
+      top: 0;
+      order: -1;
+      min-width: 0;
+    }
+    
+    .design-image {
+      height: 300px;
+      min-width: 0;
+    }
+    
+    .design-image img {
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .order-review-container {
+      padding: 1.5rem;
+    }
+    
+    .order-details-card {
+      padding: 1.5rem;
+    }
+    
+    .measurements-table {
+      grid-template-columns: 1fr;
+    }
+    
+    .review-header span {
+      font-size: 1.5rem;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .order-review-container {
+      padding: 1rem;
+    }
+    
+    .order-details-card {
+      padding: 1.25rem;
+    }
+    
+    .detail-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.25rem;
+    }
+    
+    .detail-value {
+      margin-left: 1rem;
+    }
+  }

@@ -130,7 +130,8 @@
     background-color: #A52A2A !important;
 }
 
-.price-summary {
+
+.order-summary-price-summary {
     padding-top: 15px;
     border-top: 1px solid rgba(255, 255, 255, 0.2);
 }

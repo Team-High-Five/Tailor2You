@@ -1,7 +1,7 @@
 .customization-content {
     background: var(--card-gradient);
     border-radius: 1.5rem;
-    padding: 1rem;
+    padding: 0.5rem;
     box-shadow: var(--elegant-shadow);
     border: 1px solid var(--glass-effect);
     width: 100%;
@@ -163,10 +163,7 @@
 }
 
 @media (max-width: 768px) {
-    .customization-content {
-        padding: 1.5rem;
-    }
-
+   
     .option-image {
         height: 120px;
     }
