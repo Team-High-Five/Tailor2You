@@ -125,6 +125,21 @@ class M_Customers
         return $this->db->resultSet();
     }
 
+    public function getPantMeasurements($user_id)
+    {
+        $this->db->query('SELECT m.measurement_id, m.name, m.display_name, m.description, 
+                         um.value_cm, um.value_inch, cm.is_required, cm.display_order
+                         FROM measurements m
+                         JOIN category_measurements cm ON m.measurement_id = cm.measurement_id
+                         LEFT JOIN user_measurements um ON m.measurement_id = um.measurement_id 
+                         AND um.user_id = :user_id
+                         WHERE cm.category_id = 2
+                         ORDER BY cm.display_order');
+        
+        $this->db->bind(':user_id', $user_id);
+        return $this->db->resultSet();
+    }
+
     public function updateUserMeasurements($data) {
         try {
             $this->db->beginTransaction();

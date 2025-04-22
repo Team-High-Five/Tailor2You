@@ -334,56 +334,47 @@ class Customers extends Controller
         $this->view('users/Customer/v_c_orders', $data);
     }
 
-    public function addPants()
-    {
-        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'customer') {
-            redirect('Users/login');
-        }
-
+    public function addPants() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $measurementData = [];
+            foreach ($_POST['measurements'] as $id => $value) {
+                if (!empty($value)) {
+                    $cm_value = ($_POST['measurement_unit'] === 'inch') ? 
+                               $value * 2.54 : $value;
+                    $inch_value = ($_POST['measurement_unit'] === 'cm') ? 
+                                 $value * 0.393701 : $value;
 
-            $data = [
-                'user_id' => $_SESSION['user_id'],
-                'waist_width' => trim($_POST['waist_width']),
-                'seat' => trim($_POST['seat']),
-                'mid_thigh_width' => trim($_POST['mid_thigh_width']),
-                'inseam' => trim($_POST['inseam']),
-                'bottom_width' => trim($_POST['bottom_width']),
-                'rise_height_front' => trim($_POST['rise_height_front']),
-                'rise_height_back' => trim($_POST['rise_height_back']),
-                'measure' => trim($_POST['measurement_unit'])
-            ];
-
-
-            if ($_POST['is_create'] == '1') {
-                // Create new measurements
-                if ($this->customerModel->createPantMeasurements($data)) {
-                    flash('pant_message', 'Pant measurements created successfully');
-                    redirect('Customers/addPants');
-                } else {
-                    die('Something went wrong');
-                }
-            } else {
-                // Update existing measurements
-                if ($this->customerModel->updatePantMeasurements($data)) {
-                    // flash('shirt_message', 'Shirt measurements updated successfully');
-                    redirect('Customers/addPants');
-                } else {
-                    die('Something went wrong');
+                    $measurementData[] = [
+                        'id' => $id,
+                        'cm' => $cm_value,
+                        'inch' => $inch_value
+                    ];
                 }
             }
+            $data = [
+                'user_id' => $_SESSION['user_id'],
+                'measurements' => $measurementData
+            ];
+
+            if ($this->customerModel->updateUserMeasurements($data)) {
+                flash('measurement_message', 'Measurements updated successfully');
+                redirect('Customers/addPants');
+            } else {
+                die('Something went wrong');
+            }
         } else {
-            $cus_pant = $this->customerModel->getPantmeasurementsbyid($_SESSION['user_id']);
+            $measurements = $this->customerModel->getPantMeasurements($_SESSION['user_id']);
 
             $data = [
-                'title' => 'Update Pant',
-                'pant' => $cus_pant
+                'title' => 'Add Pant Measurements',
+                'measurements' => $measurements
             ];
 
             $this->view('users/Customer/v_c_addpants', $data);
         }
     }
+
+            
 
     public function addShirts() {
         if (!isset($_SESSION['user_id'])) {

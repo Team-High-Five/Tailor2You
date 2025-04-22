@@ -177,3 +177,5 @@
         saveButton.style.display = formChanged ? 'block' : 'none';
     }
 </script>
+
+<?php require_once APPROOT . '/views/users/Customer/inc/footer.php'; ?>
