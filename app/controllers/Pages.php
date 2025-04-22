@@ -42,6 +42,13 @@ class Pages extends Controller
         ];
         $this->view('pages/v_mens_page', $data);
     }
+    public function womensPage()
+    {
+        $data = [
+            'title' => 'Mens Page'
+        ];
+        $this->view('pages/v_womens_page', $data);
+    }
 
     public function mensCategories()
     {

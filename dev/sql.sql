@@ -152,16 +152,16 @@ CREATE TABLE `shirt_measurements` (
 
 -- Create pant measurements table
 CREATE TABLE `pant_measurements` (
-    `user_id` varchar(100) NOT NULL,
-    `measure` int(11) NOT NULL,
-    `waist_width` int(11) NOT NULL,
-    `seat` int(11) NOT NULL,
-    `mid_thigh_width` int(11) NOT NULL,
-    `inseam` int(11) NOT NULL,
-    `bottom_width` int(11) NOT NULL,
-    `rise_height_front` int(11) NOT NULL,
-    `rise_height_back` int(11) NOT NULL
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+  `user_id` int(100) DEFAULT NULL,
+  `measure` enum('cm','inch') DEFAULT NULL,
+  `waist_width` decimal(5,2) NOT NULL,
+  `seat` decimal(5,2) NOT NULL,
+  `mid_thigh_width` decimal(5,2) NOT NULL,
+  `inseam` decimal(5,2) NOT NULL,
+  `bottom_width` decimal(5,2) NOT NULL,
+  `rise_height_front` decimal(5,2) NOT NULL,
+  `rise_height_back` decimal(5,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- -----------------------------------------------------
 -- 5. CLOTHING CATEGORY AND DESIGN TABLES
