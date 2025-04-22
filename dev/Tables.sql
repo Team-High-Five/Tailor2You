@@ -403,3 +403,13 @@ CREATE TABLE `user_measurements` (
     FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
     FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+-- Create measurement ranges table
+CREATE TABLE `measurement_ranges` (
+    `measurement_id` INT(11) NOT NULL,
+    `min_value` DECIMAL(5, 2) NOT NULL DEFAULT 5.0,
+    `max_value` DECIMAL(5, 2) NOT NULL DEFAULT 60.0,
+    `increment` DECIMAL(3, 2) NOT NULL DEFAULT 0.5,
+    PRIMARY KEY (`measurement_id`),
+    FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;

@@ -1,291 +1,283 @@
 /*--------------------------------------------------------------
-# MEASUREMENT PAGE CONTAINER
+# MEASUREMENT CONTENT CONTAINER
 --------------------------------------------------------------*/
-.measurement-page-container {
-    display: grid;
-    grid-template-columns: 1fr minmax(300px, 25%);
-    gap: 2rem;
-    padding: 3rem;
-    max-width: 1600px;
-    margin: 0 auto;
-    background: var(--gradient-background);
-    min-height: calc(100vh - 80px);
-  }
-  
-  /*--------------------------------------------------------------
-  # MEASUREMENT FORM CONTAINER
-  --------------------------------------------------------------*/
-  .measurement-form-container {
-    background: var(--card-gradient);
-    border-radius: 1.5rem;
-    padding: 2rem;
-    box-shadow: var(--elegant-shadow);
-    border: 1px solid var(--glass-effect);
-  }
-  
-  .measurement-header {
-    margin-bottom: 2rem;
-    position: relative;
-    text-align: center;
-  }
-  
-  .measurement-header::after {
-    content: '';
-    position: absolute;
-    bottom: -0.75rem;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100px;
-    height: 3px;
-    background: var(--accent-gradient);
-    border-radius: 3px;
-  }
-  
-  .measurement-header span {
-    font-size: 1.75rem;
-    color: var(--text-light);
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  
-  /*--------------------------------------------------------------
-  # MEASUREMENT TABLE STYLING
-  --------------------------------------------------------------*/
-  .measurement-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 0.75rem;
-    margin: 1.5rem 0;
-  }
-  
-  .measurement-table th {
-    text-align: left;
-    padding: 0.75rem 1rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-light);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-  }
-  
-  .measurement-table td {
-    padding: 1rem;
-    vertical-align: middle;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    transition: background-color 0.3s ease;
-  }
-  
-  .measurement-table tr:hover td {
-    background-color: rgba(255, 255, 255, 0.03);
-  }
-  
-  .measurement-table tbody tr:last-child td {
-    border-bottom: none;
-  }
-  
-  .measurement-table td strong {
-    display: block;
-    color: var(--text-light);
-    font-size: 1rem;
-    margin-bottom: 0.35rem;
-  }
-  
-  .measurement-table td p {
-    margin: 0;
-    font-size: 0.85rem;
-    color: var(--text-muted);
-    opacity: 0.8;
-  }
-  
-  /*--------------------------------------------------------------
-  # SELECT ELEMENT STYLING
-  --------------------------------------------------------------*/
-  .select-container {
-    position: relative;
-    width: 100%;
-  }
-  
-  .select-container::after {
-    content: '▼';
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    pointer-events: none;
-    font-size: 0.7rem;
-    color: var(--accent-color);
-  }
-  
-  .select {
-    width: 100%;
-    padding: 0.75rem 2rem 0.75rem 1rem;
-    background: linear-gradient(145deg, #1e1e1e, #252525);
-    border: 1px solid rgba(196, 167, 125, 0.2);
-    border-radius: 0.5rem;
-    color: var(--text-light);
-    appearance: none;
-    outline: none;
-    cursor: pointer;
+.measurement-content {
+  background: var(--card-gradient);
+  border-radius: 1.5rem;
+  padding: 1rem;
+  box-shadow: var(--elegant-shadow);
+  border: 1px solid var(--glass-effect);
+  width: 100%;
+}
+
+/*--------------------------------------------------------------
+# MEASUREMENT HEADER
+--------------------------------------------------------------*/
+.measurement-header {
+  margin-bottom: 2rem;
+  position: relative;
+  text-align: center;
+}
+
+.measurement-header::after {
+  content: '';
+  position: absolute;
+  bottom: -0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background: var(--accent-gradient);
+  border-radius: 3px;
+}
+
+.measurement-header span {
+  font-size: 1.75rem;
+  color: var(--text-light);
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/*--------------------------------------------------------------
+# MEASUREMENT TABLE STYLING - UPDATED
+--------------------------------------------------------------*/
+.measurement-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin: 2rem 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.measurement-table thead {
+  background-color: rgba(196, 167, 125, 0.2);
+}
+
+.measurement-table th {
+  color: var(--text-light);
+  text-align: left;
+  padding: 1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.measurement-table th:first-child {
+  width: 65%;
+  padding-left: 1.5rem;
+}
+
+.measurement-table tr {
+  transition: var(--transition);
+}
+
+.measurement-table tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+.measurement-table tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.measurement-table td {
+  padding: 1.25rem 1rem;
+  color: var(--text-light);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: middle;
+}
+
+.measurement-table td:first-child {
+  padding-left: 1.5rem;
+}
+
+.measurement-table td strong {
+  font-size: 1rem;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.measurement-table td p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
+/*--------------------------------------------------------------
+# SELECT ELEMENT STYLING - UPDATED
+--------------------------------------------------------------*/
+.select-container {
+  position: relative;
+  width: 100%;
+}
+
+.select-container::after {
+  content: '▼';
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  color: var(--accent-color);
+  pointer-events: none;
+  font-size: 0.75rem;
+  transition: transform 0.3s ease;
+}
+
+.select-container:hover::after {
+  transform: translateY(-50%) scale(1.1);
+}
+
+.select {
+  width: 100%;
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  background: linear-gradient(145deg, #1e1e1e, #252525);
+  border: 1px solid rgba(196, 167, 125, 0.3);
+  border-radius: 0.5rem;
+  color: var(--text-light);
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.select:hover,
+.select:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(196, 167, 125, 0.1);
+}
+
+.select option {
+  background-color: #1a1a1a;
+  color: var(--text-light);
+  padding: 0.5rem;
+}
+
+/*--------------------------------------------------------------
+# INPUT ELEMENT STYLING
+--------------------------------------------------------------*/
+.input-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.measurement-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: linear-gradient(145deg, #1e1e1e, #252525);
+  border: 1px solid rgba(196, 167, 125, 0.3);
+  border-radius: 0.5rem;
+  color: var(--text-light);
+  outline: none;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  appearance: textfield;
+  /* Remove default arrows */
+}
+
+/* Remove Webkit (Chrome, Safari, Edge) spinners */
+.measurement-input::-webkit-outer-spin-button,
+.measurement-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.measurement-input:hover,
+.measurement-input:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 2px rgba(196, 167, 125, 0.1);
+}
+
+.input-container .unit {
+  position: absolute;
+  right: 1rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  pointer-events: none;
+}
+
+/* Invalid input styling */
+.measurement-input:invalid {
+  border-color: #ff5757;
+}
+
+.measurement-input:invalid:focus {
+  box-shadow: 0 0 0 2px rgba(255, 87, 87, 0.2);
+}
+
+/* Placeholder text styling */
+.measurement-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 768px) {
+  .measurement-input {
+    padding: 0.625rem 0.875rem;
     font-size: 0.95rem;
-    transition: all 0.3s ease;
   }
-  
-  .select:focus {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px rgba(196, 167, 125, 0.2);
+
+  .input-container .unit {
+    font-size: 0.85rem;
   }
-  
-  .select option {
-    background-color: #252525;
-    padding: 0.75rem;
+}
+
+/*--------------------------------------------------------------
+# RESPONSIVE ADJUSTMENTS - UPDATED
+--------------------------------------------------------------*/
+@media (max-width: 992px) {
+  .measurement-content {
+    padding: 1.75rem;
   }
-  
-  /*--------------------------------------------------------------
-  # DESIGN BUTTON STYLING
-  --------------------------------------------------------------*/
-  .design-button {
-    background: transparent;
-    border: 2px solid var(--accent-color);
-    color: var(--accent-color);
-    font-weight: 600;
-    padding: 0.6rem 1.2rem;
+
+  .measurement-table th:first-child {
+    width: 60%;
+  }
+}
+
+@media (max-width: 768px) {
+  .measurement-content {
+    padding: 1.5rem;
+  }
+
+  .measurement-table th,
+  .measurement-table td {
+    padding: 1rem 0.75rem;
+  }
+
+  .measurement-table td strong {
+    font-size: 0.95rem;
+  }
+
+  .measurement-table td p {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .measurement-content {
+    padding: 1.25rem;
+  }
+
+  .measurement-table {
+    display: block;
+    overflow-x: auto;
     border-radius: 0.5rem;
-    cursor: pointer;
-    transition: var(--transition);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    font-size: 0.75rem;
-    white-space: nowrap;
   }
-  
-  .design-button:hover {
-    background: var(--accent-color);
-    color: var(--primary-color);
-    transform: translateY(-2px);
+
+  .measurement-table th,
+  .measurement-table td {
+    padding: 0.875rem 0.75rem;
   }
-  
-  /*--------------------------------------------------------------
-  # SUBMIT BUTTON CONTAINER
-  --------------------------------------------------------------*/
-  .buttons {
-    margin-top: 2.5rem;
-    text-align: center;
+
+  .select {
+    font-size: 0.9rem;
+    padding: 0.625rem 2rem 0.625rem 0.75rem;
   }
-  
-  .submit-button {
-    background: var(--accent-gradient);
-    color: var(--text-light);
-    border: none;
-    padding: 1rem 2.5rem;
-    border-radius: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 1rem;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .submit-button::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: inherit;
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-    transition: transform 0.4s, opacity 0.3s;
-  }
-  
-  .submit-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(196, 167, 125, 0.3);
-  }
-  
-  .submit-button:hover::after {
-    transform: translate(-50%, -50%) scale(2);
-    opacity: 1;
-  }
-  
-  /*--------------------------------------------------------------
-  # RESPONSIVE DESIGNS
-  --------------------------------------------------------------*/
-  @media (max-width: 1200px) {
-    .measurement-page-container {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-    
-    .design-image-container {
-      position: relative;
-      top: 0;
-      transform: none;
-      flex-direction: row;
-      align-items: center;
-    }
-    
-    .design-image-container img {
-      width: 40%;
-      max-width: 300px;
-    }
-    
-    .design-details {
-      flex: 1;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .measurement-page-container {
-      padding: 1.5rem;
-    }
-    
-    .measurement-form-container {
-      padding: 1.5rem;
-    }
-    
-    .measurement-table th,
-    .measurement-table td {
-      padding: 0.75rem 0.5rem;
-    }
-    
-    .design-image-container {
-      flex-direction: column;
-    }
-    
-    .design-image-container img {
-      width: 100%;
-      max-width: none;
-    }
-  }
-  
-  @media (max-width: 576px) {
-    .measurement-page-container {
-      padding: 1rem;
-    }
-    
-    .measurement-form-container {
-      padding: 1rem;
-    }
-    
-    .measurement-table {
-      display: block;
-      overflow-x: auto;
-    }
-    
-    .measurement-table th:nth-child(3),
-    .measurement-table td:nth-child(3) {
-      min-width: 120px;
-    }
-    
-    .submit-button {
-      width: 100%;
-      padding: 0.875rem;
-    }
-  }
+}

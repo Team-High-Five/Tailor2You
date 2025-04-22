@@ -21,14 +21,9 @@ class Orders extends Controller
         }
 
         $filters = [];
-
-        // Get user gender if logged in
         if (isset($_SESSION['user_id'])) {
-            // You may want to add user gender to your users table 
-            // and fetch it here to filter designs
         }
 
-        // Fetch designs with filters
         $designs = $this->orderModel->getDesigns(12, $filters);
 
         $data = [
@@ -38,6 +33,7 @@ class Orders extends Controller
 
         $this->view('designs/v_d_browse', $data);
     }
+
     public function processSelection()
     {
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
@@ -62,7 +58,7 @@ class Orders extends Controller
                         // Store in session
                         $_SESSION['order_details']['fabric'] = $fabric;
 
-                    
+
                         $customizationIds = [];
                         if (isset($_SESSION['order_details']['customizations'])) {
                             foreach ($_SESSION['order_details']['customizations'] as $customization) {
@@ -76,19 +72,15 @@ class Orders extends Controller
                             $customizationIds
                         );
 
-                        // Redirect to next step
                         redirect('Orders/selectColor');
                         return;
                     }
                 }
-
-                // If we reached here, something went wrong
                 flash('fabric_error', 'Unable to select fabric. Please try again.', 'alert alert-danger');
                 redirect('Orders/selectFabric');
                 break;
 
             case 'color':
-                // Similar logic for color selection
                 $colorId = $_POST['selected_color_id'] ?? null;
                 if ($colorId) {
                     $color = $this->orderModel->getColorById($colorId);
@@ -109,12 +101,11 @@ class Orders extends Controller
         }
     }
 
-    // Select fabric for a design
     public function selectFabric($designId = null)
     {
         // If no design ID provided, check if one exists in the session
         if ($designId === null && !isset($_SESSION['order_details']['design'])) {
-            redirect('designs');
+            redirect('Pages/index');
             return;
         }
 
@@ -123,7 +114,7 @@ class Orders extends Controller
             $design = $this->orderModel->getDesignById($designId);
 
             if (!$design) {
-                redirect('designs');
+                redirect('Pages/index');
                 return;
             }
 
@@ -143,8 +134,6 @@ class Orders extends Controller
         $this->view('designs/v_d_select_fabric', $data);
     }
 
-
-    // Select color for the chosen fabric
     public function selectColor($fabricId = null)
     {
         // If no fabric ID provided, check if one exists in the session
@@ -166,6 +155,9 @@ class Orders extends Controller
             }
 
             $_SESSION['order_details']['fabric'] = $fabric;
+
+            //Matter only when back button is clicked
+            // If customizations are already selected, recalculate the price
             $customizationIds = [];
             if (isset($_SESSION['order_details']['customizations'])) {
                 foreach ($_SESSION['order_details']['customizations'] as $customization) {
@@ -190,7 +182,6 @@ class Orders extends Controller
         $this->view('designs/v_d_select_color', $data);
     }
 
-    // Select customizations for the chosen design
     public function customizations()
     {
         if (!isset($_SESSION['order_details']['design']) || !isset($_SESSION['order_details']['fabric'])) {
@@ -266,5 +257,61 @@ class Orders extends Controller
         );
 
         redirect('Orders/enterMeasurements');
+    }
+
+
+    public function enterMeasurements()
+    {
+        // Check if design, fabric and color are selected
+        if (!isset($_SESSION['order_details']['design']) || !isset($_SESSION['order_details']['fabric'])) {
+            redirect('Orders/selectFabric');
+            return;
+        }
+
+        if (!isset($_SESSION['order_details']['color'])) {
+            redirect('Orders/selectColor');
+            return;
+        }
+
+        if (!isset($_SESSION['order_details']['customizations'])) {
+            redirect('Orders/customizations');
+            return;
+        }
+
+        // Get necessary design info
+        $designId = $_SESSION['order_details']['design']->design_id;
+
+        // Get required measurements for this design
+        $measurementsData = $this->orderModel->getMeasurementsByDesignId($designId);
+
+        // Get user's existing measurements if logged in
+        $userMeasurements = [];
+        if (isset($_SESSION['user_id'])) {
+            $userMeasurements = $this->orderModel->getUserMeasurements($_SESSION['user_id']);
+        }
+
+        $data = [
+            'title' => 'Enter Measurements',
+            'measurements' => $measurementsData['measurements'],
+            'customMeasurements' => $measurementsData['customMeasurements'],
+            'ranges' => $measurementsData['ranges'],
+            'userMeasurements' => $userMeasurements
+        ];
+
+        $this->view('designs/v_d_enter_measurement', $data);
+    }
+
+    public function processMeasurements()
+    {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            redirect('Orders/enterMeasurements');
+            return;
+        }
+
+        // Store measurements in session for now
+        $_SESSION['order_details']['measurements'] = $_POST;
+
+        // Redirect to appointment booking
+        redirect('Orders/bookAppointment');
     }
 }
