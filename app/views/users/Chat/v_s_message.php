@@ -2,14 +2,14 @@
 <?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
 <?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
 <div class="messages-container">
-  <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/actions/message.css">
+  <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/chat/message.css">
   <!-- Sidebar -->
   <div class="message-sidebar">
     <div class="message-sidebar-header">
       <i class="fas fa-envelope message-icon"></i>
       <span class="message-title">Messages</span>
     </div>
-    <a href="<?php echo URLROOT ?>/Action/messageGroup" class="message-link">
+    <a href="<?php echo URLROOT ?>/Chat/messageGroup" class="message-link">
       <ul class="conversation-list">
         <li class="conversation-item">
           <img class="user-icon" src="<?php echo URLROOT; ?>/public/img/home/lady1.jpg" alt="User Profile Picture">

@@ -8,7 +8,8 @@
           <input type="text" placeholder="Type to search">
           <button><i><img src="<?php echo URLROOT; ?>/public/img/Search.png"></i></button>
         </div>
-        <a href="<?php echo URLROOT ?>/Action/index"><button class="icon-button"><i class="fas fa-envelope"></i></button></a>
+        <!-- Updated message icon -->
+        <button class="icon-button" id="messageIcon"><i class="fas fa-envelope"></i></button>
         <button class="icon-button"><i class="fas fa-bell"></i></button>
         <div class="dropdown">
           <button class="tailor-drop-down"><i class="fas fa-sign-out-alt"></i></button>
@@ -35,3 +36,9 @@
       </a>
     </div>
   </div>
+</div>
+
+<!-- Include the chat box -->
+<div class="messages-container" id="chatBox" style="display: none;">
+  <?php require_once APPROOT . '/views/users/Chat/v_s_message_group.php'; ?>
+</div>
