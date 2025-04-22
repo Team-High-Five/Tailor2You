@@ -318,6 +318,12 @@ class Orders extends Controller
     }
     public function processAppointment()
     {
+        // Check if user is logged in
+        if (!isset($_SESSION['user_id'])) {
+            flash('appointment_error', 'Please login to book an appointment', 'alert alert-danger');
+            redirect('Users/login');
+            return;
+        }
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
             redirect('Orders/bookAppointment');
             return;
@@ -346,11 +352,13 @@ class Orders extends Controller
 
     public function bookAppointment()
     {
+        $_SESSION['current_page'] = 'bookAppointment';
         // Check authentication first
         if (!isset($_SESSION['user_id'])) {
             redirect('Users/login');
             return;
         }
+
 
         // Check if previous steps are completed
         if (
@@ -446,23 +454,7 @@ class Orders extends Controller
         redirect('Orders/payment');
     }
 
-    public function orderConfirmation()
-    {
 
-
-        $data = [
-            'title' => 'Order Confirmation',
-            'order_details' => $_SESSION['order_details'] ?? []
-        ];
-
-        $this->view('designs/v_d_order_confirmation', $data);
-
-        // Clear the order from session after showing confirmation
-        if (isset($_SESSION['order_details'])) {
-            unset($_SESSION['order_details']);
-        }
-    }
-    // Add to Orders controller
 
     public function payment()
     {
@@ -481,17 +473,21 @@ class Orders extends Controller
 
     public function processPayment()
     {
+        if (!isset($_SESSION['user_id'])) {
+            flash('order_error', 'You must be logged in to complete your order', 'alert alert-danger');
+            redirect('Users/login');
+            return;
+        }
+
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
             redirect('Orders/payment');
             return;
         }
 
         $paymentMethod = $_POST['payment_method'] ?? 'cod';
+        $orderNumber = $this->orderModel->generateOrderId();
 
-        // Generate order number
-        $orderNumber = 'T2Y-' . rand(10000, 99999);
-
-        // Log payment details (for learning purposes only)
+        // Log payment details
         $paymentDetails = [
             'order_number' => $orderNumber,
             'payment_method' => $paymentMethod,
@@ -500,13 +496,166 @@ class Orders extends Controller
             'date' => date('Y-m-d H:i:s')
         ];
 
-        // Add payment details to session
         $_SESSION['order_details']['payment'] = $paymentDetails;
 
-        // Here you would normally save the order to the database
-        // $success = $this->orderModel->createOrder($_SESSION['user_id'], $_SESSION['order_details']);
+        // Get user information including address
+        $user = $this->orderModel->getUserAddress($_SESSION['user_id']);
 
-        flash('order_success', 'Your order has been placed successfully!', 'alert alert-success');
-        redirect('Orders/orderConfirmation');
+        // Fix this incorrect ternary operator syntax
+        // $deliveryAddress = (isset($userAddress)) ?? $userAddress ?? 'Default Address'; 
+
+        // Correct way to get delivery address
+        $deliveryAddress = $user ? $user->address : 'Default Address';
+
+        // Prepare the order data for database storage
+        $orderData = [
+            'customer_id' => $_SESSION['user_id'],
+            'tailor_id' => $_SESSION['order_details']['design']->user_id,
+            'total_amount' => $_SESSION['order_details']['total_price'],
+            'delivery_address' => $deliveryAddress,
+            'notes' => $_POST['notes'] ?? null,
+            'items' => $this->prepareOrderItems()
+        ];
+
+        // If appointment was scheduled, include it
+        if (isset($_SESSION['order_details']['appointment']) && !isset($_SESSION['order_details']['appointment']['skipped'])) {
+            // Create the appointment record first
+            $appointmentId = $this->createAppointment($_SESSION['order_details']['appointment'], $orderData['tailor_id']);
+            if ($appointmentId) {
+                $orderData['appointment_id'] = $appointmentId;
+            }
+        } else {
+            // If appointment was skipped, explicitly set it to null
+            $orderData['appointment_id'] = null;
+        }
+
+        // Save to database
+        $createdOrderId = $this->orderModel->createOrder($orderData);
+
+
+        if ($createdOrderId) {
+            // Store the order ID in session for the confirmation page
+            $_SESSION['order_details']['order_id'] = $createdOrderId;
+
+            flash('order_success', 'Your order has been placed successfully!', 'alert alert-success');
+            redirect('Orders/orderConfirmation');
+        } else {
+            flash('order_error', 'There was an error placing your order. Please try again.', 'alert alert-danger');
+            redirect('Orders/payment');
+        }
+    }
+    public function orderConfirmation()
+    {
+        // Check if order details exist in session
+        if (!isset($_SESSION['order_details'])) {
+            redirect('Orders');
+            return;
+        }
+
+        $data = [
+            'title' => 'Order Confirmation',
+            'order_details' => $_SESSION['order_details']
+        ];
+
+        $this->view('designs/v_d_order_confirmation', $data);
+
+        // Clear the order session data if flag is set
+        if (isset($_SESSION['clear_order_after_confirmation']) && $_SESSION['clear_order_after_confirmation']) {
+            unset($_SESSION['order_details']);
+            unset($_SESSION['clear_order_after_confirmation']);
+        }
+    }
+    /**
+     * Prepare order items data from session for database storage
+     * 
+     * @return array The formatted order items data
+     */
+    private function prepareOrderItems()
+    {
+        $items = [];
+
+        // Currently we have just one item in the system, but this is designed for multiple items
+        $items[] = [
+            'design_id' => $_SESSION['order_details']['design']->design_id,
+            'fabric_id' => $_SESSION['order_details']['fabric']->fabric_id,
+            'color_id' => $_SESSION['order_details']['color']->color_id,
+            'quantity' => 1, // Default to 1 for now
+            'base_price' => $_SESSION['order_details']['design']->base_price,
+            'fabric_price' => $_SESSION['order_details']['fabric']->price_adjustment ?? 0,
+            'customization_price' => $this->calculateCustomizationPrice(),
+            'total_price' => $_SESSION['order_details']['total_price'],
+            'customizations' => $this->prepareCustomizations(),
+            'measurements' => $_SESSION['order_details']['measurements'] ?? []
+        ];
+
+        return $items;
+    }
+
+    /**
+     * Calculate the total price adjustment from customizations
+     * 
+     * @return float Total customization price adjustment
+     */
+    private function calculateCustomizationPrice()
+    {
+        $total = 0;
+        if (isset($_SESSION['order_details']['customizations']) && is_array($_SESSION['order_details']['customizations'])) {
+            foreach ($_SESSION['order_details']['customizations'] as $customization) {
+                $total += $customization->price_adjustment ?? 0;
+            }
+        }
+        return $total;
+    }
+
+    /**
+     * Prepare customizations data for database storage
+     * 
+     * @return array The formatted customizations data
+     */
+    private function prepareCustomizations()
+    {
+        $customizations = [];
+        if (isset($_SESSION['order_details']['customizations']) && is_array($_SESSION['order_details']['customizations'])) {
+            foreach ($_SESSION['order_details']['customizations'] as $typeId => $customization) {
+                $customizations[$typeId] = $customization->choice_id;
+            }
+        }
+        return $customizations;
+    }
+
+    /**
+     * Create an appointment record in the database
+     * 
+     * @param array $appointmentData The appointment details
+     * @param int $tailorId The tailor ID
+     * @return int|null The appointment ID or null if failed
+     */
+    private function createAppointment($appointmentData, $tailorId)
+    {
+        // Skip if this is a skipped appointment
+        if (isset($appointmentData['skipped']) && $appointmentData['skipped']) {
+            return null;
+        }
+
+        $appointment = [
+            'customer_id' => $_SESSION['user_id'],
+            'tailor_shopkeeper_id' => $tailorId,
+            'appointment_date' => $appointmentData['date'],
+            'appointment_time' => $appointmentData['time'],
+            'location_type' => $appointmentData['location_type'],
+            'status' => 'scheduled'
+        ];
+
+        return $this->orderModel->createAppointment($appointment);
+    }
+
+    /**
+     * Clear the order details from the session
+     */
+    private function clearOrderSession()
+    {
+        // Don't immediately clear - we need this for the confirmation page
+        // Instead we'll set a flag to clear it after showing the confirmation
+        $_SESSION['clear_order_after_confirmation'] = true;
     }
 }

@@ -1,3 +1,4 @@
+@import url('../pages/topnav.css');
 @import url('Select_Fabric_styles.css');
 @import url('Enter_Measurement_styles.css');
 @import url('Customizations.css');
@@ -7,6 +8,7 @@
 @import url('Order_Confirmation_styles.css');
 @import url('Review_Order.css');
 @import url('Payment.css');
+@import url('Order_confirmation.css');
 
 /* Common Variables */
 :root {

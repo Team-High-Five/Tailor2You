@@ -201,8 +201,6 @@
             </div>
           </div>
         </div>
-
-        <!-- Actions -->
         <div class="action-group">
           <a href="<?php echo URLROOT; ?>/Orders/bookAppointment" class="back-btn">
             <i class="fas fa-arrow-left"></i> Back
@@ -218,7 +216,7 @@
       <?php endif; ?>
       </div>
   </div>
-  <!-- Right side panel with design image -->
+  
   <div class="design-preview">
     <?php if (isset($_SESSION['order_details']['design'])) : ?>
       <div class="design-image">

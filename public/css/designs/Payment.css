@@ -157,23 +157,22 @@
 .card-payment-form {
     background: rgba(255, 255, 255, 0.02);
     border-radius: 0.75rem;
-    padding: 1.5rem;
+    padding: 2rem;
+    padding-right:2.75rem;
     margin-bottom: 2rem;
     border: 1px solid rgba(255, 255, 255, 0.05);
+
 }
 
 .card-details {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
 .card-details .form-group {
     flex: 1;
 }
 
-.form-group {
-    margin-bottom: 1.25rem;
-}
 
 .form-group label {
     display: block;
@@ -183,7 +182,7 @@
 }
 
 .form-group input {
-    width: 100%;
+    width: 99%;
     padding: 0.75rem;
     background: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -225,7 +224,6 @@
     margin-top: 2rem;
 }
 
-.back-btn,
 .pay-btn {
     padding: 0.85rem 1.75rem;
     border-radius: 0.5rem;
@@ -240,17 +238,6 @@
     gap: 0.5rem;
     border: none;
     cursor: pointer;
-}
-
-.back-btn {
-    background: transparent;
-    color: var(--text-light);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.back-btn:hover {
-    background: rgba(255, 255, 255, 0.05);
-    transform: translateY(-2px);
 }
 
 .pay-btn {
@@ -285,5 +272,11 @@
     .pay-btn {
         width: 100%;
         justify-content: center;
+    }
+    .form-group input {
+        width: 90%;
+    }
+    .card-details{
+        gap: 0.5rem;
     }
 }

@@ -240,7 +240,7 @@ CREATE TABLE `design_fabrics` (
 
 -- Orders main table
 CREATE TABLE `orders` (
-    `order_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `order_id` VARCHAR(20) NOT NULL,
     `customer_id` INT(11) NOT NULL,
     `tailor_id` INT(11) NOT NULL,
     `order_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -262,10 +262,17 @@ CREATE TABLE `orders` (
     FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`appointment_id`) ON DELETE SET NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
+-- Create a sequence table to track the next order number
+CREATE TABLE `order_sequence` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `next_value` INT(11) NOT NULL DEFAULT 1,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
 -- Order items table (one order can have multiple items)
 CREATE TABLE `order_items` (
     `item_id` INT(11) NOT NULL AUTO_INCREMENT,
-    `order_id` INT(11) NOT NULL,
+    `order_id` VARCHAR(20) NOT NULL,
     `design_id` INT(11) NOT NULL,
     `fabric_id` INT(11) NOT NULL,
     `color_id` INT(11) NOT NULL,
@@ -289,17 +296,15 @@ CREATE TABLE `order_items` (
 
 -- Order item customizations (which customization choices were selected for each item)
 CREATE TABLE `order_item_customizations` (
+    `item_customization_id` INT(11) NOT NULL AUTO_INCREMENT,
     `item_id` INT(11) NOT NULL,
-    `customization_type_id` INT(11) NOT NULL,
+    `type_id` INT(11) NOT NULL,
     `choice_id` INT(11) NOT NULL,
     `price_adjustment` DECIMAL(10, 2) DEFAULT 0.00,
-    PRIMARY KEY (
-        `item_id`,
-        `customization_type_id`
-    ),
+    PRIMARY KEY (`item_customization_id`),
     FOREIGN KEY (`item_id`) REFERENCES `order_items` (`item_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`customization_type_id`) REFERENCES `customization_types` (`type_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`choice_id`) REFERENCES `customization_choices` (`choice_id`) ON DELETE CASCADE
+    FOREIGN KEY (`type_id`) REFERENCES `customization_types` (`type_id`) ON DELETE RESTRICT,
+    FOREIGN KEY (`choice_id`) REFERENCES `customization_choices` (`choice_id`) ON DELETE RESTRICT
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- -----------------------------------------------------
@@ -371,27 +376,16 @@ CREATE TABLE `custom_design_measurements` (
 
 -- Actual measurement values for order items
 CREATE TABLE `order_item_measurements` (
+    `item_measurement_id` INT(11) NOT NULL AUTO_INCREMENT,
     `item_id` INT(11) NOT NULL,
-    `measurement_id` INT(11) NULL,
-    `custom_measurement_id` INT(11) NULL,
+    `measurement_id` INT(11) NOT NULL,
     `value` DECIMAL(10, 2) NOT NULL,
-    `measurement_source` ENUM(
-        'profile',
-        'manual',
-        'adjusted'
-    ) NOT NULL DEFAULT 'manual',
-    `measured_by` INT(11) NULL,
-    `measurement_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`item_id`, `measurement_id`),
+    `measurement_source` ENUM('manual', 'profile') DEFAULT 'manual',
+    PRIMARY KEY (`item_measurement_id`),
+    UNIQUE KEY `unique_item_measurement` (`item_id`, `measurement_id`),
     FOREIGN KEY (`item_id`) REFERENCES `order_items` (`item_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`custom_measurement_id`) REFERENCES `custom_design_measurements` (`id`) ON DELETE CASCADE,
-    FOREIGN KEY (`measured_by`) REFERENCES `users` (`user_id`) ON DELETE SET NULL,
-    CHECK (
-        measurement_id IS NOT NULL
-        OR custom_measurement_id IS NOT NULL
-    )
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+    FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE RESTRICT
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- User profile measurements
 CREATE TABLE `user_measurements` (

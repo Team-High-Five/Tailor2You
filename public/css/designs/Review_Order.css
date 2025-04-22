@@ -21,7 +21,8 @@
     box-shadow: var(--elegant-shadow);
     backdrop-filter: blur(10px);
     border: 1px solid var(--glass-effect);
-    min-width: 700px;
+    min-width: 300px;
+    max-width: 900px;
   }
   
   .design-preview {
@@ -34,6 +35,7 @@
     position: sticky;
     top: 2rem;
     min-width: 300px;
+    max-width: 400px;
   }
   
   .design-image {

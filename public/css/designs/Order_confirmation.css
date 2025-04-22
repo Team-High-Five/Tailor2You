@@ -1,0 +1,538 @@
+/*--------------------------------------------------------------
+# ORDER CONFIRMATION CONTAINER
+--------------------------------------------------------------*/
+.order-confirmation-container {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 2rem;
+    padding: 3rem;
+    background: var(--gradient-background);
+    min-height: 100vh;
+    max-width: 1400px;
+    margin: 3rem auto;
+}
+
+/*--------------------------------------------------------------
+  # CONFIRMATION CARD
+  --------------------------------------------------------------*/
+.confirmation-card {
+    background: var(--card-gradient);
+    border-radius: 1rem;
+    padding: 2.5rem;
+    box-shadow: var(--elegant-shadow);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-effect);
+}
+
+/*--------------------------------------------------------------
+  # SUCCESS MESSAGE AREA
+  --------------------------------------------------------------*/
+.confirmation-message {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+}
+
+.confirmation-message .success-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(43, 178, 76, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+}
+
+.confirmation-message .success-icon i {
+    font-size: 2.5rem;
+    color: #2bb24c;
+}
+
+.confirmation-message h2 {
+    font-size: 2.25rem;
+    color: var(--accent-color);
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+.confirmation-message p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.confirmation-message::after {
+    content: '';
+    position: absolute;
+    bottom: -1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: var(--accent-gradient);
+    border-radius: 2px;
+}
+
+/*--------------------------------------------------------------
+  # CONFIRMATION SECTIONS
+  --------------------------------------------------------------*/
+.confirmation-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.confirmation-section {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.confirmation-section h3 {
+    color: var(--text-light);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(196, 167, 125, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.confirmation-section h3 i {
+    color: var(--accent-color);
+    font-size: 1.1rem;
+}
+
+.confirmation-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.confirmation-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.confirmation-label {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.confirmation-value {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/*--------------------------------------------------------------
+  # ORDER NUMBER HIGHLIGHT
+  --------------------------------------------------------------*/
+.order-id {
+    font-family: monospace;
+    background: rgba(196, 167, 125, 0.15);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    color: var(--accent-color);
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+
+/*--------------------------------------------------------------
+  # TRACKING INFO
+  --------------------------------------------------------------*/
+.tracking-info {
+    background: rgba(196, 167, 125, 0.1);
+    border: 1px solid rgba(196, 167, 125, 0.2);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+}
+
+.tracking-info h3 {
+    color: var(--text-light);
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(196, 167, 125, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.tracking-info h3 i {
+    color: var(--accent-color);
+}
+
+.tracking-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    position: relative;
+}
+
+.tracking-steps::before {
+    content: '';
+    position: absolute;
+    top: 15px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.1);
+    z-index: 1;
+}
+
+.tracking-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+}
+
+.step-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--card-gradient);
+    border: 2px solid rgba(196, 167, 125, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+}
+
+.step-icon.active {
+    background: var(--accent-gradient);
+}
+
+.step-icon i {
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+
+.step-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: center;
+    max-width: 80px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.step-icon.active+.step-label {
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+/*--------------------------------------------------------------
+  # NO ORDER INFO
+  --------------------------------------------------------------*/
+.no-order-info {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 87, 87, 0.1);
+    border: 1px solid rgba(255, 87, 87, 0.3);
+    border-radius: 0.75rem;
+    margin: 2rem 0;
+}
+
+.no-order-info p {
+    color: #ff5757;
+    margin: 0;
+}
+
+/*--------------------------------------------------------------
+  # ACTION BUTTONS
+  --------------------------------------------------------------*/
+.confirmation-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 3rem;
+}
+
+.action-btn {
+    padding: 0.85rem 1.75rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    text-align: center;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.primary-action {
+    background: var(--accent-gradient);
+    color: var(--text-light);
+    box-shadow: var(--accent-shadow);
+}
+
+.primary-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 40px rgba(196, 167, 125, 0.3);
+}
+
+.secondary-action {
+    background: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--accent-color);
+}
+
+.secondary-action:hover {
+    background: rgba(196, 167, 125, 0.1);
+    transform: translateY(-2px);
+}
+
+/*--------------------------------------------------------------
+  # ORDER RECEIPT
+  --------------------------------------------------------------*/
+.order-receipt {
+    background: var(--card-gradient);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: var(--elegant-shadow);
+    border: 1px solid var(--glass-effect);
+    height: fit-content;
+    align-self: start;
+    position: sticky;
+    top: 2rem;
+}
+
+.receipt-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.receipt-header h3 {
+    color: var(--text-light);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.print-btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-light);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.print-btn:hover {
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+}
+
+.receipt-content {
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.receipt-logo {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.receipt-logo img {
+    max-height: 40px;
+    object-fit: contain;
+}
+
+.receipt-order-number {
+    text-align: center;
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    margin-bottom: 1.5rem;
+}
+
+.receipt-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.receipt-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+.receipt-row:first-child {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+.receipt-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 0.5rem 0;
+}
+
+.receipt-row.total {
+    color: var(--accent-color);
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 0.5rem;
+}
+
+.receipt-footer {
+    text-align: center;
+    margin-top: 2rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+/*--------------------------------------------------------------
+  # PRINT STYLES
+  --------------------------------------------------------------*/
+@media print {
+
+    .topnav,
+    .footer,
+    .confirmation-card,
+    button {
+        display: none !important;
+    }
+
+    .order-receipt {
+        width: 100%;
+        border: none;
+        box-shadow: none;
+        background: white;
+        color: black;
+    }
+
+    .receipt-content {
+        background: white;
+        border: 1px solid #ddd;
+        color: black;
+    }
+
+    .receipt-header h3,
+    .receipt-order-number,
+    .receipt-row.total {
+        color: #000;
+    }
+
+    .receipt-divider {
+        background: #ddd;
+    }
+}
+
+/*--------------------------------------------------------------
+  # RESPONSIVENESS
+  --------------------------------------------------------------*/
+@media (max-width: 1200px) {
+    .order-confirmation-container {
+        grid-template-columns: 2fr 1fr;
+        padding: 2rem;
+        gap: 1.5rem;
+    }
+
+    .tracking-steps {
+        flex-wrap: wrap;
+        gap: 2rem;
+        justify-content: center;
+        padding: 0 1rem;
+    }
+
+    .tracking-steps::before {
+        display: none;
+    }
+}
+
+@media (max-width: 992px) {
+    .order-confirmation-container {
+        grid-template-columns: 1fr;
+    }
+
+    .order-receipt {
+        position: relative;
+        top: 0;
+    }
+
+    .confirmation-message h2 {
+        font-size: 1.75rem;
+    }
+
+    .confirmation-message p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .order-confirmation-container {
+        padding: 1.5rem;
+        margin: 1.5rem auto;
+    }
+
+    .confirmation-card,
+    .order-receipt {
+        padding: 1.5rem;
+    }
+
+    .confirmation-actions {
+        flex-direction: column;
+    }
+
+    .action-btn {
+        width: 100%;
+    }
+
+    .confirmation-message .success-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .confirmation-message .success-icon i {
+        font-size: 1.75rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .confirmation-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.25rem;
+    }
+
+    .confirmation-value {
+        margin-left: 0.5rem;
+    }
+
+    .tracking-step {
+        flex: 0 0 calc(33.33% - 1rem);
+        margin-bottom: 1.5rem;
+    }
+}
