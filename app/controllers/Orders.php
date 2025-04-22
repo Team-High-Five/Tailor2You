@@ -7,10 +7,12 @@ require_once APPROOT . '/helpers/FileUploader.php';
 class Orders extends Controller
 {
     private $orderModel;
+    private $appointModel;
 
     public function __construct()
     {
         $this->orderModel = $this->model('M_Orders');
+        $this->appointModel = $this->model('M_Appointments');
     }
 
     public function index()
@@ -313,5 +315,198 @@ class Orders extends Controller
 
         // Redirect to appointment booking
         redirect('Orders/bookAppointment');
+    }
+    public function processAppointment()
+    {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            redirect('Orders/bookAppointment');
+            return;
+        }
+
+        $appointmentDate = trim($_POST['appointment_date'] ?? '');
+        $appointmentTime = trim($_POST['appointment_time'] ?? '');
+        $locationType = trim($_POST['location_type'] ?? 'shop');
+
+        if (empty($appointmentDate) || empty($appointmentTime)) {
+            flash('appointment_error', 'Please select both date and time', 'alert alert-danger');
+            redirect('Orders/bookAppointment');
+            return;
+        }
+
+        // Store appointment in session
+        $_SESSION['order_details']['appointment'] = [
+            'date' => $appointmentDate,
+            'time' => $appointmentTime,
+            'location_type' => $locationType
+        ];
+
+        // Redirect to order review page
+        redirect('Orders/reviewOrder');
+    }
+
+    public function bookAppointment()
+    {
+        // Check authentication first
+        if (!isset($_SESSION['user_id'])) {
+            redirect('Users/login');
+            return;
+        }
+
+        // Check if previous steps are completed
+        if (
+            !isset($_SESSION['order_details']['design']) ||
+            !isset($_SESSION['order_details']['fabric']) ||
+            !isset($_SESSION['order_details']['color']) ||
+            !isset($_SESSION['order_details']['measurements'])
+        ) {
+            redirect('Orders/enterMeasurements');
+            return;
+        }
+
+        // Get the tailor ID from the design
+        $tailorId = $_SESSION['order_details']['design']->user_id;
+
+        // Get selected date (from form submission or default to 3 days from now)
+        $selectedDate = $_POST['appointment_date'] ?? date('Y-m-d', strtotime('+1 day'));
+
+        // Get booked slots for the selected date
+        $bookedSlots = $this->appointModel->getBookedTimeSlots($tailorId, $selectedDate);
+
+        $data = [
+            'title' => 'Book Appointment',
+            'booked_slots' => $bookedSlots,
+            'selected_date' => $selectedDate
+        ];
+
+        $this->view('designs/v_d_appointment', $data);
+    }
+    public function skipAppointment()
+    {
+        $_SESSION['order_details']['appointment'] = [
+            'skipped' => true,
+            'date' => null,
+            'time' => null,
+            'location_type' => null
+        ];
+        flash('appointment_info', 'Appointment booking was skipped. You can schedule an appointment later.', 'alert alert-info');
+
+        redirect('Orders/reviewOrder');
+    }
+    public function reviewOrder()
+    {
+        // Check if all necessary details are in session
+        if (
+            !isset($_SESSION['order_details']['design']) ||
+            !isset($_SESSION['order_details']['fabric']) ||
+            !isset($_SESSION['order_details']['color']) ||
+            !isset($_SESSION['order_details']['measurements'])
+        ) {
+            redirect('Orders/enterMeasurements');
+            return;
+        }
+
+        // Check if appointment exists OR was explicitly skipped
+        if (!isset($_SESSION['order_details']['appointment'])) {
+            redirect('Orders/bookAppointment');
+            return;
+        }
+
+        // Get measurement names from the database for better display
+        if (isset($_SESSION['order_details']['measurements'])) {
+            $_SESSION['order_details']['measurement_names'] =
+                $this->orderModel->getMeasurementNames();
+        }
+
+        $data = [
+            'title' => 'Review Order',
+            'order_details' => $_SESSION['order_details']
+        ];
+
+        $this->view('designs/v_d_review_order', $data);
+    }
+
+    public function placeOrder()
+    {
+        // Check user authentication
+        if (!isset($_SESSION['user_id'])) {
+            flash('order_error', 'Please login to complete your order', 'alert alert-danger');
+            redirect('Users/login');
+            return;
+        }
+
+        // Check if order details exist
+        if (!isset($_SESSION['order_details'])) {
+            redirect('Orders');
+            return;
+        }
+
+        flash('order_success', 'Your order has been placed successfully!', 'alert alert-success');
+
+        // Redirect to a confirmation page
+        redirect('Orders/payment');
+    }
+
+    public function orderConfirmation()
+    {
+
+
+        $data = [
+            'title' => 'Order Confirmation',
+            'order_details' => $_SESSION['order_details'] ?? []
+        ];
+
+        $this->view('designs/v_d_order_confirmation', $data);
+
+        // Clear the order from session after showing confirmation
+        if (isset($_SESSION['order_details'])) {
+            unset($_SESSION['order_details']);
+        }
+    }
+    // Add to Orders controller
+
+    public function payment()
+    {
+        // Check if session contains order details
+        if (!isset($_SESSION['order_details']) || !isset($_SESSION['order_details']['total_price'])) {
+            redirect('Orders/reviewOrder');
+            return;
+        }
+
+        $data = [
+            'title' => 'Payment',
+        ];
+
+        $this->view('designs/v_d_payments', $data);
+    }
+
+    public function processPayment()
+    {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            redirect('Orders/payment');
+            return;
+        }
+
+        $paymentMethod = $_POST['payment_method'] ?? 'cod';
+
+        // Generate order number
+        $orderNumber = 'T2Y-' . rand(10000, 99999);
+
+        // Log payment details (for learning purposes only)
+        $paymentDetails = [
+            'order_number' => $orderNumber,
+            'payment_method' => $paymentMethod,
+            'amount' => $_SESSION['order_details']['total_price'],
+            'status' => 'completed',
+            'date' => date('Y-m-d H:i:s')
+        ];
+
+        // Add payment details to session
+        $_SESSION['order_details']['payment'] = $paymentDetails;
+
+        // Here you would normally save the order to the database
+        // $success = $this->orderModel->createOrder($_SESSION['user_id'], $_SESSION['order_details']);
+
+        flash('order_success', 'Your order has been placed successfully!', 'alert alert-success');
+        redirect('Orders/orderConfirmation');
     }
 }

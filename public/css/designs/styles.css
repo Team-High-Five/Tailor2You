@@ -3,6 +3,10 @@
 @import url('Customizations.css');
 @import url('Order_Summery.css');
 @import url('Select_Color_styles.css');
+@import url('Appointment.css');
+@import url('Order_Confirmation_styles.css');
+@import url('Review_Order.css');
+@import url('Payment.css');
 
 /* Common Variables */
 :root {
@@ -148,12 +152,13 @@
 /*--------------------------------------------------------------
 # NAVIGATION BUTTONS - UPDATED
 --------------------------------------------------------------*/
+
 .button-group {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 2.5rem;
-    gap: 1.5rem;
+    margin-top: 1.5rem;
+    gap: 1rem;
 }
 
 .back-btn {
@@ -179,27 +184,22 @@
     width: auto;
 }
 
-/* Make the icon larger */
 .back-btn i {
     font-size: 1.1rem;
     transition: transform 0.3s ease;
 }
 
-/* Arrow hover effect */
 .back-btn:hover {
     background-color: transparent;
     transform: translateX(-5px);
-    /* Move left instead of up */
     box-shadow: 0 0 15px rgba(196, 167, 125, 0.2);
     color: var(--accent-color);
 }
 
-/* Make arrow icon emphasize movement on hover */
 .back-btn:hover i {
     transform: translateX(-3px);
 }
 
-/* Optional: if you want a more arrow-like shape */
 .back-btn::before {
     content: '';
     position: absolute;
@@ -274,6 +274,84 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+}
+
+/*--------------------------------------------------------------
+# SKIP BUTTON
+--------------------------------------------------------------*/
+.skip-btn {
+    margin-top: 10px;
+    background: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--accent-color);
+    padding: 0.6rem 1rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    text-decoration: none;
+    position: relative;
+    min-width: auto;
+    width: auto;
+}
+
+.skip-btn i {
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.skip-btn:hover {
+    background-color: transparent;
+    transform: translateX(5px);
+    box-shadow: 0 0 15px rgba(196, 167, 125, 0.2);
+    color: var(--accent-color);
+}
+
+.skip-btn:hover i {
+    transform: translateX(3px);
+}
+
+.skip-btn::before {
+    content: '';
+    position: absolute;
+    right: -8px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid var(--accent-color);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.skip-btn:hover::before {
+    opacity: 1;
+}
+
+.skip-btn:active {
+    transform: translateY(0);
+}
+
+
+
+@media (max-width: 768px) {
+    .button-group {
+        flex-wrap: wrap;
+    }
+
+    .skip-btn {
+        order: 3;
+        /* Show at bottom on mobile */
+        width: 100%;
+        margin-top: 1rem;
+    }
 }
 
 /*--------------------------------------------------------------

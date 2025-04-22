@@ -278,4 +278,16 @@ class M_Orders
 
         return true;
     }
+    public function getMeasurementNames()
+    {
+        $this->db->query('SELECT measurement_id, display_name FROM measurements');
+        $results = $this->db->resultSet();
+
+        $names = [];
+        foreach ($results as $row) {
+            $names[$row->measurement_id] = $row->display_name;
+        }
+
+        return $names;
+    }
 }
