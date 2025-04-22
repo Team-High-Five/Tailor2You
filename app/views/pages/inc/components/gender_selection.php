@@ -8,7 +8,7 @@
     </div>
     <div class="banner-item">
       <img src="<?php echo URLROOT; ?>/public/img/home/girls2.jpg" alt="Women" class="banner-image">
-      <button class="category-button">Women</button>
+      <a href="<?php echo URLROOT ?>/pages/womensPage"><button class="category-button">Women</button></a>
     </div>
   </div>
 </div>
