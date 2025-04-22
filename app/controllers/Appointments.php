@@ -52,10 +52,8 @@ class Appointments extends Controller
             redirect('pages/meetTailor');
         }
 
-        // Sanitize POST data
         $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-        // Get form data
         $data = [
             'tailor_id' => trim($_POST['tailor_id']),
             'appointment_date' => trim($_POST['appointment_date']),
@@ -64,21 +62,17 @@ class Appointments extends Controller
             'time_err' => ''
         ];
 
-        // Validate Date
         if (empty($data['appointment_date'])) {
             $data['date_err'] = 'Please select a date';
         } elseif (strtotime($data['appointment_date']) < strtotime(date('Y-m-d'))) {
             $data['date_err'] = 'Please select a future date';
         }
 
-        // Validate Time
         if (empty($data['appointment_time'])) {
             $data['time_err'] = 'Please select a time slot';
         }
 
-        // Make sure errors are empty
         if (empty($data['date_err']) && empty($data['time_err'])) {
-            // Create Appointment
             if ($this->appointmentModel->createAppointment($data)) {
                 flash('appointment_success', 'Your appointment request has been sent successfully');
                 redirect('Customers/displayAppointments');
@@ -87,7 +81,6 @@ class Appointments extends Controller
                 redirect('appointments/makeAppointment/' . $data['tailor_id']);
             }
         } else {
-            // Load view with errors
             $tailor = $this->appointmentModel->getTailorById($data['tailor_id']);
             $bookedSlots = $this->appointmentModel->getBookedTimeSlots($data['tailor_id'], $data['appointment_date']);
 

@@ -69,7 +69,7 @@
         <?php endif; ?>
     </div>
 
-    <div class="price-summary">
+    <div class=".order-summary-price-summary">
         <div class="subtotal">
             <span>Subtotal:</span>
             <span>Rs. <?php echo isset($_SESSION['order_details']['total_price']) ? number_format($_SESSION['order_details']['total_price'], 2) : '0.00'; ?></span>
