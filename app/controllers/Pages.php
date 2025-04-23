@@ -45,16 +45,39 @@ class Pages extends Controller
     public function womensPage()
     {
         $data = [
-            'title' => 'Mens Page'
+            'title' => 'womens Page'
         ];
         $this->view('pages/v_womens_page', $data);
     }
+    public function womensDressCategories()
+    {
 
+        $data = [];
+        $this->view('pages/v_womens_dress_category', $data);
+    }
+    public function womenSareeJacketCategories()
+    {
+
+        $data = [];
+        $this->view('pages/v_womens_SareeJacket_category', $data);
+    }
+    public function womenSkirtCategories()
+    {
+
+        $data = [];
+        $this->view('pages/v_womens_Skirt_category', $data);
+    }
+    public function womenBlouseCategories()
+    {
+
+        $data = [];
+        $this->view('pages/v_womens_Blouse_category', $data);
+    }
     public function mensCategories()
     {
 
         $data = [];
-        $this->view('pages/v_mens_category', $data);
+        $this->view('pages/v_mens_Shirt_category', $data);
     }
     public function genderSel()
     {
