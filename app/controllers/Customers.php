@@ -46,7 +46,6 @@ class Customers extends Controller
                 'home_town_err' => '',
                 'address_err' => ''
             ];
-
             // Validate inputs
             // Validate email
             if (empty($data['email'])) {
@@ -57,47 +56,38 @@ class Customers extends Controller
                     $data['email_err'] = 'Email is already taken';
                 }
             }
-
             // Validate first name
             if (empty($data['first_name'])) {
                 $data['first_name_err'] = 'Please enter first name';
             }
-
             // Validate last name
             if (empty($data['last_name'])) {
                 $data['last_name_err'] = 'Please enter last name';
             }
-
             // Validate phone number
             if (empty($data['phone_number'])) {
                 $data['phone_number_err'] = 'Please enter phone number';
             }
-
             // Validate NIC
             if (empty($data['nic'])) {
                 $data['nic_err'] = 'Please enter NIC number';
             }
-
             // Validate birth date
             if (empty($data['birth_date'])) {
                 $data['birth_date_err'] = 'Please enter birth date';
             }
-
             // Validate home town
             if (empty($data['home_town'])) {
                 $data['home_town_err'] = 'Please enter home town';
             }
-
             // Validate address
             if (empty($data['address'])) {
                 $data['address_err'] = 'Please enter address';
             }
-
             // Make sure errors are empty
             if (empty($data['email_err']) && empty($data['first_name_err']) && empty($data['last_name_err']) && empty($data['phone_number_err']) && empty($data['nic_err']) && empty($data['birth_date_err']) && empty($data['home_town_err']) && empty($data['address_err'])) {
                 // Store validated data in session
                 $_SESSION['customer_register_data'] = $data;
-
                 // Redirect to create password page
                 redirect('Customers/createPassword');
             } else {
@@ -124,7 +114,6 @@ class Customers extends Controller
                 'home_town_err' => '',
                 'address_err' => ''
             ];
-
             // Load view
             $this->view('users/Customer/v_c_register', $data);
         }
@@ -133,10 +122,8 @@ class Customers extends Controller
     public function createPassword()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Process form
             // Sanitize post data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
             // Input data
             $data = [
                 'password' => trim($_POST['password']),
@@ -144,14 +131,12 @@ class Customers extends Controller
                 'password_err' => '',
                 'confirm_password_err' => ''
             ];
-
             // Validate password
             if (empty($data['password'])) {
                 $data['password_err'] = 'Please enter password';
             } elseif (strlen($data['password']) < 6) {
                 $data['password_err'] = 'Password must be at least 6 characters';
             }
-
             // Validate confirm password
             if (empty($data['confirm_password'])) {
                 $data['confirm_password_err'] = 'Please confirm password';
@@ -160,7 +145,6 @@ class Customers extends Controller
                     $data['confirm_password_err'] = 'Passwords do not match';
                 }
             }
-
             // Make sure errors are empty
             if (empty($data['password_err']) && empty($data['confirm_password_err'])) {
                 // Hash password
@@ -334,115 +318,94 @@ class Customers extends Controller
         $this->view('users/Customer/v_c_orders', $data);
     }
 
-    public function addPants()
-    {
-        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'customer') {
-            redirect('Users/login');
-        }
-
+    public function addPants() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $measurementData = [];
+            foreach ($_POST['measurements'] as $id => $value) {
+                if (!empty($value)) {
+                    $cm_value = ($_POST['measurement_unit'] === 'inch') ? 
+                               $value * 2.54 : $value;
+                    $inch_value = ($_POST['measurement_unit'] === 'cm') ? 
+                                 $value * 0.393701 : $value;
 
-            $data = [
-                'user_id' => $_SESSION['user_id'],
-                'waist_width' => trim($_POST['waist_width']),
-                'seat' => trim($_POST['seat']),
-                'mid_thigh_width' => trim($_POST['mid_thigh_width']),
-                'inseam' => trim($_POST['inseam']),
-                'bottom_width' => trim($_POST['bottom_width']),
-                'rise_height_front' => trim($_POST['rise_height_front']),
-                'rise_height_back' => trim($_POST['rise_height_back']),
-                'measure' => trim($_POST['measurement_unit'])
-            ];
-
-
-            if ($_POST['is_create'] == '1') {
-                // Create new measurements
-                if ($this->customerModel->createPantMeasurements($data)) {
-                    flash('pant_message', 'Pant measurements created successfully');
-                    redirect('Customers/addPants');
-                } else {
-                    die('Something went wrong');
-                }
-            } else {
-                // Update existing measurements
-                if ($this->customerModel->updatePantMeasurements($data)) {
-                    // flash('shirt_message', 'Shirt measurements updated successfully');
-                    redirect('Customers/addPants');
-                } else {
-                    die('Something went wrong');
+                    $measurementData[] = [
+                        'id' => $id,
+                        'cm' => $cm_value,
+                        'inch' => $inch_value
+                    ];
                 }
             }
+            $data = [
+                'user_id' => $_SESSION['user_id'],
+                'measurements' => $measurementData
+            ];
+
+            if ($this->customerModel->updateUserMeasurements($data)) {
+                flash('measurement_message', 'Measurements updated successfully');
+                redirect('Customers/addPants');
+            } else {
+                die('Something went wrong');
+            }
         } else {
-            $cus_pant = $this->customerModel->getPantmeasurementsbyid($_SESSION['user_id']);
+            $measurements = $this->customerModel->getPantMeasurements($_SESSION['user_id']);
 
             $data = [
-                'title' => 'Update Pant',
-                'pant' => $cus_pant
+                'title' => 'Add Pant Measurements',
+                'measurements' => $measurements
             ];
 
             $this->view('users/Customer/v_c_addpants', $data);
         }
     }
 
-    public function addShirts()
-    {
-        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'customer') {
+            
+
+    public function addShirts() {
+        if (!isset($_SESSION['user_id'])) {
             redirect('Users/login');
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            $data = [
-                'user_id' => $_SESSION['user_id'],
-                'collar_size' => trim($_POST['collar_size']),
-                'chest_width' => trim($_POST['chest_width']),
-                'waist_width' => trim($_POST['waist_width']),
-                'bottom_width' => trim($_POST['bottom_width']),
-                'shoulder_width' => trim($_POST['shoulder_width']),
-                'sleeve_length' => trim($_POST['sleeve_length']),
-                'armhole_depth' => trim($_POST['armhole_depth']),
-                'bicep' => trim($_POST['bicep']),
-                'cuff_size' => trim($_POST['cuff_size']),
-                'front_length' => trim($_POST['front_length']),
-                'measure' => trim($_POST['measurement_unit'])
-            ];
+            $measurementData = [];
+            foreach ($_POST['measurements'] as $id => $value) {
+                if (!empty($value)) {
+                    $cm_value = ($_POST['measurement_unit'] === 'inch') ? 
+                               $value * 2.54 : $value;
+                    $inch_value = ($_POST['measurement_unit'] === 'cm') ? 
+                                 $value * 0.393701 : $value;
 
-            if ($_POST['is_create'] == '1') {
-                // Create new measurements
-                if ($this->customerModel->createShirtMeasurements($data)) {
-                    flash('shirt_message', 'Shirt measurements created successfully');
-                    redirect('Customers/addShirts');
-                } else {
-                    die('Something went wrong');
-                }
-            } else {
-                // Update existing measurements
-                if ($this->customerModel->updateShirtMeasurements($data)) {
-                    // flash('shirt_message', 'Shirt measurements updated successfully');
-                    redirect('Customers/addShirts');
-                } else {
-                    die('Something went wrong');
+                    $measurementData[] = [
+                        'id' => $id,
+                        'cm' => $cm_value,
+                        'inch' => $inch_value
+                    ];
                 }
             }
-        } else {
-            $cus_shirt = $this->customerModel->getShirtmeasurementsbyid($_SESSION['user_id']);
-
-            // if (!$cus_shirt) {
-            //     flash('shirt_message', 'Shirt measurements not found', 'alert alert-danger');
-            //     redirect('Customers/addShirts');
-            // }
 
             $data = [
-                'title' => 'Update Shirt',
-                'shirt' => $cus_shirt
+                'user_id' => $_SESSION['user_id'],
+                'measurements' => $measurementData
+            ];
+
+            if ($this->customerModel->updateUserMeasurements($data)) {
+                flash('measurement_message', 'Measurements updated successfully');
+                redirect('Customers/addShirts');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            $measurements = $this->customerModel->getShirtMeasurements($_SESSION['user_id']);
+
+            $data = [
+                'title' => 'Add Shirt Measurements',
+                'measurements' => $measurements
             ];
 
             $this->view('users/Customer/v_c_addshirt', $data);
         }
     }
-
 
     public function changepassword()
     {

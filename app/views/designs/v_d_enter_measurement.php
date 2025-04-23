@@ -1,197 +1,167 @@
 <?php require_once APPROOT . '/views/designs/inc/header.php'; ?>
 <?php require_once APPROOT . '/views/pages/inc/components/topnav.php'; ?>
 
-<div class="measurement-page-container">
-  <div class="measurement-form-container">
-    <table>
-      <thead>
-        <tr>
-          <th>Measurement Type & Description</th>
-          <th>Measurement (inch)</th>
-          <th>Designs</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <strong>Neck Circumference</strong>
-            <p>Around the base of the neck</p>
-          </td>
-          <td>
-            <select class="select">
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-              <option>11</option>
-              <option>12</option>
-            </select>
-          </td>
-          <td><a href="<?php echo URLROOT ?>/Designs/collarDesigns"><button class="design-button">Collar Designs</button></a></td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Chest</strong>
-            <p>Fullest part of the chest</p>
-          </td>
-          <td>
-            <select class="select">
-              <option>14</option>
-              <option>15</option>
-              <option>16</option>
-              <option>17</option>
-              <option>18</option>
-              <option>19</option>
-              <option>20</option>
-            </select>
-          </td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Waist</strong>
-            <p>Narrowest part of the waist</p>
-          </td>
-          <td>
-            <select class="select">
-              <option>14</option>
-              <option>15</option>
-              <option>16</option>
-              <option>17</option>
-              <option>18</option>
-              <option>19</option>
-              <option>20</option>
-            </select>
-          </td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Hip</strong>
-            <p>Fullest part of the hips</p>
-          </td>
-          <td>
-            <select class="select">
-              <option>14</option>
-              <option>15</option>
-              <option>16</option>
-              <option>17</option>
-              <option>18</option>
-              <option>19</option>
-              <option>20</option>
-            </select>
-          </td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Shoulder Width</strong>
-            <p>Distance between shoulder seams</p>
-          </td>
-          <td>
-            <select class="select">
-              <option>14</option>
-              <option>15</option>
-              <option>16</option>
-              <option>17</option>
-              <option>18</option>
-              <option>19</option>
-              <option>20</option>
-            </select>
-          </td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Sleeve Length</strong>
-            <p>From shoulder seam to wrist</p>
-          </td>
-          <td>
-            <select class="select">
-              <option>14</option>
-              <option>15</option>
-              <option>16</option>
-              <option>17</option>
-              <option>18</option>
-              <option>19</option>
-              <option>20</option>
-            </select>
-          </td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Armhole</strong>
-            <p>Circumference of the armhole</p>
-          </td>
-          <td>
-            <select class="select">
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-              <option>11</option>
-              <option>12</option>
-            </select>
-          </td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Shirt Length</strong>
-            <p>From the base of the neck to the hem</p>
-          </td>
-          <td>
-            <select class="select">
-              <option>18</option>
-              <option>19</option>
-              <option>20</option>
-              <option>21</option>
-              <option>22</option>
-              <option>23</option>
-              <option>24</option>
-            </select>
-          </td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>
-            <strong>Cuff Circumference</strong>
-            <p>Around the wrist</p>
-          </td>
-          <td>
-            <select class="select">
-              <option>6</option>
-              <option>7</option>
-              <option>8</option>
-              <option>9</option>
-              <option>10</option>
-              <option>11</option>
-              <option>12</option>
-            </select>
-          </td>
-          <td><a href="<?php echo URLROOT ?>/Designs/cuffDesigns"><button class="design-button">Cuff Designs</button></a></td>
-        </tr>
-      </tbody>
-    </table>
+<div class="design-page-container">
+  <div class="design-details-container">
+    <div class="measurement-content">
+      <div class="measurement-header">
+        <span>Enter Your Measurements</span>
+      </div>
 
-    <div class="buttons">
-      <a href="<?php echo URLROOT ?>/Designs/appointment"><button class="submit-button">Submit</button></a>
+      <form action="<?php echo URLROOT; ?>/Orders/processMeasurements" method="post" id="measurementForm">
+        <table class="measurement-table">
+          <thead>
+            <tr>
+              <th>Measurement Type</th>
+              <th>Value (inches)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php if (!empty($data['measurements'])): ?>
+              <?php foreach ($data['measurements'] as $measurement): ?>
+                <tr>
+                  <td>
+                    <strong><?php echo $measurement->display_name; ?></strong>
+                    <p><?php echo !empty($measurement->custom_description) ? $measurement->custom_description : $measurement->description; ?></p>
+                  </td>
+                  <td>
+                    <div class="input-container">
+                      <?php
+                      // Get range for this measurement
+                      $range = $data['ranges'][$measurement->name] ?? ['min' => 5, 'max' => 60, 'increment' => 0.5];
+                      $min = $range['min'];
+                      $max = $range['max'];
+
+                      // Get user's existing measurement if available
+                      $userValue = $data['userMeasurements'][$measurement->name] ?? null;
+                      ?>
+                      <input
+                        type="number"
+                        class="measurement-input"
+                        name="measurement_<?php echo $measurement->measurement_id; ?>"
+                        id="measurement_<?php echo $measurement->measurement_id; ?>"
+                        value="<?php echo $userValue ?? ''; ?>"
+                        min="<?php echo $min; ?>"
+                        max="<?php echo $max; ?>"
+                        step="0.1"
+                        <?php echo $measurement->is_required ? 'required' : ''; ?>>
+                      <span class="unit">in</span>
+                    </div>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            <?php endif; ?>
+
+            <?php if (!empty($data['customMeasurements'])): ?>
+              <?php foreach ($data['customMeasurements'] as $measurement): ?>
+                <tr>
+                  <td>
+                    <strong><?php echo $measurement->display_name; ?></strong>
+                    <p><?php echo $measurement->description; ?></p>
+                  </td>
+                  <td>
+                    <div class="input-container">
+                      <input
+                        type="number"
+                        class="measurement-input"
+                        name="custom_measurement_<?php echo $measurement->id; ?>"
+                        id="custom_measurement_<?php echo $measurement->id; ?>"
+                        min="5"
+                        max="60"
+                        step="0.1"
+                        <?php echo $measurement->is_required ? 'required' : ''; ?>>
+                      <span class="unit">in</span>
+                    </div>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            <?php endif; ?>
+          </tbody>
+        </table>
+
+        <div class="button-group">
+          <a href="<?php echo URLROOT; ?>/Orders/customizations" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Back
+          </a>
+          <button type="submit" class="continue-btn">
+            Continue <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      </form>
     </div>
   </div>
+
   <div class="design-image-container">
-    <img src="<?php echo URLROOT; ?>/public/img/designs/still-life-with-classic-shirts-hanger.jpg" alt="Design">
-    <div class="design-details">
-      <div class="design-name">
-        <span>Design Name</span>
-      </div>
-      <div class="design-description">
-        <span>Design Description</span>
-      </div>
+    <div class="design-image-wrapper">
+      <?php if (isset($_SESSION['order_details']['design']) && !empty($_SESSION['order_details']['design']->main_image)) : ?>
+        <img src="<?php echo URLROOT; ?>/public/img/uploads/designs/<?php echo $_SESSION['order_details']['design']->main_image; ?>"
+          alt="<?php echo $_SESSION['order_details']['design']->name; ?>"
+          onerror="this.src='<?php echo URLROOT; ?>/public/img/designs/placeholder.jpg'">
+      <?php else : ?>
+        <img src="<?php echo URLROOT; ?>/public/img/designs/placeholder.jpg" alt="Design Image">
+      <?php endif; ?>
     </div>
-  </div>
-  </body>
 
-  </html>
+    <div class="design-details">
+      <?php if (isset($_SESSION['order_details']['design'])): ?>
+        <div class="design-name">
+          <span><?php echo $_SESSION['order_details']['design']->name; ?></span>
+        </div>
+        <div class="design-description">
+          <span><?php echo $_SESSION['order_details']['design']->description; ?></span>
+        </div>
+      <?php else: ?>
+        <div class="design-name">
+          <span>Design Name</span>
+        </div>
+        <div class="design-description">
+          <span>Design Description</span>
+        </div>
+      <?php endif; ?>
+    </div>
+
+    <!-- Add Order Summary Component -->
+    <?php require_once APPROOT . '/views/designs/components/order-summary.php'; ?>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Get all measurement inputs
+    const inputs = document.querySelectorAll('.measurement-input');
+
+    // Add input validation
+    inputs.forEach(input => {
+      input.addEventListener('input', function() {
+        // Ensure value is within range
+        const value = parseFloat(this.value);
+        const min = parseFloat(this.getAttribute('min'));
+        const max = parseFloat(this.getAttribute('max'));
+
+        if (!isNaN(value)) {
+          // Round to 1 decimal place for better UX
+          this.value = Math.round(value * 10) / 10;
+
+          if (value < min) {
+            this.setCustomValidity(`Value must be at least ${min}`);
+          } else if (value > max) {
+            this.setCustomValidity(`Value cannot exceed ${max}`);
+          } else {
+            this.setCustomValidity('');
+          }
+        }
+      });
+    });
+
+    // Form validation
+    const form = document.getElementById('measurementForm');
+    form.addEventListener('submit', function(event) {
+      const invalidInputs = form.querySelectorAll(':invalid');
+      if (invalidInputs.length > 0) {
+        event.preventDefault();
+        invalidInputs[0].focus();
+      }
+    });
+  });
+</script>
+
+<?php require_once APPROOT . '/views/designs/inc/footer.php'; ?>

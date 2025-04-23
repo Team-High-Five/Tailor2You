@@ -337,6 +337,149 @@ class M_Designs
         $this->db->bind(':design_id', $designId);
         return $this->db->execute();
     }
+
+
+    /**
+     * Get measurements associated with a specific category
+     */
+    public function getCategoryMeasurements($categoryId)
+    {
+        $this->db->query('
+        SELECT m.*, cm.is_required, cm.display_order
+        FROM measurements m
+        JOIN category_measurements cm ON m.measurement_id = cm.measurement_id
+        WHERE cm.category_id = :category_id
+        ORDER BY cm.display_order, m.display_name
+    ');
+        $this->db->bind(':category_id', $categoryId);
+        return $this->db->resultSet();
+    }
+
+    /**
+     * Add design measurements when saving a design
+     */
+    public function addDesignMeasurements($designId, $measurementIds, $isRequired = array())
+    {
+        foreach ($measurementIds as $measurementId) {
+            $required = isset($isRequired[$measurementId]) ? $isRequired[$measurementId] : 1;
+
+            $this->db->query('
+            INSERT INTO design_measurements (design_id, measurement_id, is_required)
+            VALUES (:design_id, :measurement_id, :is_required)
+        ');
+
+            $this->db->bind(':design_id', $designId);
+            $this->db->bind(':measurement_id', $measurementId);
+            $this->db->bind(':is_required', $required);
+
+            if (!$this->db->execute()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Add custom measurements for a design
+     */
+    public function addCustomDesignMeasurement($data)
+    {
+        $this->db->query('
+        INSERT INTO custom_design_measurements 
+        (design_id, name, display_name, description, is_required, unit_type)
+        VALUES (:design_id, :name, :display_name, :description, :is_required, :unit_type)
+    ');
+
+        $this->db->bind(':design_id', $data['design_id']);
+        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':display_name', $data['display_name']);
+        $this->db->bind(':description', $data['description'] ?? null);
+        $this->db->bind(':is_required', $data['is_required'] ?? 1);
+        $this->db->bind(':unit_type', $data['unit_type']);
+
+        return $this->db->execute();
+    }
+    public function getDesignMeasurements($designId)
+    {
+        $this->db->query('
+        SELECT dm.*, m.name, m.display_name, m.description, m.unit_type
+        FROM design_measurements dm
+        JOIN measurements m ON dm.measurement_id = m.measurement_id
+        WHERE dm.design_id = :design_id
+        ORDER BY dm.display_order
+    ');
+        $this->db->bind(':design_id', $designId);
+        return $this->db->resultSet();
+    }
+
+    /**
+     * Get custom design measurements
+     */
+    public function getCustomDesignMeasurements($designId)
+    {
+        $this->db->query('
+        SELECT *
+        FROM custom_design_measurements
+        WHERE design_id = :design_id
+        ORDER BY display_order
+    ');
+        $this->db->bind(':design_id', $designId);
+        return $this->db->resultSet();
+    }
+
+    /**
+     * Remove all design measurements
+     */
+    public function removeAllDesignMeasurements($designId)
+    {
+        $this->db->query('
+        DELETE FROM design_measurements
+        WHERE design_id = :design_id
+    ');
+        $this->db->bind(':design_id', $designId);
+        return $this->db->execute();
+    }
+
+    /**
+     * Remove all custom design measurements
+     */
+    public function removeAllCustomDesignMeasurements($designId)
+    {
+        $this->db->query('
+        DELETE FROM custom_design_measurements
+        WHERE design_id = :design_id
+    ');
+        $this->db->bind(':design_id', $designId);
+        return $this->db->execute();
+    }
+
+    /**
+     * Update custom design measurement
+     */
+    public function updateCustomDesignMeasurement($data)
+    {
+        $this->db->query('
+        UPDATE custom_design_measurements
+        SET name = :name,
+            display_name = :display_name,
+            description = :description,
+            is_required = :is_required,
+            unit_type = :unit_type
+        WHERE id = :id AND design_id = :design_id
+    ');
+
+        $this->db->bind(':id', $data['id']);
+        $this->db->bind(':design_id', $data['design_id']);
+        $this->db->bind(':name', $data['name']);
+        $this->db->bind(':display_name', $data['display_name']);
+        $this->db->bind(':description', $data['description'] ?? null);
+        $this->db->bind(':is_required', $data['is_required'] ?? 1);
+        $this->db->bind(':unit_type', $data['unit_type']);
+
+        return $this->db->execute();
+    }
+
     public function beginTransaction()
     {
         return $this->db->beginTransaction();

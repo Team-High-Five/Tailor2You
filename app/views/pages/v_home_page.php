@@ -24,7 +24,7 @@
 
 <?php
 $designs = $data['designs'] ?? [];
-require_once APPROOT . '/views/pages/inc/components/design.php';
+require_once APPROOT . '/views/pages/inc/components/design_grid.php';
 ?>
 <!-- Image Section -->
 <!-- <section class="image-section">
