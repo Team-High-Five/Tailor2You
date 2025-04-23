@@ -352,7 +352,7 @@ class Orders extends Controller
 
     public function bookAppointment()
     {
-        $_SESSION['current_page'] = 'bookAppointment';
+        $_SESSION['redirect_url'] = 'Orders/bookAppointment';
         // Check authentication first
         if (!isset($_SESSION['user_id'])) {
             redirect('Users/login');
