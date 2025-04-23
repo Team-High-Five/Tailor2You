@@ -36,9 +36,5 @@
       </a>
     </div>
   </div>
-</div>
 
-<!-- Include the chat box -->
-<div class="messages-container" id="chatBox" style="display: none;">
-  <?php require_once APPROOT . '/views/users/Chat/v_s_message_group.php'; ?>
-</div>
+

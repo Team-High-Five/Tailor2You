@@ -14,4 +14,4 @@
     <script src="<?php echo URLROOT; ?>/public/js/customer/appointment_reschedule.js" defer></script>
 </head>
 
-<body></body>
+<body>
