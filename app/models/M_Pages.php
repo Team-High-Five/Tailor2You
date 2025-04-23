@@ -96,53 +96,9 @@ class M_Pages
     }
 
     // Toggle like on a post
-    public function togglePostLike($userId, $postId)
-    {
-        // First check if this like already exists
-        $this->db->query("SELECT * FROM post_likes WHERE post_id = :postId AND user_id = :userId");
-        $this->db->bind(':postId', $postId);
-        $this->db->bind(':userId', $userId);
 
-        $existingLike = $this->db->single();
 
-        if ($existingLike) {
-            // Like exists - toggle status
-            if ($existingLike->status === 'active') {
-                $this->db->query("UPDATE post_likes SET status = 'removed' WHERE post_id = :postId AND user_id = :userId");
-            } else {
-                $this->db->query("UPDATE post_likes SET status = 'active' WHERE post_id = :postId AND user_id = :userId");
-            }
-            $this->db->bind(':postId', $postId);
-            $this->db->bind(':userId', $userId);
-            return $this->db->execute();
-        } else {
-            // Like doesn't exist - create it
-            $this->db->query("INSERT INTO post_likes (post_id, user_id, status) VALUES (:postId, :userId, 'active')");
-            $this->db->bind(':postId', $postId);
-            $this->db->bind(':userId', $userId);
-            return $this->db->execute();
-        }
-    }
 
-    // Check if a user has liked a post
-    public function hasUserLikedPost($userId, $postId)
-    {
-        $this->db->query("SELECT * FROM post_likes WHERE post_id = :postId AND user_id = :userId AND status = 'active'");
-        $this->db->bind(':postId', $postId);
-        $this->db->bind(':userId', $userId);
-
-        return $this->db->single() ? true : false;
-    }
-    public function getDesignsByUserId($id)
-    {
-        $this->db->query("SELECT d.*, c.name as category_name 
-                      FROM designs d 
-                      JOIN clothing_categories c ON d.category_id = c.category_id 
-                      WHERE d.user_id = :id AND d.status = 'active'
-                      ORDER BY d.created_at DESC");
-        $this->db->bind(':id', $id);
-        return $this->db->resultSet();
-    }
     public function toggleLike($customerId, $tailorId)
     {
         // First check if this like already exists
@@ -187,5 +143,49 @@ class M_Pages
         $this->db->query("SELECT * FROM posts WHERE id = :id");
         $this->db->bind(':id', $id);
         return $this->db->single();
+    }
+
+    // Toggle like on a post
+    public function togglePostLike($userId, $postId)
+    {
+        // First check if this like already exists
+        $this->db->query("SELECT * FROM post_likes WHERE post_id = :postId AND user_id = :userId");
+        $this->db->bind(':postId', $postId);
+        $this->db->bind(':userId', $userId);
+        $result = $this->db->single();
+
+        if ($result) {
+            // Like exists, toggle its status
+            $newStatus = ($result->status === 'active') ? 'inactive' : 'active';
+            $this->db->query("UPDATE post_likes SET status = :status WHERE post_id = :postId AND user_id = :userId");
+            $this->db->bind(':status', $newStatus);
+            $this->db->bind(':postId', $postId);
+            $this->db->bind(':userId', $userId);
+            return $this->db->execute();
+        } else {
+            // Like doesn't exist, create it
+            $this->db->query("INSERT INTO post_likes (post_id, user_id, status) VALUES (:postId, :userId, 'active')");
+            $this->db->bind(':postId', $postId);
+            $this->db->bind(':userId', $userId);
+            return $this->db->execute();
+        }
+    }
+
+    public function hasUserLikedPost($userId, $postId)
+    {
+        $this->db->query("SELECT * FROM post_likes WHERE post_id = :postId AND user_id = :userId AND status = 'active'");
+        $this->db->bind(':postId', $postId);
+        $this->db->bind(':userId', $userId);
+        return $this->db->rowCount() > 0;
+    }
+    public function getDesignsByUserId($id)
+    {
+        $this->db->query("SELECT d.*, 
+                     (SELECT COUNT(*) FROM designs WHERE design_id = d.design_id AND status = 'active') 
+                     FROM designs d 
+                     WHERE d.user_id = :id 
+                     ORDER BY d.created_at DESC");
+        $this->db->bind(':id', $id);
+        return $this->db->resultSet();
     }
 }

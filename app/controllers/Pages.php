@@ -183,7 +183,8 @@ class Pages extends Controller
         // Toggle like status
         $this->pageModel->togglePostLike($userId, $id);
 
-        // Redirect back to the referring page
-        redirect($_SERVER['HTTP_REFERER'] ?? 'pages/tailorProfile/' . $post->user_id);
+
+        // Redirect back to the tailor's profile page
+        redirect('pages/tailorProfile/' . $post->user_id);
     }
 }
