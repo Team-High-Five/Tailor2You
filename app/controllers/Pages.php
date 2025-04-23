@@ -35,13 +35,7 @@ class Pages extends Controller
         ];
         $this->view('v_about', $data);
     }
-    public function mensPage()
-    {
-        $data = [
-            'title' => 'Mens Page'
-        ];
-        $this->view('pages/v_mens_page', $data);
-    }
+    
     public function womensPage()
     {
         $data = [
@@ -73,11 +67,30 @@ class Pages extends Controller
         $data = [];
         $this->view('pages/v_womens_Blouse_category', $data);
     }
-    public function mensCategories()
+    public function mensPage()
+    {
+        $data = [
+            'title' => 'Mens Page'
+        ];
+        $this->view('pages/v_mens_page', $data);
+    }
+    public function menShirtCategories()
     {
 
         $data = [];
         $this->view('pages/v_mens_Shirt_category', $data);
+    }
+    public function menSuitCategories()
+    {
+
+        $data = [];
+        $this->view('pages/v_mens_Suit_category', $data);
+    }
+    public function menPantCategories()
+    {
+
+        $data = [];
+        $this->view('pages/v_mens_Pant_category', $data);
     }
     public function genderSel()
     {
