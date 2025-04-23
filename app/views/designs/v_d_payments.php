@@ -1,88 +1,157 @@
 <?php require_once APPROOT . '/views/designs/inc/header.php'; ?>
 <?php require_once APPROOT . '/views/pages/inc/components/topnav.php'; ?>
 
-<div class="measurement-page-container">
-  <div class="measurement-form-container">
-    <div class="success-header">
-      <span>Payment Information</span>
+<div class="payment-container">
+  <div class="payment-content">
+    <div class="payment-header">
+      <span>Payment</span>
+      <p>Complete your payment to finalize your order</p>
     </div>
-    <form>
-      <div class="card-icons">
-        <img src="<?php echo URLROOT; ?>/public/img/designs/visa.png" alt="Visa">
-        <img src="<?php echo URLROOT; ?>/public/img/designs/mastercard.png" alt="MasterCard">
-        <img src="<?php echo URLROOT; ?>/public/img/designs/amex.jpg" alt="American Express">
-        <img src="<?php echo URLROOT; ?>/public/img/designs/discover.png" alt="Discover">
-      </div>
 
-      <div class="form-group">
-        <label for="card-number">Card Number</label>
-        <input type="text" id="card-number" class="select" placeholder="Enter card number">
+    <!-- Order Summary -->
+    <div class="payment-summary">
+      <div class="summary-row">
+        <span class="summary-label">Order Total:</span>
+        <span class="summary-value">Rs. <?php echo number_format($_SESSION['order_details']['total_price'], 2); ?></span>
       </div>
+    </div>
 
-      <div class="form-group">
-        <label for="cardholder-name">Cardholder Name</label>
-        <input type="text" id="cardholder-name" class="select" placeholder="Enter your name">
-      </div>
+    <!-- Payment Form -->
+    <form action="<?php echo URLROOT; ?>/Orders/processPayment" method="post" id="paymentForm">
+      <!-- Payment Method Selector -->
+      <div class="payment-methods">
+        <h3>Select Payment Method</h3>
 
-      <div class="form-group">
-        <label for="expiry-date">Expiry Date</label>
-        <div style="display: flex; gap: 10px;">
-          <select id="expiry-month" class="select">
-            <option value="">MM</option>
-            <option value="01">01</option>
-            <option value="02">02</option>
-            <option value="03">03</option>
-            <option value="04">04</option>
-            <option value="05">05</option>
-            <option value="06">06</option>
-            <option value="07">07</option>
-            <option value="08">08</option>
-            <option value="09">09</option>
-            <option value="10">10</option>
-            <option value="11">11</option>
-            <option value="12">12</option>
-          </select>
-          <select id="expiry-year" class="select">
-            <option value="">YY</option>
-            <option value="2024">2024</option>
-            <option value="2025">2025</option>
-            <option value="2026">2026</option>
-            <option value="2027">2027</option>
-            <option value="2028">2028</option>
-          </select>
+        <div class="payment-method-options">
+          <div class="payment-option">
+            <input type="radio" name="payment_method" id="card_payment" value="card" checked>
+            <label for="card_payment">
+              <span class="payment-icon"><i class="fas fa-credit-card"></i></span>
+              <span class="payment-name">Credit/Debit Card</span>
+            </label>
+          </div>
+
+          <div class="payment-option">
+            <input type="radio" name="payment_method" id="cash_delivery" value="cod">
+            <label for="cash_delivery">
+              <span class="payment-icon"><i class="fas fa-money-bill-wave"></i></span>
+              <span class="payment-name">Cash on Delivery</span>
+            </label>
+          </div>
         </div>
       </div>
 
-      <div class="form-group">
-        <label for="cvv">CVV</label>
-        <input type="text" id="cvv" class="select" placeholder="CVV">
+      <!-- Card Payment Form (shown/hidden based on selection) -->
+      <div class="card-payment-form" id="cardPaymentSection">
+        <div class="form-group">
+          <label for="card_number">Card Number</label>
+          <input type="text" id="card_number" name="card_number" placeholder="1234 5678 9012 3456" maxlength="19">
+        </div>
+
+        <div class="card-details">
+          <div class="form-group">
+            <label for="expiry_date">Expiry Date</label>
+            <input type="text" id="expiry_date" name="expiry_date" placeholder="MM/YY" maxlength="5">
+          </div>
+
+          <div class="form-group">
+            <label for="cvv">CVV</label>
+            <input type="text" id="cvv" name="cvv" placeholder="123" maxlength="3">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="card_name">Name on Card</label>
+          <input type="text" id="card_name" name="card_name" placeholder="John Smith">
+        </div>
       </div>
 
-      <div class="save-card">
-        <input type="checkbox" id="save-card">
-        <label for="save-card">Save card details</label>
+      <!-- Simulated Processing Message -->
+      <div class="simulated-message">
+        <p><i class="fas fa-info-circle"></i> This is a demonstration project. No real payment will be processed.</p>
       </div>
-
-      <p class="warning-text">⚠️ Your order will be processed in USD</p>
 
       <div class="action-buttons">
-        <a href="<?php echo URLROOT ?>/Designs/placedOrder" class="request-button">Save & Confirm</a>
-        <a href="<?php echo URLROOT ?>/Designs/placedOrder" class="skip-button">Cancel</a>
+        <a href="<?php echo URLROOT; ?>/Orders/reviewOrder" class="back-btn">Back to Review</a>
+        <button type="submit" class="pay-btn">Complete Order</button>
       </div>
     </form>
   </div>
-  <div class="design-image-container">
-    <img src="<?php echo URLROOT; ?>/public/img/designs/still-life-with-classic-shirts-hanger.jpg" alt="Shirt Image">
-    <div class="design-details">
-      <div class="design-name">
-        <span>Design Name</span>
-      </div>
-      <div class="design-description">
-        <span>Design Description</span>
-      </div>
-    </div>
-  </div>
 </div>
-</body>
 
-</html>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Format card number with spaces
+    document.getElementById('card_number').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\s+/g, '');
+      if (value.length > 0) {
+        value = value.match(new RegExp('.{1,4}', 'g')).join(' ');
+      }
+      e.target.value = value;
+    });
+
+    // Format expiry date with slash
+    document.getElementById('expiry_date').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length > 2) {
+        value = value.substring(0, 2) + '/' + value.substring(2, 4);
+      }
+      e.target.value = value;
+    });
+
+    // Show/hide card payment form based on payment method selection
+    const paymentMethods = document.querySelectorAll('input[name="payment_method"]');
+    const cardSection = document.getElementById('cardPaymentSection');
+
+    paymentMethods.forEach(method => {
+      method.addEventListener('change', function() {
+        if (this.value === 'card') {
+          cardSection.style.display = 'block';
+        } else {
+          cardSection.style.display = 'none';
+        }
+      });
+    });
+
+    // Form validation
+    document.getElementById('paymentForm').addEventListener('submit', function(e) {
+      const paymentMethod = document.querySelector('input[name="payment_method"]:checked').value;
+
+      if (paymentMethod === 'card') {
+        const cardNumber = document.getElementById('card_number').value.replace(/\s+/g, '');
+        const expiryDate = document.getElementById('expiry_date').value;
+        const cvv = document.getElementById('cvv').value;
+        const cardName = document.getElementById('card_name').value;
+
+        let isValid = true;
+
+        // Simple validation
+        if (cardNumber.length !== 16) {
+          alert('Please enter a valid 16-digit card number');
+          isValid = false;
+        }
+
+        if (!expiryDate.match(/^\d{2}\/\d{2}$/)) {
+          alert('Please enter a valid expiry date (MM/YY)');
+          isValid = false;
+        }
+
+        if (cvv.length < 3) {
+          alert('Please enter a valid CVV');
+          isValid = false;
+        }
+
+        if (cardName.trim() === '') {
+          alert('Please enter the name on your card');
+          isValid = false;
+        }
+
+        if (!isValid) {
+          e.preventDefault();
+        }
+      }
+    });
+  });
+</script>
+
+<?php require_once APPROOT . '/views/designs/inc/footer.php'; ?>

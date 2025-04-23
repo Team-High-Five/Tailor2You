@@ -1,6 +1,12 @@
+@import url('../pages/topnav.css');
+@import url('Select_Fabric_styles.css');
 @import url('Enter_Measurement_styles.css');
 @import url('Select_Color_styles.css');
-@import url('Select_Fabric_styles.css');
+@import url('Appointment.css');
+@import url('Order_Confirmation_styles.css');
+@import url('Review_Order.css');
+@import url('Payment.css');
+@import url('Order_confirmation.css');
 
 /* Common Variables */
 :root {
@@ -121,9 +127,73 @@
 /*--------------------------------------------------------------
 # COMMON BUTTON STYLES
 --------------------------------------------------------------*/
-.continue-button {
-    text-align: center;
-    margin-top: 3rem;
+
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+    gap: 1rem;
+}
+
+.back-btn {
+    margin-top: 10px;
+    background: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--accent-color);
+    padding: 0.6rem 1rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    text-decoration: none;
+    position: relative;
+    min-width: auto;
+    width: auto;
+}
+
+.back-btn i {
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.back-btn:hover {
+    background-color: transparent;
+    transform: translateX(-5px);
+    box-shadow: 0 0 15px rgba(196, 167, 125, 0.2);
+    color: var(--accent-color);
+}
+
+.back-btn:hover i {
+    transform: translateX(-3px);
+}
+
+.back-btn::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-right: 8px solid var(--accent-color);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.back-btn:hover::before {
+    opacity: 1;
+}
+
+.back-btn:active {
+    transform: translateY(0);
 }
 
 .continue-btn {
@@ -175,6 +245,114 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+}
+
+/*--------------------------------------------------------------
+# SKIP BUTTON
+--------------------------------------------------------------*/
+.skip-btn {
+    margin-top: 10px;
+    background: transparent;
+    color: var(--text-light);
+    border: 1px solid var(--accent-color);
+    padding: 0.6rem 1rem;
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    text-decoration: none;
+    position: relative;
+    min-width: auto;
+    width: auto;
+}
+
+.skip-btn i {
+    font-size: 1.1rem;
+    transition: transform 0.3s ease;
+}
+
+.skip-btn:hover {
+    background-color: transparent;
+    transform: translateX(5px);
+    box-shadow: 0 0 15px rgba(196, 167, 125, 0.2);
+    color: var(--accent-color);
+}
+
+.skip-btn:hover i {
+    transform: translateX(3px);
+}
+
+.skip-btn::before {
+    content: '';
+    position: absolute;
+    right: -8px;
+    width: 0;
+    height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 8px solid var(--accent-color);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.skip-btn:hover::before {
+    opacity: 1;
+}
+
+.skip-btn:active {
+    transform: translateY(0);
+}
+
+
+
+@media (max-width: 768px) {
+    .button-group {
+        flex-wrap: wrap;
+    }
+
+    .skip-btn {
+        order: 3;
+        /* Show at bottom on mobile */
+        width: 100%;
+        margin-top: 1rem;
+    }
+}
+
+/*--------------------------------------------------------------
+# CUSTOM SCROLLBAR FOR IMAGE CONTAINER
+--------------------------------------------------------------*/
+/* Webkit browsers (Chrome, Safari, Edge) */
+.design-image-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.design-image-container::-webkit-scrollbar-track {
+    background: rgba(30, 30, 30, 0.6);
+    border-radius: 10px;
+    margin: 8px 0;
+}
+
+.design-image-container::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.design-image-container::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-hover);
+}
+
+/* Firefox */
+.design-image-container {
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) rgba(30, 30, 30, 0.6);
 }
 
 /*--------------------------------------------------------------
