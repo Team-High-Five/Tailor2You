@@ -70,6 +70,15 @@ class Pages extends Controller
     {
         $sellers = $this->pageModel->getAllSellers();
 
+        // Add like counts and like status for each seller
+        foreach ($sellers as $seller) {
+            $seller->likeCount = $this->pageModel->getLikeCountByUserId($seller->user_id);
+            $seller->hasLiked = false;
+            if (isLoggedIn()) {
+                $seller->hasLiked = $this->pageModel->hasUserLikedTailor($_SESSION['user_id'], $seller->user_id);
+            }
+        }
+
         $data = [
             'sellers' => $sellers
         ];
@@ -152,7 +161,7 @@ class Pages extends Controller
         // Redirect back to the tailor's profile page
         redirect('pages/tailorProfile/' . $id);
     }
-    
+
     public function likePost($id = null)
     {
         // Check if user is logged in

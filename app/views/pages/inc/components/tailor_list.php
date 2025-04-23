@@ -28,7 +28,21 @@
                     </div>
                     <div class="profile-card__actions">
                         <a href="<?php echo URLROOT ?>/Pages/tailorProfile/<?php echo $tailor->user_id; ?>"><button class="btn btn--primary">View Profile</button></a>
-                        <button class="btn btn--secondary"><i class="fas fa-thumbs-up"></i> Like</button>
+
+                        <?php if (isLoggedIn()): ?>
+                            <form action="<?php echo URLROOT; ?>/Pages/likeTailor/<?php echo $tailor->user_id; ?>" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn--secondary <?php echo ($tailor->hasLiked) ? 'liked' : ''; ?>">
+                                    <i class="fas fa-thumbs-up"></i> Like
+                                    <span class="like-count">(<?php echo $tailor->likeCount; ?>)</span>
+                                </button>
+                            </form>
+                        <?php else: ?>
+                            <a href="<?php echo URLROOT; ?>/users/login" class="btn btn--secondary">
+                                <i class="fas fa-thumbs-up"></i> Like
+                                <span class="like-count">(<?php echo $tailor->likeCount; ?>)</span>
+                            </a>
+                        <?php endif; ?>
+
                         <a href="<?php echo URLROOT ?>/Appointments/makeAppointment/<?php echo $tailor->user_id; ?>"><button class="btn btn--secondary"><i class="fas fa-calendar-alt"></i> Appointment</button></a>
                     </div>
                 </div>
@@ -36,3 +50,15 @@
         </div>
     </div>
 </section>
+<style>
+    .btn.liked,
+    .btn.liked:hover {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    .like-count {
+        font-size: 0.9em;
+        margin-left: 3px;
+    }
+</style>

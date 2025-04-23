@@ -61,11 +61,10 @@ class M_Pages
     public function getLikeCountByUserId($id)
     {
 
-        $this->db->query("SELECT COUNT(*) as count FROM likes WHERE tailor_id = :id");
+        $this->db->query("SELECT COUNT(*) as count FROM likes WHERE tailor_id = :id AND status = 'active'");
         $this->db->bind(':id', $id);
         $result = $this->db->single();
 
-        // If the query fails (e.g., no likes table), return a default value
         return $result ? $result->count : 0;
     }
     // Update the getPostsByUserId method to include like counts
