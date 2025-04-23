@@ -304,12 +304,13 @@ class M_Orders
 
         // Increment the sequence for next use
         $this->db->query('UPDATE order_sequence SET next_value = next_value + 1 WHERE id = 1');
-
+        $nextValue++;   
         // Format the order ID with padding (e.g., T2Y-00001)
         $orderId = 'T2Y-' . str_pad($nextValue, 5, '0', STR_PAD_LEFT);
 
         return $orderId;
     }
+
     public function createOrder($orderData)
     {
         try {
