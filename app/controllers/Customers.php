@@ -463,16 +463,27 @@ class Customers extends Controller
 
     public function displayOrders()
     {
+        if (!isLoggedIn()) {
+            redirect('users/login');
+        }
+
+        $orders = $this->customerModel->getCustomerOrders($_SESSION['user_id']);
         $data = [
-            'title' => 'Orders'
+            'title' => 'Orders',
+            'orders' => $orders
         ];
         $this->view('users/Customer/v_c_orders', $data);
     }
 
-    public function ordersViews()
+    public function ordersViews($orderId)
     {
+        $order = $this->customerModel->getCustomerOrder($_SESSION['user_id'],$orderId);
+        $measurement = $this->customerModel->getShirtMeasurements($_SESSION['user_id']);
+
         $data = [
-            'title' => 'OrdersView'
+            'title' => 'OrdersView',
+            'order' => $order,
+            'measurements' => $measurement
         ];
         $this->view('users/Customer/v_c_order_details', $data);
     }

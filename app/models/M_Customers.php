@@ -110,6 +110,18 @@ class M_Customers
         return $this->db->resultSet();
     }
 
+    public function getCustomerOrders($customer_id){
+        $this->db->query('Select o.*,oi.*, oi.status as order_status, u.*, d.* from orders as o join order_items as oi on oi.order_id=o.order_id join users as u on u.user_id=o.tailor_id join designs as d on d.design_id = oi.design_id where o.customer_id = :customer_id');
+        $this->db->bind(':customer_id', $customer_id);
+        return $this->db->resultSet();
+    }
+
+    public function getCustomerOrder($customer_id, $order_id){
+        $this->db->query('Select d.description as design_description, o.*,oi.*, oi.status as order_status, u.*, d.*, f.*,c.* from orders as o join order_items as oi on oi.order_id=o.order_id join users as u on u.user_id=o.tailor_id join designs as d on d.design_id = oi.design_id join colors as c on c.color_id = oi.color_id join fabrics as f on f.fabric_id=oi.fabric_id where o.customer_id = :customer_id and o.order_id = :order_id');
+        $this->db->bind(':customer_id', $customer_id);
+        $this->db->bind(':order_id', $order_id);
+        return $this->db->single();
+    }
     public function getShirtMeasurements($user_id)
     {
         $this->db->query('SELECT m.measurement_id, m.name, m.display_name, m.description, 
