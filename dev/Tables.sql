@@ -51,28 +51,13 @@ CREATE TABLE `employees` (
 
 -- Create the `posts` table
 CREATE TABLE `posts` (
-   `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  `gender` enum('men','women','unisex') DEFAULT 'unisex',
-  `item_type` enum('shirt','pant','frock','skirt','blouse') DEFAULT NULL,
-  `image` longblob DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- Create a table to track post likes
-CREATE TABLE `post_likes` (
-    `like_id` INT(11) NOT NULL AUTO_INCREMENT,
-    `post_id` INT(11) NOT NULL,
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
     `user_id` INT(11) NOT NULL,
+    `title` VARCHAR(255) NOT NULL,
+    `description` TEXT NOT NULL,
+    `image` LONGBLOB,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `status` ENUM('active', 'removed') DEFAULT 'active',
-    PRIMARY KEY (`like_id`),
-    UNIQUE KEY (`post_id`, `user_id`),
-    FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE,
+    PRIMARY KEY (`id`),
     FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 

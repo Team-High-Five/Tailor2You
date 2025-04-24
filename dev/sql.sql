@@ -1,3 +1,11 @@
+-- -----------------------------------------------------
+-- TAILOR2YOU DATABASE SCHEMA
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- 1. USER MANAGEMENT TABLES
+-- -----------------------------------------------------
+
 -- Create the `users` table
 CREATE TABLE `users` (
     `user_id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -21,6 +29,36 @@ CREATE TABLE `users` (
     `profile_pic` LONGBLOB DEFAULT NULL,
     `status` ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
     PRIMARY KEY (`user_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Create the `employees` table
+CREATE TABLE `employees` (
+    `employee_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `user_id` INT(11) NOT NULL,
+    `first_name` VARCHAR(20) NOT NULL,
+    `last_name` VARCHAR(30) NOT NULL,
+    `phone_number` VARCHAR(10) NOT NULL,
+    `home_town` VARCHAR(20) NOT NULL,
+    `email` VARCHAR(30) NOT NULL,
+    `image` LONGBLOB DEFAULT NULL,
+    PRIMARY KEY (`employee_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- -----------------------------------------------------
+-- 2. COMMUNICATION TABLES
+-- -----------------------------------------------------
+
+-- Create the `posts` table
+CREATE TABLE `posts` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `user_id` INT(11) NOT NULL,
+    `title` VARCHAR(255) NOT NULL,
+    `description` TEXT NOT NULL,
+    `image` LONGBLOB,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- Create the `appointments` table
@@ -76,6 +114,20 @@ CREATE TABLE `colors` (
     PRIMARY KEY (`color_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
+-- Insert initial colors
+INSERT INTO
+    `colors` (`color_name`)
+VALUES ('Black'),
+    ('Red'),
+    ('Blue'),
+    ('Purple'),
+    ('Orange'),
+    ('Yellow'),
+    ('Green'),
+    ('White'),
+    ('Gray'),
+    ('Pink');
+
 -- Create the `fabric_colors` table
 CREATE TABLE `fabric_colors` (
     `fabric_color_id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -86,44 +138,11 @@ CREATE TABLE `fabric_colors` (
     FOREIGN KEY (`color_id`) REFERENCES `colors` (`color_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
--- Insert some initial data into the `colors` table
-INSERT INTO `colors` (`color_name`) VALUES ('Black');
+-- -----------------------------------------------------
+-- 4. MEASUREMENT TABLES
+-- -----------------------------------------------------
 
-INSERT INTO `colors` (`color_name`) VALUES ('Red');
-
-INSERT INTO `colors` (`color_name`) VALUES ('Blue');
-
-INSERT INTO `colors` (`color_name`) VALUES ('Purple');
-
-INSERT INTO `colors` (`color_name`) VALUES ('Orange');
-
-INSERT INTO `colors` (`color_name`) VALUES ('Yellow');
-
-INSERT INTO `colors` (`color_name`) VALUES ('Green');
-
-INSERT INTO `colors` (`color_name`) VALUES ('White');
-
-INSERT INTO `colors` (`color_name`) VALUES ('Gray');
-
-INSERT INTO `colors` (`color_name`) VALUES ('Pink');
-
--- Create the `employees` table
-CREATE TABLE `employees` (
-    `employee_id` INT(11) NOT NULL AUTO_INCREMENT,
-    `user_id` INT(11) NOT NULL,
-    `first_name` VARCHAR(20) NOT NULL,
-    `last_name` VARCHAR(30) NOT NULL,
-    `phone_number` VARCHAR(10) NOT NULL,
-    `home_town` VARCHAR(20) NOT NULL,
-    `district` VARCHAR(50) DEFAULT NULL,
-    `email` VARCHAR(30) NOT NULL,
-    `image` LONGBLOB DEFAULT NULL,
-    PRIMARY KEY (`employee_id`),
-    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- Mesurements Tables--
-
+-- Create shirt measurements table
 CREATE TABLE `shirt_measurements` (
   `user_id` int(11) DEFAULT NULL,
   `measure` enum('cm','inch') DEFAULT NULL,
@@ -169,78 +188,8 @@ CREATE TABLE `clothing_categories` (
     `name` VARCHAR(50) NOT NULL,
     `description` TEXT,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `gender_specific` ENUM('gents', 'ladies', 'unisex') NOT NULL DEFAULT 'unisex',
     PRIMARY KEY (`category_id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- Create clothing subcategories table
-CREATE TABLE `clothing_subcategories` (
-    `subcategory_id` INT(11) NOT NULL AUTO_INCREMENT,
-    `category_id` INT(11) NOT NULL,
-    `name` VARCHAR(50) NOT NULL,
-    `description` TEXT,
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`subcategory_id`),
-    FOREIGN KEY (`category_id`) REFERENCES `clothing_categories` (`category_id`) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- Create designs table
-CREATE TABLE `designs` (
-    `design_id` INT(11) NOT NULL AUTO_INCREMENT,
-    `user_id` INT(11) NOT NULL,
-    `gender` ENUM('gents', 'ladies', 'unisex') NOT NULL,
-    `category_id` INT(11) NOT NULL,
-    `subcategory_id` INT(11) NOT NULL,
-    `name` VARCHAR(100) NOT NULL,
-    `description` TEXT,
-    `main_image` VARCHAR(255) NULL COMMENT 'Path to image file',
-    `base_price` DECIMAL(10, 2) NOT NULL,
-    `status` ENUM('active', 'inactive') DEFAULT 'active',
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`design_id`),
-    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`category_id`) REFERENCES `clothing_categories` (`category_id`),
-    FOREIGN KEY (`subcategory_id`) REFERENCES `clothing_subcategories` (`subcategory_id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- Create customization types table
-CREATE TABLE `customization_types` (
-    `type_id` INT(11) NOT NULL AUTO_INCREMENT,
-    `category_id` INT(11) NOT NULL,
-    `name` VARCHAR(50) NOT NULL,
-    `description` TEXT,
-    PRIMARY KEY (`type_id`),
-    FOREIGN KEY (`category_id`) REFERENCES `clothing_categories` (`category_id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- Create customization choices table
-CREATE TABLE `customization_choices` (
-    `choice_id` INT(11) NOT NULL AUTO_INCREMENT,
-    `type_id` INT(11) NOT NULL,
-    `name` VARCHAR(50) NOT NULL,
-    `image` VARCHAR(255) NULL COMMENT 'Path to image file',
-    `description` TEXT,
-    `price_adjustment` DECIMAL(10, 2) DEFAULT 0.00,
-    PRIMARY KEY (`choice_id`),
-    FOREIGN KEY (`type_id`) REFERENCES `customization_types` (`type_id`) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- Create design customizations linking table
-CREATE TABLE `design_customizations` (
-    `design_id` INT(11) NOT NULL,
-    `choice_id` INT(11) NOT NULL,
-    PRIMARY KEY (`design_id`, `choice_id`),
-    FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`choice_id`) REFERENCES `customization_choices` (`choice_id`) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- Create design fabrics linking table
-CREATE TABLE `design_fabrics` (
-    `design_id` INT(11) NOT NULL,
-    `fabric_id` INT(11) NOT NULL,
-    `price_adjustment` DECIMAL(10, 2) DEFAULT 0.00,
-    PRIMARY KEY (`design_id`, `fabric_id`),
-    FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`fabric_id`) REFERENCES `fabrics` (`fabric_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- Insert initial categories
@@ -566,6 +515,7 @@ VALUES (
         'Different closure types'
     );
 
+<<<<<<< HEAD
 -- Create the `feedback` table
 CREATE TABLE `feedback` (
     `feedback_id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -577,3 +527,193 @@ CREATE TABLE `feedback` (
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`feedback_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+=======
+-- Insert common pant measurements
+INSERT INTO
+    `measurements` (
+        `name`,
+        `display_name`,
+        `description`,
+        `unit_type`
+    )
+VALUES (
+        'pant_waist',
+        'Pant Waist',
+        'Measured around where pants would sit',
+        'circumference'
+    ),
+    (
+        'seat',
+        'Seat/Hip',
+        'Measured around the fullest part of seat',
+        'circumference'
+    ),
+    (
+        'thigh',
+        'Thigh',
+        'Measured around the fullest part of thigh',
+        'circumference'
+    ),
+    (
+        'knee',
+        'Knee',
+        'Measured around the knee',
+        'circumference'
+    ),
+    (
+        'calf',
+        'Calf',
+        'Measured around the widest part of calf',
+        'circumference'
+    ),
+    (
+        'ankle',
+        'Ankle',
+        'Measured around the ankle',
+        'circumference'
+    ),
+    (
+        'inseam',
+        'Inseam',
+        'Measured from crotch to desired pant length',
+        'length'
+    ),
+    (
+        'outseam',
+        'Outseam',
+        'Measured from waist to desired pant length on outside',
+        'length'
+    ),
+    (
+        'front_rise',
+        'Front Rise',
+        'Measured from center of crotch to top of waistband in front',
+        'length'
+    ),
+    (
+        'back_rise',
+        'Back Rise',
+        'Measured from center of crotch to top of waistband in back',
+        'length'
+    );
+
+-- Associate measurements with categories
+-- Shirt category (assuming ID 1)
+INSERT INTO
+    `category_measurements` (
+        `category_id`,
+        `measurement_id`,
+        `is_required`,
+        `display_order`
+    )
+SELECT
+    1,
+    `measurement_id`,
+    CASE
+        WHEN `name` IN (
+            'neck',
+            'chest',
+            'shoulder_width',
+            'sleeve_length'
+        ) THEN TRUE
+        ELSE FALSE
+    END,
+    CASE
+        WHEN `name` = 'neck' THEN 1
+        WHEN `name` = 'chest' THEN 2
+        WHEN `name` = 'shoulder_width' THEN 3
+        WHEN `name` = 'sleeve_length' THEN 4
+        WHEN `name` = 'waist' THEN 5
+        WHEN `name` = 'bicep' THEN 6
+        WHEN `name` = 'wrist' THEN 7
+        WHEN `name` = 'shirt_length' THEN 8
+        ELSE 100
+    END
+FROM `measurements`
+WHERE
+    `name` IN (
+        'neck',
+        'chest',
+        'waist',
+        'shoulder_width',
+        'sleeve_length',
+        'bicep',
+        'wrist',
+        'shirt_length',
+        'armhole_depth',
+        'cuff_circumference',
+        'front_length',
+        'back_length',
+        'collar_height',
+        'collar_width'
+    );
+
+-- Pants category (assuming ID 2)
+INSERT INTO
+    `category_measurements` (
+        `category_id`,
+        `measurement_id`,
+        `is_required`,
+        `display_order`
+    )
+SELECT
+    2,
+    `measurement_id`,
+    CASE
+        WHEN `name` IN (
+            'pant_waist',
+            'seat',
+            'inseam'
+        ) THEN TRUE
+        ELSE FALSE
+    END,
+    CASE
+        WHEN `name` = 'pant_waist' THEN 1
+        WHEN `name` = 'seat' THEN 2
+        WHEN `name` = 'inseam' THEN 3
+        WHEN `name` = 'outseam' THEN 4
+        WHEN `name` = 'thigh' THEN 5
+        ELSE 100
+    END
+FROM `measurements`
+WHERE
+    `name` IN (
+        'pant_waist',
+        'seat',
+        'thigh',
+        'knee',
+        'calf',
+        'ankle',
+        'inseam',
+        'outseam',
+        'front_rise',
+        'back_rise'
+    );
+
+-- new tables since 24/4/2025
+CREATE TABLE `reschedule_requests` (
+    `request_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `appointment_id` INT(11) NOT NULL,
+    `requested_by` ENUM('tailor', 'customer') NOT NULL,
+    `proposed_date` DATE NOT NULL,
+    `proposed_time` TIME NOT NULL,
+    `reason` TEXT NOT NULL,
+    `status` ENUM(
+        'pending',
+        'accepted',
+        'rejected'
+    ) DEFAULT 'pending',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`request_id`),
+    FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`appointment_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+ALTER TABLE `appointments`
+MODIFY COLUMN `status` ENUM(
+    'accepted',
+    'reschedule_pending',
+    'rejected',
+    'rescheduled',
+    'pending'
+) NOT NULL DEFAULT 'pending';
+>>>>>>> parent of 247152e (Merge pull request #74 from Team-High-Five/rangi-2)
