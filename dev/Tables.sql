@@ -245,12 +245,16 @@ CREATE TABLE `orders` (
     `tailor_id` INT(11) NOT NULL,
     `order_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     `total_amount` DECIMAL(10, 2) NOT NULL,
+    `tax_amount` DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    `final_amount` DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
     `status` ENUM(
-        'pending',
-        'processing',
-        'completed',
+        'order_placed',
+        'fabric_cutting',
+        'stitching',
+        'ready_for_delivery',
+        'delivered',
         'cancelled'
-    ) DEFAULT 'pending',
+    ) DEFAULT 'order_placed',
     `appointment_id` INT(11) NULL,
     `delivery_address` VARCHAR(255) NOT NULL,
     `expected_delivery_date` DATE NULL,
@@ -282,11 +286,13 @@ CREATE TABLE `order_items` (
     `fabric_price` DECIMAL(10, 2) DEFAULT 0.00,
     `total_price` DECIMAL(10, 2) NOT NULL,
     `status` ENUM(
-        'pending',
-        'in_progress',
-        'ready',
-        'delivered'
-    ) DEFAULT 'pending',
+        'order_placed',
+        'fabric_cutting',
+        'stitching',
+        'ready_for_delivery',
+        'delivered',
+        'cancelled'
+    ) DEFAULT 'order_placed',
     PRIMARY KEY (`item_id`),
     FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
     FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE RESTRICT,
@@ -294,6 +300,24 @@ CREATE TABLE `order_items` (
     FOREIGN KEY (`color_id`) REFERENCES `colors` (`color_id`) ON DELETE RESTRICT
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
+CREATE TABLE `order_status_history` (
+    `history_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `order_id` VARCHAR(20) NOT NULL,
+    `status` ENUM(
+        'order_placed',
+        'fabric_cutting',
+        'stitching',
+        'ready_for_delivery',
+        'delivered',
+        'cancelled'
+    ) NOT NULL,
+    `status_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_by` INT(11) NOT NULL COMMENT 'User ID who updated the status',
+    `notes` TEXT NULL,
+    PRIMARY KEY (`history_id`),
+    FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`updated_by`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 -- Order item customizations (which customization choices were selected for each item)
 CREATE TABLE `order_item_customizations` (
     `item_customization_id` INT(11) NOT NULL AUTO_INCREMENT,

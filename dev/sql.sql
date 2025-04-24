@@ -1100,3 +1100,48 @@ MODIFY COLUMN `status` ENUM(
     'rescheduled',
     'pending'
 ) NOT NULL DEFAULT 'pending';
+
+-- Modify orders table to include the detailed order status options
+ALTER TABLE `orders`
+MODIFY COLUMN `status` ENUM(
+    'order_placed',
+    'fabric_cutting',
+    'stitching',
+    'ready_for_delivery',
+    'delivered',
+    'cancelled'
+) DEFAULT 'order_placed';
+
+-- Update order_items table with the same status options for consistency
+ALTER TABLE `order_items`
+MODIFY COLUMN `status` ENUM(
+    'order_placed',
+    'fabric_cutting',
+    'stitching',
+    'ready_for_delivery',
+    'delivered',
+    'cancelled'
+) DEFAULT 'order_placed';
+
+CREATE TABLE `order_status_history` (
+    `history_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `order_id` VARCHAR(20) NOT NULL,
+    `status` ENUM(
+        'order_placed',
+        'fabric_cutting',
+        'stitching',
+        'ready_for_delivery',
+        'delivered',
+        'cancelled'
+    ) NOT NULL,
+    `status_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_by` INT(11) NOT NULL COMMENT 'User ID who updated the status',
+    `notes` TEXT NULL,
+    PRIMARY KEY (`history_id`),
+    FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`updated_by`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+ALTER TABLE `orders`
+ADD COLUMN `tax_amount` DECIMAL(10, 2) NOT NULL DEFAULT 0.00 AFTER `total_amount`,
+ADD COLUMN `final_amount` DECIMAL(10, 2) NOT NULL DEFAULT 0.00 AFTER `tax_amount`;
