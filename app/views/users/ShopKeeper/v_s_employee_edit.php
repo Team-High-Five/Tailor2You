@@ -40,26 +40,6 @@
                     <input type="text" id="home_town" name="home_town" value="<?php echo $data['employee']->home_town; ?>" required>
                     <span class="error-message" id="home_town-error"></span>
                 </div>
-                <div class="form-group">
-                    <label for="district">District</label>
-                    <select id="district" name="district" required>
-                        <option value="">Select District</option>
-                        <?php
-                        $districts = [
-                            'Ampara', 'Anuradhapura', 'Badulla', 'Batticaloa', 'Colombo', 
-                            'Galle', 'Gampaha', 'Hambantota', 'Jaffna', 'Kalutara', 
-                            'Kandy', 'Kegalle', 'Kilinochchi', 'Kurunegala', 'Mannar', 
-                            'Matale', 'Matara', 'Monaragala', 'Mullaitivu', 'Nuwara Eliya', 
-                            'Polonnaruwa', 'Puttalam', 'Ratnapura', 'Trincomalee', 'Vavuniya'
-                        ];
-                        foreach ($districts as $district) {
-                            $selected = (isset($data['employee']->district) && $data['employee']->district == $district) ? 'selected' : '';
-                            echo "<option value=\"$district\" $selected>$district</option>";
-                        }
-                        ?>
-                    </select>
-                    <span class="error-message" id="district-error"></span>
-                </div>
                 <button type="submit" class="submit-btn">Submit</button>
             </form>
         </div>

@@ -730,7 +730,7 @@ VALUES (
         'Different hemline styles for shirts'
     );
 
--- For Pants (Category ID: 2)
+--For Pants (Category ID: 2)
 INSERT INTO
     `customization_types` (
         `category_id`,
@@ -768,7 +768,7 @@ VALUES (
         'Button fly or zipper fly options'
     );
 
--- For Suits (Category ID: 3)
+--For Suits (Category ID: 3)
 INSERT INTO
     `customization_types` (
         `category_id`,
@@ -806,7 +806,7 @@ VALUES (
         'How the trouser falls on the shoe'
     );
 
--- For Dresses (Category ID: 4)
+--For Dresses (Category ID: 4)
 INSERT INTO
     `customization_types` (
         `category_id`,
@@ -844,7 +844,7 @@ VALUES (
         'Additional decorative elements'
     );
 
--- For Skirts (Category ID: 5)
+--For Skirts (Category ID: 5)
 INSERT INTO
     `customization_types` (
         `category_id`,
@@ -877,7 +877,7 @@ VALUES (
         'Different slit placements and lengths'
     );
 
--- For Blouse (Category ID: 6)
+--For Blouse (Category ID: 6)
 INSERT INTO
     `customization_types` (
         `category_id`,
@@ -912,7 +912,7 @@ SELECT (
             name = 'Blouse'
     ), 'Hem Style', 'Various hemline designs for blouses';
 
--- For Saree Blouse (Category ID: 7)
+--For Saree Blouse (Category ID: 7)
 INSERT INTO
     `customization_types` (
         `category_id`,
@@ -947,7 +947,7 @@ SELECT (
             name = 'Saree Blouse'
     ), 'Embroidery Options', 'Various embroidery patterns and placements';
 
--- For Kurta (Category ID: 8)
+--For Kurta (Category ID: 8)
 INSERT INTO
     `customization_types` (
         `category_id`,
@@ -1017,7 +1017,7 @@ SELECT (
             name = 'Waistcoat'
     ), 'Bottom Cut', 'Various bottom hem designs for waistcoats';
 
--- For Jacket (Category ID: 10)
+--  For Jacket (Category ID: 10)
 INSERT INTO
     `customization_types` (
         `category_id`,
