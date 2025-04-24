@@ -95,34 +95,41 @@
 </div>
 
 <!-- Reschedule Appointment Modal -->
+<!-- Reschedule Appointment Modal -->
 <div id="rescheduleAppointmentModal" class="modal">
   <div class="modal-body">
-    <div class="pop-modal-container">
+    <div class="add-new-post-container">
       <div class="add-new-post-content">
         <div class="modal-header">
-          <h1>Reschedule Appointment</h1>
+          <h1>Request Appointment Reschedule</h1>
           <button class="close-btn">&times;</button>
         </div>
         <form id="reschedule-form" action="" method="post">
-          <div class="form-group">
-            <label for="appointment_date">New Date</label>
-            <input type="date" id="appointment_date" name="appointment_date" required>
-          </div>
-          <div class="form-group">
-            <label for="appointment_time">New Time</label>
-            <select id="appointment_time" name="appointment_time" required>
-              <?php
-              // Generate 30-minute time slots from 00:00 to 23:30
-              for ($hour = 0; $hour < 24; $hour++) {
-                for ($minute = 0; $minute < 60; $minute += 30) {
-                  $time = sprintf('%02d:%02d', $hour, $minute);
-                  echo "<option value=\"$time\">$time</option>";
+          <div class="post-form-container">
+            <div class="form-group">
+              <label for="appointment_date">Proposed New Date</label>
+              <input type="date" id="appointment_date" name="appointment_date" required min="<?php echo date('Y-m-d'); ?>">
+            </div>
+            <div class="form-group">
+              <label for="appointment_time">Proposed New Time</label>
+              <select id="appointment_time" name="appointment_time" required>
+                <?php
+                // Generate 30-minute time slots from 8:00 to 19:00
+                for ($hour = 8; $hour < 19; $hour++) {
+                  for ($minute = 0; $minute < 60; $minute += 30) {
+                    $time = sprintf('%02d:%02d', $hour, $minute);
+                    echo "<option value=\"$time\">$time</option>";
+                  }
                 }
-              }
-              ?>
-            </select>
+                ?>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="reschedule_reason">Reason for Reschedule</label>
+              <textarea id="reschedule_reason" name="reschedule_reason" rows="3" placeholder="Please explain why you need to reschedule this appointment" required></textarea>
+            </div>
           </div>
-          <button type="submit" class="submit-btn">Reschedule</button>
+          <button type="submit" class="submit-btn">Send Reschedule Request</button>
         </form>
       </div>
     </div>
@@ -163,7 +170,7 @@
     if (event.target.classList.contains('reject-button')) {
       event.preventDefault();
       const appointmentId = event.target.dataset.id;
-      document.getElementById('reschedule-form').action = '<?php echo URLROOT; ?>/tailors/rescheduleAppointment/' + appointmentId;
+      document.getElementById('reschedule-form').action = '<?php echo URLROOT; ?>/tailors/requestRescheduleAppointment/' + appointmentId;
       document.getElementById('rescheduleAppointmentModal').style.display = 'block';
     }
   });
