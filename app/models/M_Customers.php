@@ -309,4 +309,16 @@ class M_Customers
             return false;
         }
     }
+    public function getAppointmentDetails($appointmentId) {
+        $this->db->query('SELECT a.*, 
+                         u.first_name as tailor_first_name, 
+                         u.last_name as tailor_last_name,
+                         u.profile_pic as tailor_profile_pic
+                         FROM appointments a
+                         JOIN users u ON a.tailor_shopkeeper_id = u.user_id
+                         WHERE a.appointment_id = :appointment_id');
+                         
+        $this->db->bind(':appointment_id', $appointmentId);
+        return $this->db->single();
+    }
 }

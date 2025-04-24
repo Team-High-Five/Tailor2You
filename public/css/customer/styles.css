@@ -15,6 +15,7 @@
 @import url('../tailor/btn_styles.css');
 @import url('profile_style.css');
 @import url('../tailor/components/status-badges.css');
+@import url('Notifications.css');
 
 
 :root {

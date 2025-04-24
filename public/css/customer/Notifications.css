@@ -1,0 +1,275 @@
+/* Notification dropdown styling */
+.notification-dropdown {
+    position: relative;
+  }
+  
+  .notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--status-reschedule_pending-color);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .notification-badge.visible {
+    opacity: 1;
+  }
+  
+  .notification-dropdown-content {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: -150px;
+    width: 320px;
+    max-height: 0;
+    background-color: rgba(26, 26, 26, 0.98);
+    backdrop-filter: blur(12px);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(196, 167, 125, 0.15);
+    box-shadow: var(--elegant-shadow);
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1000;
+  }
+  
+  .notification-dropdown-content.show {
+    max-height: 400px;
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(196, 167, 125, 0.15);
+  }
+  
+  .notification-header h3 {
+    color: var(--white-color);
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+  }
+  
+  .mark-all-read {
+    background: none;
+    border: none;
+    color: var(--accent-color);
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .mark-all-read:hover {
+    text-decoration: underline;
+  }
+  
+  .notification-list {
+    max-height: 320px;
+    overflow-y: auto;
+    padding: 0;
+  }
+  
+  .notification-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(196, 167, 125, 0.05);
+    transition: background-color 0.2s ease;
+    position: relative;
+  }
+  
+  .notification-item:hover {
+    background-color: rgba(196, 167, 125, 0.05);
+  }
+  
+  .notification-item.unread::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--status-reschedule_pending-color);
+  }
+  
+  .notification-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--white-color);
+    margin: 0 0 4px;
+  }
+  
+  .notification-message {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0 0 8px;
+    line-height: 1.4;
+  }
+  
+  .notification-time {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin: 0;
+  }
+  
+  .reschedule-details {
+    background-color: rgba(0, 198, 229, 0.05);
+    border-left: 2px solid var(--status-reschedule_pending-color);
+    padding: 8px 12px;
+    margin: 8px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  
+  .reschedule-details p {
+    font-size: 12px;
+    margin: 4px 0;
+    color: var(--text-muted);
+  }
+  
+  .reschedule-details strong {
+    color: var(--white-color);
+  }
+  
+  .notification-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  
+  .accept-action, .reject-action {
+    flex: 1;
+    padding: 6px 0;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  
+  .accept-action {
+    background-color: var(--status-accepted-bg);
+    color: var(--status-accepted-color);
+    border: 1px solid var(--status-accepted-color);
+  }
+  
+  .accept-action:hover {
+    background-color: rgba(143, 188, 143, 0.3);
+  }
+  
+  .reject-action {
+    background-color: var(--status-rejected-bg);
+    color: var(--status-rejected-color);
+    border: 1px solid var(--status-rejected-color);
+  }
+  
+  .reject-action:hover {
+    background-color: rgba(244, 67, 54, 0.3);
+  }
+  
+  .notification-footer {
+    padding: 12px 16px;
+    text-align: center;
+    border-top: 1px solid rgba(196, 167, 125, 0.15);
+  }
+  
+  .notification-footer a {
+    color: var(--accent-color);
+    font-size: 13px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+  
+  .notification-footer a:hover {
+    text-decoration: underline;
+  }
+  
+  .notification-empty {
+    padding: 30px 16px;
+    text-align: center;
+  }
+  
+  .notification-empty i {
+    color: var(--text-muted);
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .notification-empty p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin: 0;
+  }
+  
+  .notification-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 16px;
+  }
+  
+  .notification-loading i {
+    color: var(--accent-color);
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .notification-loading p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin: 0;
+  }
+  
+  /* Scrollbar styling */
+  .notification-list::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .notification-list::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 3px;
+  }
+  
+  .notification-list::-webkit-scrollbar-thumb {
+    background-color: rgba(196, 167, 125, 0.3);
+    border-radius: 3px;
+  }
+  
+  /* Media queries for responsive design */
+  @media screen and (max-width: 768px) {
+    .notification-dropdown-content {
+      width: 300px;
+      right: -120px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .notification-dropdown-content {
+      width: 280px;
+      right: -100px;
+    }
+  
+    .notification-header, .notification-footer, .notification-item {
+      padding: 10px 12px;
+    }
+  
+    .notification-header h3 {
+      font-size: 14px;
+    }
+  }
