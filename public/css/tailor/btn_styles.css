@@ -99,30 +99,7 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.filter-btn,
-.reset-filter-btn,
-select {
-    color: var(--text-dark);
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    cursor: pointer;
-    background-color: var(--white-color);
-}
 
-.reset-filter-btn {
-    color: var(--danger-color);
-    border-color: var(--danger-color);
-}
-
-.filter-btn,
-.filter-bar select {
-    background-color: var(--white-color);
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 6px;
-    font-size: 14px;
-}
 
 /*--------------------------------------------------------------
 # CLOSE BUTTONS

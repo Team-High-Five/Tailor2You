@@ -230,4 +230,134 @@ class M_Tailors
         $this->db->bind(':customer_id', $customerId);
         return $this->db->resultSet();
     }
+    public function getOrdersByTailorId($tailor_id, $filters = [])
+    {
+        $sql = 'SELECT o.*, 
+            u.first_name, u.last_name,
+            d.name as design_name,
+            DATE_FORMAT(o.order_date, "%d %b %Y") as formatted_date
+            FROM orders o
+            JOIN users u ON o.customer_id = u.user_id
+            JOIN order_items oi ON o.order_id = oi.order_id
+            JOIN designs d ON oi.design_id = d.design_id
+            WHERE o.tailor_id = :tailor_id';
+
+        // Add filters if provided
+        if (!empty($filters['date'])) {
+            $sql .= ' AND DATE(o.order_date) = :date';
+        }
+
+        if (!empty($filters['status'])) {
+            $sql .= ' AND o.status = :status';
+        }
+
+        // Group by order_id to avoid duplicates if multiple items in one order
+        $sql .= ' GROUP BY o.order_id ORDER BY o.order_date DESC';
+
+        $this->db->query($sql);
+        $this->db->bind(':tailor_id', $tailor_id);
+
+        // Bind filter parameters if they exist
+        if (!empty($filters['date'])) {
+            $this->db->bind(':date', $filters['date']);
+        }
+
+        if (!empty($filters['status'])) {
+            $this->db->bind(':status', $filters['status']);
+        }
+
+        return $this->db->resultSet();
+    }
+
+    public function getOrderStatusOptions()
+    {
+        return [
+            'order_placed' => 'Order Placed',
+            'fabric_cutting' => 'Fabric Cutting',
+            'stitching' => 'Stitching',
+            'ready_for_delivery' => 'Ready for Delivery',
+            'delivered' => 'Delivered',
+            'cancelled' => 'Cancelled'
+        ];
+    }
+    public function getOrderById($order_id)
+    {
+        // Fetch basic order info
+        $this->db->query('
+            SELECT o.*, 
+                   u.first_name, u.last_name, u.profile_pic,
+                   DATE_FORMAT(o.order_date, "%d %b %Y") as formatted_date
+            FROM orders o
+            JOIN users u ON o.customer_id = u.user_id
+            WHERE o.order_id = :order_id
+        ');
+        $this->db->bind(':order_id', $order_id);
+        $order = $this->db->single();
+
+        if (!$order) {
+            return false;
+        }
+
+        // Fetch order items
+        $this->db->query('
+            SELECT oi.*, 
+                   d.name as design_name, d.description as design_description, d.main_image as design_image,
+                   f.fabric_name, 
+                   c.color_name
+            FROM order_items oi
+            JOIN designs d ON oi.design_id = d.design_id
+            JOIN fabrics f ON oi.fabric_id = f.fabric_id
+            JOIN colors c ON oi.color_id = c.color_id
+            WHERE oi.order_id = :order_id
+        ');
+        $this->db->bind(':order_id', $order_id);
+        $order->items = $this->db->resultSet();
+
+        // Fetch measurements for each item
+        foreach ($order->items as $item) {
+            $this->db->query('
+                SELECT oim.*, m.name as measurement_name, m.display_name
+                FROM order_item_measurements oim
+                JOIN measurements m ON oim.measurement_id = m.measurement_id
+                WHERE oim.item_id = :item_id
+            ');
+            $this->db->bind(':item_id', $item->item_id);
+            $item->measurements = $this->db->resultSet();
+        }
+
+        return $order;
+    }
+    public function updateOrderStatus($data)
+    {
+        try {
+            $this->db->beginTransaction();
+
+            // Update the order status
+            $this->db->query('UPDATE orders SET status = :status WHERE order_id = :order_id');
+            $this->db->bind(':status', $data['status']);
+            $this->db->bind(':order_id', $data['order_id']);
+            $this->db->execute();
+
+            // Also update the order items with the same status
+            $this->db->query('UPDATE order_items SET status = :status WHERE order_id = :order_id');
+            $this->db->bind(':status', $data['status']);
+            $this->db->bind(':order_id', $data['order_id']);
+            $this->db->execute();
+
+            // Add entry to the status history
+            $this->db->query('INSERT INTO order_status_history (order_id, status, updated_by, notes) 
+                        VALUES (:order_id, :status, :updated_by, :notes)');
+            $this->db->bind(':order_id', $data['order_id']);
+            $this->db->bind(':status', $data['status']);
+            $this->db->bind(':updated_by', $data['updated_by']);
+            $this->db->bind(':notes', $data['notes']);
+            $this->db->execute();
+
+            $this->db->commitTransaction();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollbackTransaction();
+            return false;
+        }
+    }
 }
