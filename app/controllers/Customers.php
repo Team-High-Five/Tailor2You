@@ -318,16 +318,15 @@ class Customers extends Controller
         $this->view('users/Customer/v_c_orders', $data);
     }
 
-    public function addPants()
-    {
+    public function addPants() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $measurementData = [];
             foreach ($_POST['measurements'] as $id => $value) {
                 if (!empty($value)) {
-                    $cm_value = ($_POST['measurement_unit'] === 'inch') ?
-                        $value * 2.54 : $value;
-                    $inch_value = ($_POST['measurement_unit'] === 'cm') ?
-                        $value * 0.393701 : $value;
+                    $cm_value = ($_POST['measurement_unit'] === 'inch') ? 
+                               $value * 2.54 : $value;
+                    $inch_value = ($_POST['measurement_unit'] === 'cm') ? 
+                                 $value * 0.393701 : $value;
 
                     $measurementData[] = [
                         'id' => $id,
@@ -359,10 +358,9 @@ class Customers extends Controller
         }
     }
 
+            
 
-
-    public function addShirts()
-    {
+    public function addShirts() {
         if (!isset($_SESSION['user_id'])) {
             redirect('Users/login');
         }
@@ -373,10 +371,10 @@ class Customers extends Controller
             $measurementData = [];
             foreach ($_POST['measurements'] as $id => $value) {
                 if (!empty($value)) {
-                    $cm_value = ($_POST['measurement_unit'] === 'inch') ?
-                        $value * 2.54 : $value;
-                    $inch_value = ($_POST['measurement_unit'] === 'cm') ?
-                        $value * 0.393701 : $value;
+                    $cm_value = ($_POST['measurement_unit'] === 'inch') ? 
+                               $value * 2.54 : $value;
+                    $inch_value = ($_POST['measurement_unit'] === 'cm') ? 
+                                 $value * 0.393701 : $value;
 
                     $measurementData[] = [
                         'id' => $id,
@@ -438,38 +436,13 @@ class Customers extends Controller
         }
 
         $appointments = $this->customerModel->getCustomerAppointments($_SESSION['user_id']);
-        $rescheduleRequests = $this->customerModel->getRescheduleRequests($_SESSION['user_id']);
 
         $data = [
             'title' => 'Appointments',
-            'appointments' => $appointments,
-            'rescheduleRequests' => $rescheduleRequests
+            'appointments' => $appointments
         ];
 
         $this->view('users/Customer/v_c_appointments', $data);
-    }
-
-    public function handleReschedule($appointmentId, $action)
-    {
-        if (!isLoggedIn()) {
-            redirect('users/login');
-        }
-
-        if ($action === 'accept') {
-            if ($this->customerModel->acceptRescheduleRequest($appointmentId, $_SESSION['user_id'])) {
-                flash('appointment_message', 'You have accepted the reschedule request.');
-            } else {
-                flash('appointment_message', 'There was an error processing your request.', 'alert alert-danger');
-            }
-        } elseif ($action === 'reject') {
-            if ($this->customerModel->rejectRescheduleRequest($appointmentId, $_SESSION['user_id'])) {
-                flash('appointment_message', 'You have rejected the reschedule request.');
-            } else {
-                flash('appointment_message', 'There was an error processing your request.', 'alert alert-danger');
-            }
-        }
-
-        redirect('Customers/displayAppointments');
     }
 
     public function displayOrders()
@@ -488,7 +461,7 @@ class Customers extends Controller
 
     public function ordersViews($orderId)
     {
-        $order = $this->customerModel->getCustomerOrder($_SESSION['user_id'], $orderId);
+        $order = $this->customerModel->getCustomerOrder($_SESSION['user_id'],$orderId);
         $measurement = $this->customerModel->getShirtMeasurements($_SESSION['user_id']);
 
         $data = [
