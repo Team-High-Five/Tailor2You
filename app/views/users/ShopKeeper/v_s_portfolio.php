@@ -70,6 +70,10 @@
             <div class="created-date">
               <i class="far fa-calendar-alt"></i> <?php echo date('F j, Y', strtotime($post->created_at)); ?>
             </div>
+            <!-- Adding like count display -->
+            <div class="like-count">
+              <i class="fas fa-heart"></i> <?php echo isset($post->like_count) ? $post->like_count : 0; ?> likes
+            </div>
           </div>
           
           <div class="item-meta-info">

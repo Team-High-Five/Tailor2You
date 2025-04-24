@@ -40,6 +40,10 @@
 .post-metadata {
   padding: 0 15px;
   margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .created-date {
@@ -52,6 +56,16 @@
 .created-date i {
   margin-right: 5px;
   color: #3498db;
+}
+
+.like-count {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.like-count i {
+  color: #e74c3c;
+  margin-right: 3px;
 }
 
 /* Gender and Item Type */

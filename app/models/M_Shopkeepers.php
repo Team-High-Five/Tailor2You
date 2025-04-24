@@ -132,4 +132,15 @@ class M_Shopkeepers
         $this->db->bind(':month', $month);
         return $this->db->resultSet();
     }
+
+    public function getPostsWithLikeCounts($userId) {
+        $this->db->query("SELECT p.*, 
+                         (SELECT COUNT(*) FROM post_likes 
+                          WHERE post_id = p.id AND status = 'active') as like_count 
+                         FROM posts p 
+                         WHERE p.user_id = :id 
+                         ORDER BY p.created_at DESC");
+        $this->db->bind(':id', $userId);
+        return $this->db->resultSet();
+    }
 }
