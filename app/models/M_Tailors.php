@@ -230,4 +230,54 @@ class M_Tailors
         $this->db->bind(':customer_id', $customerId);
         return $this->db->resultSet();
     }
+    public function getOrdersByTailorId($tailor_id, $filters = [])
+    {
+        $sql = 'SELECT o.*, 
+            u.first_name, u.last_name,
+            d.name as design_name,
+            DATE_FORMAT(o.order_date, "%d %b %Y") as formatted_date
+            FROM orders o
+            JOIN users u ON o.customer_id = u.user_id
+            JOIN order_items oi ON o.order_id = oi.order_id
+            JOIN designs d ON oi.design_id = d.design_id
+            WHERE o.tailor_id = :tailor_id';
+
+        // Add filters if provided
+        if (!empty($filters['date'])) {
+            $sql .= ' AND DATE(o.order_date) = :date';
+        }
+
+        if (!empty($filters['status'])) {
+            $sql .= ' AND o.status = :status';
+        }
+
+        // Group by order_id to avoid duplicates if multiple items in one order
+        $sql .= ' GROUP BY o.order_id ORDER BY o.order_date DESC';
+
+        $this->db->query($sql);
+        $this->db->bind(':tailor_id', $tailor_id);
+
+        // Bind filter parameters if they exist
+        if (!empty($filters['date'])) {
+            $this->db->bind(':date', $filters['date']);
+        }
+
+        if (!empty($filters['status'])) {
+            $this->db->bind(':status', $filters['status']);
+        }
+
+        return $this->db->resultSet();
+    }
+
+    public function getOrderStatusOptions()
+    {
+        return [
+            'order_placed' => 'Order Placed',
+            'fabric_cutting' => 'Fabric Cutting',
+            'stitching' => 'Stitching',
+            'ready_for_delivery' => 'Ready for Delivery',
+            'delivered' => 'Delivered',
+            'cancelled' => 'Cancelled'
+        ];
+    }
 }

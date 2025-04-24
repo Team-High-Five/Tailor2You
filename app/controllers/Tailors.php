@@ -184,10 +184,34 @@ class Tailors extends Controller
     }
     public function displayOrders()
     {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+            return;
+        }
+
+        // Process filters
+        $filters = [];
+        if (isset($_GET['date']) && !empty($_GET['date'])) {
+            $filters['date'] = $_GET['date'];
+        }
+
+        if (isset($_GET['status']) && !empty($_GET['status'])) {
+            $filters['status'] = $_GET['status'];
+        }
+
+        // Get orders for the logged-in tailor
+        $orders = $this->tailorModel->getOrdersByTailorId($_SESSION['user_id'], $filters);
+
+        // Get status options for the dropdown
+        $statusOptions = $this->tailorModel->getOrderStatusOptions();
 
         $data = [
-            'title' => 'Orders'
+            'title' => 'Orders',
+            'orders' => $orders,
+            'statusOptions' => $statusOptions,
+            'filters' => $filters
         ];
+
         $this->view('users/Tailor/v_t_order_list', $data);
     }
 
