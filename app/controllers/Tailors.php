@@ -4,6 +4,9 @@ require_once APPROOT . '/helpers/url_helper.php';
 require_once APPROOT . '/helpers/session_helper.php';
 
 require_once APPROOT . '/controllers/Fabrics.php';
+require_once APPROOT . '/helpers/FileUploader.php';
+
+
 
 
 
@@ -184,10 +187,34 @@ class Tailors extends Controller
     }
     public function displayOrders()
     {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+            return;
+        }
+
+        // Process filters
+        $filters = [];
+        if (isset($_GET['date']) && !empty($_GET['date'])) {
+            $filters['date'] = $_GET['date'];
+        }
+
+        if (isset($_GET['status']) && !empty($_GET['status'])) {
+            $filters['status'] = $_GET['status'];
+        }
+
+        // Get orders for the logged-in tailor
+        $orders = $this->tailorModel->getOrdersByTailorId($_SESSION['user_id'], $filters);
+
+        // Get status options for the dropdown
+        $statusOptions = $this->tailorModel->getOrderStatusOptions();
 
         $data = [
-            'title' => 'Orders'
+            'title' => 'Orders',
+            'orders' => $orders,
+            'statusOptions' => $statusOptions,
+            'filters' => $filters
         ];
+
         $this->view('users/Tailor/v_t_order_list', $data);
     }
 
@@ -200,15 +227,83 @@ class Tailors extends Controller
         $this->view('users/Tailor/v_t_order_progress', $data);
     }
 
-    public function displayOrderDetails()
+    public function displayOrderDetails($order_id = null)
     {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+            return;
+        }
+
+        if ($order_id === null) {
+            flash('order_error', 'Invalid order ID', 'alert alert-danger');
+            redirect('Tailors/displayOrders');
+            return;
+        }
+
+        // Get order details
+        $order = $this->tailorModel->getOrderById($order_id);
+
+        // Check if order exists and belongs to this tailor
+        if (!$order || $order->tailor_id != $_SESSION['user_id']) {
+            flash('order_error', 'Order not found or you do not have permission to view it', 'alert alert-danger');
+            redirect('Tailors/displayOrders');
+            return;
+        }
+
+        // Get status options for dropdown
+        $statusOptions = $this->tailorModel->getOrderStatusOptions();
 
         $data = [
-            'title' => 'Order Details'
+            'title' => 'Order Details',
+            'order' => $order,
+            'statusOptions' => $statusOptions
         ];
+
         $this->view('users/Tailor/v_t_order_item_details', $data);
     }
+    public function updateOrderStatus($order_id = null)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+            return;
+        }
 
+        if ($order_id === null) {
+            flash('order_error', 'Invalid order ID', 'alert alert-danger');
+            redirect('Tailors/displayOrders');
+            return;
+        }
+
+        // Check if the order belongs to this tailor
+        $order = $this->tailorModel->getOrderById($order_id);
+        if (!$order || $order->tailor_id != $_SESSION['user_id']) {
+            flash('order_error', 'You do not have permission to update this order', 'alert alert-danger');
+            redirect('Tailors/displayOrders');
+            return;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'order_id' => $order_id,
+                'status' => trim($_POST['status']),
+                'notes' => trim($_POST['notes'] ?? ''),
+                'updated_by' => $_SESSION['user_id']
+            ];
+
+            // Add method to M_Tailors:
+            if ($this->tailorModel->updateOrderStatus($data)) {
+                flash('order_success', 'Order status updated successfully', 'alert alert-success');
+                redirect('Tailors/displayOrderDetails/' . $order_id);
+            } else {
+                flash('order_error', 'Error updating order status', 'alert alert-danger');
+                redirect('Tailors/displayOrderDetails/' . $order_id);
+            }
+        } else {
+            redirect('Tailors/displayOrderDetails/' . $order_id);
+        }
+    }
     public function displayOrderMeasurements()
     {
         $data = [
@@ -256,7 +351,51 @@ class Tailors extends Controller
 
         $this->view('users/Tailor/v_t_appointment_card', $data);
     }
+    public function requestRescheduleAppointment($appointment_id)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+            return;
+        }
 
+        $appointment = $this->tailorModel->getAppointmentById($appointment_id);
+
+        if (!$appointment) {
+            flash('appointment_message', 'Appointment not found', 'alert alert-danger');
+            redirect('tailors/displayAppointments');
+            return;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Process form
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'appointment_id' => $appointment_id,
+                'proposed_date' => trim($_POST['appointment_date']),
+                'proposed_time' => trim($_POST['appointment_time']),
+                'reason' => trim($_POST['reschedule_reason'])
+            ];
+
+            // Create reschedule request
+            if ($this->tailorModel->createRescheduleRequest($data)) {
+                // Send notification to customer (through notification system if implemented, or email)
+                // This would be implemented in a Notifications class
+
+                flash('appointment_message', 'Reschedule request sent to customer successfully');
+                redirect('tailors/displayAppointments');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            $data = [
+                'title' => 'Request Reschedule',
+                'appointment' => $appointment
+            ];
+
+            $this->view('users/Tailor/v_t_reschedule_appointment', $data);
+        }
+    }
     public function rescheduleAppointment($appointment_id)
     {
         if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {

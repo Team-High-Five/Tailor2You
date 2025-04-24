@@ -30,9 +30,18 @@
                             <span class="confirmation-value"><?php echo date('F j, Y'); ?></span>
                         </div>
                         <div class="confirmation-row">
+                            <span class="confirmation-label">Subtotal:</span>
+                            <span class="confirmation-value">Rs. <?php echo number_format($order['subtotal'] ?? 0, 2); ?></span>
+                        </div>
+                        <div class="confirmation-row">
+                            <span class="confirmation-label">Platform Fee (12%):</span>
+                            <span class="confirmation-value">Rs. <?php echo number_format($order['platform_fee'] ?? 0, 2); ?></span>
+                        </div>
+                        <div class="confirmation-row">
                             <span class="confirmation-label">Total Amount:</span>
                             <span class="confirmation-value">Rs. <?php echo number_format($order['total_price'] ?? 0, 2); ?></span>
                         </div>
+
                         <div class="confirmation-row">
                             <span class="confirmation-label">Payment Method:</span>
                             <span class="confirmation-value">
@@ -172,10 +181,10 @@
         <?php endif; ?>
 
         <div class="confirmation-actions">
-            <a href="<?php echo URLROOT; ?>/Pages/orders" class="action-btn secondary-action">
+            <a href="<?php echo URLROOT; ?>/Customers/displayOrders" class="action-btn secondary-action">
                 <i class="fas fa-list"></i> View My Orders
             </a>
-            <a href="<?php echo URLROOT; ?>" class="action-btn primary-action">
+            <a href="<?php echo URLROOT; ?>/Pages" class="action-btn primary-action">
                 <i class="fas fa-home"></i> Back to Homepage
             </a>
         </div>
@@ -228,6 +237,16 @@
                 <?php endif; ?>
 
                 <div class="receipt-divider"></div>
+
+                <div class="receipt-row subtotal">
+                    <span>Subtotal</span>
+                    <span>Rs. <?php echo number_format($order['subtotal'] ?? 0, 2); ?></span>
+                </div>
+
+                <div class="receipt-row">
+                    <span>Platform Fee (12%)</span>
+                    <span>Rs. <?php echo number_format($order['platform_fee'] ?? 0, 2); ?></span>
+                </div>
 
                 <div class="receipt-row total">
                     <span>Total</span>

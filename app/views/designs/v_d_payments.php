@@ -11,7 +11,17 @@
     <!-- Order Summary -->
     <div class="payment-summary">
       <div class="summary-row">
-        <span class="summary-label">Order Total:</span>
+        <span class="summary-label">Subtotal:</span>
+        <span class="summary-value">Rs. <?php echo number_format($_SESSION['order_details']['subtotal'], 2); ?></span>
+      </div>
+
+      <div class="summary-row">
+        <span class="summary-label">Platform Fee (12%):</span>
+        <span class="summary-value">Rs. <?php echo number_format($_SESSION['order_details']['platform_fee'], 2); ?></span>
+      </div>
+
+      <div class="summary-row total">
+        <span class="summary-label">Total Amount:</span>
         <span class="summary-value">Rs. <?php echo number_format($_SESSION['order_details']['total_price'], 2); ?></span>
       </div>
     </div>

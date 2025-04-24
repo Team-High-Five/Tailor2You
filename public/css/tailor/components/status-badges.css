@@ -30,6 +30,16 @@
     box-shadow: 0 0 0 2px var(--status-pending-bg);
 }
 
+.status.reschedule_pending {
+   background-color: var(--status-reschedule_pending-bg);
+   color: var(--status-reschedule_pending-color);
+}
+
+.status.reschedule_pending::before {
+    background-color: var(--status-reschedule_pending-color);
+    box-shadow: 0 0 0 2px var(--status-reschedule_pending-bg);
+}
+
 /* Add styles for accepted status */
 .status.accepted {
     background-color: var(--status-accepted-bg);
