@@ -188,16 +188,48 @@
           <h3>Price Summary</h3>
           <div class="section-content">
             <?php
-            // Verify total price exists
-            if (!isset($_SESSION['order_details']['total_price'])) {
-              $basePrice = $_SESSION['order_details']['design']->base_price ?? 0;
-              $fabricAdjustment = $_SESSION['order_details']['fabric']->price_adjustment ?? 0;
-              $_SESSION['order_details']['total_price'] = $basePrice + $fabricAdjustment;
+            // Calculate base price, tax, and total
+            $basePrice = $_SESSION['order_details']['design']->base_price ?? 0;
+            $fabricAdjustment = $_SESSION['order_details']['fabric']->price_adjustment ?? 0;
+
+            // Add customization adjustments if any
+            $customizationAdjustment = 0;
+            if (!empty($_SESSION['order_details']['customizations'])) {
+              foreach ($_SESSION['order_details']['customizations'] as $customization) {
+                if (isset($customization->price_adjustment)) {
+                  $customizationAdjustment += $customization->price_adjustment;
+                }
+              }
             }
+
+            // Calculate subtotal (what tailor gets)
+            $subtotal = $basePrice + $fabricAdjustment + $customizationAdjustment;
+
+            // Calculate platform fee (12%)
+            $platformFee = $subtotal * 0.12;
+
+            // Calculate final price (what customer pays)
+            $finalPrice = $subtotal + $platformFee;
+
+            // Store the values in session for later use
+            $_SESSION['order_details']['subtotal'] = $subtotal;
+            $_SESSION['order_details']['platform_fee'] = $platformFee;
+            $_SESSION['order_details']['total_price'] = $finalPrice;
             ?>
+
+            <div class="detail-row">
+              <span class="detail-label">Subtotal:</span>
+              <span class="detail-value">Rs. <?php echo number_format($subtotal, 2); ?></span>
+            </div>
+
+            <div class="detail-row">
+              <span class="detail-label">Platform Fee (12%):</span>
+              <span class="detail-value">Rs. <?php echo number_format($platformFee, 2); ?></span>
+            </div>
+
             <div class="detail-row total-price">
               <span class="detail-label">Total Price:</span>
-              <span class="detail-value">Rs. <?php echo number_format($_SESSION['order_details']['total_price'], 2); ?></span>
+              <span class="detail-value">Rs. <?php echo number_format($finalPrice, 2); ?></span>
             </div>
           </div>
         </div>
@@ -216,7 +248,7 @@
       <?php endif; ?>
       </div>
   </div>
-  
+
   <div class="design-preview">
     <?php if (isset($_SESSION['order_details']['design'])) : ?>
       <div class="design-image">
