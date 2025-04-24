@@ -256,51 +256,7 @@ class Tailors extends Controller
 
         $this->view('users/Tailor/v_t_appointment_card', $data);
     }
-    public function requestRescheduleAppointment($appointment_id)
-    {
-        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
-            redirect('users/login');
-            return;
-        }
 
-        $appointment = $this->tailorModel->getAppointmentById($appointment_id);
-
-        if (!$appointment) {
-            flash('appointment_message', 'Appointment not found', 'alert alert-danger');
-            redirect('tailors/displayAppointments');
-            return;
-        }
-
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Process form
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-            $data = [
-                'appointment_id' => $appointment_id,
-                'proposed_date' => trim($_POST['appointment_date']),
-                'proposed_time' => trim($_POST['appointment_time']),
-                'reason' => trim($_POST['reschedule_reason'])
-            ];
-
-            // Create reschedule request
-            if ($this->tailorModel->createRescheduleRequest($data)) {
-                // Send notification to customer (through notification system if implemented, or email)
-                // This would be implemented in a Notifications class
-
-                flash('appointment_message', 'Reschedule request sent to customer successfully');
-                redirect('tailors/displayAppointments');
-            } else {
-                die('Something went wrong');
-            }
-        } else {
-            $data = [
-                'title' => 'Request Reschedule',
-                'appointment' => $appointment
-            ];
-
-            $this->view('users/Tailor/v_t_reschedule_appointment', $data);
-        }
-    }
     public function rescheduleAppointment($appointment_id)
     {
         if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
