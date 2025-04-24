@@ -4,15 +4,14 @@
 .color-form {
   background: var(--card-gradient);
   border-radius: 1.5rem;
-  padding: 1rem;
+  padding: 2.5rem;
   box-shadow: var(--elegant-shadow);
   border: 1px solid var(--glass-effect);
-  width: 100%;
-  max-width: 100%;
+  backdrop-filter: blur(10px);
 }
 
 .color-header {
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   position: relative;
   text-align: center;
 }
@@ -38,12 +37,12 @@
 }
 
 /*--------------------------------------------------------------
-# COLOR GRID & CARDS - Match fabric grid exactly
+# COLOR GRID & CARDS
 --------------------------------------------------------------*/
 .color-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  gap: 1.5rem;
   margin: 2rem 0;
 }
 
@@ -52,22 +51,12 @@
   border-radius: 0.75rem;
   overflow: hidden;
   transition: var(--transition);
-  height: auto;
-  min-height: 300px;
-  width: 200px;
   position: relative;
   border: 1px solid var(--glass-effect);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
-}
-
-
-.color-card img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  transition: var(--transition);
+  padding: 1rem;
 }
 
 .color-card:hover {
@@ -76,53 +65,56 @@
   border-color: rgba(196, 167, 125, 0.3);
 }
 
-.color-image-container {
-  width: 100%;
-}
-
-.color-card-content {
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  flex: 1;
-}
-
-.color-swatch {
+.color-card img {
   width: 100%;
   height: 180px;
-  border-radius: 0;
-  margin-bottom: 0;
-  border: none;
+  object-fit: cover;
+  border-radius: 0.75rem;
+  transition: var(--transition);
+}
+
+.color-card:hover img {
+  transform: scale(1.05);
 }
 
 .color-name {
   color: var(--text-light);
   font-size: 1rem;
   font-weight: 600;
-  margin: 0;
-  padding: 1rem;
+  margin: 1rem 0;
+  text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-align: center;
 }
-
-.color-code {
-  color: var(--accent-color);
-  font-size: 0.95rem;
-  font-weight: 500;
-  margin: 0;
-}
-
-
-
-
-
 
 /*--------------------------------------------------------------
-# COLOR SELECTION STATES - Match fabric selection
+# COLOR SELECTION BUTTON & STATES
 --------------------------------------------------------------*/
+.buttons {
+  margin-top: auto;
+}
+
+.color-card .buttons button {
+  width: 100%;
+  padding: 0.75rem 0.5rem;
+  background: transparent;
+  border: 2px solid var(--accent-color);
+  color: var(--accent-color);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  border-radius: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.8rem;
+}
+
+.color-card .buttons button:hover {
+  background: var(--accent-color);
+  color: #1a1a1a;
+}
+
 .color-card.selected {
   border: 2px solid var(--accent-color);
   background: linear-gradient(145deg, #2a2a2a, #252525);
@@ -145,178 +137,43 @@
   z-index: 2;
 }
 
+.color-card.selected .buttons button {
+  background: var(--accent-color);
+  color: var(--primary-color);
+}
+
 /*--------------------------------------------------------------
-# RESPONSIVE COLOR GRID - Match fabric grid
+# RESPONSIVE COLOR GRID
 --------------------------------------------------------------*/
 @media (min-width: 1600px) {
   .color-grid {
     grid-template-columns: repeat(3, 1fr);
-    /* Keep 3 columns on large screens */
+   
   }
 }
 
 @media (max-width: 1200px) {
   .color-grid {
     grid-template-columns: repeat(3, 1fr);
-    /* Keep 3 columns on medium screens */
+   
   }
 }
 
 @media (max-width: 992px) {
   .color-grid {
     grid-template-columns: repeat(2, 1fr);
-    /* Switch to 2 columns */
+  
   }
 }
 
 @media (max-width: 576px) {
   .color-grid {
     grid-template-columns: 1fr;
-    /* Single column on mobile */
+    
   }
 
-  .color-card img,
-  .color-swatch {
+  .color-card img {
     height: 220px;
-    /* Taller on mobile, matching fabric */
+    
   }
-}
-
-/* Standard color swatches */
-.color-swatch[data-color="Black"] {
-  background-color: #000000;
-}
-
-.color-swatch[data-color="Red"] {
-  background-color: #FF0000;
-}
-
-.color-swatch[data-color="Blue"] {
-  background-color: #0000FF;
-}
-
-.color-swatch[data-color="Purple"] {
-  background-color: #800080;
-}
-
-.color-swatch[data-color="Orange"] {
-  background-color: #FFA500;
-}
-
-.color-swatch[data-color="Yellow"] {
-  background-color: #FFFF00;
-}
-
-.color-swatch[data-color="Green"] {
-  background-color: #008000;
-}
-
-.color-swatch[data-color="White"] {
-  background-color: #FFFFFF;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.color-swatch[data-color="Gray"] {
-  background-color: #808080;
-}
-
-.color-swatch[data-color="Pink"] {
-  background-color: #FFC0CB;
-}
-
-/* Additional fashion colors */
-.color-swatch[data-color="Navy"] {
-  background-color: #000080;
-}
-
-.color-swatch[data-color="Teal"] {
-  background-color: #008080;
-}
-
-.color-swatch[data-color="Burgundy"] {
-  background-color: #800020;
-}
-
-.color-swatch[data-color="Olive"] {
-  background-color: #808000;
-}
-
-.color-swatch[data-color="Beige"] {
-  background-color: #F5F5DC;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.color-swatch[data-color="Brown"] {
-  background-color: #A52A2A;
-}
-
-.color-swatch[data-color="Cream"] {
-  background-color: #FFFDD0;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.color-swatch[data-color="Gold"] {
-  background-color: #FFD700;
-}
-
-.color-swatch[data-color="Silver"] {
-  background-color: #C0C0C0;
-}
-
-.color-swatch[data-color="black"] {
-  background-color: #000000;
-}
-
-.color-swatch[data-color="red"] {
-  background-color: #FF0000;
-}
-
-.color-swatch[data-color="blue"] {
-  background-color: #0000FF;
-}
-
-.color-swatch[data-color="purple"] {
-  background-color: #800080;
-}
-
-.color-swatch[data-color="orange"] {
-  background-color: #FFA500;
-}
-
-.color-swatch[data-color="yellow"] {
-  background-color: #FFFF00;
-}
-
-.color-swatch[data-color="green"] {
-  background-color: #008000;
-}
-
-.color-swatch[data-color="white"] {
-  background-color: #FFFFFF;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.color-swatch[data-color="gray"] {
-  background-color: #808080;
-}
-
-.color-swatch[data-color="pink"] {
-  background-color: #FFC0CB;
-}
-
-
-/* Additional fashion colors */
-.color-swatch[data-color="navy"] {
-  background-color: #000080;
-}
-
-.color-swatch[data-color="teal"] {
-  background-color: #008080;
-}
-
-.color-swatch[data-color="burgundy"] {
-  background-color: #800020;
-}
-.color-swatch[data-color="pink"] {
-  background-color: #FFC0CB;
 }

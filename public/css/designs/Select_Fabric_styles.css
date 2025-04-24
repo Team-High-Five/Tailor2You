@@ -41,6 +41,7 @@
 .fabric-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  /* EXACTLY 3 columns */
   gap: 1.25rem;
   margin: 2rem 0;
 }

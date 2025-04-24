@@ -209,24 +209,127 @@ class Shopkeepers extends Controller
 
     public function displayAppointments()
     {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
+            redirect('users/login');
+        }
+
+        $appointments = $this->shopkeeperModel->getAppointmentsByShopkeeperId($_SESSION['user_id']);
         $data = [
-            'title' => 'Appointments'
+            'title' => 'Appointments',
+            'appointments' => $appointments
         ];
         $this->view('users/Shopkeeper/v_s_appointment_list', $data);
     }
 
-    public function displayAppointmentDetails()
+    public function displayAppointmentDetails($appointment_id)
     {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
+            redirect('users/login');
+        }
+
+        $appointment = $this->shopkeeperModel->getAppointmentById($appointment_id);
+        if (!$appointment) {
+            flash('appointment_message', 'Appointment not found', 'alert alert-danger');
+            redirect('shopkeepers/displayAppointments');
+        }
+
+        $appointment->profile_pic = base64_encode($appointment->profile_pic);
         $data = [
-            'title' => 'Appointment Details'
+            'title' => 'Appointment Details',
+            'appointment' => $appointment
         ];
         $this->view('users/Shopkeeper/v_s_appointment_card', $data);
     }
 
-    public function displayCalendar()
+    public function rescheduleAppointment($appointment_id)
     {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
+            redirect('users/login');
+        }
+
+        $appointment = $this->shopkeeperModel->getAppointmentById($appointment_id);
+        if (!$appointment) {
+            flash('appointment_message', 'Appointment not found', 'alert alert-danger');
+            redirect('shopkeepers/displayAppointments');
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                'appointment_id' => $appointment_id,
+                'appointment_date' => trim($_POST['appointment_date']),
+                'appointment_time' => trim($_POST['appointment_time']),
+                'status' => 'pending'
+            ];
+
+            if ($this->shopkeeperModel->updateAppointment($data)) {
+                flash('appointment_message', 'Appointment rescheduled successfully');
+                redirect('shopkeepers/displayAppointments');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            $data = [
+                'title' => 'Reschedule Appointment',
+                'appointment' => $appointment
+            ];
+            $this->view('users/Shopkeeper/v_s_reschedule_appointment', $data);
+        }
+    }
+
+    public function acceptAppointment($appointment_id)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
+            redirect('users/login');
+        }
+
+        $appointment = $this->shopkeeperModel->getAppointmentById($appointment_id);
+        if (!$appointment) {
+            flash('appointment_message', 'Appointment not found', 'alert alert-danger');
+            redirect('shopkeepers/displayAppointments');
+        }
+
         $data = [
-            'title' => 'Calendar'
+            'appointment_id' => $appointment_id,
+            'status' => 'accepted'
+        ];
+
+        if ($this->shopkeeperModel->updateAppointmentStatus($data)) {
+            flash('appointment_message', 'Appointment accepted successfully');
+            redirect('shopkeepers/displayAppointments');
+        } else {
+            die('Something went wrong');
+        }
+    }
+
+    public function displayCalendar($year = null, $month = null)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
+            redirect('users/login');
+        }
+
+        if ($year === null || $month === null) {
+            $year = date('Y');
+            $month = date('m');
+        } else {
+            $year = (int)$year;
+            $month = str_pad((int)$month, 2, '0', STR_PAD_LEFT);
+        }
+
+        if ($month < 1) {
+            $month = 12;
+            $year--;
+        } elseif ($month > 12) {
+            $month = 1;
+            $year++;
+        }
+
+        $appointments = $this->shopkeeperModel->getAppointmentsByMonth($_SESSION['user_id'], $year, $month);
+        $data = [
+            'title' => 'Calendar',
+            'year' => $year,
+            'month' => $month,
+            'appointments' => $appointments
         ];
         $this->view('users/Shopkeeper/v_s_appointment_calendar', $data);
     }
@@ -241,14 +344,10 @@ class Shopkeepers extends Controller
         $this->view('users/Shopkeeper/v_s_portfolio', $data);
     }
 
-    public function addNewPost()
-    {
-        $data = [
-            'title' => 'Add New Post'
-        ];
-
-        $this->view('users/Shopkeeper/v_s_add_new_post', $data);
+    public function addNewPost() {
+        $this->view('users/ShopKeeper/v_s_profile_portfolio_add_new');
     }
+    
 
     public function addPost()
     {
@@ -264,6 +363,8 @@ class Shopkeepers extends Controller
                 'user_id' => $_SESSION['user_id'],
                 'title' => trim($_POST['title']),
                 'description' => trim($_POST['description']),
+                'gender' => isset($_POST['gender']) ? trim($_POST['gender']) : 'unisex',
+                'item_type' => isset($_POST['item_type']) ? trim($_POST['item_type']) : null,
                 'image' => $image
             ];
 
@@ -277,7 +378,72 @@ class Shopkeepers extends Controller
             $data = [
                 'title' => 'Add New Post'
             ];
-            $this->view('users/Shopkeeper/v_s_add_new_post', $data);
+            $this->view('users/Shopkeeper/v_s_profile_portfolio_add_new', $data);
+        }
+    }
+
+    public function editPost($post_id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $image = null;
+            if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
+                $image = file_get_contents($_FILES['image']['tmp_name']);
+            } else {
+                $post = $this->userModel->getPostById($post_id);
+                $image = $post->image;
+            }
+
+            $data = [
+                'post_id' => $post_id,
+                'user_id' => $_SESSION['user_id'],
+                'title' => trim($_POST['title']),
+                'description' => trim($_POST['description']),
+                'gender' => isset($_POST['gender']) ? trim($_POST['gender']) : 'unisex',
+                'item_type' => isset($_POST['item_type']) ? trim($_POST['item_type']) : null,
+                'image' => $image
+            ];
+
+            if ($this->userModel->updatePost($data)) {
+                flash('post_message', 'Post updated successfully');
+                redirect('shopkeepers/displayPortfolio');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            $post = $this->userModel->getPostById($post_id);
+
+            if (!$post) {
+                flash('post_message', 'Post not found', 'alert alert-danger');
+                redirect('shopkeepers/displayPortfolio');
+            }
+
+            $data = [
+                'post_id' => $post->id,
+                'title' => $post->title,
+                'description' => $post->description,
+                'gender' => $post->gender,
+                'item_type' => $post->item_type,
+                'image' => $post->image
+            ];
+
+            $this->view('users/Shopkeeper/v_s_edit_post', $data);
+        }
+    }
+    
+
+    public function deletePost($post_id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            if ($this->userModel->deletePost($post_id)) {
+                flash('post_message', 'Post deleted successfully');
+                redirect('shopkeepers/displayPortfolio');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            redirect('shopkeepers/displayPortfolio');
         }
     }
 
@@ -303,6 +469,14 @@ class Shopkeepers extends Controller
             'title' => 'Add Customize Item'
         ];
         $this->view('users/Shopkeeper/v_s_customize_add_new', $data);
+    }
+
+    public function addNewCustomizeItem()
+    {
+        $data = [
+            'title' => 'Add New Customize Item'
+        ];
+        $this->view('users/Shopkeeper/v_s_customize_add_new_continue', $data);
     }
 
     public function displayEmployees()
@@ -333,12 +507,14 @@ class Shopkeepers extends Controller
                 'phone_number' => trim($_POST['phone_number']),
                 'email' => trim($_POST['email']),
                 'home_town' => trim($_POST['home_town']),
+                'district' => trim($_POST['district']),
                 'image' => null,
                 'first_name_err' => '',
                 'last_name_err' => '',
                 'phone_number_err' => '',
                 'email_err' => '',
                 'home_town_err' => '',
+                'district_err' => '',
                 'image_err' => ''
             ];
 
@@ -348,7 +524,10 @@ class Shopkeepers extends Controller
                 $data['image'] = $image;
             }
 
-            if (empty($data['first_name_err']) && empty($data['last_name_err']) && empty($data['phone_number_err']) && empty($data['email_err']) && empty($data['home_town_err']) && empty($data['image_err'])) {
+            if (empty($data['first_name_err']) && empty($data['last_name_err']) && 
+                empty($data['phone_number_err']) && empty($data['email_err']) && 
+                empty($data['home_town_err']) && empty($data['district_err']) && 
+                empty($data['image_err'])) {
                 if ($this->shopkeeperModel->addEmployee($data)) {
                     flash('employee_message', 'Employee added successfully');
                     redirect('Shopkeepers/displayEmployees');
@@ -365,11 +544,13 @@ class Shopkeepers extends Controller
                 'phone_number' => '',
                 'email' => '',
                 'home_town' => '',
+                'district' => '',
                 'first_name_err' => '',
                 'last_name_err' => '',
                 'phone_number_err' => '',
                 'email_err' => '',
                 'home_town_err' => '',
+                'district_err' => '',
                 'image_err' => ''
             ];
 
@@ -396,12 +577,14 @@ class Shopkeepers extends Controller
                 'phone_number' => trim($_POST['phone_number']),
                 'email' => trim($_POST['email']),
                 'home_town' => trim($_POST['home_town']),
+                'district' => trim($_POST['district']),
                 'image' => $employee->image,
                 'first_name_err' => '',
                 'last_name_err' => '',
                 'phone_number_err' => '',
                 'email_err' => '',
                 'home_town_err' => '',
+                'district_err' => '',
                 'image_err' => ''
             ];
 
@@ -411,7 +594,10 @@ class Shopkeepers extends Controller
                 $data['image'] = $image;
             }
 
-            if (empty($data['first_name_err']) && empty($data['last_name_err']) && empty($data['phone_number_err']) && empty($data['email_err']) && empty($data['home_town_err']) && empty($data['image_err'])) {
+            if (empty($data['first_name_err']) && empty($data['last_name_err']) && 
+                empty($data['phone_number_err']) && empty($data['email_err']) && 
+                empty($data['home_town_err']) && empty($data['district_err']) && 
+                empty($data['image_err'])) {
                 if ($this->shopkeeperModel->updateEmployee($data)) {
                     flash('employee_message', 'Employee updated successfully');
                     redirect('Shopkeepers/displayEmployees');

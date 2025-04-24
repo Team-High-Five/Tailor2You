@@ -1,11 +1,3 @@
--- -----------------------------------------------------
--- TAILOR2YOU DATABASE SCHEMA
--- -----------------------------------------------------
-
--- -----------------------------------------------------
--- 1. USER MANAGEMENT TABLES
--- -----------------------------------------------------
-
 -- Create the `users` table
 CREATE TABLE `users` (
     `user_id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -29,36 +21,6 @@ CREATE TABLE `users` (
     `profile_pic` LONGBLOB DEFAULT NULL,
     `status` ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
     PRIMARY KEY (`user_id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- Create the `employees` table
-CREATE TABLE `employees` (
-    `employee_id` INT(11) NOT NULL AUTO_INCREMENT,
-    `user_id` INT(11) NOT NULL,
-    `first_name` VARCHAR(20) NOT NULL,
-    `last_name` VARCHAR(30) NOT NULL,
-    `phone_number` VARCHAR(10) NOT NULL,
-    `home_town` VARCHAR(20) NOT NULL,
-    `email` VARCHAR(30) NOT NULL,
-    `image` LONGBLOB DEFAULT NULL,
-    PRIMARY KEY (`employee_id`),
-    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- -----------------------------------------------------
--- 2. COMMUNICATION TABLES
--- -----------------------------------------------------
-
--- Create the `posts` table
-CREATE TABLE `posts` (
-    `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `user_id` INT(11) NOT NULL,
-    `title` VARCHAR(255) NOT NULL,
-    `description` TEXT NOT NULL,
-    `image` LONGBLOB,
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- Create the `appointments` table
@@ -104,20 +66,6 @@ CREATE TABLE `colors` (
     PRIMARY KEY (`color_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
--- Insert initial colors
-INSERT INTO
-    `colors` (`color_name`)
-VALUES ('Black'),
-    ('Red'),
-    ('Blue'),
-    ('Purple'),
-    ('Orange'),
-    ('Yellow'),
-    ('Green'),
-    ('White'),
-    ('Gray'),
-    ('Pink');
-
 -- Create the `fabric_colors` table
 CREATE TABLE `fabric_colors` (
     `fabric_color_id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -128,11 +76,44 @@ CREATE TABLE `fabric_colors` (
     FOREIGN KEY (`color_id`) REFERENCES `colors` (`color_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
--- -----------------------------------------------------
--- 4. MEASUREMENT TABLES
--- -----------------------------------------------------
+-- Insert some initial data into the `colors` table
+INSERT INTO `colors` (`color_name`) VALUES ('Black');
 
--- Create shirt measurements table
+INSERT INTO `colors` (`color_name`) VALUES ('Red');
+
+INSERT INTO `colors` (`color_name`) VALUES ('Blue');
+
+INSERT INTO `colors` (`color_name`) VALUES ('Purple');
+
+INSERT INTO `colors` (`color_name`) VALUES ('Orange');
+
+INSERT INTO `colors` (`color_name`) VALUES ('Yellow');
+
+INSERT INTO `colors` (`color_name`) VALUES ('Green');
+
+INSERT INTO `colors` (`color_name`) VALUES ('White');
+
+INSERT INTO `colors` (`color_name`) VALUES ('Gray');
+
+INSERT INTO `colors` (`color_name`) VALUES ('Pink');
+
+-- Create the `employees` table
+CREATE TABLE `employees` (
+    `employee_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `user_id` INT(11) NOT NULL,
+    `first_name` VARCHAR(20) NOT NULL,
+    `last_name` VARCHAR(30) NOT NULL,
+    `phone_number` VARCHAR(10) NOT NULL,
+    `home_town` VARCHAR(20) NOT NULL,
+    `district` VARCHAR(50) DEFAULT NULL,
+    `email` VARCHAR(30) NOT NULL,
+    `image` LONGBLOB DEFAULT NULL,
+    PRIMARY KEY (`employee_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Mesurements Tables--
+
 CREATE TABLE `shirt_measurements` (
     `user_id` int(11) DEFAULT NULL,
     `measure` enum('cm', 'inch') DEFAULT NULL,
@@ -173,8 +154,78 @@ CREATE TABLE `clothing_categories` (
     `name` VARCHAR(50) NOT NULL,
     `description` TEXT,
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `gender_specific` ENUM('gents', 'ladies', 'unisex') NOT NULL DEFAULT 'unisex',
     PRIMARY KEY (`category_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Create clothing subcategories table
+CREATE TABLE `clothing_subcategories` (
+    `subcategory_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `category_id` INT(11) NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
+    `description` TEXT,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`subcategory_id`),
+    FOREIGN KEY (`category_id`) REFERENCES `clothing_categories` (`category_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Create designs table
+CREATE TABLE `designs` (
+    `design_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `user_id` INT(11) NOT NULL,
+    `gender` ENUM('gents', 'ladies', 'unisex') NOT NULL,
+    `category_id` INT(11) NOT NULL,
+    `subcategory_id` INT(11) NOT NULL,
+    `name` VARCHAR(100) NOT NULL,
+    `description` TEXT,
+    `main_image` VARCHAR(255) NULL COMMENT 'Path to image file',
+    `base_price` DECIMAL(10, 2) NOT NULL,
+    `status` ENUM('active', 'inactive') DEFAULT 'active',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`design_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`category_id`) REFERENCES `clothing_categories` (`category_id`),
+    FOREIGN KEY (`subcategory_id`) REFERENCES `clothing_subcategories` (`subcategory_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Create customization types table
+CREATE TABLE `customization_types` (
+    `type_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `category_id` INT(11) NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
+    `description` TEXT,
+    PRIMARY KEY (`type_id`),
+    FOREIGN KEY (`category_id`) REFERENCES `clothing_categories` (`category_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Create customization choices table
+CREATE TABLE `customization_choices` (
+    `choice_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `type_id` INT(11) NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
+    `image` VARCHAR(255) NULL COMMENT 'Path to image file',
+    `description` TEXT,
+    `price_adjustment` DECIMAL(10, 2) DEFAULT 0.00,
+    PRIMARY KEY (`choice_id`),
+    FOREIGN KEY (`type_id`) REFERENCES `customization_types` (`type_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Create design customizations linking table
+CREATE TABLE `design_customizations` (
+    `design_id` INT(11) NOT NULL,
+    `choice_id` INT(11) NOT NULL,
+    PRIMARY KEY (`design_id`, `choice_id`),
+    FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`choice_id`) REFERENCES `customization_choices` (`choice_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Create design fabrics linking table
+CREATE TABLE `design_fabrics` (
+    `design_id` INT(11) NOT NULL,
+    `fabric_id` INT(11) NOT NULL,
+    `price_adjustment` DECIMAL(10, 2) DEFAULT 0.00,
+    PRIMARY KEY (`design_id`, `fabric_id`),
+    FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`fabric_id`) REFERENCES `fabrics` (`fabric_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- Insert initial categories
@@ -1100,3 +1151,13 @@ MODIFY COLUMN `status` ENUM(
     'rescheduled',
     'pending'
 ) NOT NULL DEFAULT 'pending';
+-- Create the `feedback` table
+CREATE TABLE `feedback` (
+    `feedback_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(50) NOT NULL,
+    `email` VARCHAR(100) NOT NULL,
+    `rating` INT(1) NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    `feedback_text` TEXT NOT NULL,
+    `status` ENUM('published', 'pending', 'rejected') DEFAULT 'pending',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`feedback_id`)

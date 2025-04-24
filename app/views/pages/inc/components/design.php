@@ -31,6 +31,6 @@
 
 <script>
   function selectFabric(designId) {
-    window.location.href = '<?php echo URLROOT; ?>/Orders/selectFabric/' + designId;
+    window.location.href = '<?php echo URLROOT; ?>/designs/selectFabric/' + designId;
   }
 </script>
