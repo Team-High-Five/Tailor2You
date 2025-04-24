@@ -233,11 +233,17 @@ class Shopkeepers extends Controller
 
     public function displayPortfolio()
     {
-        $posts = $this->userModel->getPostsByUserId($_SESSION['user_id']);
+        // Create instance of M_Pages model which has the like count functionality
+        $pagesModel = $this->model('M_Pages');
+        
+        // Get posts with like counts using the getPostsByUserId method
+        $posts = $pagesModel->getPostsByUserId($_SESSION['user_id']);
+        
         $data = [
             'title' => 'Portfolio',
             'posts' => $posts
         ];
+        
         $this->view('users/Shopkeeper/v_s_portfolio', $data);
     }
 

@@ -18,11 +18,37 @@
             <img src="<?php echo URLROOT; ?>/public/img/default_image.png" alt="<?php echo $post->title; ?>">
           <?php endif; ?>
           <h3><?php echo $post->title; ?></h3>
-          <p><?php echo $post->description; ?></p>
-          <p class="created-date"><?php echo date('F j, Y', strtotime($post->created_at)); ?></p>
-          <div class="portfolio-actions">
-            <button class="btn-primary edit-btn">Edit</button>
-            <button class="btn-danger delete-btn">Delete</button>
+          
+          <div class="post-metadata">
+            <div class="created-date">
+              <i class="far fa-calendar-alt"></i> <?php echo date('F j, Y', strtotime($post->created_at)); ?>
+            </div>
+            <!-- Adding like count display -->
+            <div class="like-count">
+              <i class="fas fa-heart"></i> <?php echo isset($post->like_count) ? $post->like_count : 0; ?> likes
+            </div>
+          </div>
+          
+          <div class="item-meta-info">
+            <div class="meta-item">
+              <span class="meta-label">Gender:</span>
+              <span class="gender-tag"><?php echo ucfirst($gender); ?></span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Item:</span>
+              <span class="item-type-tag"><?php echo ucfirst($itemType); ?></span>
+            </div>
+          </div>
+          
+          <div class="description-container">
+            <p><?php echo $post->description; ?></p>
+          </div>
+          
+          <div class="item-footer">
+            <div class="portfolio-actions">
+              <button class="edit-btn" data-post-id="<?php echo $post->id; ?>"><i class="fas fa-edit"></i></button>
+              <button class="delete-btn" onclick="confirmDeletePost(<?php echo $post->id; ?>)"><i class="fas fa-trash-alt"></i></button>
+            </div>
           </div>
         </div>
       <?php endforeach; ?>

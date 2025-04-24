@@ -431,3 +431,19 @@ CREATE TABLE `measurement_ranges` (
     PRIMARY KEY (`measurement_id`),
     FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+-- Create the `feedback` table
+CREATE TABLE `feedback` (
+    `feedback_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(50) NOT NULL,
+    `email` VARCHAR(100) NOT NULL,
+    `rating` INT(1) NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    `feedback_text` TEXT NOT NULL,
+    `status` ENUM(
+        'published',
+        'pending',
+        'rejected'
+    ) DEFAULT 'pending',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`feedback_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;

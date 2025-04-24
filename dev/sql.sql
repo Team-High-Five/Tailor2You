@@ -79,9 +79,27 @@ CREATE TABLE `appointments` (
     FOREIGN KEY (`tailor_shopkeeper_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
--- -----------------------------------------------------
--- 3. FABRIC AND COLOR TABLES
--- -----------------------------------------------------
+
+-- Create the `posts` table
+CREATE TABLE `posts` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `user_id` INT(11) NOT NULL,
+    `title` VARCHAR(255) NOT NULL,
+    `description` TEXT NOT NULL,
+    `gender` ENUM('men', 'women', 'unisex') DEFAULT 'unisex',
+    `item_type` ENUM(
+        'shirt',
+        'pant',
+        'frock',
+        'skirt',
+        'blouse'
+    ) NULL,
+    `image` LONGBLOB,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
 
 -- Create the `fabrics` table
 CREATE TABLE `fabrics` (
@@ -128,40 +146,6 @@ CREATE TABLE `fabric_colors` (
     FOREIGN KEY (`color_id`) REFERENCES `colors` (`color_id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
--- -----------------------------------------------------
--- 4. MEASUREMENT TABLES
--- -----------------------------------------------------
-
--- Create shirt measurements table
-CREATE TABLE `shirt_measurements` (
-    `user_id` int(11) DEFAULT NULL,
-    `measure` enum('cm', 'inch') DEFAULT NULL,
-    `collar_size` decimal(5, 2) NOT NULL,
-    `chest_width` decimal(5, 2) NOT NULL,
-    `waist_width` decimal(5, 2) NOT NULL,
-    `bottom_width` decimal(5, 2) NOT NULL,
-    `shoulder_width` decimal(5, 2) NOT NULL,
-    `sleeve_length` decimal(5, 2) NOT NULL,
-    `armhole_depth` decimal(5, 2) NOT NULL,
-    `bicep` decimal(5, 2) NOT NULL,
-    `cuff_size` decimal(5, 2) NOT NULL,
-    `front_length` decimal(5, 2) NOT NULL,
-    KEY `user_id` (`user_id`),
-    CONSTRAINT `shirt_measurements_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- Create pant measurements table
-CREATE TABLE `pant_measurements` (
-    `user_id` int(100) DEFAULT NULL,
-    `measure` enum('cm', 'inch') DEFAULT NULL,
-    `waist_width` decimal(5, 2) NOT NULL,
-    `seat` decimal(5, 2) NOT NULL,
-    `mid_thigh_width` decimal(5, 2) NOT NULL,
-    `inseam` decimal(5, 2) NOT NULL,
-    `bottom_width` decimal(5, 2) NOT NULL,
-    `rise_height_front` decimal(5, 2) NOT NULL,
-    `rise_height_back` decimal(5, 2) NOT NULL
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- -----------------------------------------------------
 -- 5. CLOTHING CATEGORY AND DESIGN TABLES
@@ -1101,6 +1085,22 @@ MODIFY COLUMN `status` ENUM(
     'pending'
 ) NOT NULL DEFAULT 'pending';
 
+-- Create the `feedback` table
+CREATE TABLE `feedback` (
+    `feedback_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(50) NOT NULL,
+    `email` VARCHAR(100) NOT NULL,
+    `rating` INT(1) NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    `feedback_text` TEXT NOT NULL,
+    `status` ENUM(
+        'published',
+        'pending',
+        'rejected'
+    ) DEFAULT 'pending',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`feedback_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
 -- Modify orders table to include the detailed order status options
 ALTER TABLE `orders`
 MODIFY COLUMN `status` ENUM(
@@ -1145,3 +1145,4 @@ CREATE TABLE `order_status_history` (
 ALTER TABLE `orders`
 ADD COLUMN `tax_amount` DECIMAL(10, 2) NOT NULL DEFAULT 0.00 AFTER `total_amount`,
 ADD COLUMN `final_amount` DECIMAL(10, 2) NOT NULL DEFAULT 0.00 AFTER `tax_amount`;
+
