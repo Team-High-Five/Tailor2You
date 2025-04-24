@@ -1,15 +1,6 @@
 <?php
-// filepath: c:\xampp\htdocs\Tailor2You\app\helpers\FileUploader.php
 class FileUploader
 {
-    /**
-     * Upload an image file to the specified directory
-     * 
-     * @param array $file The $_FILES array element
-     * @param string $targetDir The target directory (e.g., designs, customizations)
-     * @param string $prefix Optional filename prefix
-     * @return string|false The filename on success, false on failure
-     */
     public static function uploadImage($file, $targetDir, $prefix = '')
     {
         // Check if file exists and has no errors

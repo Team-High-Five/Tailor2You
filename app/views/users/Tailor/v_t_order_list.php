@@ -4,48 +4,38 @@
 <div class="main-content">
   <div class="tailor-container">
     <div class="order-list-container">
-      <div class="order-header">
-        <h2><i class="fas fa-clipboard-list"></i> Order Management</h2>
-        <a href="<?php echo URLROOT; ?>/Tailors/displayOrderProgress" class="progress-btn">
-          <i class="fas fa-tasks"></i> Order Progress
-        </a>
-      </div>
 
       <div class="filter-bar">
         <div class="filter-label">
           <i class="fas fa-filter"></i> Filter Orders
         </div>
-
-        <form method="GET" action="<?php echo URLROOT; ?>/Tailors/displayOrders" id="filterForm">
-          <select id="filter-date-range" class="filter-select" name="date_range" onchange="updateDateFilter(this.value)">
-            <option value="">All Time</option>
-            <option value="7" <?php echo (isset($_GET['date_range']) && $_GET['date_range'] == '7') ? 'selected' : ''; ?>>Last 7 Days</option>
-            <option value="30" <?php echo (isset($_GET['date_range']) && $_GET['date_range'] == '30') ? 'selected' : ''; ?>>Last 30 Days</option>
-            <option value="90" <?php echo (isset($_GET['date_range']) && $_GET['date_range'] == '90') ? 'selected' : ''; ?>>Last 3 Months</option>
-            <option value="180" <?php echo (isset($_GET['date_range']) && $_GET['date_range'] == '180') ? 'selected' : ''; ?>>Last 6 Months</option>
-          </select>
-
-          <input type="hidden" name="date" id="date-filter" value="<?php echo isset($data['filters']['date']) ? $data['filters']['date'] : ''; ?>">
-
-          <select name="status" class="filter-select">
-            <option value="">All Statuses</option>
-            <?php foreach ($data['statusOptions'] as $value => $label): ?>
-              <option value="<?php echo $value; ?>" <?php echo (isset($data['filters']['status']) && $data['filters']['status'] === $value) ? 'selected' : ''; ?>>
-                <?php echo $label; ?>
-              </option>
-            <?php endforeach; ?>
-          </select>
-
-          <button type="submit" class="apply-btn">
-            <i class="fas fa-search"></i> Apply
-          </button>
-
-          <button type="button" id="reset-filters" class="rst-btn" onclick="window.location='<?php echo URLROOT; ?>/Tailors/displayOrders'">
-            <i class="fas fa-undo"></i> Reset
-          </button>
-        </form>
+        <select id="filter-date" class="filter-select">
+          <option value="">All Dates</option>
+          <option value="today">Today</option>
+          <option value="tomorrow">Tomorrow</option>
+          <option value="week">Next 7 Days</option>
+          <option value="month">Next 30 Days</option>
+        </select>
+        <select id="filter-time" class="filter-select">
+          <option value="">All Price Ranges</option>
+          <option value="morning">Under Rs. 1,000</option>
+          <option value="afternoon">Rs. 1,000 - 3,000</option>
+          <option value="evening">Over Rs. 3,000</option>
+        </select>
+        <select id="filter-status" class="filter-select">
+          <option value="">All Statuses</option>
+          <option value="order_placed">Order Placed</option>
+          <option value="fabric_cutting">Fabric Cutting</option>
+          <option value="stitching">Stitching</option>
+          <option value="ready_for_delivery">Ready for Delivery</option>
+          <option value="delivered">Delivered</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+        <button id="reset-filters" class="rst-btn">Reset</button>
+        <a href="<?php echo URLROOT; ?>/Tailors/displayCalendar" class="calendar-btn">
+          <i class="fas fa-calendar-alt"></i> Calendar
+        </a>
       </div>
-
       <div class="table-container">
         <table class="order-table">
           <thead>
@@ -61,8 +51,14 @@
           </thead>
           <tbody>
             <?php if (!empty($data['orders'])): ?>
-              <?php foreach ($data['orders'] as $order): ?>
-                <tr>
+              <?php foreach ($data['orders'] as $order):
+                // Calculate timestamp for JS filtering
+                $orderTimestamp = strtotime($order->order_date);
+                $priceNumeric = floatval($order->total_amount);
+              ?>
+                <tr data-timestamp="<?php echo $orderTimestamp; ?>"
+                  data-price="<?php echo $priceNumeric; ?>"
+                  data-status="<?php echo $order->status; ?>">
                   <td><?php echo $order->order_id; ?></td>
                   <td>
                     <a href="<?php echo URLROOT; ?>/Tailors/displayOrderDetails/<?php echo $order->order_id; ?>" class="order-link">
@@ -115,8 +111,8 @@
                 </tr>
               <?php endforeach; ?>
             <?php else: ?>
-              <tr>
-                <td colspan="7" class="no-orders">
+              <tr class="no-orders">
+                <td colspan="7">
                   <p>No orders found</p>
                 </td>
               </tr>
@@ -128,49 +124,7 @@
   </div>
 </div>
 
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Initialize tooltips for status icons if needed
-    const statusIcons = document.querySelectorAll('.status-icon');
-
-    statusIcons.forEach(icon => {
-      // You could add a tooltip library here if you want
-      // or just use the built-in title attribute
-      const statusText = icon.nextElementSibling.textContent;
-      icon.setAttribute('title', statusText);
-    });
-  });
-    document.addEventListener('DOMContentLoaded', function() {
-      // Status icon tooltips
-      const statusIcons = document.querySelectorAll('.status-icon');
-      statusIcons.forEach(icon => {
-        const statusText = icon.nextElementSibling.textContent;
-        icon.setAttribute('title', statusText);
-      });
-
-      // Check if there's a date range selected on page load
-      const dateRangeSelect = document.getElementById('filter-date-range');
-      if (dateRangeSelect.value) {
-        updateDateFilter(dateRangeSelect.value);
-      }
-    });
-
-  // Function to update the hidden date field based on the selected range
-  function updateDateFilter(days) {
-    if (!days) {
-      document.getElementById('date-filter').value = '';
-      return;
-    }
-
-    const today = new Date();
-    const pastDate = new Date();
-    pastDate.setDate(today.getDate() - parseInt(days));
-
-    // Format date as YYYY-MM-DD
-    const formattedDate = pastDate.toISOString().split('T')[0];
-    document.getElementById('date-filter').value = formattedDate;
-  }
-</script>
-
+<!-- Include the order filter script -->
+<script src="<?php echo URLROOT; ?>/public/js/tailor/order-filter.js"></script>
 
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>

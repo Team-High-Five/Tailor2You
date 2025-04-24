@@ -4,6 +4,9 @@ require_once APPROOT . '/helpers/url_helper.php';
 require_once APPROOT . '/helpers/session_helper.php';
 
 require_once APPROOT . '/controllers/Fabrics.php';
+require_once APPROOT . '/helpers/FileUploader.php';
+
+
 
 
 
@@ -224,15 +227,83 @@ class Tailors extends Controller
         $this->view('users/Tailor/v_t_order_progress', $data);
     }
 
-    public function displayOrderDetails()
+    public function displayOrderDetails($order_id = null)
     {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+            return;
+        }
+
+        if ($order_id === null) {
+            flash('order_error', 'Invalid order ID', 'alert alert-danger');
+            redirect('Tailors/displayOrders');
+            return;
+        }
+
+        // Get order details
+        $order = $this->tailorModel->getOrderById($order_id);
+
+        // Check if order exists and belongs to this tailor
+        if (!$order || $order->tailor_id != $_SESSION['user_id']) {
+            flash('order_error', 'Order not found or you do not have permission to view it', 'alert alert-danger');
+            redirect('Tailors/displayOrders');
+            return;
+        }
+
+        // Get status options for dropdown
+        $statusOptions = $this->tailorModel->getOrderStatusOptions();
 
         $data = [
-            'title' => 'Order Details'
+            'title' => 'Order Details',
+            'order' => $order,
+            'statusOptions' => $statusOptions
         ];
+
         $this->view('users/Tailor/v_t_order_item_details', $data);
     }
+    public function updateOrderStatus($order_id = null)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+            return;
+        }
 
+        if ($order_id === null) {
+            flash('order_error', 'Invalid order ID', 'alert alert-danger');
+            redirect('Tailors/displayOrders');
+            return;
+        }
+
+        // Check if the order belongs to this tailor
+        $order = $this->tailorModel->getOrderById($order_id);
+        if (!$order || $order->tailor_id != $_SESSION['user_id']) {
+            flash('order_error', 'You do not have permission to update this order', 'alert alert-danger');
+            redirect('Tailors/displayOrders');
+            return;
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'order_id' => $order_id,
+                'status' => trim($_POST['status']),
+                'notes' => trim($_POST['notes'] ?? ''),
+                'updated_by' => $_SESSION['user_id']
+            ];
+
+            // Add method to M_Tailors:
+            if ($this->tailorModel->updateOrderStatus($data)) {
+                flash('order_success', 'Order status updated successfully', 'alert alert-success');
+                redirect('Tailors/displayOrderDetails/' . $order_id);
+            } else {
+                flash('order_error', 'Error updating order status', 'alert alert-danger');
+                redirect('Tailors/displayOrderDetails/' . $order_id);
+            }
+        } else {
+            redirect('Tailors/displayOrderDetails/' . $order_id);
+        }
+    }
     public function displayOrderMeasurements()
     {
         $data = [
