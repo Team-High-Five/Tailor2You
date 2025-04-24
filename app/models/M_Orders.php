@@ -301,14 +301,14 @@ class M_Orders
         } else {
             $nextValue = $result->next_value;
         }
-
+        $orderId = 'T2Y-' . str_pad($nextValue, 5, '0', STR_PAD_LEFT);
+        $nextValue = $nextValue + 1;
         // Increment the sequence for next use
-        $nextValue++;   
         $this->db->query('UPDATE `order_sequence` SET `next_value` = :nextValue WHERE `order_sequence`.`id` = 1;');
         $this->db->bind(':nextValue', $nextValue);
         $this->db->execute();
+
         // Format the order ID with padding (e.g., T2Y-00001)
-        $orderId = 'T2Y-' . str_pad($nextValue, 5, '0', STR_PAD_LEFT);
 
         return $orderId;
     }
@@ -377,13 +377,13 @@ class M_Orders
 
             $this->db->commitTransaction();
             return $orderId;
-
         } catch (Exception $e) {
             $this->db->rollbackTransaction();
             error_log('Order creation error: ' . $e->getMessage());
             return false;
         }
     }
+
     public function addOrderItemCustomizations($itemId, $customizations)
     {
         try {
@@ -400,9 +400,9 @@ class M_Orders
                     continue; // Skip if choice doesn't exist
                 }
 
-                // Insert into order_item_customizations table
+                // Fixed column name to match database schema
                 $this->db->query('INSERT INTO order_item_customizations 
-                             (item_id, customization_type_id, choice_id, price_adjustment) 
+                             (item_id, type_id, choice_id, price_adjustment) 
                              VALUES (:item_id, :type_id, :choice_id, :price_adjustment)');
 
                 $this->db->bind(':item_id', $itemId);
@@ -419,7 +419,6 @@ class M_Orders
             return false;
         }
     }
-
     /**
      * Add measurements to an order item
      * 

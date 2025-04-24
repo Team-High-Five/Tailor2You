@@ -60,7 +60,6 @@ class Orders extends Controller
                         // Store in session
                         $_SESSION['order_details']['fabric'] = $fabric;
 
-
                         $customizationIds = [];
                         if (isset($_SESSION['order_details']['customizations'])) {
                             foreach ($_SESSION['order_details']['customizations'] as $customization) {
@@ -234,7 +233,7 @@ class Orders extends Controller
         $selectedCustomizations = [];
         foreach ($_POST as $key => $value) {
             if (strpos($key, 'customization_') === 0) {
-                $typeId = substr($key, 14); // Remove 'customization_' to get type ID
+                $typeId = substr($key, 14);
                 $choiceId = $value;
 
                 // Get choice details to store in session
@@ -498,13 +497,10 @@ class Orders extends Controller
 
         $_SESSION['order_details']['payment'] = $paymentDetails;
 
+
         // Get user information including address
         $user = $this->orderModel->getUserAddress($_SESSION['user_id']);
 
-        // Fix this incorrect ternary operator syntax
-        // $deliveryAddress = (isset($userAddress)) ?? $userAddress ?? 'Default Address'; 
-
-        // Correct way to get delivery address
         $deliveryAddress = $user ? $user->address : 'Default Address';
 
         // Prepare the order data for database storage
@@ -565,11 +561,7 @@ class Orders extends Controller
             unset($_SESSION['clear_order_after_confirmation']);
         }
     }
-    /**
-     * Prepare order items data from session for database storage
-     * 
-     * @return array The formatted order items data
-     */
+
     private function prepareOrderItems()
     {
         $items = [];
@@ -591,11 +583,6 @@ class Orders extends Controller
         return $items;
     }
 
-    /**
-     * Calculate the total price adjustment from customizations
-     * 
-     * @return float Total customization price adjustment
-     */
     private function calculateCustomizationPrice()
     {
         $total = 0;
@@ -607,11 +594,6 @@ class Orders extends Controller
         return $total;
     }
 
-    /**
-     * Prepare customizations data for database storage
-     * 
-     * @return array The formatted customizations data
-     */
     private function prepareCustomizations()
     {
         $customizations = [];
@@ -623,13 +605,6 @@ class Orders extends Controller
         return $customizations;
     }
 
-    /**
-     * Create an appointment record in the database
-     * 
-     * @param array $appointmentData The appointment details
-     * @param int $tailorId The tailor ID
-     * @return int|null The appointment ID or null if failed
-     */
     private function createAppointment($appointmentData, $tailorId)
     {
         // Skip if this is a skipped appointment
@@ -649,9 +624,6 @@ class Orders extends Controller
         return $this->orderModel->createAppointment($appointment);
     }
 
-    /**
-     * Clear the order details from the session
-     */
     private function clearOrderSession()
     {
         // Don't immediately clear - we need this for the confirmation page
