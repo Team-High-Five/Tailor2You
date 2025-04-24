@@ -110,13 +110,15 @@ class M_Customers
         return $this->db->resultSet();
     }
 
-    public function getCustomerOrders($customer_id){
+    public function getCustomerOrders($customer_id)
+    {
         $this->db->query('Select o.*,oi.*, oi.status as order_status, u.*, d.* from orders as o join order_items as oi on oi.order_id=o.order_id join users as u on u.user_id=o.tailor_id join designs as d on d.design_id = oi.design_id where o.customer_id = :customer_id');
         $this->db->bind(':customer_id', $customer_id);
         return $this->db->resultSet();
     }
 
-    public function getCustomerOrder($customer_id, $order_id){
+    public function getCustomerOrder($customer_id, $order_id)
+    {
         $this->db->query('Select d.description as design_description, o.*,oi.*, oi.status as order_status, u.*, d.*, f.*,c.* from orders as o join order_items as oi on oi.order_id=o.order_id join users as u on u.user_id=o.tailor_id join designs as d on d.design_id = oi.design_id join colors as c on c.color_id = oi.color_id join fabrics as f on f.fabric_id=oi.fabric_id where o.customer_id = :customer_id and o.order_id = :order_id');
         $this->db->bind(':customer_id', $customer_id);
         $this->db->bind(':order_id', $order_id);
@@ -132,7 +134,7 @@ class M_Customers
                          AND um.user_id = :user_id
                          WHERE cm.category_id = 1
                          ORDER BY cm.display_order');
-        
+
         $this->db->bind(':user_id', $user_id);
         return $this->db->resultSet();
     }
@@ -147,12 +149,13 @@ class M_Customers
                          AND um.user_id = :user_id
                          WHERE cm.category_id = 2
                          ORDER BY cm.display_order');
-        
+
         $this->db->bind(':user_id', $user_id);
         return $this->db->resultSet();
     }
 
-    public function updateUserMeasurements($data) {
+    public function updateUserMeasurements($data)
+    {
         try {
             $this->db->beginTransaction();
 
@@ -179,6 +182,130 @@ class M_Customers
         } catch (Exception $e) {
             $this->db->rollbackTransaction();
             error_log('Error updating measurements: ' . $e->getMessage());
+            return false;
+        }
+    }
+    public function getRescheduleRequests($customerId)
+    {
+        $this->db->query('SELECT r.* 
+                     FROM reschedule_requests r 
+                     JOIN appointments a ON r.appointment_id = a.appointment_id 
+                     WHERE a.customer_id = :customer_id 
+                     AND r.status = "pending"
+                     AND a.status = "reschedule_pending"');
+
+        $this->db->bind(':customer_id', $customerId);
+
+        $requests = $this->db->resultSet();
+        $requestsByAppointmentId = [];
+
+        // Index requests by appointment ID for easier access
+        foreach ($requests as $request) {
+            $requestsByAppointmentId[$request->appointment_id] = $request;
+        }
+
+        return $requestsByAppointmentId;
+    }
+    public function acceptRescheduleRequest($appointmentId, $customerId)
+    {
+        try {
+            $this->db->beginTransaction();
+
+            // Verify the appointment belongs to this customer
+            $this->db->query('SELECT * FROM appointments WHERE appointment_id = :appointment_id AND customer_id = :customer_id');
+            $this->db->bind(':appointment_id', $appointmentId);
+            $this->db->bind(':customer_id', $customerId);
+
+            $appointment = $this->db->single();
+            if (!$appointment) {
+                return false;
+            }
+
+            // Get the reschedule request
+            $this->db->query('SELECT * FROM reschedule_requests WHERE appointment_id = :appointment_id AND status = "pending"');
+            $this->db->bind(':appointment_id', $appointmentId);
+
+            $request = $this->db->single();
+            if (!$request) {
+                return false;
+            }
+
+            // Update the appointment with the new date and time
+            $this->db->query('UPDATE appointments 
+                         SET appointment_date = :new_date, 
+                             appointment_time = :new_time,
+                             status = "accepted" 
+                         WHERE appointment_id = :appointment_id');
+
+            $this->db->bind(':new_date', $request->proposed_date);
+            $this->db->bind(':new_time', $request->proposed_time);
+            $this->db->bind(':appointment_id', $appointmentId);
+
+            if (!$this->db->execute()) {
+                throw new Exception('Failed to update appointment');
+            }
+
+            // Update the reschedule request status
+            $this->db->query('UPDATE reschedule_requests 
+                         SET status = "accepted" 
+                         WHERE appointment_id = :appointment_id');
+
+            $this->db->bind(':appointment_id', $appointmentId);
+
+            if (!$this->db->execute()) {
+                throw new Exception('Failed to update reschedule request');
+            }
+
+            $this->db->commitTransaction();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollbackTransaction();
+            error_log('Error accepting reschedule request: ' . $e->getMessage());
+            return false;
+        }
+    }
+    public function rejectRescheduleRequest($appointmentId, $customerId)
+    {
+        try {
+            $this->db->beginTransaction();
+
+            // Verify the appointment belongs to this customer
+            $this->db->query('SELECT * FROM appointments WHERE appointment_id = :appointment_id AND customer_id = :customer_id');
+            $this->db->bind(':appointment_id', $appointmentId);
+            $this->db->bind(':customer_id', $customerId);
+
+            $appointment = $this->db->single();
+            if (!$appointment) {
+                return false;
+            }
+
+            // Update appointment status back to "accepted"
+            $this->db->query('UPDATE appointments 
+                         SET status = "accepted" 
+                         WHERE appointment_id = :appointment_id');
+
+            $this->db->bind(':appointment_id', $appointmentId);
+
+            if (!$this->db->execute()) {
+                throw new Exception('Failed to update appointment');
+            }
+
+            // Update the reschedule request status to rejected
+            $this->db->query('UPDATE reschedule_requests 
+                         SET status = "rejected" 
+                         WHERE appointment_id = :appointment_id');
+
+            $this->db->bind(':appointment_id', $appointmentId);
+
+            if (!$this->db->execute()) {
+                throw new Exception('Failed to update reschedule request');
+            }
+
+            $this->db->commitTransaction();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollbackTransaction();
+            error_log('Error rejecting reschedule request: ' . $e->getMessage());
             return false;
         }
     }

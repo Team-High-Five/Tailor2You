@@ -195,4 +195,39 @@ class M_Tailors
 
         return $this->db->resultSet();
     }
+    public function createRescheduleRequest($data)
+    {
+        $this->db->query('INSERT INTO reschedule_requests 
+                     (appointment_id, requested_by, proposed_date, proposed_time, reason) 
+                     VALUES (:appointment_id, :requested_by, :proposed_date, :proposed_time, :reason)');
+
+        $this->db->bind(':appointment_id', $data['appointment_id']);
+        $this->db->bind(':requested_by', 'tailor'); // Since this is from the tailor
+        $this->db->bind(':proposed_date', $data['proposed_date']);
+        $this->db->bind(':proposed_time', $data['proposed_time']);
+        $this->db->bind(':reason', $data['reason']);
+
+        // Update appointment status to indicate a reschedule is pending
+        if ($this->db->execute()) {
+            $this->db->query('UPDATE appointments 
+                         SET status = "reschedule_pending" 
+                         WHERE appointment_id = :appointment_id');
+            $this->db->bind(':appointment_id', $data['appointment_id']);
+            return $this->db->execute();
+        }
+
+        return false;
+    }
+    public function getRescheduleRequestsForCustomer($customerId)
+    {
+        $this->db->query('SELECT r.*, a.customer_id, a.appointment_date as original_date, 
+                    a.appointment_time as original_time, u.first_name, u.last_name 
+                    FROM reschedule_requests r 
+                    JOIN appointments a ON r.appointment_id = a.appointment_id 
+                    JOIN users u ON a.tailor_shopkeeper_id = u.user_id 
+                    WHERE a.customer_id = :customer_id AND r.status = "pending"');
+
+        $this->db->bind(':customer_id', $customerId);
+        return $this->db->resultSet();
+    }
 }

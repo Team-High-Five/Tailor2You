@@ -152,16 +152,16 @@ CREATE TABLE `shirt_measurements` (
 
 -- Create pant measurements table
 CREATE TABLE `pant_measurements` (
-  `user_id` int(100) DEFAULT NULL,
-  `measure` enum('cm','inch') DEFAULT NULL,
-  `waist_width` decimal(5,2) NOT NULL,
-  `seat` decimal(5,2) NOT NULL,
-  `mid_thigh_width` decimal(5,2) NOT NULL,
-  `inseam` decimal(5,2) NOT NULL,
-  `bottom_width` decimal(5,2) NOT NULL,
-  `rise_height_front` decimal(5,2) NOT NULL,
-  `rise_height_back` decimal(5,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    `user_id` int(100) DEFAULT NULL,
+    `measure` enum('cm', 'inch') DEFAULT NULL,
+    `waist_width` decimal(5, 2) NOT NULL,
+    `seat` decimal(5, 2) NOT NULL,
+    `mid_thigh_width` decimal(5, 2) NOT NULL,
+    `inseam` decimal(5, 2) NOT NULL,
+    `bottom_width` decimal(5, 2) NOT NULL,
+    `rise_height_front` decimal(5, 2) NOT NULL,
+    `rise_height_back` decimal(5, 2) NOT NULL
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- -----------------------------------------------------
 -- 5. CLOTHING CATEGORY AND DESIGN TABLES
@@ -1073,3 +1073,30 @@ WHERE
         'front_rise',
         'back_rise'
     );
+
+-- new tables since 24/4/2025
+CREATE TABLE `reschedule_requests` (
+    `request_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `appointment_id` INT(11) NOT NULL,
+    `requested_by` ENUM('tailor', 'customer') NOT NULL,
+    `proposed_date` DATE NOT NULL,
+    `proposed_time` TIME NOT NULL,
+    `reason` TEXT NOT NULL,
+    `status` ENUM(
+        'pending',
+        'accepted',
+        'rejected'
+    ) DEFAULT 'pending',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`request_id`),
+    FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`appointment_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+ALTER TABLE `appointments`
+MODIFY COLUMN `status` ENUM(
+    'accepted',
+    'reschedule_pending',
+    'rejected',
+    'rescheduled',
+    'pending'
+) NOT NULL DEFAULT 'pending';
