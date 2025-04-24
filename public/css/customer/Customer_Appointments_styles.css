@@ -1,3 +1,4 @@
+/* Main container */
 .cusmain {
     display: flex;
     justify-content: center;
@@ -5,6 +6,7 @@
     padding: 2rem;
 }
 
+/* Appointment container */
 .cusmain .cusappointment-container {
     width: 100%;
     max-width: 900px;
@@ -17,6 +19,7 @@
     box-shadow: var(--elegant-shadow);
 }
 
+/* Individual appointment card */
 .cusmain .cusappointment {
     display: flex;
     align-items: center;
@@ -29,6 +32,7 @@
     transition: var(--transition);
 }
 
+/* Hover effect for appointment card */
 .cusmain .cusappointment:hover {
     transform: translateY(-3px);
     box-shadow: var(--accent-shadow);
@@ -39,6 +43,7 @@
     border-bottom: none;
 }
 
+/* Calendar display styling */
 .cusmain .calendar {
     min-width: 120px;
     padding: 1rem;
@@ -72,6 +77,7 @@
     font-weight: 500;
 }
 
+/* Appointment details */
 .cusmain .details {
     flex: 1;
 }
@@ -89,6 +95,7 @@
     margin-bottom: 1rem;
 }
 
+/* Tailor info */
 .cusmain .tailor-info {
     display: flex;
     align-items: center;
@@ -117,7 +124,7 @@
     font-weight: 500;
 }
 
-/* Update the actions section styling */
+/* Action section */
 .cusmain .actions {
     display: flex;
     flex-direction: column;
@@ -142,30 +149,86 @@
     text-transform: capitalize;
 }
 
-/* Status-specific styles */
+/* Status badge styling */
 .cusmain .status {
     cursor: default;
     opacity: 0.9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+.cusmain .status::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+/* Status-specific styles using variables */
 .cusmain .status.pending {
-    background: linear-gradient(135deg, #ffd700 0%, #ffa500 100%);
-    color: #000000;
+    background-color: var(--status-pending-bg);
+    color: var(--status-pending-color);
+}
+
+.cusmain .status.pending::before {
+    background-color: var(--status-pending-color);
+}
+
+.cusmain .status.accepted {
+    background-color: var(--status-accepted-bg);
+    color: var(--status-accepted-color);
+}
+
+.cusmain .status.accepted::before {
+    background-color: var(--status-accepted-color);
 }
 
 .cusmain .status.confirmed {
-    background: var(--accent-gradient);
-    color: var(--white-color);
+    background-color: var(--status-confirmed-bg);
+    color: var(--status-confirmed-color);
+}
+
+.cusmain .status.confirmed::before {
+    background-color: var(--status-confirmed-color);
 }
 
 .cusmain .status.completed {
-    background: var(--success-gradient);
-    color: var(--white-color);
+    background-color: var(--status-completed-bg);
+    color: var(--status-completed-color);
+}
+
+.cusmain .status.completed::before {
+    background-color: var(--status-completed-color);
+}
+
+.cusmain .status.rejected {
+    background-color: var(--status-rejected-bg);
+    color: var(--status-rejected-color);
+}
+
+.cusmain .status.rejected::before {
+    background-color: var(--status-rejected-color);
 }
 
 .cusmain .status.cancelled {
-    background: var(--danger-gradient);
-    color: var(--white-color);
+    background-color: var(--status-rejected-bg);
+    color: var(--status-rejected-color);
+}
+
+.cusmain .status.cancelled::before {
+    background-color: var(--status-rejected-color);
+}
+
+.cusmain .status.reschedule_pending {
+    background-color: var(--status-reschedule_pending-bg);
+    color: var(--status-reschedule_pending-color);
+}
+
+.cusmain .status.reschedule_pending::before {
+    background-color: var(--status-reschedule_pending-color);
 }
 
 /* Reschedule button */
@@ -190,6 +253,9 @@
     color: var(--white-color);
     cursor: pointer;
     min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .cusmain .cancel:hover {
@@ -209,6 +275,95 @@
 .cusmain .action-link:hover {
     color: var(--accent-hover);
     text-decoration: none;
+}
+
+/* Reschedule request styling */
+.cusmain .reschedule-request {
+    border: 2px solid var(--status-reschedule_pending-color);
+    background: linear-gradient(to right, rgba(0, 198, 229, 0.05), rgba(255, 255, 255, 0.02));
+}
+
+.cusmain .reschedule-notification {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 10px 0;
+    padding: 12px;
+    background-color: var(--status-reschedule_pending-bg);
+    border-left: 4px solid var(--status-reschedule_pending-color);
+    border-radius: 4px;
+}
+
+.cusmain .reschedule-icon {
+    color: var(--status-reschedule_pending-color);
+    font-size: 24px;
+    margin-top: 3px;
+}
+
+.cusmain .reschedule-message h4 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    color: var(--status-reschedule_pending-color);
+}
+
+.cusmain .reschedule-message p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+.cusmain .new-time {
+    font-size: 15px !important;
+    color: #fff;
+}
+
+.cusmain .reschedule-reason {
+    font-style: italic;
+    opacity: 0.9;
+}
+
+/* Reschedule actions styling */
+.cusmain .reschedule-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+    width: 100%;
+}
+
+.cusmain .accept-btn,
+.cusmain .reject-btn {
+    flex: 1;
+    padding: 8px 0;
+    border-radius: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    font-size: 13px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cusmain .accept-btn {
+    background-color: var(--status-accepted-bg);
+    color: var(--status-accepted-color);
+    border: 1px solid var(--status-accepted-color);
+}
+
+.cusmain .reject-btn {
+    background-color: var(--status-rejected-bg);
+    color: var(--status-rejected-color);
+    border: 1px solid var(--status-rejected-color);
+}
+
+.cusmain .accept-btn:hover {
+    background-color: rgba(143, 188, 143, 0.3);
+    transform: translateY(-2px);
+}
+
+.cusmain .reject-btn:hover {
+    background-color: rgba(244, 67, 54, 0.3);
+    transform: translateY(-2px);
 }
 
 /* No Appointments Styling */
@@ -254,30 +409,6 @@
     box-shadow: var(--accent-shadow);
 }
 
-/* Media query update */
-@media screen and (max-width: 768px) {
-    .cusmain .cusappointment {
-        flex-direction: column;
-        text-align: center;
-        gap: 1.5rem;
-    }
-
-    .cusmain .calendar {
-        min-width: 100px;
-    }
-
-    .cusmain .actions {
-        width: 100%;
-        padding: 0 1rem;
-    }
-
-    .cusmain .status,
-    .cusmain .reschedule-btn,
-    .cusmain .cancel {
-        max-width: 200px;
-    }
-}
-
 /* Form group select styling */
 .form-group select {
     width: 100%;
@@ -301,4 +432,62 @@
     background-color: var(--primary-color);
     color: var(--white-color);
     padding: 10px;
+}
+
+/* Media query update */
+@media screen and (max-width: 768px) {
+    .cusmain .cusappointment {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+    }
+
+    .cusmain .reschedule-notification {
+        text-align: left;
+    }
+
+    .cusmain .calendar {
+        min-width: 100px;
+    }
+
+    .cusmain .actions {
+        width: 100%;
+        padding: 0 1rem;
+    }
+
+    .cusmain .status,
+    .cusmain .reschedule-btn,
+    .cusmain .cancel {
+        max-width: 200px;
+        margin: 0 auto;
+    }
+
+    .cusmain .reschedule-actions {
+        width: 100%;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .cusmain {
+        padding: 1rem;
+    }
+
+    .cusmain .cusappointment-container {
+        padding: 1rem;
+    }
+
+    .cusmain .cusappointment {
+        padding: 1rem;
+    }
+
+    .cusmain .calendar {
+        min-width: 100px;
+        padding: 0.75rem;
+    }
+
+    .cusmain .calendar .date {
+        font-size: 1.75rem;
+    }
 }

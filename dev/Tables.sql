@@ -85,7 +85,7 @@ CREATE TABLE `appointments` (
     `appointment_time` TIME NOT NULL,
     `status` ENUM(
         'accepted',
-        'processing',
+        'reschedule_pending',
         'rejected',
         'pending'
     ) NOT NULL DEFAULT 'pending',
