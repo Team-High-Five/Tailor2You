@@ -152,16 +152,16 @@ CREATE TABLE `shirt_measurements` (
 
 -- Create pant measurements table
 CREATE TABLE `pant_measurements` (
-  `user_id` int(100) DEFAULT NULL,
-  `measure` enum('cm','inch') DEFAULT NULL,
-  `waist_width` decimal(5,2) NOT NULL,
-  `seat` decimal(5,2) NOT NULL,
-  `mid_thigh_width` decimal(5,2) NOT NULL,
-  `inseam` decimal(5,2) NOT NULL,
-  `bottom_width` decimal(5,2) NOT NULL,
-  `rise_height_front` decimal(5,2) NOT NULL,
-  `rise_height_back` decimal(5,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    `user_id` int(100) DEFAULT NULL,
+    `measure` enum('cm', 'inch') DEFAULT NULL,
+    `waist_width` decimal(5, 2) NOT NULL,
+    `seat` decimal(5, 2) NOT NULL,
+    `mid_thigh_width` decimal(5, 2) NOT NULL,
+    `inseam` decimal(5, 2) NOT NULL,
+    `bottom_width` decimal(5, 2) NOT NULL,
+    `rise_height_front` decimal(5, 2) NOT NULL,
+    `rise_height_back` decimal(5, 2) NOT NULL
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- -----------------------------------------------------
 -- 5. CLOTHING CATEGORY AND DESIGN TABLES
@@ -1073,3 +1073,75 @@ WHERE
         'front_rise',
         'back_rise'
     );
+
+-- new tables since 24/4/2025
+CREATE TABLE `reschedule_requests` (
+    `request_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `appointment_id` INT(11) NOT NULL,
+    `requested_by` ENUM('tailor', 'customer') NOT NULL,
+    `proposed_date` DATE NOT NULL,
+    `proposed_time` TIME NOT NULL,
+    `reason` TEXT NOT NULL,
+    `status` ENUM(
+        'pending',
+        'accepted',
+        'rejected'
+    ) DEFAULT 'pending',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`request_id`),
+    FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`appointment_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+ALTER TABLE `appointments`
+MODIFY COLUMN `status` ENUM(
+    'accepted',
+    'reschedule_pending',
+    'rejected',
+    'rescheduled',
+    'pending'
+) NOT NULL DEFAULT 'pending';
+
+-- Modify orders table to include the detailed order status options
+ALTER TABLE `orders`
+MODIFY COLUMN `status` ENUM(
+    'order_placed',
+    'fabric_cutting',
+    'stitching',
+    'ready_for_delivery',
+    'delivered',
+    'cancelled'
+) DEFAULT 'order_placed';
+
+-- Update order_items table with the same status options for consistency
+ALTER TABLE `order_items`
+MODIFY COLUMN `status` ENUM(
+    'order_placed',
+    'fabric_cutting',
+    'stitching',
+    'ready_for_delivery',
+    'delivered',
+    'cancelled'
+) DEFAULT 'order_placed';
+
+CREATE TABLE `order_status_history` (
+    `history_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `order_id` VARCHAR(20) NOT NULL,
+    `status` ENUM(
+        'order_placed',
+        'fabric_cutting',
+        'stitching',
+        'ready_for_delivery',
+        'delivered',
+        'cancelled'
+    ) NOT NULL,
+    `status_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_by` INT(11) NOT NULL COMMENT 'User ID who updated the status',
+    `notes` TEXT NULL,
+    PRIMARY KEY (`history_id`),
+    FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`updated_by`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+ALTER TABLE `orders`
+ADD COLUMN `tax_amount` DECIMAL(10, 2) NOT NULL DEFAULT 0.00 AFTER `total_amount`,
+ADD COLUMN `final_amount` DECIMAL(10, 2) NOT NULL DEFAULT 0.00 AFTER `tax_amount`;

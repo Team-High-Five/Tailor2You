@@ -75,7 +75,7 @@
             <span>Rs. <?php echo isset($_SESSION['order_details']['total_price']) ? number_format($_SESSION['order_details']['total_price'], 2) : '0.00'; ?></span>
         </div>
         <div class="taxes">
-            <span>Tax (12%):</span>
+            <span>Platform Fee (12%):</span>
             <span>Rs. <?php
                         $tax = isset($_SESSION['order_details']['total_price']) ? $_SESSION['order_details']['total_price'] * 0.12 : 0;
                         echo number_format($tax, 2);

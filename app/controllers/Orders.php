@@ -486,28 +486,35 @@ class Orders extends Controller
         $paymentMethod = $_POST['payment_method'] ?? 'cod';
         $orderNumber = $this->orderModel->generateOrderId();
 
-        // Log payment details
+        // Calculate tax and final amount
+        $baseAmount = $_SESSION['order_details']['subtotal'];
+        $taxAmount = $baseAmount * 0.12;
+        $finalAmount = $baseAmount + $taxAmount;
+
         $paymentDetails = [
             'order_number' => $orderNumber,
             'payment_method' => $paymentMethod,
-            'amount' => $_SESSION['order_details']['total_price'],
+            'base_amount' => $baseAmount,
+            'tax_amount' => $taxAmount,
+            'final_amount' => $finalAmount,
             'status' => 'completed',
             'date' => date('Y-m-d H:i:s')
         ];
 
         $_SESSION['order_details']['payment'] = $paymentDetails;
 
-
         // Get user information including address
         $user = $this->orderModel->getUserAddress($_SESSION['user_id']);
 
         $deliveryAddress = $user ? $user->address : 'Default Address';
 
-        // Prepare the order data for database storage
+
         $orderData = [
             'customer_id' => $_SESSION['user_id'],
             'tailor_id' => $_SESSION['order_details']['design']->user_id,
-            'total_amount' => $_SESSION['order_details']['total_price'],
+            'total_amount' => $baseAmount,
+            'tax_amount' => $taxAmount,
+            'final_amount' => $finalAmount,
             'delivery_address' => $deliveryAddress,
             'notes' => $_POST['notes'] ?? null,
             'items' => $this->prepareOrderItems()
@@ -525,6 +532,7 @@ class Orders extends Controller
             $orderData['appointment_id'] = null;
         }
 
+        $orderData['order_id'] = $orderNumber;
         // Save to database
         $createdOrderId = $this->orderModel->createOrder($orderData);
 
@@ -571,11 +579,11 @@ class Orders extends Controller
             'design_id' => $_SESSION['order_details']['design']->design_id,
             'fabric_id' => $_SESSION['order_details']['fabric']->fabric_id,
             'color_id' => $_SESSION['order_details']['color']->color_id,
-            'quantity' => 1, // Default to 1 for now
+            'quantity' => 1,
             'base_price' => $_SESSION['order_details']['design']->base_price,
             'fabric_price' => $_SESSION['order_details']['fabric']->price_adjustment ?? 0,
             'customization_price' => $this->calculateCustomizationPrice(),
-            'total_price' => $_SESSION['order_details']['total_price'],
+            'total_price' => $_SESSION['order_details']['subtotal'],
             'customizations' => $this->prepareCustomizations(),
             'measurements' => $_SESSION['order_details']['measurements'] ?? []
         ];
