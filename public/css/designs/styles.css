@@ -1,6 +1,8 @@
 @import url('../pages/topnav.css');
 @import url('Select_Fabric_styles.css');
 @import url('Enter_Measurement_styles.css');
+@import url('Customizations.css');
+@import url('Order_Summery.css');
 @import url('Select_Color_styles.css');
 @import url('Appointment.css');
 @import url('Order_Confirmation_styles.css');
@@ -46,12 +48,13 @@
 --------------------------------------------------------------*/
 
 .design-image-container {
-    position: sticky;
-    top: 50%;
-    transform: translateY(-50%);
+    margin-top: 40px;
+    top: 2rem;
+    transform: none;
+    flex: 3;
     align-self: flex-start;
     height: fit-content;
-    max-height: 90vh;
+    max-height: 100vh;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -60,20 +63,37 @@
     border-radius: 1.5rem;
     border: 1px solid var(--glass-effect);
     box-shadow: var(--elegant-shadow);
+    overflow: auto;
+}
+
+.design-image-wrapper {
+    width: 100%;
+    height: 100%;
+    max-height: 40vh;
+    min-height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
+    border-radius: 1rem;
 }
 
 .design-image-container img {
     width: 100%;
     height: auto;
-    max-height: 50vh;
+    max-height: 40vh;
+    min-height: 40vh;
     border-radius: 1rem;
     object-fit: cover;
     transition: var(--transition);
 }
 
+.design-details {
+    padding: 0.5rem 0;
+}
+
 .design-details .design-name {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--text-light);
     margin-bottom: 0.5rem;
@@ -82,17 +102,24 @@
 }
 
 .design-details .design-description {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--text-muted);
-    line-height: 1.6;
+    line-height: 1.5;
+    text-align: center;
+    max-height: 15vh;
+    overflow-y: auto;
+    padding: 0 0.5rem;
 }
 
 /*--------------------------------------------------------------
 # COMMON CONTENT CONTAINERS
 --------------------------------------------------------------*/
 .design-details-container {
+    margin-top: 40px;
     flex: 7;
     margin-right: 2rem;
+    width: 100%;
+    max-width: 100%;
 }
 
 /*--------------------------------------------------------------
@@ -125,7 +152,7 @@
 }
 
 /*--------------------------------------------------------------
-# COMMON BUTTON STYLES
+# NAVIGATION BUTTONS - UPDATED
 --------------------------------------------------------------*/
 
 .button-group {
@@ -200,16 +227,20 @@
     background: var(--accent-gradient);
     color: var(--text-light);
     border: none;
-    padding: 1.25rem 3.5rem;
+    padding: 0.875rem 1.75rem;
     border-radius: 0.75rem;
     font-weight: 600;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: var(--transition);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
     display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
+    justify-content: center;
+    gap: 0.5rem;
+    flex: 1;
+    max-width: 160px;
 }
 
 .continue-btn:hover {
@@ -360,7 +391,7 @@
 --------------------------------------------------------------*/
 @media (max-width: 1200px) {
     .design-page-container {
-        flex-direction: column-reverse;
+        flex-direction: column;
         padding: 2rem;
         gap: 2rem;
     }
@@ -368,11 +399,9 @@
     .design-image-container {
         position: relative;
         top: 0;
-        transform: none;
         width: 100%;
-        flex-direction: row;
-        align-items: center;
         max-height: none;
+        margin-bottom: 2rem;
     }
 
     .design-image-container img {
@@ -386,9 +415,21 @@
     }
 }
 
+@media (max-width: 992px) {
+    .button-group {
+        flex-direction: row;
+    }
+
+    .back-btn,
+    .continue-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.85rem;
+    }
+}
+
 @media (max-width: 768px) {
     .design-page-container {
-        padding: 1.5rem;
+        padding: 1.25rem;
         gap: 1.5rem;
     }
 
@@ -403,12 +444,47 @@
         max-width: none;
     }
 
+    .design-details .design-name {
+        font-size: 1.25rem;
+    }
+
     .form-header span {
         font-size: 1.75rem;
     }
 
+    .button-group {
+        margin-top: 2rem;
+    }
+
+    .back-btn,
     .continue-btn {
-        padding: 1.125rem 2.5rem;
+        padding: 0.75rem 1.25rem;
+        min-width: 100px;
+    }
+
+    .order-summary {
+        margin-top: 1.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .button-group {
+        flex-direction: column-reverse;
+        width: 100%;
+        gap: 1rem;
+    }
+
+    .back-btn,
+    .continue-btn {
+        width: 100%;
+        max-width: 100%;
+        padding: 0.875rem 0;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .continue-btn {
+        margin-bottom: 1rem;
     }
 }
 
@@ -424,6 +500,8 @@
 
     .continue-btn {
         width: 100%;
-        padding: 1.125rem 0;
+        padding: 0.875rem 0;
+        text-align: center;
+        font-size: 0.9rem;
     }
 }

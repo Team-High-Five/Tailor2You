@@ -22,16 +22,22 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --- Customization Choice Management ---
-    const optionSection = document.querySelector('.option-section');
-    const choiceTemplate = document.querySelector('#choice-template .choice-item');
+    const customizationsTab = document.querySelector('#customizations');
+    // Get the template from the hidden div
+    const choiceTemplate = document.getElementById('choice-template').firstElementChild;
 
-    if (optionSection && choiceTemplate) {
+    if (customizationsTab && choiceTemplate) {
         // -- Add Choice Button Click --
         const addChoiceButtons = document.querySelectorAll('.add-choice');
         addChoiceButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const typeId = this.getAttribute('data-type');
-                const choicesContainer = this.closest('.option-photo').querySelector(`.customization-choices[data-type="${typeId}"]`);
+                const choicesContainer = document.querySelector(`.customization-choices[data-type="${typeId}"]`);
+
+                if (!choicesContainer) {
+                    console.error(`Container for type ${typeId} not found`);
+                    return;
+                }
 
                 // Clone the template
                 const newChoice = choiceTemplate.cloneNode(true);
@@ -47,6 +53,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // Setup image preview handling for this new choice
                 setupChoiceImageHandling(newChoice);
+
+                // Update accordion height to accommodate new content
+                const accordionContent = choicesContainer.closest('.accordion-content');
+                if (accordionContent && accordionContent.style.maxHeight) {
+                    accordionContent.style.maxHeight = accordionContent.scrollHeight + 'px';
+                }
             });
         });
 
@@ -77,18 +89,30 @@ document.addEventListener('DOMContentLoaded', function () {
             const removeButton = choiceItem.querySelector('.remove-choice');
             if (removeButton) {
                 removeButton.addEventListener('click', function () {
+                    const accordionContent = choiceItem.closest('.accordion-content');
                     choiceItem.remove();
+
+                    // Update accordion height after removing content
+                    if (accordionContent && accordionContent.style.maxHeight) {
+                        accordionContent.style.maxHeight = accordionContent.scrollHeight + 'px';
+                    }
                 });
             }
         }
 
-        // --- Event delegation for dynamic elements ---
-        optionSection.addEventListener('click', function (e) {
+        // --- Event delegation for dynamic elements (using the customizations tab) ---
+        customizationsTab.addEventListener('click', function (e) {
             // Handle clicks on remove buttons
             if (e.target.classList.contains('remove-choice')) {
                 const choiceItem = e.target.closest('.choice-item');
                 if (choiceItem) {
+                    const accordionContent = choiceItem.closest('.accordion-content');
                     choiceItem.remove();
+
+                    // Update accordion height after removing content
+                    if (accordionContent && accordionContent.style.maxHeight) {
+                        accordionContent.style.maxHeight = accordionContent.scrollHeight + 'px';
+                    }
                 }
             }
 

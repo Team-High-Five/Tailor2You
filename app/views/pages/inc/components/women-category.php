@@ -33,7 +33,7 @@
         <div class="card">
             <div class="card-content">
                 <h4>custom</h4>
-                <h2>Tailored Blouses</h2>
+                <h2>Tailored Pants</h2>
                 <a href="<?php echo URLROOT ?>/pages/womenBlouseCategories"> <button>Explore now</button></a>
             </div>
             <img src="<?php echo URLROOT; ?>/public/img/home/blouseDesign.jpeg" alt="Tailored skirt">
