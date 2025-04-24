@@ -82,8 +82,6 @@
     --danger-color: #ff4d4d;
     --danger-dark-color: #d43f3f;
     --error-color: #d9534f;
-    --warning-gradient: linear-gradient(135deg, #ffcc00 0%, #ffb300 100%);
-    --warning-shadow: 0 8px 16px rgba(255, 204, 0, 0.3);
 
     /* Borders & Inputs */
     --border-color: #e0e0e0;
@@ -121,8 +119,6 @@
     --status-completed-color: #1565c0;
     --status-rejected-bg: rgba(244, 67, 54, 0.15);
     --status-rejected-color: #c62828;
-    --status-reschedule_pending-bg: rgba(11, 7, 72, 0.15);
-    --status-reschedule_pending-color: #00c6e5;
 
     /* Dark Theme Status Colors (for reference) */
     --status-pending-bg-dark: rgba(255, 193, 7, 0.2);

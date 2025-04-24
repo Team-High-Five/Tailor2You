@@ -79,9 +79,25 @@ CREATE TABLE `appointments` (
     FOREIGN KEY (`tailor_shopkeeper_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
--- -----------------------------------------------------
--- 3. FABRIC AND COLOR TABLES
--- -----------------------------------------------------
+-- Create the `posts` table
+CREATE TABLE `posts` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `user_id` INT(11) NOT NULL,
+    `title` VARCHAR(255) NOT NULL,
+    `description` TEXT NOT NULL,
+    `gender` ENUM('men', 'women', 'unisex') DEFAULT 'unisex',
+    `item_type` ENUM(
+        'shirt',
+        'pant',
+        'frock',
+        'skirt',
+        'blouse'
+    ) NULL,
+    `image` LONGBLOB,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- Create the `fabrics` table
 CREATE TABLE `fabrics` (
@@ -145,12 +161,16 @@ CREATE TABLE `shirt_measurements` (
     `armhole_depth` decimal(5, 2) NOT NULL,
     `bicep` decimal(5, 2) NOT NULL,
     `cuff_size` decimal(5, 2) NOT NULL,
-    `front_length` decimal(5, 2) NOT NULL,
-    KEY `user_id` (`user_id`),
-    CONSTRAINT `shirt_measurements_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+    `front_length` decimal(5, 2) NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
--- Create pant measurements table
+ALTER TABLE `shirt_measurements` ADD KEY `user_id` (`user_id`);
+
+ALTER TABLE `shirt_measurements`
+ADD CONSTRAINT `shirt_measurements_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`);
+
+COMMIT;
+
 CREATE TABLE `pant_measurements` (
     `user_id` int(100) DEFAULT NULL,
     `measure` enum('cm', 'inch') DEFAULT NULL,
@@ -163,9 +183,7 @@ CREATE TABLE `pant_measurements` (
     `rise_height_back` decimal(5, 2) NOT NULL
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
--- -----------------------------------------------------
--- 5. CLOTHING CATEGORY AND DESIGN TABLES
--- -----------------------------------------------------
+--- Design Tables ---
 
 -- Create clothing categories table
 CREATE TABLE `clothing_categories` (
@@ -500,7 +518,7 @@ VALUES (
         'Different closure types'
     );
 
-<<<<<<< HEAD
+<< << << < HEAD
 -- Create the `feedback` table
 CREATE TABLE `feedback` (
     `feedback_id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -508,11 +526,16 @@ CREATE TABLE `feedback` (
     `email` VARCHAR(100) NOT NULL,
     `rating` INT(1) NOT NULL CHECK (rating BETWEEN 1 AND 5),
     `feedback_text` TEXT NOT NULL,
-    `status` ENUM('published', 'pending', 'rejected') DEFAULT 'pending',
+    `status` ENUM(
+        'published',
+        'pending',
+        'rejected'
+    ) DEFAULT 'pending',
     `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`feedback_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-=======
+
+= = = = = = =
 -- Insert common pant measurements
 INSERT INTO
     `measurements` (
@@ -701,4 +724,21 @@ MODIFY COLUMN `status` ENUM(
     'rescheduled',
     'pending'
 ) NOT NULL DEFAULT 'pending';
+
+-- Create the `feedback` table
+CREATE TABLE `feedback` (
+    `feedback_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(50) NOT NULL,
+    `email` VARCHAR(100) NOT NULL,
+    `rating` INT(1) NOT NULL CHECK (rating BETWEEN 1 AND 5),
+    `feedback_text` TEXT NOT NULL,
+    `status` ENUM(
+        'published',
+        'pending',
+        'rejected'
+    ) DEFAULT 'pending',
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`feedback_id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
 >>>>>>> parent of 247152e (Merge pull request #74 from Team-High-Five/rangi-2)
