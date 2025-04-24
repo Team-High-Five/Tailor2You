@@ -131,3 +131,21 @@
     height: 6px;
   }
 }
+
+#rescheduleAppointmentModal .submit-btn {
+  background: var(--accent-gradient);
+  color: var(--text-light);
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.85rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+#rescheduleAppointmentModal .submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(196, 167, 125, 0.2);
+} 
