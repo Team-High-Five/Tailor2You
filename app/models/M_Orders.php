@@ -303,8 +303,10 @@ class M_Orders
         }
 
         // Increment the sequence for next use
-        $this->db->query('UPDATE order_sequence SET next_value = next_value + 1 WHERE id = 1');
         $nextValue++;   
+        $this->db->query('UPDATE `order_sequence` SET `next_value` = :nextValue WHERE `order_sequence`.`id` = 1;');
+        $this->db->bind(':nextValue', $nextValue);
+        $this->db->execute();
         // Format the order ID with padding (e.g., T2Y-00001)
         $orderId = 'T2Y-' . str_pad($nextValue, 5, '0', STR_PAD_LEFT);
 
