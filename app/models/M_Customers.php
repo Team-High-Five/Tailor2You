@@ -110,15 +110,13 @@ class M_Customers
         return $this->db->resultSet();
     }
 
-    public function getCustomerOrders($customer_id)
-    {
+    public function getCustomerOrders($customer_id){
         $this->db->query('Select o.*,oi.*, oi.status as order_status, u.*, d.* from orders as o join order_items as oi on oi.order_id=o.order_id join users as u on u.user_id=o.tailor_id join designs as d on d.design_id = oi.design_id where o.customer_id = :customer_id');
         $this->db->bind(':customer_id', $customer_id);
         return $this->db->resultSet();
     }
 
-    public function getCustomerOrder($customer_id, $order_id)
-    {
+    public function getCustomerOrder($customer_id, $order_id){
         $this->db->query('Select d.description as design_description, o.*,oi.*, oi.status as order_status, u.*, d.*, f.*,c.* from orders as o join order_items as oi on oi.order_id=o.order_id join users as u on u.user_id=o.tailor_id join designs as d on d.design_id = oi.design_id join colors as c on c.color_id = oi.color_id join fabrics as f on f.fabric_id=oi.fabric_id where o.customer_id = :customer_id and o.order_id = :order_id');
         $this->db->bind(':customer_id', $customer_id);
         $this->db->bind(':order_id', $order_id);
@@ -134,7 +132,7 @@ class M_Customers
                          AND um.user_id = :user_id
                          WHERE cm.category_id = 1
                          ORDER BY cm.display_order');
-
+        
         $this->db->bind(':user_id', $user_id);
         return $this->db->resultSet();
     }
@@ -149,13 +147,12 @@ class M_Customers
                          AND um.user_id = :user_id
                          WHERE cm.category_id = 2
                          ORDER BY cm.display_order');
-
+        
         $this->db->bind(':user_id', $user_id);
         return $this->db->resultSet();
     }
 
-    public function updateUserMeasurements($data)
-    {
+    public function updateUserMeasurements($data) {
         try {
             $this->db->beginTransaction();
 
@@ -308,5 +305,17 @@ class M_Customers
             error_log('Error rejecting reschedule request: ' . $e->getMessage());
             return false;
         }
+    }
+    public function getAppointmentDetails($appointmentId) {
+        $this->db->query('SELECT a.*, 
+                         u.first_name as tailor_first_name, 
+                         u.last_name as tailor_last_name,
+                         u.profile_pic as tailor_profile_pic
+                         FROM appointments a
+                         JOIN users u ON a.tailor_shopkeeper_id = u.user_id
+                         WHERE a.appointment_id = :appointment_id');
+                         
+        $this->db->bind(':appointment_id', $appointmentId);
+        return $this->db->single();
     }
 }
