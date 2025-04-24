@@ -1,7 +1,7 @@
 <?php require_once APPROOT . '/views/users/Customer/inc/Header.php'; ?>
 <?php require_once APPROOT . '/views/users/Customer/inc/sideBar.php'; ?>
 <?php require_once APPROOT . '/views/users/Customer/inc/topNavBar.php'; ?>
-<link rel='stylesheet' type='text/css' media='screen' href='<?php echo URLROOT; ?>/public/css/customer/profilebuttons_styles.css'>
+<link rel='stylesheet' type='text/css' media='screen' href='<?php echo URLROOT; ?>/public/css/customer/changepassword.css'>
 <script src="<?php echo URLROOT; ?>/public/js/customer/changepass-validations.js"></script>
 
 <div class="passcontainer">

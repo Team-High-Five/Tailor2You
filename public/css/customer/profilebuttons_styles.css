@@ -51,24 +51,29 @@ body {
 }
 .main-content .content {
   background: var(--card-gradient);
-  padding: 2rem;
-  margin: 10px 300px 100px 300px;
   border-radius: 16px;
+  border: 1px solid rgba(196, 167, 125, 0.15);
   box-shadow: var(--elegant-shadow);
-}
-.main-content .content h2 {
-  text-align: center;
-  margin-bottom: 2rem;
-  color: var(--accent-color);
-}
-.main-content .content .change-form {
-  max-width: 400px;
+  padding: 2rem;
+  max-width: 800px;
   margin: 0 auto;
 }
+.main-content .content h2 {
+  color: var(--white-color);
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(196, 167, 125, 0.1);
+}
+.main-content .content .change-form {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 1.5rem;
+  align-items: center;
+}
 .main-content .content .change-form label {
-  display: block;
-  margin-bottom: 8px;
-  color: var(--text-color);
+  color: var(--text-muted);
   font-size: 0.95rem;
 }
 .main-content .content .change-form input[type="text"] {
@@ -84,30 +89,6 @@ body {
   outline: none;
   border-color: var(--accent-color);
   box-shadow: 0 0 0 2px rgba(196, 167, 125, 0.1);
-}
-.main-content .content .change-form input[type="password"] {
-  width: 100%;
-  padding: 12px 15px;
-  margin-bottom: 15px;
-  border: 2px solid rgba(196, 167, 125, 0.2);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--text-color);
-  font-size: 1rem;
-  transition: all 0.3s ease;
-}
-.main-content .content .change-form input[type="password"]:focus {
-  outline: none;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 0 3px rgba(196, 167, 125, 0.1);
-}
-.main-content .content .change-form .error {
-  color: #ff4444;
-  font-size: 0.85rem;
-  margin: -10px 0 15px 0;
-  padding: 5px 10px;
-  border-radius: 4px;
-  /* background: rgba(255, 68, 68, 0.1); */
 }
 .main-content .content .change-form .radiobtn {
   display: flex;
@@ -145,21 +126,22 @@ body {
   border-radius: 50%;
 }
 .main-content .content .change-form .btn-save {
-  width: 100%;
-  padding: 12px;
-  margin-top: 10px;
-  border: none;
-  border-radius: 8px;
+  grid-column: 1 / -1;
+  justify-self: end;
+  padding: 0.8rem 2rem;
   background: var(--accent-gradient);
   color: var(--white-color);
+  border: none;
+  border-radius: 30px;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: var(--transition);
+  margin-top: 1.5rem;
 }
 .main-content .content .change-form .btn-save:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(196, 167, 125, 0.2);
+  box-shadow: var(--accent-shadow);
 }
 .main-content .content .measurement-icon {
   display: inline-flex;
