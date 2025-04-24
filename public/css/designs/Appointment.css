@@ -4,10 +4,12 @@
 .appointment-content {
   background: var(--card-gradient);
   border-radius: 1.5rem;
-  padding: 1rem;
+  padding: 1.5rem;
   box-shadow: var(--elegant-shadow);
   border: 1px solid var(--glass-effect);
   width: 100%;
+  overflow: hidden;
+  /* Prevent content overflow */
 }
 
 /*--------------------------------------------------------------
@@ -32,11 +34,16 @@
 }
 
 .appointment-header span {
-  font-size: 1.75rem;
+  font-size: clamp(1.4rem, 4vw, 1.75rem);
+  /* Responsive font size */
   color: var(--text-light);
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
+  display: block;
+  /* Ensure proper line breaks */
+  word-wrap: break-word;
+  /* Prevent overflow */
 }
 
 /*--------------------------------------------------------------
@@ -110,13 +117,21 @@
 .time-slots-container {
   margin: 1rem 0;
   width: 100%;
+  overflow-x: auto;
+  /* Allow horizontal scrolling on small screens */
+  -webkit-overflow-scrolling: touch;
+  /* Smooth scrolling on iOS */
+  padding-bottom: 0.5rem;
+  /* Space for potential scrollbar */
 }
 
 .time-slot-row {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
   gap: 0.75rem;
   margin-bottom: 0.75rem;
+  min-width: max-content;
+  /* Ensure slots don't shrink too much */
 }
 
 .time-slot {
@@ -125,6 +140,8 @@
   overflow: hidden;
   transition: var(--transition);
   position: relative;
+  min-width: 75px;
+  /* Minimum width for time slots */
 }
 
 .time-slot input[type="radio"] {
@@ -149,6 +166,9 @@
   cursor: pointer;
   transition: var(--transition);
   user-select: none;
+  padding: 0 0.25rem;
+  /* Add some padding for text */
+  text-align: center;
 }
 
 .time-slot.available:hover label {
@@ -176,10 +196,14 @@
 
 .time-slots-legend {
   display: flex;
+  flex-wrap: wrap;
+  /* Allow wrapping on small screens */
   align-items: center;
   gap: 1rem;
   margin-top: 1rem;
   padding: 0.5rem;
+  justify-content: center;
+  /* Center on small screens */
 }
 
 .legend-item {
@@ -188,12 +212,16 @@
   gap: 0.5rem;
   font-size: 0.8rem;
   color: var(--text-muted);
+  padding: 0.25rem 0;
+  /* Better touch target */
 }
 
 .legend-color {
   width: 12px;
   height: 12px;
   border-radius: 3px;
+  flex-shrink: 0;
+  /* Prevent shrinking */
 }
 
 .legend-available {
@@ -227,6 +255,8 @@
   cursor: pointer;
   font-size: 1rem;
   transition: all 0.3s ease;
+  height: 48px;
+  /* Consistent height for better mobile tapping */
 }
 
 .date-input:hover,
@@ -249,17 +279,22 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  padding: 0.5rem 0;
+  /* Larger touch target */
 }
 
 .location-option input[type="radio"] {
   appearance: none;
-  width: 18px;
-  height: 18px;
+  width: 22px;
+  /* Larger for touch */
+  height: 22px;
   border: 2px solid rgba(196, 167, 125, 0.5);
   border-radius: 50%;
   transition: all 0.3s ease;
   position: relative;
   cursor: pointer;
+  flex-shrink: 0;
+  /* Prevent shrinking */
 }
 
 .location-option input[type="radio"]:checked {
@@ -272,8 +307,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   background: var(--accent-color);
 }
@@ -281,6 +316,10 @@
 .location-option label {
   cursor: pointer;
   font-size: 0.95rem;
+  flex: 1;
+  /* Take up remaining space */
+  padding: 0.25rem 0;
+  /* Increase touch area */
 }
 
 /*--------------------------------------------------------------
@@ -313,55 +352,166 @@
 /*--------------------------------------------------------------
 # RESPONSIVE ADJUSTMENTS
 --------------------------------------------------------------*/
+@media (max-width: 1200px) {
+  .design-page-container {
+    gap: 2rem;
+    padding: 2rem;
+  }
+}
+
 @media (max-width: 992px) {
-  .time-slot-row {
-    grid-template-columns: repeat(3, 1fr);
+  .design-page-container {
+    flex-direction: column;
+  }
+
+  .design-details-container,
+  .design-image-container {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .design-image-container {
+    order: -1;
+    /* Show image at the top on mobile */
+    margin-bottom: 1.5rem;
+  }
+
+  .design-image-wrapper {
+    height: 300px;
   }
 }
 
 @media (max-width: 768px) {
   .appointment-content {
-    padding: 1.5rem;
+    padding: 1.25rem;
   }
 
-  .time-slot-row {
-    grid-template-columns: repeat(2, 1fr);
+  .appointment-table thead {
+    display: none;
+    /* Hide table header on mobile */
   }
 
-  .appointment-table th:first-child {
-    width: 40%;
+  .appointment-table,
+  .appointment-table tbody,
+  .appointment-table tr {
+    display: block;
+    width: 100%;
+  }
+
+  .appointment-table td {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    text-align: left;
+  }
+
+  .appointment-table td:first-child {
+    background: rgba(196, 167, 125, 0.1);
+    border-radius: 0.5rem 0.5rem 0 0;
+    padding: 1rem 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .appointment-table td:last-child {
+    border-bottom: none;
+    margin-bottom: 1rem;
+  }
+
+ 
+
+  .back-btn,
+  .continue-btn,
+  .skip-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .date-input {
+    max-width: none;
+    width: 100%;
   }
 }
 
 @media (max-width: 576px) {
   .appointment-content {
-    padding: 1.25rem;
+    padding: 1rem;
+    border-radius: 1rem;
+  }
+
+  .appointment-header span {
+    font-size: 1.4rem;
+  }
+
+  .appointment-header::after {
+    width: 80px;
+  }
+
+  .time-slots-container {
+    margin: 0.5rem -0.5rem;
+    padding: 0.5rem;
+    width: calc(100% + 1rem);
   }
 
   .time-slot-row {
     grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
   }
 
-  .appointment-table {
-    display: block;
+  .time-slot label {
+    font-size: 0.8rem;
   }
 
-  .appointment-table tbody tr {
-    display: flex;
-    flex-direction: column;
-    padding: 1rem 0;
+  .time-slots-legend {
+    flex-direction: row;
+    justify-content: space-around;
+    width: 100%;
+    padding: 0;
+    gap: 0.5rem;
   }
 
-  .appointment-table td {
+  .legend-item {
+    font-size: 0.7rem;
+  }
+
+  .location-option label {
+    font-size: 0.9rem;
+  }
+
+  .appointment-table td strong {
+    font-size: 0.95rem;
+  }
+
+  .appointment-table td p {
+    font-size: 0.8rem;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 375px) {
+  .appointment-content {
+    padding: 0.75rem;
+  }
+
+  .appointment-header span {
+    font-size: 1.2rem;
+  }
+
+  .time-slot {
+    height: 36px;
+  }
+
+  .time-slot label {
+    font-size: 0.75rem;
+  }
+
+  .button-group {
+    margin-top: 1.5rem;
+  }
+
+  .back-btn,
+  .continue-btn,
+  .skip-btn {
     padding: 0.75rem 1rem;
-    border: none;
-  }
-
-  .appointment-table td:first-child {
-    padding-bottom: 0;
-  }
-
-  .location-options {
-    padding-left: 1rem;
+    font-size: 0.9rem;
   }
 }
