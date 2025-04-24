@@ -318,23 +318,28 @@ class M_Orders
         try {
             $this->db->beginTransaction();
 
-
             // Use the order ID passed from the controller
             $orderId = $orderData['order_id'];
-            
-            // Insert the main order
+
+            // Calculate tax and final amount properly
+
+            // Insert the main order with tax information
             $this->db->query('INSERT INTO orders (
-                order_id, customer_id, tailor_id, total_amount, 
-                appointment_id, delivery_address, expected_delivery_date, notes
-            ) VALUES (
-                :order_id, :customer_id, :tailor_id, :total_amount, 
-                :appointment_id, :delivery_address, DATE_ADD(CURRENT_DATE, INTERVAL 14 DAY), :notes
-            )');
+            order_id, customer_id, tailor_id, total_amount, 
+            tax_amount, final_amount, appointment_id, 
+            delivery_address, expected_delivery_date, notes
+        ) VALUES (
+            :order_id, :customer_id, :tailor_id, :total_amount, 
+            :tax_amount, :final_amount, :appointment_id, 
+            :delivery_address, DATE_ADD(CURRENT_DATE, INTERVAL 14 DAY), :notes
+        )');
 
             $this->db->bind(':order_id', $orderId);
             $this->db->bind(':customer_id', $orderData['customer_id']);
             $this->db->bind(':tailor_id', $orderData['tailor_id']);
             $this->db->bind(':total_amount', $orderData['total_amount']);
+            $this->db->bind(':tax_amount', $orderData['tax_amount']);
+            $this->db->bind(':final_amount', $orderData['final_amount']);
             $this->db->bind(':appointment_id', $orderData['appointment_id'] ?? null);
             $this->db->bind(':delivery_address', $orderData['delivery_address']);
             $this->db->bind(':notes', $orderData['notes'] ?? null);
@@ -490,5 +495,41 @@ class M_Orders
         $this->db->query('SELECT * FROM users WHERE user_id = :user_id');
         $this->db->bind(':user_id', $userId);
         return $this->db->single();
+    }
+    public function updateOrderStatus($orderId, $newStatus, $notes = null)
+    {
+        try {
+            $this->db->beginTransaction();
+
+            // 1. Update the order status
+            $this->db->query('UPDATE orders SET status = :status WHERE order_id = :order_id');
+            $this->db->bind(':status', $newStatus);
+            $this->db->bind(':order_id', $orderId);
+
+            if (!$this->db->execute()) {
+                throw new Exception('Failed to update order status');
+            }
+
+            // 2. Record in history table
+            $this->db->query('INSERT INTO order_status_history 
+                        (order_id, status, updated_by, notes) 
+                        VALUES (:order_id, :status, :updated_by, :notes)');
+
+            $this->db->bind(':order_id', $orderId);
+            $this->db->bind(':status', $newStatus);
+            $this->db->bind(':updated_by', $_SESSION['user_id']);
+            $this->db->bind(':notes', $notes);
+
+            if (!$this->db->execute()) {
+                throw new Exception('Failed to record status history');
+            }
+
+            $this->db->commitTransaction();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollbackTransaction();
+            error_log('Error updating order status: ' . $e->getMessage());
+            return false;
+        }
     }
 }

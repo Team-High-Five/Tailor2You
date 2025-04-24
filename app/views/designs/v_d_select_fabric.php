@@ -35,7 +35,7 @@
                         <?php endforeach; ?>
                     <?php else: ?>
                         <div class="no-results">
-                            <p>No fabrics available for this design. Please contact the tailor.</p>
+                            <p>Something wrong.</p>
                         </div>
                     <?php endif; ?>
                 </section>
