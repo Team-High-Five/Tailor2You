@@ -182,7 +182,6 @@ class M_Customers
             return false;
         }
     }
-
     public function getRescheduleRequests($customerId)
     {
         $this->db->query('SELECT r.* 
@@ -319,5 +318,4 @@ class M_Customers
         $this->db->bind(':appointment_id', $appointmentId);
         return $this->db->single();
     }
-
 }
