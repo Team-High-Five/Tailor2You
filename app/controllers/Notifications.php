@@ -1,23 +1,27 @@
 <?php
-class Notifications extends Controller {
+require_once APPROOT . '/helpers/url_helper.php';
+require_once APPROOT . '/helpers/session_helper.php';
+require_once APPROOT . '/controllers/Users.php';
+require_once APPROOT . '/helpers/FileUploader.php';
+class Notifications extends Controller
+{
     private $notificationModel;
     private $customerModel;
-    
-    public function __construct() {
-        if (!isLoggedIn()) {
-            redirect('users/login');
-        }
-        
+
+    public function __construct()
+    {
+
         $this->notificationModel = $this->model('M_Notifications');
         $this->customerModel = $this->model('M_Customers');
     }
-    
+
     /**
      * Get notifications for the current user
      */
-    public function getNotifications() {
+    public function getNotifications()
+    {
         if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-            redirect(''); // Redirect to home if not a POST request
+            redirect('Pages'); // Redirect to home if not a POST request
             return;
         }
 
@@ -33,17 +37,17 @@ class Notifications extends Controller {
         $userType = $_SESSION['user_type'];
         $userId = $_SESSION['user_id'];
         $notifications = [];
-        
+
         // Get notifications based on user type
         if ($userType === 'customer') {
             // Get appointment reschedule requests
             $rescheduleRequests = $this->customerModel->getRescheduleRequests($userId);
-            
+
             // Format the notifications
             foreach ($rescheduleRequests as $appointmentId => $request) {
                 // Get additional details about the tailor
                 $appointment = $this->customerModel->getAppointmentDetails($appointmentId);
-                
+
                 if ($appointment) {
                     $notifications[] = [
                         'id' => 'reschedule_' . $request->request_id,
@@ -64,23 +68,24 @@ class Notifications extends Controller {
                 }
             }
         }
-        
+
         // Sort by timestamp (newest first)
-        usort($notifications, function($a, $b) {
+        usort($notifications, function ($a, $b) {
             return $b['timestamp'] - $a['timestamp'];
         });
-        
+
         echo json_encode([
             'status' => 'success',
             'count' => count($notifications),
             'notifications' => $notifications
         ]);
     }
-    
+
     /**
      * Mark a notification as read
      */
-    public function markAsRead() {
+    public function markAsRead()
+    {
         // To be implemented for actual database storage of read status
     }
 }

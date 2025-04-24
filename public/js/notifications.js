@@ -141,16 +141,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         <p><strong>New Time:</strong> ${formatTime(notification.details.proposed_time)}</p>
                         <p><strong>Reason:</strong> ${notification.details.reason}</p>
                     </div>
-                    <div class="notification-actions">
-                        <a href="${URLROOT}/Customers/handleReschedule/${notification.appointment_id}/accept" class="accept-action">
-                            Accept
-                        </a>
-                        <a href="${URLROOT}/Customers/handleReschedule/${notification.appointment_id}/reject" class="reject-action">
-                            Reject
+                    <div class="notification-action">
+                        <a href="${URLROOT}/Customers/displayAppointments" class="view-appointment-btn">
+                            View Appointments
                         </a>
                     </div>
                     <p class="notification-time">${timeString}</p>
                 `;
+
             } else {
                 item.innerHTML = `
                     <h4 class="notification-title">${notification.title}</h4>

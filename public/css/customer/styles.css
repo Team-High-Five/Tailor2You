@@ -57,6 +57,7 @@
     --accent-gradient: linear-gradient(135deg, #c4a77d 0%, #d4b78d 100%);
     --accent-shadow: 0 8px 32px rgba(196, 167, 125, 0.2);
     --elegant-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    
 }
 
 * {

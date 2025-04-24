@@ -1,9 +1,9 @@
 /* Notification dropdown styling */
 .notification-dropdown {
     position: relative;
-  }
-  
-  .notification-badge {
+}
+
+.notification-badge {
     position: absolute;
     top: -5px;
     right: -5px;
@@ -19,13 +19,13 @@
     justify-content: center;
     opacity: 0;
     transition: opacity 0.3s ease;
-  }
-  
-  .notification-badge.visible {
+}
+
+.notification-badge.visible {
     opacity: 1;
-  }
-  
-  .notification-dropdown-content {
+}
+
+.notification-dropdown-content {
     position: absolute;
     top: calc(100% + 10px);
     right: -150px;
@@ -41,60 +41,60 @@
     opacity: 0;
     visibility: hidden;
     z-index: 1000;
-  }
-  
-  .notification-dropdown-content.show {
+}
+
+.notification-dropdown-content.show {
     max-height: 400px;
     opacity: 1;
     visibility: visible;
-  }
-  
-  .notification-header {
+}
+
+.notification-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 12px 16px;
     border-bottom: 1px solid rgba(196, 167, 125, 0.15);
-  }
-  
-  .notification-header h3 {
+}
+
+.notification-header h3 {
     color: var(--white-color);
     font-size: 16px;
     font-weight: 500;
     margin: 0;
-  }
-  
-  .mark-all-read {
+}
+
+.mark-all-read {
     background: none;
     border: none;
     color: var(--accent-color);
     font-size: 12px;
     cursor: pointer;
     padding: 0;
-  }
-  
-  .mark-all-read:hover {
+}
+
+.mark-all-read:hover {
     text-decoration: underline;
-  }
-  
-  .notification-list {
+}
+
+.notification-list {
     max-height: 320px;
     overflow-y: auto;
     padding: 0;
-  }
-  
-  .notification-item {
+}
+
+.notification-item {
     padding: 12px 16px;
     border-bottom: 1px solid rgba(196, 167, 125, 0.05);
     transition: background-color 0.2s ease;
     position: relative;
-  }
-  
-  .notification-item:hover {
+}
+
+.notification-item:hover {
     background-color: rgba(196, 167, 125, 0.05);
-  }
-  
-  .notification-item.unread::before {
+}
+
+.notification-item.unread::before {
     content: '';
     position: absolute;
     left: 6px;
@@ -104,53 +104,80 @@
     height: 6px;
     border-radius: 50%;
     background-color: var(--status-reschedule_pending-color);
-  }
-  
-  .notification-title {
+}
+
+.notification-title {
     font-size: 14px;
     font-weight: 500;
     color: var(--white-color);
     margin: 0 0 4px;
-  }
-  
-  .notification-message {
+}
+
+.notification-message {
     font-size: 13px;
     color: var(--text-muted);
     margin: 0 0 8px;
     line-height: 1.4;
-  }
-  
-  .notification-time {
+}
+
+.notification-time {
     font-size: 11px;
     color: var(--text-muted);
     margin: 0;
-  }
-  
-  .reschedule-details {
+}
+
+.reschedule-details {
     background-color: rgba(0, 198, 229, 0.05);
     border-left: 2px solid var(--status-reschedule_pending-color);
     padding: 8px 12px;
     margin: 8px 0;
     border-radius: 0 4px 4px 0;
-  }
-  
-  .reschedule-details p {
+}
+
+.reschedule-details p {
     font-size: 12px;
     margin: 4px 0;
     color: var(--text-muted);
-  }
-  
-  .reschedule-details strong {
+}
+
+.reschedule-details strong {
     color: var(--white-color);
-  }
-  
-  .notification-actions {
+}
+
+.notification-action {
     display: flex;
-    gap: 8px;
+    justify-content: center;
     margin-top: 10px;
-  }
-  
-  .accept-action, .reject-action {
+}
+
+.view-appointment-btn {
+    background-color: var(--accent-gradient);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.view-appointment-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: var(--accent-color-hover);
+    padding: 10px 15px;
+    border-radius: 30px;
+}
+
+.view-appointment-btn i {
+    margin-right: 5px;
+}
+
+.accept-action,
+.reject-action {
     flex: 1;
     padding: 6px 0;
     border-radius: 4px;
@@ -160,116 +187,118 @@
     cursor: pointer;
     text-decoration: none;
     transition: all 0.2s ease;
-  }
-  
-  .accept-action {
+}
+
+.accept-action {
     background-color: var(--status-accepted-bg);
     color: var(--status-accepted-color);
     border: 1px solid var(--status-accepted-color);
-  }
-  
-  .accept-action:hover {
+}
+
+.accept-action:hover {
     background-color: rgba(143, 188, 143, 0.3);
-  }
-  
-  .reject-action {
+}
+
+.reject-action {
     background-color: var(--status-rejected-bg);
     color: var(--status-rejected-color);
     border: 1px solid var(--status-rejected-color);
-  }
-  
-  .reject-action:hover {
+}
+
+.reject-action:hover {
     background-color: rgba(244, 67, 54, 0.3);
-  }
-  
-  .notification-footer {
+}
+
+.notification-footer {
     padding: 12px 16px;
     text-align: center;
     border-top: 1px solid rgba(196, 167, 125, 0.15);
-  }
-  
-  .notification-footer a {
+}
+
+.notification-footer a {
     color: var(--accent-color);
     font-size: 13px;
     text-decoration: none;
     transition: all 0.2s ease;
-  }
-  
-  .notification-footer a:hover {
+}
+
+.notification-footer a:hover {
     text-decoration: underline;
-  }
-  
-  .notification-empty {
+}
+
+.notification-empty {
     padding: 30px 16px;
     text-align: center;
-  }
-  
-  .notification-empty i {
+}
+
+.notification-empty i {
     color: var(--text-muted);
     font-size: 24px;
     margin-bottom: 10px;
-  }
-  
-  .notification-empty p {
+}
+
+.notification-empty p {
     color: var(--text-muted);
     font-size: 14px;
     margin: 0;
-  }
-  
-  .notification-loading {
+}
+
+.notification-loading {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 30px 16px;
-  }
-  
-  .notification-loading i {
+}
+
+.notification-loading i {
     color: var(--accent-color);
     font-size: 24px;
     margin-bottom: 10px;
-  }
-  
-  .notification-loading p {
+}
+
+.notification-loading p {
     color: var(--text-muted);
     font-size: 14px;
     margin: 0;
-  }
-  
-  /* Scrollbar styling */
-  .notification-list::-webkit-scrollbar {
+}
+
+/* Scrollbar styling */
+.notification-list::-webkit-scrollbar {
     width: 6px;
-  }
-  
-  .notification-list::-webkit-scrollbar-track {
+}
+
+.notification-list::-webkit-scrollbar-track {
     background-color: rgba(255, 255, 255, 0.03);
     border-radius: 3px;
-  }
-  
-  .notification-list::-webkit-scrollbar-thumb {
+}
+
+.notification-list::-webkit-scrollbar-thumb {
     background-color: rgba(196, 167, 125, 0.3);
     border-radius: 3px;
-  }
-  
-  /* Media queries for responsive design */
-  @media screen and (max-width: 768px) {
+}
+
+/* Media queries for responsive design */
+@media screen and (max-width: 768px) {
     .notification-dropdown-content {
-      width: 300px;
-      right: -120px;
+        width: 300px;
+        right: -120px;
     }
-  }
-  
-  @media screen and (max-width: 480px) {
+}
+
+@media screen and (max-width: 480px) {
     .notification-dropdown-content {
-      width: 280px;
-      right: -100px;
+        width: 280px;
+        right: -100px;
     }
-  
-    .notification-header, .notification-footer, .notification-item {
-      padding: 10px 12px;
+
+    .notification-header,
+    .notification-footer,
+    .notification-item {
+        padding: 10px 12px;
     }
-  
+
     .notification-header h3 {
-      font-size: 14px;
+        font-size: 14px;
     }
-  }
+}
