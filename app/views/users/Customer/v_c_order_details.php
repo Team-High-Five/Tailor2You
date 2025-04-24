@@ -10,6 +10,8 @@
                 <i class="fas fa-arrow-left"></i> Back to Orders
             </a>
         </div>
+        <?php print_r($data['order']);?>
+        <?php print_r($data['measurements']);?>
 
         <div class="order-header">
             <div class="order-title">
@@ -28,12 +30,12 @@
                 <div class="design-info">
                     <div class="design-image">
                         <img src="<?php echo URLROOT; ?>/public/img/designs/<?php echo $data['order']->design_image; ?>" 
-                             alt="<?php echo $data['order']->design_name; ?>">
+                             alt="<?php echo $data['order']->name; ?>">
                     </div>
                     <div class="design-text">
-                        <h4><?php echo $data['order']->design_name; ?></h4>
+                        <h4><?php echo $data['order']->name; ?></h4>
                         <p class="design-description"><?php echo $data['order']->design_description; ?></p>
-                        <p class="design-price">Rs. <?php echo number_format($data['order']->design_price, 2); ?></p>
+                        <p class="design-price">Rs. <?php echo number_format($data['order']->base_price, 2); ?></p>
                     </div>
                 </div>
             </div>

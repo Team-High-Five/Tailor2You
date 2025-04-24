@@ -35,6 +35,38 @@ class Pages extends Controller
         ];
         $this->view('v_about', $data);
     }
+    
+    public function womensPage()
+    {
+        $data = [
+            'title' => 'womens Page'
+        ];
+        $this->view('pages/v_womens_page', $data);
+    }
+    public function womensDressCategories()
+    {
+
+        $data = [];
+        $this->view('pages/v_womens_dress_category', $data);
+    }
+    public function womenSareeJacketCategories()
+    {
+
+        $data = [];
+        $this->view('pages/v_womens_SareeJacket_category', $data);
+    }
+    public function womenSkirtCategories()
+    {
+
+        $data = [];
+        $this->view('pages/v_womens_Skirt_category', $data);
+    }
+    public function womenBlouseCategories()
+    {
+
+        $data = [];
+        $this->view('pages/v_womens_Blouse_category', $data);
+    }
     public function mensPage()
     {
         $data = [
@@ -42,19 +74,23 @@ class Pages extends Controller
         ];
         $this->view('pages/v_mens_page', $data);
     }
-    public function womensPage()
-    {
-        $data = [
-            'title' => 'Mens Page'
-        ];
-        $this->view('pages/v_womens_page', $data);
-    }
-
-    public function mensCategories()
+    public function menShirtCategories()
     {
 
         $data = [];
-        $this->view('pages/v_mens_category', $data);
+        $this->view('pages/v_mens_Shirt_category', $data);
+    }
+    public function menSuitCategories()
+    {
+
+        $data = [];
+        $this->view('pages/v_mens_Suit_category', $data);
+    }
+    public function menPantCategories()
+    {
+
+        $data = [];
+        $this->view('pages/v_mens_Pant_category', $data);
     }
     public function genderSel()
     {

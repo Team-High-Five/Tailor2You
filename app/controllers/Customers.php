@@ -46,7 +46,6 @@ class Customers extends Controller
                 'home_town_err' => '',
                 'address_err' => ''
             ];
-
             // Validate inputs
             // Validate email
             if (empty($data['email'])) {
@@ -57,47 +56,38 @@ class Customers extends Controller
                     $data['email_err'] = 'Email is already taken';
                 }
             }
-
             // Validate first name
             if (empty($data['first_name'])) {
                 $data['first_name_err'] = 'Please enter first name';
             }
-
             // Validate last name
             if (empty($data['last_name'])) {
                 $data['last_name_err'] = 'Please enter last name';
             }
-
             // Validate phone number
             if (empty($data['phone_number'])) {
                 $data['phone_number_err'] = 'Please enter phone number';
             }
-
             // Validate NIC
             if (empty($data['nic'])) {
                 $data['nic_err'] = 'Please enter NIC number';
             }
-
             // Validate birth date
             if (empty($data['birth_date'])) {
                 $data['birth_date_err'] = 'Please enter birth date';
             }
-
             // Validate home town
             if (empty($data['home_town'])) {
                 $data['home_town_err'] = 'Please enter home town';
             }
-
             // Validate address
             if (empty($data['address'])) {
                 $data['address_err'] = 'Please enter address';
             }
-
             // Make sure errors are empty
             if (empty($data['email_err']) && empty($data['first_name_err']) && empty($data['last_name_err']) && empty($data['phone_number_err']) && empty($data['nic_err']) && empty($data['birth_date_err']) && empty($data['home_town_err']) && empty($data['address_err'])) {
                 // Store validated data in session
                 $_SESSION['customer_register_data'] = $data;
-
                 // Redirect to create password page
                 redirect('Customers/createPassword');
             } else {
@@ -124,7 +114,6 @@ class Customers extends Controller
                 'home_town_err' => '',
                 'address_err' => ''
             ];
-
             // Load view
             $this->view('users/Customer/v_c_register', $data);
         }
@@ -133,10 +122,8 @@ class Customers extends Controller
     public function createPassword()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Process form
             // Sanitize post data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
             // Input data
             $data = [
                 'password' => trim($_POST['password']),
@@ -144,14 +131,12 @@ class Customers extends Controller
                 'password_err' => '',
                 'confirm_password_err' => ''
             ];
-
             // Validate password
             if (empty($data['password'])) {
                 $data['password_err'] = 'Please enter password';
             } elseif (strlen($data['password']) < 6) {
                 $data['password_err'] = 'Password must be at least 6 characters';
             }
-
             // Validate confirm password
             if (empty($data['confirm_password'])) {
                 $data['confirm_password_err'] = 'Please confirm password';
@@ -160,7 +145,6 @@ class Customers extends Controller
                     $data['confirm_password_err'] = 'Passwords do not match';
                 }
             }
-
             // Make sure errors are empty
             if (empty($data['password_err']) && empty($data['confirm_password_err'])) {
                 // Hash password
@@ -463,16 +447,27 @@ class Customers extends Controller
 
     public function displayOrders()
     {
+        if (!isLoggedIn()) {
+            redirect('users/login');
+        }
+
+        $orders = $this->customerModel->getCustomerOrders($_SESSION['user_id']);
         $data = [
-            'title' => 'Orders'
+            'title' => 'Orders',
+            'orders' => $orders
         ];
         $this->view('users/Customer/v_c_orders', $data);
     }
 
-    public function ordersViews()
+    public function ordersViews($orderId)
     {
+        $order = $this->customerModel->getCustomerOrder($_SESSION['user_id'],$orderId);
+        $measurement = $this->customerModel->getShirtMeasurements($_SESSION['user_id']);
+
         $data = [
-            'title' => 'OrdersView'
+            'title' => 'OrdersView',
+            'order' => $order,
+            'measurements' => $measurement
         ];
         $this->view('users/Customer/v_c_order_details', $data);
     }
