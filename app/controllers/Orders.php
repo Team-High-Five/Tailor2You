@@ -525,6 +525,7 @@ class Orders extends Controller
             $orderData['appointment_id'] = null;
         }
 
+        $orderData['order_id'] = $orderNumber;
         // Save to database
         $createdOrderId = $this->orderModel->createOrder($orderData);
 
@@ -571,7 +572,7 @@ class Orders extends Controller
             'design_id' => $_SESSION['order_details']['design']->design_id,
             'fabric_id' => $_SESSION['order_details']['fabric']->fabric_id,
             'color_id' => $_SESSION['order_details']['color']->color_id,
-            'quantity' => 1, // Default to 1 for now
+            'quantity' => 1,
             'base_price' => $_SESSION['order_details']['design']->base_price,
             'fabric_price' => $_SESSION['order_details']['fabric']->price_adjustment ?? 0,
             'customization_price' => $this->calculateCustomizationPrice(),

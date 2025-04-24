@@ -318,9 +318,10 @@ class M_Orders
         try {
             $this->db->beginTransaction();
 
-            // Generate the order ID
-            $orderId = $this->generateOrderId();
 
+            // Use the order ID passed from the controller
+            $orderId = $orderData['order_id'];
+            
             // Insert the main order
             $this->db->query('INSERT INTO orders (
                 order_id, customer_id, tailor_id, total_amount, 
