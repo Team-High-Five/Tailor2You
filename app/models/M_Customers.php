@@ -182,4 +182,19 @@ class M_Customers
             return false;
         }
     }
+
+    public function getCustomerMeasurements($design_id,$user_id){
+        $this->db->query('select dm.design_id,m.display_name,um.value_inch from design_measurements as dm join user_measurements as um on um.measurement_id=dm.measurement_id join measurements as m on m.measurement_id=um.measurement_id where dm.design_id = :design_id and um.user_id = :user_id');
+        $this->db->bind(':design_id', $design_id);
+        $this->db->bind(':user_id', $user_id);  
+        return $this->db->resultSet();
+    }
+    public function getTailorById($user_id)
+    {
+        $this->db->query('SELECT profile_pic,first_name,last_name,email,phone_number,home_town,address FROM users WHERE user_type = "tailor" AND user_id = :user_id');
+        $this->db->bind(':user_id', $user_id);
+        $row = $this->db->single();
+        return $row ? $row : false;
+    }
+
 }
