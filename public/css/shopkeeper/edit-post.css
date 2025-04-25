@@ -1,0 +1,84 @@
+.centered-card {
+    margin: 0 auto;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    position: relative;
+}
+
+.edit-post-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.form-group input, 
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.error-message {
+    color: #e74c3c;
+    font-size: 0.8em;
+    display: block;
+    margin-top: 5px;
+}
+
+.post-pic-wrapper {
+    text-align: center;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.post-pic-wrapper img {
+    max-width: 100%;
+    max-height: 250px;
+    border-radius: 8px;
+}
+
+.submit-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #2980b9;
+}
