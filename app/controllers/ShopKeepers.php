@@ -214,13 +214,14 @@ class Shopkeepers extends Controller
         if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
             redirect('users/login');
         }
-
+        $employees = $this->shopkeeperModel->getEmployeesByUserId($_SESSION['user_id']);
         $appointments = $this->shopkeeperModel->getAppointmentsByShopkeeperId($_SESSION['user_id']);
         $data = [
             'title' => 'Appointments',
-            'appointments' => $appointments
+            'appointments' => $appointments,
+            'employees' => $employees
         ];
-        $this->view('users/Shopkeeper/v_s_appointment_list', $data);
+        $this->view('users/Tailor/v_t_appointment_list', $data);
     }
 
     public function displayAppointmentDetails($appointment_id)
