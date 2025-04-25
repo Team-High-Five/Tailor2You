@@ -6,7 +6,7 @@
 <div class="container">
     <div class="order-details-container">
         <div class="back-button">
-            <a href="<?php echo URLROOT; ?>/customers/orders">
+            <a href="<?php echo URLROOT; ?>/customers/displayOrders">
                 <i class="fas fa-arrow-left"></i> Back to Orders
             </a>
         </div>
