@@ -26,7 +26,7 @@
                 <h3>Design Details</h3>
                 <div class="design-info">
                     <div class="design-image">
-                        <img src="<?php echo URLROOT; ?>/public/img/designs/<?php echo $data['order']->main_image; ?>" 
+                        <img src="<?php echo URLROOT; ?>/public/img/uploads/designs/<?php echo $data['order']->main_image; ?>" 
                              alt="<?php echo $data['order']->name; ?>">
                     </div>
                     <div class="design-text">
