@@ -541,13 +541,14 @@ class Customers extends Controller
 
     public function ordersViews($orderId)
     {
-        $order = $this->customerModel->getCustomerOrder($_SESSION['user_id'], $orderId);
-        $measurement = $this->customerModel->getShirtMeasurements($_SESSION['user_id']);
-
+        $order = $this->customerModel->getCustomerOrder($_SESSION['user_id'],$orderId);
+        $measurement = $this->customerModel->getCustomerMeasurements($order->design_id, $_SESSION['user_id']);
+        $tailor = $this->customerModel->getTailorById($order->tailor_id);
         $data = [
-            'title' => 'OrdersView',
+            'title' => 'Order View',
             'order' => $order,
-            'measurements' => $measurement
+            'measurements' => $measurement,
+            'tailor' => $tailor
         ];
         $this->view('users/Customer/v_c_order_details', $data);
     }
