@@ -35,63 +35,107 @@ class Pages extends Controller
         ];
         $this->view('v_about', $data);
     }
-    
+
     public function womensPage()
     {
+        $featuredDesigns = $this->pageModel->getDesignsByGender('ladies');
         $data = [
-            'title' => 'womens Page'
+            'gender' => 'ladies',
+            'title' => 'Womens Page',
+            'designs' => $featuredDesigns
         ];
         $this->view('pages/v_womens_page', $data);
     }
     public function womensDressCategories()
     {
-
-        $data = [];
+        $category_id = $this->pageModel->getCategoryByName('Dress');
+        $featuredDesigns = $this->pageModel->getDesignsByCategory($category_id);
+        $data = [
+            'designs' => $featuredDesigns,
+            'category' => 'dresses',
+            'gender' => 'ladies',
+        ];
         $this->view('pages/v_womens_dress_category', $data);
     }
     public function womenSareeJacketCategories()
     {
-
-        $data = [];
+        $category_id = $this->pageModel->getCategoryByName('Saree Jacket');
+        $featuredDesigns = $this->pageModel->getDesignsByCategory($category_id);
+        $data = [
+            'designs' => $featuredDesigns,
+            'category' => 'saree-jackets',
+            'gender' => 'ladies',
+        ];
         $this->view('pages/v_womens_SareeJacket_category', $data);
     }
+
     public function womenSkirtCategories()
     {
-
-        $data = [];
+        $category_id = $this->pageModel->getCategoryByName('Skirt');
+        $featuredDesigns = $this->pageModel->getDesignsByCategory($category_id);
+        $data = [
+            'designs' => $featuredDesigns,
+            'category' => 'skirts',
+            'gender' => 'ladies',
+        ];
         $this->view('pages/v_womens_Skirt_category', $data);
     }
     public function womenBlouseCategories()
     {
-
-        $data = [];
+        $category_id = $this->pageModel->getCategoryByName('Blouse');
+        $featuredDesigns = $this->pageModel->getDesignsByCategory($category_id);
+        $data = [
+            'designs' => $featuredDesigns,
+            'category' => 'blouses',
+            'gender' => 'ladies',
+        ];
         $this->view('pages/v_womens_Blouse_category', $data);
-    }
+    }   
     public function mensPage()
     {
+        $featuredDesigns = $this->pageModel->getDesignsByGender('gents');
         $data = [
-            'title' => 'Mens Page'
+            'gender' => 'gents',
+            'title' => 'Mens Page',
+            'designs' => $featuredDesigns
         ];
         $this->view('pages/v_mens_page', $data);
     }
     public function menShirtCategories()
     {
-
-        $data = [];
+        $category_id = $this->pageModel->getCategoryByName('Shirt');
+        $featuredDesigns = $this->pageModel->getDesignsByCategory($category_id);
+        $data = [
+            'designs' => $featuredDesigns,
+            'category' => 'shirts',
+            'gender' => 'gents',
+        ];
         $this->view('pages/v_mens_Shirt_category', $data);
     }
     public function menSuitCategories()
     {
-
-        $data = [];
+        $category_id = $this->pageModel->getCategoryByName('Suit');
+        $featuredDesigns = $this->pageModel->getDesignsByCategory($category_id);
+        $data = [
+            'designs' => $featuredDesigns,
+            'category' => 'suits',
+            'gender' => 'gents',
+        ];
         $this->view('pages/v_mens_Suit_category', $data);
     }
+
     public function menPantCategories()
     {
-
-        $data = [];
+        $category_id = $this->pageModel->getCategoryByName('Pants');
+        $featuredDesigns = $this->pageModel->getDesignsByCategory($category_id);
+        $data = [
+            'designs' => $featuredDesigns,
+            'category' => 'pants',
+            'gender' => 'gents',
+        ];
         $this->view('pages/v_mens_Pant_category', $data);
     }
+
     public function genderSel()
     {
         $users = $this->pageModel->getUsers();

@@ -17,10 +17,5 @@
         <p class="caption">Long Skirts</p>
     </div>
 </div>
-<?php require_once APPROOT . '/views/pages/inc/components/new_collection.php'; ?>
-<div>
-    <button class="explore-btn">Explore now</button>
-</div>
-</body>
-
-</html>
+<?php require_once APPROOT . '/views/pages/inc/components/design_grid.php'; ?>
+<?php require_once APPROOT . '/views/pages/inc/footer.php'; ?>

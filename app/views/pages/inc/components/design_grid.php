@@ -1,8 +1,14 @@
 <div class="new-collection">
-  <div class="topic">New collection</div>
+<?php if($data['gender']=='gents') : ?>
+  <div class="topic">Gents Collection</div>
+<?php elseif($data['gender']=='ladies'): ?>  
+  <div class="topic">Ladies Collection</div>
+  <?php else: ?>
+  <div class="topic">New Collection</div>
+<?php endif; ?>
   <section class="product-grid">
-    <?php if (!empty($designs)) : ?>
-      <?php foreach ($designs as $design) : ?>
+    <?php if (!empty($data['designs'])) : ?>
+      <?php foreach ($data['designs'] as $design) : ?>
         <div class="product-card">
           <?php if (!empty($design->main_image)) : ?>
             <img src="<?php echo URLROOT; ?>/public/img/uploads/designs/<?php echo $design->main_image; ?>" alt="<?php echo $design->name; ?>"
@@ -17,7 +23,7 @@
 
           <div class="buttons">
             <button class="add-to-cart" onclick="selectFabric(<?php echo $design->design_id; ?>)">Add to Cart</button>
-            <button class="place-order" onclick="selectFabric(<?php echo $design->design_id; ?>)">Place Order</button>
+            <button class="place-order" onclick="selectFabric(<?php echo $design->design_id; ?>)">Design Customize</button>
           </div>
         </div>
       <?php endforeach; ?>
