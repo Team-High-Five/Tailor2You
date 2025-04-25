@@ -12,7 +12,7 @@
 @import url('components/flash_msg.css');
 @import url('components/chat.css');
 @import url('components/status-badges.css');
-@import url('components/order-status-indicators.css');  
+@import url('components/order-status-indicators.css');
 
 /* Layout Components */
 @import url('sideBar_styles.css');
@@ -65,14 +65,11 @@
     --primary-hover-color: #5849b8;
 
     /* Accent Colors */
-    --accent-color: #c4a77d;
-    --accent-hover: #b38f63;
-    --accent-color-rgb: 196, 167, 125;
-
-    /* RGB for C4A77D */
-    --accent-gradient: linear-gradient(135deg, #c4a77d 0%, #b38f63 100%);
-    --accent-shadow: 0 8px 16px rgba(196, 167, 125, 0.3);
-
+    --accent-color: #9d8ee0;
+    --accent-hover: #8679cf;
+    --accent-color-rgb: 157, 142, 224;
+    --accent-gradient: linear-gradient(135deg, #9d8ee0 0%, #8679cf 100%);
+    --accent-shadow: 0 8px 16px rgba(157, 142, 224, 0.3);
     /* Text Colors */
     --text-color: #333;
     --text-dark: #333;
@@ -154,10 +151,11 @@
     --primary-gradient: linear-gradient(180deg, #8a7ad1 0%, #7a68ee 100%);
     --secondary-color: #9185ee;
 
-    /* Accent Colors */
-    --accent-color: #d4b78d;
-    /* Slightly lighter for better contrast */
-    --accent-hover: #e5c89e;
+    --accent-color: #b19cd9;
+    --accent-hover: #a38dcb;
+    --accent-color-rgb: 177, 156, 217;
+    --accent-gradient: linear-gradient(135deg, #b19cd9 0%, #a38dcb 100%);
+    --accent-shadow: 0 8px 16px rgba(177, 156, 217, 0.3);
 
     /* Text Colors */
     --text-color: #e0e0e0;

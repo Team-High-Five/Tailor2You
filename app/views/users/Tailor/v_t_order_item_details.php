@@ -40,24 +40,6 @@
               <p class="customer-id">Customer ID: #<?php echo $data['order']->customer_id; ?></p>
             </div>
           </div>
-        </div>
-
-        <div class="specifications">
-          <ul class="spec-list">
-            <?php if (!empty($item->measurements)): ?>
-              <?php foreach ($item->measurements as $measurement): ?>
-                <li class="spec-item">
-                  <span class="spec-label"><?php echo $measurement->display_name; ?>:</span>
-                  <span><?php echo $measurement->value; ?> INCH</span>
-                </li>
-              <?php endforeach; ?>
-            <?php else: ?>
-              <li class="spec-item">
-                <span class="spec-label">No measurements provided</span>
-              </li>
-            <?php endif; ?>
-          </ul>
-
           <div class="care-instructions">
             <h4>Order Details</h4>
             <p>• Ordered On: <?php echo $data['order']->formatted_date; ?></p>
@@ -73,6 +55,52 @@
               * Please ensure all measurements are correct before proceeding
             </small>
           </div>
+        </div>
+
+        <div class="specifications">
+          <div class="measurements-section">
+            <h4>Measurements</h4>
+            <ul class="spec-list">
+              <?php if (!empty($item->measurements)): ?>
+                <?php foreach ($item->measurements as $measurement): ?>
+                  <li class="spec-item">
+                    <span class="spec-label"><?php echo $measurement->display_name; ?></span>
+                    <span class="spec-value">
+                      <i class="fas fa-ruler measurement-icon"></i>
+                      <?php echo $measurement->value; ?>
+                      <span class="measurement-unit">INCH</span>
+                    </span>
+                  </li>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <li class="spec-item no-data">
+                  <span class="spec-label">No measurements provided</span>
+                </li>
+              <?php endif; ?>
+            </ul>
+          </div>
+
+          <?php if (!empty($item->customizations)): ?>
+            <div class="customizations-section">
+              <h4>Customizations</h4>
+              <ul class="customization-list">
+                <?php foreach ($item->customizations as $customization): ?>
+                  <li class="customization-item">
+                    <img src="<?php echo URLROOT; ?>/public/img/uploads/customizations/<?php echo $customization->option_image; ?>" alt="<?php echo $customization->display_name; ?>" class="customization-image">
+                    <span class="customization-label"><?php echo $customization->display_name; ?>:</span>
+                    <span class="customization-value"><?php echo $customization->option_name; ?></span>
+                  </li>
+                <?php endforeach; ?>
+              </ul>
+            </div>
+          <?php endif; ?>
+          <?php if (empty($item->customizations)): ?>
+            <div class="customizations-section">
+              <h4>Customizations</h4>
+              <p class="no-data-message">No customizations selected for this order.</p>
+            </div>
+          <?php endif; ?>
+
         </div>
       </div>
     <?php else: ?>
@@ -125,7 +153,7 @@
       </div>
     <?php endif; ?>
 
-    
+
   </div>
 </div>
 <style>
@@ -492,6 +520,277 @@
       flex-direction: column;
       align-items: flex-start;
     }
+  }
+
+  /* Customizations Section Styling */
+  .customizations-section {
+    margin-top: 25px;
+    background: linear-gradient(145deg, var(--white-color) 0%, #f9f9ff 100%);
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(157, 142, 224, 0.15);
+  }
+
+  .customizations-section h4 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-bottom: 18px;
+    position: relative;
+    padding-bottom: 10px;
+  }
+
+  .customizations-section h4:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 40px;
+    background: var(--accent-gradient);
+    border-radius: 2px;
+  }
+
+  .customization-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .customization-item {
+    display: grid;
+    grid-template-columns: 70px 1fr auto;
+    align-items: center;
+    gap: 15px;
+    padding: 12px;
+    border-radius: 10px;
+    background-color: var(--white-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid var(--border-color);
+  }
+
+  .customization-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  .customization-image {
+    width: 65px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--background-light, #f8f9fa);
+    padding: 3px;
+  }
+
+  .customization-label {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+  }
+
+  .customization-value {
+    color: var(--primary-color);
+    font-weight: 500;
+    padding: 5px 15px;
+    background: rgba(157, 142, 224, 0.1);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  /* For no customizations message */
+  .no-data-message {
+    color: var(--text-muted);
+    font-style: italic;
+    text-align: center;
+    padding: 15px 0;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .customization-item {
+      grid-template-columns: 50px 1fr;
+    }
+
+    .customization-image {
+      width: 45px;
+      height: 45px;
+    }
+
+    .customization-value {
+      grid-column: 2;
+      justify-self: start;
+      margin-top: 5px;
+    }
+  }
+
+  /* Measurements Section Container */
+  .measurements-section {
+    margin-top: 25px;
+    background: linear-gradient(145deg, var(--white-color) 0%, #f9f9ff 100%);
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(157, 142, 224, 0.15);
+    margin-bottom: 25px;
+  }
+
+  .measurements-section h4 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-bottom: 18px;
+    position: relative;
+    padding-bottom: 10px;
+  }
+
+  .measurements-section h4:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 40px;
+    background: var(--accent-gradient);
+    border-radius: 2px;
+  }
+
+  .spec-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 12px;
+  }
+
+  .spec-item {
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+    background-color: var(--white-color);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .spec-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  .spec-label {
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+  }
+
+  .spec-value {
+    color: var(--primary-color);
+    font-weight: 500;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .measurement-icon {
+    margin-right: 5px;
+    color: var(--accent-color);
+    font-size: 0.9em;
+  }
+
+  .measurement-unit {
+    font-size: 0.7em;
+    color: var(--text-muted);
+    margin-left: 3px;
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 500px) {
+    .spec-list {
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+
+    .spec-item {
+      padding: 12px 10px;
+    }
+
+    .spec-value {
+      font-size: 1rem;
+    }
+  }
+
+  /* Order Details Section Styling */
+  .care-instructions {
+    margin-top: 25px;
+    background: linear-gradient(145deg, var(--white-color) 0%, #f9f9ff 100%);
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(157, 142, 224, 0.15);
+  }
+
+  .care-instructions h4 {
+    margin-top: 0;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-bottom: 18px;
+    position: relative;
+    padding-bottom: 10px;
+  }
+
+  .care-instructions h4:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 40px;
+    background: var(--accent-gradient);
+    border-radius: 2px;
+  }
+
+  .care-instructions p {
+    margin: 12px 0;
+    padding: 8px 12px;
+    background-color: var(--white-color);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .care-instructions p:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  .care-instructions p::before {
+    content: '•';
+    color: var(--primary-color);
+    font-size: 1.2em;
+    margin-right: 10px;
+    font-weight: bold;
+  }
+
+  .disclaimer {
+    display: block;
+    margin-top: 20px;
+    padding: 10px 15px;
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.9rem;
+    background-color: rgba(157, 142, 224, 0.05);
+    border-radius: 6px;
+    border-left: 3px solid var(--primary-color);
   }
 </style>
 

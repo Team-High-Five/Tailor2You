@@ -103,9 +103,9 @@
                     <img src="<?php echo URLROOT; ?>/public/img/uploads/designs/<?php echo $order->design_image ?> " alt="<?php echo $order->design_name; ?>" class="fabric-image">
                   </td>
                   <td>
-                    <div class="action-btn">
-                      
-                      <a href="<?php echo URLROOT; ?>/Tailors/displayOrderDetails/<?php echo $order->order_id; ?>" class="view-order-btn">View Order</a>
+                    <div class="order-view-btn">
+
+                      <a href="<?php echo URLROOT; ?>/Tailors/displayOrderDetails/<?php echo $order->order_id; ?>" class="view-order-btn"> <i class="fas fa-eye"></i>View Order</a>
                     </div>
                 </tr>
               <?php endforeach; ?>
