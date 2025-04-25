@@ -24,12 +24,12 @@ class Appointments extends Controller
             exit();
         }
         if ($tailor_id === null) {
-            redirect('pages/meetTailor');
+            redirect('pages/tailorPages');
         }
 
-        $tailor = $this->appointmentModel->getTailorById($tailor_id);
+        $tailor = $this->appointmentModel->getSellerById($tailor_id);
         if (!$tailor) {
-            redirect('pages/meetTailor');
+            redirect('pages/tailorPages');
         }
 
         // Get booked slots for today
@@ -81,7 +81,7 @@ class Appointments extends Controller
                 redirect('appointments/makeAppointment/' . $data['tailor_id']);
             }
         } else {
-            $tailor = $this->appointmentModel->getTailorById($data['tailor_id']);
+            $tailor = $this->appointmentModel->getSellerById($data['tailor_id']);
             $bookedSlots = $this->appointmentModel->getBookedTimeSlots($data['tailor_id'], $data['appointment_date']);
 
             $data['tailor'] = $tailor;
