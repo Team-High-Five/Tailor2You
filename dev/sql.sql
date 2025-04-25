@@ -1145,3 +1145,77 @@ CREATE TABLE `order_status_history` (
 ALTER TABLE `orders`
 ADD COLUMN `tax_amount` DECIMAL(10, 2) NOT NULL DEFAULT 0.00 AFTER `total_amount`,
 ADD COLUMN `final_amount` DECIMAL(10, 2) NOT NULL DEFAULT 0.00 AFTER `tax_amount`;
+
+CREATE TABLE `likes` (
+    `like_id` int(11) NOT NULL AUTO_INCREMENT,
+    `customer_id` int(11) NOT NULL,
+    `tailor_id` int(11) NOT NULL,
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+    `status` enum('active', 'removed') DEFAULT 'active',
+    PRIMARY KEY (`like_id`),
+    UNIQUE KEY `customer_id` (`customer_id`, `tailor_id`),
+    KEY `tailor_id` (`tailor_id`),
+    CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+    CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`tailor_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+-- Step 1: Temporarily disable foreign key checks
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- Step 2: Drop tables in reverse dependency order
+DROP TABLE IF EXISTS `post_likes`;
+
+DROP TABLE IF EXISTS `posts`;
+
+DROP TABLE IF EXISTS `employees`;
+
+-- Step 3: Create tables in proper dependency order
+CREATE TABLE `posts` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `user_id` int(11) NOT NULL,
+    `title` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `gender` enum('men', 'women', 'unisex') DEFAULT 'unisex',
+    `item_type` enum(
+        'shirt',
+        'pant',
+        'frock',
+        'skirt',
+        'blouse'
+    ) DEFAULT NULL,
+    `image` longblob DEFAULT NULL,
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+    PRIMARY KEY (`id`),
+    KEY `user_id` (`user_id`),
+    CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+CREATE TABLE `post_likes` (
+    `like_id` int(11) NOT NULL AUTO_INCREMENT,
+    `post_id` int(11) NOT NULL,
+    `user_id` int(11) NOT NULL,
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+    `status` enum('active', 'removed') DEFAULT 'active',
+    PRIMARY KEY (`like_id`),
+    UNIQUE KEY `post_id` (`post_id`, `user_id`),
+    KEY `user_id` (`user_id`),
+    CONSTRAINT `post_likes_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `posts` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `post_likes_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+CREATE TABLE `employees` (
+    `employee_id` int(11) NOT NULL AUTO_INCREMENT,
+    `user_id` int(11) NOT NULL,
+    `first_name` varchar(20) NOT NULL,
+    `last_name` varchar(30) NOT NULL,
+    `phone_number` varchar(10) NOT NULL,
+    `home_town` varchar(20) NOT NULL,
+    `district` varchar(50) DEFAULT NULL,
+    `email` varchar(30) NOT NULL,
+    `image` longblob DEFAULT NULL,
+    PRIMARY KEY (`employee_id`),
+    KEY `user_id` (`user_id`),
+    CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Step 4: Re-enable foreign key checks
+SET FOREIGN_KEY_CHECKS = 1;
