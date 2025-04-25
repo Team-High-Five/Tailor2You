@@ -234,7 +234,7 @@ class M_Tailors
     {
         $sql = 'SELECT o.*, 
             u.first_name, u.last_name,
-            d.name as design_name,
+            d.name as design_name,d.description as design_description, d.main_image as design_image,
             DATE_FORMAT(o.order_date, "%d %b %Y") as formatted_date
             FROM orders o
             JOIN users u ON o.customer_id = u.user_id
@@ -300,29 +300,39 @@ class M_Tailors
 
         // Fetch order items
         $this->db->query('
-            SELECT oi.*, 
-                   d.name as design_name, d.description as design_description, d.main_image as design_image,
-                   f.fabric_name, 
-                   c.color_name
-            FROM order_items oi
-            JOIN designs d ON oi.design_id = d.design_id
-            JOIN fabrics f ON oi.fabric_id = f.fabric_id
-            JOIN colors c ON oi.color_id = c.color_id
-            WHERE oi.order_id = :order_id
-        ');
+        SELECT oi.*, 
+               d.name as design_name, d.description as design_description, d.main_image as design_image,
+               f.fabric_name, 
+               c.color_name
+        FROM order_items oi
+        JOIN designs d ON oi.design_id = d.design_id
+        JOIN fabrics f ON oi.fabric_id = f.fabric_id
+        JOIN colors c ON oi.color_id = c.color_id
+        WHERE oi.order_id = :order_id
+    ');
         $this->db->bind(':order_id', $order_id);
         $order->items = $this->db->resultSet();
 
-        // Fetch measurements for each item
+        // Fetch measurements for each item (existing code)
         foreach ($order->items as $item) {
             $this->db->query('
-                SELECT oim.*, m.name as measurement_name, m.display_name
-                FROM order_item_measurements oim
-                JOIN measurements m ON oim.measurement_id = m.measurement_id
-                WHERE oim.item_id = :item_id
-            ');
+            SELECT oim.*, m.name as measurement_name, m.display_name
+            FROM order_item_measurements oim
+            JOIN measurements m ON oim.measurement_id = m.measurement_id
+            WHERE oim.item_id = :item_id
+        ');
             $this->db->bind(':item_id', $item->item_id);
             $item->measurements = $this->db->resultSet();
+
+            $this->db->query('
+            SELECT oic.*, ct.name as customization_name, ct.name as display_name, cc.name  as option_name,cc.image as option_image
+            FROM order_item_customizations oic
+            JOIN customization_choices cc ON oic.choice_id = cc.choice_id
+            JOIN customization_types ct ON oic.type_id = ct.type_id
+            WHERE oic.item_id = :item_id
+        ');
+            $this->db->bind(':item_id', $item->item_id);
+            $item->customizations = $this->db->resultSet();
         }
 
         return $order;

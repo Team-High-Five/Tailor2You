@@ -5,6 +5,7 @@
   border-radius: 10px;
   padding: 1.5rem;
   box-shadow: var(--card-shadow);
+  min-width: 1200px;
 }
 
 .filter-bar {
@@ -28,6 +29,7 @@ select {
 
 .table-container {
   overflow-x: auto;
+  min-width: 1000px;;
 }
 
 .order-table {
@@ -37,6 +39,7 @@ select {
   box-shadow: var(--card-shadow);
   border-radius: 8px;
   overflow: hidden;
+  
 }
 
 .order-table th,
@@ -98,6 +101,11 @@ select {
   .order-list-container {
     width: 90%;
     padding: 1rem;
+    min-width:0 ;
+  }
+  .table-container{
+    overflow-x: auto;
+    min-width: 100%;
   }
 
   .filter-bar {
@@ -144,3 +152,62 @@ select {
     font-size: 0.875rem;
   }
 }
+
+/* Order View Button Styling */
+.order-view-btn {
+  display: flex;
+  justify-content: center;
+  margin: 5px 0;
+}
+
+.view-order-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent-gradient, linear-gradient(135deg, #c4a77d 0%, #b38f63 100%));
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: var(--transition, all 0.3s ease);
+  box-shadow: var(--accent-shadow, 0 8px 16px rgba(196, 167, 125, 0.3));
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.view-order-btn:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: all 0.4s ease;
+}
+
+.view-order-btn:hover {
+  transform: var(--card-hover-transform, translateY(-5px));
+  box-shadow: 0 10px 20px rgba(196, 167, 125, 0.4);
+}
+
+.view-order-btn:hover:before {
+  left: 100%;
+}
+
+.view-order-btn .fas {
+  font-size: 14px;
+  margin-right: 4px;
+}
+
+
+
+@media (max-width: 768px) {
+  .view-order-btn {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+} 
