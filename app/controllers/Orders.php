@@ -104,6 +104,7 @@ class Orders extends Controller
 
     public function selectFabric($designId = null)
     {
+        $intent = isset($_GET['intent']) ? $_GET['intent'] : 'order';
         // If no design ID provided, check if one exists in the session
         if ($designId === null && !isset($_SESSION['order_details']['design'])) {
             redirect('Pages/index');
@@ -124,12 +125,12 @@ class Orders extends Controller
                 'total_price' => $design->base_price
             ];
         }
-
         $fabrics = $this->orderModel->getFabricsByDesignId($_SESSION['order_details']['design']->design_id);
 
         $data = [
             'title' => 'Select Fabric',
-            'fabrics' => $fabrics
+            'fabrics' => $fabrics,
+            'intent' => $intent 
         ];
 
         $this->view('designs/v_d_select_fabric', $data);

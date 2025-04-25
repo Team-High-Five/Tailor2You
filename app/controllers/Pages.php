@@ -38,6 +38,7 @@ class Pages extends Controller
 
     public function womensPage()
     {
+        $_SESSION['redirect_url'] = 'pages/womensPage';
         $featuredDesigns = $this->pageModel->getDesignsByGender('ladies');
         $data = [
             'gender' => 'ladies',
@@ -59,6 +60,7 @@ class Pages extends Controller
     }
     public function womenSareeJacketCategories()
     {
+        $_SESSION['redirect_url'] = 'pages/womenSareeJacketCategories';
         $category_id = $this->pageModel->getCategoryByName('Saree Jacket');
         $featuredDesigns = $this->pageModel->getDesignsByCategory($category_id);
         $data = [
@@ -71,6 +73,7 @@ class Pages extends Controller
 
     public function womenSkirtCategories()
     {
+        $_SESSION['redirect_url'] ='pages/womenSkirtCategories';
         $category_id = $this->pageModel->getCategoryByName('Skirt');
         $featuredDesigns = $this->pageModel->getDesignsByCategory($category_id);
         $data = [
@@ -90,9 +93,10 @@ class Pages extends Controller
             'gender' => 'ladies',
         ];
         $this->view('pages/v_womens_Blouse_category', $data);
-    }   
+    }
     public function mensPage()
     {
+        $_SESSION['redirect_url'] = 'pages/mensPage';
         $featuredDesigns = $this->pageModel->getDesignsByGender('gents');
         $data = [
             'gender' => 'gents',
@@ -103,6 +107,7 @@ class Pages extends Controller
     }
     public function menShirtCategories()
     {
+        $_SESSION['redirect_url'] = 'pages/menShirtCategories';
         $category_id = $this->pageModel->getCategoryByName('Shirt');
         $featuredDesigns = $this->pageModel->getDesignsByCategory($category_id);
         $data = [
@@ -114,6 +119,7 @@ class Pages extends Controller
     }
     public function menSuitCategories()
     {
+        $_SESSION['redirect_url'] = 'pages/menSuitCategories';
         $category_id = $this->pageModel->getCategoryByName('Suit');
         $featuredDesigns = $this->pageModel->getDesignsByCategory($category_id);
         $data = [
@@ -126,6 +132,7 @@ class Pages extends Controller
 
     public function menPantCategories()
     {
+        $_SESSION['redirect_url'] = 'pages/menPantCategories';
         $category_id = $this->pageModel->getCategoryByName('Pants');
         $featuredDesigns = $this->pageModel->getDesignsByCategory($category_id);
         $data = [
@@ -138,6 +145,7 @@ class Pages extends Controller
 
     public function genderSel()
     {
+        $_SESSION['redirect_url'] ='pages/genderSel';
         $users = $this->pageModel->getUsers();
         $data = [
             'users' => $users

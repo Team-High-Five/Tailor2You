@@ -1240,3 +1240,19 @@ CREATE TABLE `employees` (
 
 -- Step 4: Re-enable foreign key checks
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- Create cart_items table
+CREATE TABLE `cart_items` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_id` INT(11) NOT NULL,
+  `design_id` INT(11) NOT NULL,
+  `fabric_id` INT(11) NOT NULL,
+  `color_id` INT(11) NOT NULL,
+  `quantity` INT(2) DEFAULT 1,
+  `added_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`fabric_id`) REFERENCES `fabrics` (`fabric_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`color_id`) REFERENCES `colors` (`color_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
