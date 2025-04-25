@@ -8,9 +8,9 @@ class M_Appointments
     {
         $this->db = new Database;
     }
-    public function getTailorById($id)
+    public function getSellerByID($id)
     {
-        $this->db->query('SELECT * FROM users WHERE user_type = "tailor" AND user_id = :id');
+        $this->db->query('SELECT * FROM users WHERE (user_type = "tailor" OR user_type = "shopkeeper") AND user_id = :id');
         $this->db->bind(':id', $id);
         return $this->db->single();
     }
