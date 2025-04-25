@@ -49,6 +49,18 @@
                     <?php endforeach; ?>
                 </div>
             </div>
+            <!-- custom measurements -->
+            <div class="section measurements">
+                <h3>Custom Measurements</h3>
+                <div class="measurements-grid">
+                    <?php foreach ($data['customermeasurments'] as $measurement): ?>
+                        <div class="measurement-item">
+                            <span class="label"><?php echo 'Measurement Name : ' . $measurement->display_name; ?></span>
+                            <span class="value"><?php echo $measurement->value; ?> inches</span>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
 
             <!-- Tailor Details -->
             <div class="section tailordetails">
@@ -91,12 +103,44 @@
                             <span>Rs. <?php echo number_format($data['order']->fabric_price, 2); ?></span>
                         </div>
                         <div class="receipt-total">
-                            <span>Total Amount</span>
+                            <span>Amount (tax excluded)</span>
                             <span>Rs. <?php echo number_format($data['order']->total_price, 2); ?></span>
+                        </div>
+                        <div class="receipt-item">
+                            <span>Included Tax</span>
+                            <span>Rs. <?php echo number_format($data['order']->tax_amount, 2); ?></span>
+                        </div>
+                        <div class="receipt-total">
+                            <span>Total Amount</span>
+                            <span>Rs. <?php echo number_format($data['order']->final_amount, 2); ?></span>
                         </div>
                     </div>
                     <div class="payment-status <?php echo $data['order']->status; ?>">
                         <?php echo ucfirst($data['order']->status); ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section Appointment-status-details">
+                <h3>Appointment Status Details</h3>
+                <div class="receipt">
+                    <div class="receipt-items">
+                        <div class="receipt-item">
+                            <span>Appointment Status</span>
+                            <span><?php echo ucfirst($data['order']->app_status); ?></span>
+                        </div>
+                        <div class="receipt-item">
+                            <span>Appointment ID</span>
+                            <span><?php echo $data['order']->appointment_id; ?></span>
+                        </div>
+                        <div class="receipt-item">
+                            <span>Appointment Date</span>
+                            <span><?php echo date('d M Y', strtotime($data['order']->appointment_date)); ?></span>
+                        </div>
+                        <div class="receipt-item">
+                            <span>Appointment Time</span>
+                            <span><?php echo $data['order']->appointment_time; ?></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -107,7 +151,7 @@
                     <div class="receipt-items">
                         <div class="receipt-item">
                             <span>Status</span>
-                            <span><?php echo ucfirst($data['order']->status); ?></span>
+                            <span><?php echo ucfirst($data['order']->order_status); ?></span>
                         </div>
                         <div class="receipt-item">
                             <span>Appointment ID</span>
