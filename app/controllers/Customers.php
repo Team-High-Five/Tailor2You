@@ -134,8 +134,8 @@ class Customers extends Controller
             // Validate password
             if (empty($data['password'])) {
                 $data['password_err'] = 'Please enter password';
-            } elseif (strlen($data['password']) < 6) {
-                $data['password_err'] = 'Password must be at least 6 characters';
+            } elseif (strlen($data['password']) < 8) {
+                $data['password_err'] = 'Password must be at least 8 characters';
             }
             // Validate confirm password
             if (empty($data['confirm_password'])) {
@@ -409,12 +409,65 @@ class Customers extends Controller
         }
     }
 
-    public function changepassword()
+    public function changePassword()
     {
-        $data = [
-            'title' => 'Change Password'
-        ];
-        $this->view('users/Customer/v_c_changepassword', $data);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Process form
+            // Sanitize post data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            // Input data
+            $data = [
+                'title' => 'Change Password',
+                'current_password' => trim($_POST['current_password']),
+                'new_password' => trim($_POST['new_password']),
+                'confirm_password' => trim($_POST['confirm_password']),
+                'current_password_err' => '',
+                'new_password_err' => '',
+                'confirm_password_err' => '',
+                'succeed_password' => '',
+            ];
+
+            // Validate current password
+            if (empty($data['current_password'])) {
+                $data['current_password_err'] = 'Please enter current password';
+            } elseif (!$this->userModel->checkPassword($_SESSION['user_id'], $data['current_password'])) {
+                $data['current_password_err'] = 'Current password is incorrect';
+            }
+
+            // Check for errors
+            if (empty($data['current_password_err'])) {
+                // Update the password in the database
+                if ($this->userModel->updatePassword($_SESSION['user_id'], $data['new_password'])) {
+                    unset($_SESSION['user_id']);
+                    unset($_SESSION['user_email']);
+                    unset($_SESSION['user_name']);
+                    session_destroy();
+                    flash('user_message', 'Password changed successfully, please login again', 'alert alert-success');
+                    redirect('users/login');
+                } else {
+                    flash('user_message', 'Something went wrong, please try again', 'alert alert-danger');
+                    redirect('/Customers/changePassword');
+                }
+            } else {
+                // Load view with errors
+                $this->view('users/Customer/v_c_changepassword', $data);
+            }
+        } else {
+            // Init data
+            $data = [
+                'title' => 'Change Password',
+                'current_password' => '',
+                'new_password' => '',
+                'confirm_password' => '',
+                'current_password_err' => '',
+                'new_password_err' => '',
+                'confirm_password_err' => '',
+            ];
+
+            // Load view
+            $this->view('users/Customer/v_c_changepassword', $data);
+        }
     }
 
     public function updateDetails()

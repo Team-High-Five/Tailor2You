@@ -12,6 +12,7 @@
 @import url('components/flash_msg.css');
 @import url('components/chat.css');
 @import url('components/status-badges.css');
+@import url('components/order-status-indicators.css');  
 
 /* Layout Components */
 @import url('sideBar_styles.css');
