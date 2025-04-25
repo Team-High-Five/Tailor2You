@@ -6,11 +6,14 @@
   require_once APPROOT . '/views/users/Tailor/inc/Header.php';
   require_once APPROOT . '/views/users/Tailor/inc/sideBar.php';
   require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php';
-
 } ?>
 
 <div class="main-content">  
-  <button class="add-fabric-btn" id="openModalBtn">Add New Design</button>
+  <button class="btn-primary add-post-btn" id="openModalBtn">Add New Design</button>
+  
+  <!-- Add vertical space between button and filter bar -->
+  <div style="margin: 20px 0;"></div>
+  
   <div class="filter-bar">
     <div class="filter-label">
       <i class="fas fa-filter"></i> Filter Designs
