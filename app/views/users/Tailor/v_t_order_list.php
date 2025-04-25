@@ -46,7 +46,8 @@
               <th>Date</th>
               <th>Price</th>
               <th>Status</th>
-              <th>Actions</th>
+              <th>Image</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -99,15 +100,13 @@
                     </div>
                   </td>
                   <td>
-                    <div class="action-buttons">
-                      <a href="<?php echo URLROOT; ?>/Tailors/displayOrderDetails/<?php echo $order->order_id; ?>" class="btn-view" title="View Details">
-                        <i class="fas fa-eye"></i>
-                      </a>
-                      <a href="<?php echo URLROOT; ?>/Tailors/updateOrderStatus/<?php echo $order->order_id; ?>" class="btn-update" title="Update Status">
-                        <i class="fas fa-edit"></i>
-                      </a>
-                    </div>
+                    <img src="<?php echo URLROOT; ?>/public/img/uploads/designs/<?php echo $order->design_image ?> " alt="<?php echo $order->design_name; ?>" class="fabric-image">
                   </td>
+                  <td>
+                    <div class="action-btn">
+                      
+                      <a href="<?php echo URLROOT; ?>/Tailors/displayOrderDetails/<?php echo $order->order_id; ?>" class="view-order-btn">View Order</a>
+                    </div>
                 </tr>
               <?php endforeach; ?>
             <?php else: ?>

@@ -48,7 +48,7 @@
               <?php foreach ($item->measurements as $measurement): ?>
                 <li class="spec-item">
                   <span class="spec-label"><?php echo $measurement->display_name; ?>:</span>
-                  <span><?php echo $measurement->value; ?> cm</span>
+                  <span><?php echo $measurement->value; ?> INCH</span>
                 </li>
               <?php endforeach; ?>
             <?php else: ?>

@@ -234,7 +234,7 @@ class M_Tailors
     {
         $sql = 'SELECT o.*, 
             u.first_name, u.last_name,
-            d.name as design_name,
+            d.name as design_name,d.description as design_description, d.main_image as design_image,
             DATE_FORMAT(o.order_date, "%d %b %Y") as formatted_date
             FROM orders o
             JOIN users u ON o.customer_id = u.user_id
