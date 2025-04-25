@@ -61,6 +61,19 @@ CREATE TABLE `posts` (
     FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
+CREATE TABLE `likes` (
+    `like_id` int(11) NOT NULL AUTO_INCREMENT,
+    `customer_id` int(11) NOT NULL,
+    `tailor_id` int(11) NOT NULL,
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+    `status` enum('active', 'removed') DEFAULT 'active',
+    PRIMARY KEY (`like_id`),
+    UNIQUE KEY `customer_id` (`customer_id`, `tailor_id`),
+    KEY `tailor_id` (`tailor_id`),
+    CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+    CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`tailor_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
 -- Create the `appointments` table
 CREATE TABLE `appointments` (
     `appointment_id` INT(11) NOT NULL AUTO_INCREMENT,
