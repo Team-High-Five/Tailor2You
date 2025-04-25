@@ -436,16 +436,25 @@ CREATE TABLE `order_item_measurements` (
     FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE RESTRICT
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
--- User profile measurements
+
+-- Create new user_measurements table with both cm and inch values
 CREATE TABLE `user_measurements` (
     `user_id` INT(11) NOT NULL,
     `measurement_id` INT(11) NOT NULL,
-    `value` DECIMAL(10, 2) NOT NULL,
-    `last_updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `value_cm` DECIMAL(10,2) NOT NULL,
+    `value_inch` DECIMAL(10,2) NOT NULL,
+    `last_updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     PRIMARY KEY (`user_id`, `measurement_id`),
-    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+    KEY `measurement_id` (`measurement_id`),
+    CONSTRAINT `user_measurements_ibfk_1` 
+        FOREIGN KEY (`user_id`) 
+        REFERENCES `users` (`user_id`) 
+        ON DELETE CASCADE,
+    CONSTRAINT `user_measurements_ibfk_2` 
+        FOREIGN KEY (`measurement_id`) 
+        REFERENCES `measurements` (`measurement_id`) 
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Create measurement ranges table
 CREATE TABLE `measurement_ranges` (
