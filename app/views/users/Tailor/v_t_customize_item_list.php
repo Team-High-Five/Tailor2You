@@ -1,7 +1,15 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
-<div class="main-content">
+<?php if ($_SESSION['user_type'] == 'shopkeeper') {
+  require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php';
+  require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php';
+  require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php';
+} elseif ($_SESSION['user_type'] == 'tailor') {
+  require_once APPROOT . '/views/users/Tailor/inc/Header.php';
+  require_once APPROOT . '/views/users/Tailor/inc/sideBar.php';
+  require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php';
+
+} ?>
+
+<div class="main-content">  
   <button class="add-fabric-btn" id="openModalBtn">Add New Design</button>
   <div class="filter-bar">
     <div class="filter-label">

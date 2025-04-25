@@ -6,6 +6,7 @@ require_once APPROOT . '/controllers/Fabrics.php';
 class Shopkeepers extends Controller
 {
     private $shopkeeperModel;
+    private $designModel;
     private $userModel;
     private $fabricController;
 
@@ -13,6 +14,7 @@ class Shopkeepers extends Controller
     {
         $this->shopkeeperModel = $this->model('M_Shopkeepers');
         $this->userModel = $this->model('M_Users');
+        $this->designModel = $this->model('M_Designs');
         $this->fabricController = new Fabrics();
     }
 
@@ -458,7 +460,7 @@ class Shopkeepers extends Controller
         $data = [
             'title' => 'Customize Items'
         ];
-        $this->view('users/Shopkeeper/v_s_customize_item_list', $data);
+        $this->view('users/Shopkeeper/v_t_customize_item_list', $data);
     }
 
     public function displayCustomizeItemDetails()
@@ -474,7 +476,7 @@ class Shopkeepers extends Controller
         $data = [
             'title' => 'Add Customize Item'
         ];
-        $this->view('users/Shopkeeper/v_s_customize_add_new', $data);
+        $this->view('users/Tailor/v_s_customize_add_new', $data);
     }
 
     public function addNewCustomizeItem()
