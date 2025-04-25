@@ -5,16 +5,34 @@
 <div class="profile-container">
     <div class="pic">
         <div class="profile-image">
-            <img src="<?php echo URLROOT; ?>/public/img/home/lady1.jpg" alt="Profile">
+            <?php if (isset($data['tailor']->profile_pic) && !empty($data['tailor']->profile_pic)): ?>
+                <img src="data:image/jpeg;base64,<?php echo base64_encode($data['tailor']->profile_pic); ?>" alt="Profile">
+            <?php else: ?>
+                <img src="<?php echo URLROOT; ?>/public/img/home/lady1.jpg" alt="Profile">
+            <?php endif; ?>
         </div>
-        <div class="profile-name">Saduni Perera</div>
+        <div class="profile-name"><?php echo $data['tailor']->name; ?></div>
     </div>
     <div class="profile-stats-container">
         <div class="followers">
-            <div>12<br>Posts</div>
-            <div>100<br>Likes</div>
+            <div><?php echo $data['postCount']; ?><br>Posts</div>
+            <div><?php echo $data['likeCount']; ?><br>Likes</div>
         </div>
-        <button class="follow-button">Like <i class="fas fa-thumbs-up"></i></button>
+        <?php if (isLoggedIn()): ?>
+            <form action="<?php echo URLROOT; ?>/Pages/likeTailor/<?php echo $data['tailor']->user_id; ?>" method="post">
+                <button type="submit" class="follow-button <?php echo ($data['hasLiked']) ? 'liked' : ''; ?>">
+                    <?php if ($data['hasLiked']): ?>
+                        Liked <i class="fas fa-thumbs-up"></i>
+                    <?php else: ?>
+                        Like <i class="fas fa-thumbs-up"></i>
+                    <?php endif; ?>
+                </button>
+            </form>
+        <?php else: ?>
+            <a href="<?php echo URLROOT; ?>/users/login" class="follow-button">
+                Login to Like <i class="fas fa-thumbs-up"></i>
+            </a>
+        <?php endif; ?>
     </div>
 </div>
 
@@ -24,10 +42,14 @@
 </div>
 
 <div class="content-container">
-    <?php if (isset($_GET['content'])) {
+    <?php
+    // Store tailor ID in a variable to be accessible in included files
+    $tailorId = $data['tailor']->user_id;
+
+    if (isset($_GET['content'])) {
         $content = $_GET['content'];
         if ($content == 'posts') {
-            include 'inc/components/tailor_posts.php'; //add here
+            include 'inc/components/tailor_posts.php';
         } elseif ($content == 'designs') {
             include 'inc/components/tailor_selling_items.php';
         }
