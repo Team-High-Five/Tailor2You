@@ -1142,6 +1142,27 @@ CREATE TABLE `order_status_history` (
     FOREIGN KEY (`updated_by`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
+DROP TABLE IF EXISTS `user_measurements`;
+
+-- Create new user_measurements table with both cm and inch values
+CREATE TABLE `user_measurements` (
+    `user_id` INT(11) NOT NULL,
+    `measurement_id` INT(11) NOT NULL,
+    `value_cm` DECIMAL(10,2) NOT NULL,
+    `value_inch` DECIMAL(10,2) NOT NULL,
+    `last_updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`user_id`, `measurement_id`),
+    KEY `measurement_id` (`measurement_id`),
+    CONSTRAINT `user_measurements_ibfk_1` 
+        FOREIGN KEY (`user_id`) 
+        REFERENCES `users` (`user_id`) 
+        ON DELETE CASCADE,
+    CONSTRAINT `user_measurements_ibfk_2` 
+        FOREIGN KEY (`measurement_id`) 
+        REFERENCES `measurements` (`measurement_id`) 
+        ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
 ALTER TABLE `orders`
 ADD COLUMN `tax_amount` DECIMAL(10, 2) NOT NULL DEFAULT 0.00 AFTER `total_amount`,
 ADD COLUMN `final_amount` DECIMAL(10, 2) NOT NULL DEFAULT 0.00 AFTER `tax_amount`;
