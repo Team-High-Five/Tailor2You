@@ -33,17 +33,19 @@ CREATE TABLE `users` (
 
 -- Create the `employees` table
 CREATE TABLE `employees` (
-    `employee_id` INT(11) NOT NULL AUTO_INCREMENT,
-    `user_id` INT(11) NOT NULL,
-    `first_name` VARCHAR(20) NOT NULL,
-    `last_name` VARCHAR(30) NOT NULL,
-    `phone_number` VARCHAR(10) NOT NULL,
-    `home_town` VARCHAR(20) NOT NULL,
-    `email` VARCHAR(30) NOT NULL,
-    `image` LONGBLOB DEFAULT NULL,
+    `employee_id` int(11) NOT NULL AUTO_INCREMENT,
+    `user_id` int(11) NOT NULL,
+    `first_name` varchar(20) NOT NULL,
+    `last_name` varchar(30) NOT NULL,
+    `phone_number` varchar(10) NOT NULL,
+    `home_town` varchar(20) NOT NULL,
+    `district` varchar(50) DEFAULT NULL,
+    `email` varchar(30) NOT NULL,
+    `image` longblob DEFAULT NULL,
     PRIMARY KEY (`employee_id`),
-    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+    KEY `user_id` (`user_id`),
+    CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- -----------------------------------------------------
 -- 2. COMMUNICATION TABLES
@@ -51,15 +53,24 @@ CREATE TABLE `employees` (
 
 -- Create the `posts` table
 CREATE TABLE `posts` (
-    `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `user_id` INT(11) NOT NULL,
-    `title` VARCHAR(255) NOT NULL,
-    `description` TEXT NOT NULL,
-    `image` LONGBLOB,
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `user_id` int(11) NOT NULL,
+    `title` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `gender` enum('men', 'women', 'unisex') DEFAULT 'unisex',
+    `item_type` enum(
+        'shirt',
+        'pant',
+        'frock',
+        'skirt',
+        'blouse'
+    ) DEFAULT NULL,
+    `image` longblob DEFAULT NULL,
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+    KEY `user_id` (`user_id`),
+    CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 CREATE TABLE `likes` (
     `like_id` int(11) NOT NULL AUTO_INCREMENT,
@@ -331,6 +342,7 @@ CREATE TABLE `order_status_history` (
     FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
     FOREIGN KEY (`updated_by`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
 -- Order item customizations (which customization choices were selected for each item)
 CREATE TABLE `order_item_customizations` (
     `item_customization_id` INT(11) NOT NULL AUTO_INCREMENT,

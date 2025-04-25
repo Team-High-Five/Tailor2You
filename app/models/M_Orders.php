@@ -229,16 +229,18 @@ class M_Orders
     // Get user's existing measurements if available
     public function getUserMeasurements($userId)
     {
-        $this->db->query('SELECT m.name, um.value
+        $this->db->query('SELECT m.name, um.value_inch
                      FROM user_measurements um
                      JOIN measurements m ON um.measurement_id = m.measurement_id
                      WHERE um.user_id = :user_id');
         $this->db->bind(':user_id', $userId);
         $results = $this->db->resultSet();
-
+        if(empty($results)) {
+            return []; // No measurements found for this user
+        }
         $measurements = [];
         foreach ($results as $result) {
-            $measurements[$result->name] = $result->value;
+            $measurements[$result->name] = $result->value_inch;
         }
 
         return $measurements;
@@ -425,13 +427,6 @@ class M_Orders
             return false;
         }
     }
-    /**
-     * Add measurements to an order item
-     * 
-     * @param int $itemId The order item ID
-     * @param array $measurements Array of measurements (measurement_id => value)
-     * @return bool Success status
-     */
     public function addOrderItemMeasurements($itemId, $measurements)
     {
         try {
@@ -468,10 +463,10 @@ class M_Orders
         try {
             $this->db->query('INSERT INTO appointments (
             customer_id, tailor_shopkeeper_id, appointment_date, 
-            appointment_time, location_type, status, created_at
+            appointment_time,  status
         ) VALUES (
             :customer_id, :tailor_id, :appointment_date, 
-            :appointment_time, :location_type, :status, NOW()
+            :appointment_time,:status
         )');
 
             $this->db->bind(':customer_id', $appointmentData['customer_id']);
