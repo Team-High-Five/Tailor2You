@@ -11,7 +11,11 @@
             <div class="order">
             <div class="order-image">
                 <div class="image-wrapper">
-                    <img src="<?php echo URLROOT; ?>/public/img/designs/shirt1.jpg" alt="Black Shirt">
+                    <?php if ($order->main_image): ?>
+                        <img src=  " <?php echo URLROOT ?>/public/img/uploads/designs/<?php echo $order->main_image ?>"  alt="Design Image">
+                    <?php else: ?>
+                        <img src="<?php echo URLROOT; ?>/public/img/designs/default_design.jpg" alt="Default Design">
+                    <?php endif; ?>
                     <div class="order-image-text">
                         <h4><?php echo $order->name ?></h4>
                         <p class="price"><?php echo $order->total_price ?></p>

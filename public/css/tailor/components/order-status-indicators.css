@@ -1,0 +1,68 @@
+/* Status indicator styling */
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .status-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-shrink: 0;
+  }
+  
+  .status-icon.order-placed {
+    background-color: #87CEEB; /* Light blue */
+  }
+  
+  .status-icon.fabric-cutting {
+    background-color: #FF9800; /* Orange */
+  }
+  
+  .status-icon.stitching {
+    background-color: #673AB7; /* Purple */
+  }
+  
+  .status-icon.ready-for-delivery {
+    background-color: #2196F3; /* Blue */
+  }
+  
+  .status-icon.delivered {
+    background-color: #4CAF50; /* Green */
+  }
+  
+  .status-icon.cancelled {
+    background-color: #F44336; /* Red */
+  }
+  
+  .status-text {
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  
+  /* Responsive adjustments */
+  @media screen and (max-width: 768px) {
+    .status-indicator {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .status-icon {
+      width: 24px;
+      height: 24px;
+      font-size: 0.75rem;
+    }
+    
+    .status-text {
+      font-size: 0.75rem;
+    }
+  }
