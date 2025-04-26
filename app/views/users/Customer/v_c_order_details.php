@@ -154,10 +154,6 @@
                             <span><?php echo ucfirst($data['order']->order_status); ?></span>
                         </div>
                         <div class="receipt-item">
-                            <span>Appointment ID</span>
-                            <span><?php echo $data['order']->appointment_id; ?></span>
-                        </div>
-                        <div class="receipt-item">
                             <span>Delivery Address</span>
                             <span><?php echo $data['order']->delivery_address; ?></span>
                         </div>
