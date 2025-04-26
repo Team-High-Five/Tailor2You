@@ -78,4 +78,5 @@
     });
 </script>
 
+
 <?php require_once APPROOT . '/views/pages/inc/footer.php'; ?>

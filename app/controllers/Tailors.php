@@ -27,9 +27,94 @@ class Tailors extends Controller
 
     public function index()
     {
+        // Check if user is logged in as tailor
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            redirect('users/login');
+        }
+
+        // Get dashboard statistics
+        $dashboardStats = $this->tailorModel->getDashboardStats($_SESSION['user_id']);
+
+        // Get monthly sales data for the chart
+        $monthlySalesData = $this->tailorModel->getMonthlySalesData($_SESSION['user_id']);
+
+        // Prepare the data for the chart
+        $months = [];
+        $salesValues = [];
+
+        // Initialize all 12 months with 0 values
+        $allMonths = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
+        ];
+
+        foreach ($allMonths as $month) {
+            $months[] = $month;
+            $salesValues[] = 0;
+        }
+
+        // Fill in the actual data
+        foreach ($monthlySalesData as $data) {
+            // Month is 1-indexed, array is 0-indexed
+            $salesValues[$data->month - 1] = (int)$data->monthly_sales;
+        }
+
+        // Get order status counts for the pie chart
+        $orderStatusData = $this->tailorModel->getOrderStatusCounts($_SESSION['user_id']);
+
+        // Prepare the data for the pie chart
+        $statusLabels = [];
+        $statusCounts = [];
+        $statusColors = [
+            'order_placed' => 'rgba(106, 90, 205, 0.6)',
+            'fabric_cutting' => 'rgba(123, 104, 238, 0.6)',
+            'stitching' => 'rgba(65, 105, 225, 0.6)',
+            'ready_for_delivery' => 'rgba(46, 139, 87, 0.6)',
+            'delivered' => 'rgba(60, 179, 113, 0.6)',
+            'cancelled' => 'rgba(255, 99, 132, 0.6)',
+        ];
+
+        $displayLabels = [
+            'order_placed' => 'Order Placed',
+            'fabric_cutting' => 'Fabric Cutting',
+            'stitching' => 'Stitching',
+            'ready_for_delivery' => 'Ready for Delivery',
+            'delivered' => 'Delivered',
+            'cancelled' => 'Cancelled',
+        ];
+
+        $pieChartColors = [];
+        $pieBorderColors = [];
+
+        foreach ($orderStatusData as $status) {
+            $statusLabels[] = $displayLabels[$status->status] ?? $status->status;
+            $statusCounts[] = $status->count;
+            $color = $statusColors[$status->status] ?? 'rgba(169, 169, 169, 0.6)';
+            $pieChartColors[] = $color;
+            $pieBorderColors[] = str_replace('0.6', '1', $color);
+        }
 
         $data = [
-            'title' => 'Dashboard'
+            'title' => 'Dashboard',
+            'stats' => $dashboardStats,
+            'chart_data' => [
+                'months' => $months,
+                'sales_values' => $salesValues,
+                'status_labels' => $statusLabels,
+                'status_counts' => $statusCounts,
+                'pie_colors' => $pieChartColors,
+                'pie_border_colors' => $pieBorderColors
+            ]
         ];
 
         $this->view('users/Tailor/v_t_dashboard', $data);

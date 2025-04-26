@@ -139,42 +139,7 @@ CREATE TABLE `fabric_colors` (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- -----------------------------------------------------
--- 4. MEASUREMENT TABLES
--- -----------------------------------------------------
-
--- Create shirt measurements table
-CREATE TABLE `shirt_measurements` (
-    `user_id` int(11) DEFAULT NULL,
-    `measure` enum('cm', 'inch') DEFAULT NULL,
-    `collar_size` decimal(5, 2) NOT NULL,
-    `chest_width` decimal(5, 2) NOT NULL,
-    `waist_width` decimal(5, 2) NOT NULL,
-    `bottom_width` decimal(5, 2) NOT NULL,
-    `shoulder_width` decimal(5, 2) NOT NULL,
-    `sleeve_length` decimal(5, 2) NOT NULL,
-    `armhole_depth` decimal(5, 2) NOT NULL,
-    `bicep` decimal(5, 2) NOT NULL,
-    `cuff_size` decimal(5, 2) NOT NULL,
-    `front_length` decimal(5, 2) NOT NULL,
-    KEY `user_id` (`user_id`),
-    CONSTRAINT `shirt_measurements_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- Create pant measurements table
-CREATE TABLE `pant_measurements` (
-    `user_id` varchar(100) NOT NULL,
-    `measure` int(11) NOT NULL,
-    `waist_width` int(11) NOT NULL,
-    `seat` int(11) NOT NULL,
-    `mid_thigh_width` int(11) NOT NULL,
-    `inseam` int(11) NOT NULL,
-    `bottom_width` int(11) NOT NULL,
-    `rise_height_front` int(11) NOT NULL,
-    `rise_height_back` int(11) NOT NULL
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- -----------------------------------------------------
--- 5. CLOTHING CATEGORY AND DESIGN TABLES
+-- 4. CLOTHING CATEGORY AND DESIGN TABLES
 -- -----------------------------------------------------
 
 -- Create clothing categories table
@@ -257,6 +222,87 @@ CREATE TABLE `design_fabrics` (
     FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE CASCADE,
     FOREIGN KEY (`fabric_id`) REFERENCES `fabrics` (`fabric_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- -----------------------------------------------------
+-- 5. MEASUREMENT SYSTEM TABLES
+-- -----------------------------------------------------
+
+-- Master table of all possible clothing measurements
+CREATE TABLE `measurements` (
+    `measurement_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(50) NOT NULL,
+    `display_name` VARCHAR(100) NOT NULL,
+    `description` TEXT NULL,
+    `unit_type` ENUM(
+        'length',
+        'circumference',
+        'angle',
+        'other'
+    ) NOT NULL,
+    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`measurement_id`),
+    UNIQUE KEY (`name`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+-- Link measurements to clothing categories
+CREATE TABLE `category_measurements` (
+    `category_id` INT(11) NOT NULL,
+    `measurement_id` INT(11) NOT NULL,
+    `is_required` BOOLEAN DEFAULT FALSE,
+    `display_order` INT(11) DEFAULT 0,
+    PRIMARY KEY (
+        `category_id`,
+        `measurement_id`
+    ),
+    FOREIGN KEY (`category_id`) REFERENCES `clothing_categories` (`category_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+-- Design-specific measurement requirements
+CREATE TABLE `design_measurements` (
+    `design_id` INT(11) NOT NULL,
+    `measurement_id` INT(11) NOT NULL,
+    `is_required` BOOLEAN DEFAULT TRUE,
+    `description` TEXT NULL,
+    `display_order` INT(11) DEFAULT 0,
+    PRIMARY KEY (`design_id`, `measurement_id`),
+    FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+-- Custom measurements for designs (if standard measurements aren't enough)
+CREATE TABLE `custom_design_measurements` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `design_id` INT(11) NOT NULL,
+    `name` VARCHAR(50) NOT NULL,
+    `display_name` VARCHAR(100) NOT NULL,
+    `description` TEXT NULL,
+    `is_required` BOOLEAN DEFAULT TRUE,
+    `unit_type` ENUM(
+        'length',
+        'circumference',
+        'angle',
+        'other'
+    ) NOT NULL,
+    `display_order` INT(11) DEFAULT 999,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE CASCADE,
+    UNIQUE KEY (`design_id`, `name`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+-- Create new user_measurements table with both cm and inch values
+CREATE TABLE `user_measurements` (
+    `user_id` INT(11) NOT NULL,
+    `measurement_id` INT(11) NOT NULL,
+    `value_cm` DECIMAL(10, 2) NOT NULL,
+    `value_inch` DECIMAL(10, 2) NOT NULL,
+    `last_updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`user_id`, `measurement_id`),
+    KEY `measurement_id` (`measurement_id`),
+    CONSTRAINT `user_measurements_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+    CONSTRAINT `user_measurements_ibfk_2` FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
 
 -- -----------------------------------------------------
 -- 6. ORDER MANAGEMENT TABLES
@@ -356,73 +402,6 @@ CREATE TABLE `order_item_customizations` (
     FOREIGN KEY (`choice_id`) REFERENCES `customization_choices` (`choice_id`) ON DELETE RESTRICT
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
--- -----------------------------------------------------
--- 7. ADVANCED MEASUREMENT SYSTEM TABLES
--- -----------------------------------------------------
-
--- Master table of all possible clothing measurements
-CREATE TABLE `measurements` (
-    `measurement_id` INT(11) NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(50) NOT NULL,
-    `display_name` VARCHAR(100) NOT NULL,
-    `description` TEXT NULL,
-    `unit_type` ENUM(
-        'length',
-        'circumference',
-        'angle',
-        'other'
-    ) NOT NULL,
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`measurement_id`),
-    UNIQUE KEY (`name`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
--- Link measurements to clothing categories
-CREATE TABLE `category_measurements` (
-    `category_id` INT(11) NOT NULL,
-    `measurement_id` INT(11) NOT NULL,
-    `is_required` BOOLEAN DEFAULT FALSE,
-    `display_order` INT(11) DEFAULT 0,
-    PRIMARY KEY (
-        `category_id`,
-        `measurement_id`
-    ),
-    FOREIGN KEY (`category_id`) REFERENCES `clothing_categories` (`category_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
--- Design-specific measurement requirements
-CREATE TABLE `design_measurements` (
-    `design_id` INT(11) NOT NULL,
-    `measurement_id` INT(11) NOT NULL,
-    `is_required` BOOLEAN DEFAULT TRUE,
-    `description` TEXT NULL,
-    `display_order` INT(11) DEFAULT 0,
-    PRIMARY KEY (`design_id`, `measurement_id`),
-    FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
--- Custom measurements for designs (if standard measurements aren't enough)
-CREATE TABLE `custom_design_measurements` (
-    `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `design_id` INT(11) NOT NULL,
-    `name` VARCHAR(50) NOT NULL,
-    `display_name` VARCHAR(100) NOT NULL,
-    `description` TEXT NULL,
-    `is_required` BOOLEAN DEFAULT TRUE,
-    `unit_type` ENUM(
-        'length',
-        'circumference',
-        'angle',
-        'other'
-    ) NOT NULL,
-    `display_order` INT(11) DEFAULT 999,
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE CASCADE,
-    UNIQUE KEY (`design_id`, `name`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
-
 -- Actual measurement values for order items
 CREATE TABLE `order_item_measurements` (
     `item_measurement_id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -437,25 +416,6 @@ CREATE TABLE `order_item_measurements` (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 
--- Create new user_measurements table with both cm and inch values
-CREATE TABLE `user_measurements` (
-    `user_id` INT(11) NOT NULL,
-    `measurement_id` INT(11) NOT NULL,
-    `value_cm` DECIMAL(10,2) NOT NULL,
-    `value_inch` DECIMAL(10,2) NOT NULL,
-    `last_updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`user_id`, `measurement_id`),
-    KEY `measurement_id` (`measurement_id`),
-    CONSTRAINT `user_measurements_ibfk_1` 
-        FOREIGN KEY (`user_id`) 
-        REFERENCES `users` (`user_id`) 
-        ON DELETE CASCADE,
-    CONSTRAINT `user_measurements_ibfk_2` 
-        FOREIGN KEY (`measurement_id`) 
-        REFERENCES `measurements` (`measurement_id`) 
-        ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
 -- Create measurement ranges table
 CREATE TABLE `measurement_ranges` (
     `measurement_id` INT(11) NOT NULL,
@@ -465,3 +425,79 @@ CREATE TABLE `measurement_ranges` (
     PRIMARY KEY (`measurement_id`),
     FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+
+--------------------------------------------------------
+-- 7. CART MANAGEMENT TABLES
+-- -----------------------------------------------------
+-- Create cart_items table
+CREATE TABLE `cart_items` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_id` INT(11) NOT NULL,
+  `design_id` INT(11) NOT NULL,
+  `fabric_id` INT(11) NOT NULL,
+  `color_id` INT(11) NOT NULL,
+  `quantity` INT(2) DEFAULT 1,
+  `added_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`fabric_id`) REFERENCES `fabrics` (`fabric_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`color_id`) REFERENCES `colors` (`color_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+
+-- SQL script for creating the `messages` table
+
+CREATE TABLE `messages` (
+  `message_id` int(11) NOT NULL,
+  `sender_id` int(11) NOT NULL,
+  `receiver_id` int(11) NOT NULL,
+  `text` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Add primary key and indexes
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`message_id`),
+  ADD KEY `sender_id` (`sender_id`),
+  ADD KEY `receiver_id` (`receiver_id`);
+
+-- Set AUTO_INCREMENT for the primary key
+ALTER TABLE `messages`
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+-- Add foreign key constraints
+ALTER TABLE `messages`
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+
+COMMIT;
+
+-- SQL script for creating the `reviews` table
+
+CREATE TABLE `reviews` (
+  `review_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `review_text` text NOT NULL,
+  `rating` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` enum('accepted','pending','rejected') DEFAULT 'pending',
+  `action` varchar(255) DEFAULT NULL,
+  `admin_notes` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Add primary key and indexes
+ALTER TABLE `reviews`
+  ADD PRIMARY KEY (`review_id`),
+  ADD KEY `user_id` (`user_id`);
+
+-- Set AUTO_INCREMENT for the primary key
+ALTER TABLE `reviews`
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+-- Add foreign key constraint
+ALTER TABLE `reviews`
+  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+
+COMMIT;

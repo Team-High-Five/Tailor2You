@@ -2,29 +2,11 @@
 <?php require_once APPROOT . '/views/pages/inc/components/topnav.php'; ?>
 <!-- slider -->
 <?php require_once APPROOT . '/views/pages/inc/components/main_slidebar.php'; ?>
-<!-- Shop by Category Section -->
-<section class="category">
-    <div class="topic">Shop By Category</div><br>
-    <div class="topic-soon">Available Soon</div>
-    <div class="category-grid">
-        <button class="category-item" style="background-image: url('<?php echo URLROOT; ?>/public/img/home/men.jpg');">
-            <h1>Men</h1>
-        </button>
-        <button class="category-item" style="background-image: url('<?php echo URLROOT; ?>/public/img/home/women.jpg');">
-            <h1>Women</h1>
-        </button>
-        <button class="category-item" style="background-image: url('<?php echo URLROOT; ?>/public/img/home/girl.jpg');">
-            <h1>Girls</h1>
-        </button>
-        <button class="category-item" style="background-image: url('<?php echo URLROOT; ?>/public/img/home/boy.jpg');">
-            <h1>Boys</h1>
-        </button>
-    </div>
-</section>
 
+<span id="collection"></span>
 <?php
 $designs = $data['designs'] ?? [];
-require_once APPROOT . '/views/pages/inc/components/design_grid.php';
+require_once APPROOT . '/views/pages/inc/components/new_collection.php';
 ?>
 <!-- Image Section -->
 <!-- <section class="image-section">
@@ -81,34 +63,8 @@ require_once APPROOT . '/views/pages/inc/components/design_grid.php';
     </div>
 </section>
 <span id="footer"></span>
-<footer class="footer">
-    <div class="footer-container">
-        <!-- About Us Section -->
-        <div class="aboutUs">
-            <h3>About Us</h3>
-            <p>
-                At Tailor2You, we’re dedicated to providing personalized fashion services right at your convenience. Whether you're looking for custom-made outfits, alterations, or quick fixes, our expert tailors are here to bring your vision to life. With our platform, you can easily find the nearest tailors in your area and get the quality and fit you deserve.
-            </p>
-        </div>
 
-        <!-- Contact Us Section -->
-        <div class="footer-section">
-            <h3>Contact Us</h3>
-            <p>
-                Email: <a href="mailto:contact@example.com">tailor2you@gmail.com</a><br>
-                Phone: <a href="tel:+1234567890">+94 767 665 560</a><br>
-
-            </p>
-        </div>
-    </div>
-    <p class="footer-rights">
-        &copy; 2024 Tailor2You. All rights reserved.
-    </p>
-</footer>
 <script src="<?php echo URLROOT; ?>/public/js/script.js"></script>
 <script src="<?php echo URLROOT; ?>/public/js/slidebar.js"></script>
 
-
-</body>
-
-</html>
+<?php require_once APPROOT . '/views/pages/inc/footer.php'; ?>

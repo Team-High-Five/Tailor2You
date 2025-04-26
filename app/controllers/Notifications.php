@@ -7,12 +7,14 @@ class Notifications extends Controller
 {
     private $notificationModel;
     private $customerModel;
+    private $tailorModel;
 
     public function __construct()
     {
 
         $this->notificationModel = $this->model('M_Notifications');
         $this->customerModel = $this->model('M_Customers');
+        $this->tailorModel = $this->model('M_Tailors');
     }
 
     /**
@@ -87,5 +89,105 @@ class Notifications extends Controller
     public function markAsRead()
     {
         // To be implemented for actual database storage of read status
+    }
+    public function getTailorNotifications()
+    {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            redirect('Pages');
+            return;
+        }
+
+        // Check if user is logged in as tailor
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Authentication required'
+            ]);
+            return;
+        }
+
+        try {
+            $userId = $_SESSION['user_id'];
+            $notifications = [];
+
+            // Get new appointment notifications
+            $appointments = $this->tailorModel->getRecentAppointments($userId, 'pending');
+
+            foreach ($appointments as $appointment) {
+                $notifications[] = [
+                    'id' => 'appointment_' . $appointment->appointment_id,
+                    'type' => 'new_appointment',
+                    'title' => 'New Appointment Request',
+                    'message' => $appointment->customer_first_name . ' ' . $appointment->customer_last_name . ' has requested an appointment.',
+                    'date' => $appointment->created_at,
+                    'timestamp' => strtotime($appointment->created_at),
+                    'is_read' => false,
+                    'details' => [
+                        'appointment_id' => $appointment->appointment_id,
+                        'date' => $appointment->appointment_date,
+                        'time' => $appointment->appointment_time,
+                        'customer_name' => $appointment->customer_first_name . ' ' . $appointment->customer_last_name
+                    ]
+                ];
+            }
+
+            // Get new order notifications
+            $orders = $this->tailorModel->getRecentOrders($userId, 'order_placed');
+
+            foreach ($orders as $order) {
+                $notifications[] = [
+                    'id' => 'order_' . $order->order_id,
+                    'type' => 'order_placed',
+                    'title' => 'New Order Placed',
+                    'message' => 'You have received a new order from ' . $order->customer_name,
+                    'date' => $order->order_date,
+                    'timestamp' => strtotime($order->order_date),
+                    'is_read' => false,
+                    'details' => [
+                        'order_id' => $order->order_id,
+                        'customer_name' => $order->customer_name,
+                        'amount' => number_format($order->total_amount, 2)
+                    ]
+                ];
+            }
+
+            // Sort by timestamp (newest first)
+            usort($notifications, function ($a, $b) {
+                return $b['timestamp'] - $a['timestamp'];
+            });
+
+            echo json_encode([
+                'status' => 'success',
+                'count' => count($notifications),
+                'notifications' => $notifications
+            ]);
+        } catch (Exception $e) {
+            // Log the error
+            error_log('Notification error: ' . $e->getMessage());
+
+            // Return a more helpful error response
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Error loading notifications: ' . $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
+        }
+    }
+    /**
+     * Mark all notifications as read
+     */
+    public function markAllAsRead()
+    {
+        if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+            redirect('Pages');
+            return;
+        }
+
+        // In a real implementation, you would update your database
+        // For now, we'll just return success
+        echo json_encode([
+            'status' => 'success',
+            'message' => 'All notifications marked as read'
+        ]);
     }
 }

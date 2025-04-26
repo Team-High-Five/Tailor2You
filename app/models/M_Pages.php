@@ -37,6 +37,42 @@ class M_Pages
         ");
         return $this->db->resultSet();
     }
+    public function getDesignsByGender($gender)
+    {
+        $this->db->query(
+            "
+        SELECT d.design_id, d.name, d.main_image, d.base_price, d.gender,
+        u.user_id, CONCAT(u.first_name, ' ', u.last_name) as tailor_name
+        FROM designs d
+        JOIN users as u ON d.user_id = u.user_id
+        WHERE d.status = 'active' AND d.gender = :gender
+        ORDER BY RAND()
+        LIMIT 6"
+        );
+        $this->db->bind(':gender', $gender);
+        return $this->db->resultSet();
+    }
+
+    public function getCategoryByName($categoryName)
+    {
+        $this->db->query("SELECT category_id FROM clothing_categories WHERE name = :name");
+        $this->db->bind(':name', $categoryName);
+        $result= $this->db->single();
+
+        return $result ? $result->category_id : null;
+    }
+    public function  getDesignsByCategory($categoryId)
+    {
+        $this->db->query("SELECT d.design_id, d.name, d.main_image,d.base_price ,
+        u.user_id, CONCAT(u.first_name, ' ', u.last_name) as tailor_name
+        FROM designs d
+        JOIN users as u ON d.user_id = u.user_id
+        WHERE d.status ='active' AND d.category_id = :categoryId
+        ORDER BY RAND()
+        LIMIT 6");
+        $this->db->bind(':categoryId', $categoryId);
+        return $this->db->resultSet();
+    }
     // Add these new methods to the existing M_Pages class
     public function getSellerById($id)
     {

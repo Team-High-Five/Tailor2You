@@ -8,9 +8,11 @@
           <input type="text" placeholder="Type to search">
           <button><i><img src="<?php echo URLROOT; ?>/public/img/Search.png"></i></button>
         </div>
-        
-        <a href="<?php echo URLROOT ?>/Action/index"><button class="icon-button"><i class="fas fa-envelope"></i></button></a>
-        
+        <a href="<?php echo URLROOT; ?>/Chat/index">
+          <button class="icon-button">
+            <i class="fas fa-envelope"></i>
+          </button>
+        </a>
         <div class="notification-dropdown">
           <button id="notificationBtn" class="icon-button">
             <i class="fas fa-bell"></i>
@@ -58,5 +60,7 @@
       </a>
     </div>
   </div>
+
+
 
 <script src='<?php echo URLROOT; ?>/public/js/notifications.js'></script>

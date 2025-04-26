@@ -46,8 +46,7 @@ class M_Fabrics
         }
     }
 
-    public function getFabricById($fabric_id)
-    {
+    public function getFabricById($fabricId) {
         $this->db->query('
             SELECT f.*, GROUP_CONCAT(c.color_name SEPARATOR ", ") AS colors
             FROM fabrics f
@@ -56,34 +55,18 @@ class M_Fabrics
             WHERE f.fabric_id = :fabric_id
             GROUP BY f.fabric_id
         ');
-        $this->db->bind(':fabric_id', $fabric_id);
+        $this->db->bind(':fabric_id', $fabricId);
         return $this->db->single();
     }
 
     public function updateFabric($data)
     {
-        $this->db->query('UPDATE fabrics SET fabric_name = :fabric_name, price_per_meter = :price, stock = :stock, image = :image WHERE fabric_id = :fabric_id');
+        $this->db->query('UPDATE fabrics SET fabric_name = :fabric_name, price_per_meter = :price, stock = :stock WHERE fabric_id = :fabric_id');
         $this->db->bind(':fabric_name', $data['fabric_name']);
-        $this->db->bind(':price', $data['price']);
+        $this->db->bind(':price', $data['price_per_meter']);
         $this->db->bind(':stock', $data['stock']);
-        $this->db->bind(':image', $data['image']);
         $this->db->bind(':fabric_id', $data['fabric_id']);
-
-        if ($this->db->execute()) {
-            $this->db->query('DELETE FROM fabric_colors WHERE fabric_id = :fabric_id');
-            $this->db->bind(':fabric_id', $data['fabric_id']);
-            $this->db->execute();
-
-            foreach ($data['colors'] as $color_id) {
-                $this->db->query('INSERT INTO fabric_colors (fabric_id, color_id) VALUES (:fabric_id, :color_id)');
-                $this->db->bind(':fabric_id', $data['fabric_id']);
-                $this->db->bind(':color_id', $color_id);
-                $this->db->execute();
-            }
-            return true;
-        } else {
-            return false;
-        }
+        return $this->db->execute();
     }
 
     public function deleteFabric($fabric_id)
@@ -109,5 +92,15 @@ class M_Fabrics
         $this->db->query('SELECT image FROM fabrics WHERE fabric_id = :fabric_id');
         $this->db->bind(':fabric_id', $fabric_id);
         return $this->db->single();
+    }
+
+    public function getAllFabrics() {
+        $this->db->query('SELECT * FROM fabrics ORDER BY fabric_id ASC'); // Order by fabric_id in ascending order
+        return $this->db->resultSet();
+    }
+
+    public function getFabricsCount() {
+        $this->db->query('SELECT COUNT(*) AS count FROM fabrics');
+        return $this->db->single()->count;
     }
 }

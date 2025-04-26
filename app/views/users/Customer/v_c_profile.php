@@ -3,7 +3,6 @@
 <?php require_once APPROOT . '/views/users/Customer/inc/topNavBar.php'; ?>
 <div class="main-content">
   <div class="profile-form-container">
-
     <div class="profile-form">
       <form id="profileForm" action="<?php echo URLROOT; ?>/Customers/profileUpdate" method="POST" enctype="multipart/form-data">
         <div class="customer-profile-top">
