@@ -176,7 +176,8 @@ class Shopkeepers extends Controller
         ];
         $this->view('users/Shopkeeper/v_s_fabric_add_new', $data);
     }
-    public function assignTailor($appointment_id)
+    
+    public function assignTailorToAppointment($appointment_id)
     {
         if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
             redirect('users/login');
@@ -198,6 +199,40 @@ class Shopkeepers extends Controller
             }
         } else {
             redirect('shopkeepers/displayAppointments');
+        }
+    }
+
+    public function assignTailor($order_id)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
+            redirect('users/login');
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            // Validate input
+            if (empty($_POST['tailor_id'])) {
+                flash('order_message', 'Please select a tailor to assign', 'alert alert-danger');
+                redirect('shopkeepers/displayOrders');
+            }
+
+            $data = [
+                'order_id' => $order_id,
+                'tailor_id' => trim($_POST['tailor_id']),
+                'assigned_by' => $_SESSION['user_id'],
+                'notes' => isset($_POST['notes']) ? trim($_POST['notes']) : 'Assigned by shopkeeper'
+            ];
+
+            if ($this->shopkeeperModel->assignTailorToOrder($data)) {
+                flash('order_message', 'Tailor assigned successfully');
+                redirect('shopkeepers/displayOrders');
+            } else {
+                flash('order_message', 'Failed to assign tailor. Please try again.', 'alert alert-danger');
+                redirect('shopkeepers/displayOrders');
+            }
+        } else {
+            redirect('shopkeepers/displayOrders');
         }
     }
 

@@ -54,6 +54,9 @@
               <th>Status</th>
               <th>Image</th>
               <th>Action</th>
+              <?php if ($_SESSION['user_type'] == 'shopkeeper'): ?>
+                <th>Assign Tailor</th>
+              <?php endif; ?>
             </tr>
           </thead>
           <tbody>
@@ -117,11 +120,11 @@
 
                   <?php if ($_SESSION['user_type'] == 'shopkeeper'): ?>
                     <td>
-                      <form action="<?php echo URLROOT; ?>/shopkeepers/assignTailor/<?php echo $order->order_id ?>" method="post">
+                      <form action="<?php echo URLROOT; ?>/shopkeepers/assignTailor/<?php echo $order->order_id; ?>" method="post">
                         <select name="tailor_id" required>
                           <option value="">Select Tailor</option>
                           <?php foreach ($data['employees'] as $tailor) : ?>
-                            <option value="<?php echo $tailor->employee_id; ?>"><?php echo $tailor->last_name; ?></option>
+                            <option value="<?php echo $tailor->employee_id; ?>"><?php echo $tailor->first_name . ' ' . $tailor->last_name; ?></option>
                           <?php endforeach; ?>
                         </select>
                         <button type="submit" class="assign-btn">Assign</button>
