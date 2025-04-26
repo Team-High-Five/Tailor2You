@@ -37,7 +37,7 @@
                                 </button>
                             </form>
                         <?php else: ?>
-                            <a href="<?php echo URLROOT; ?>/users/login" class="btn btn--secondary">
+                            <a href="<?php echo URLROOT; ?>/users/login" class="btn btn--loged-out">
                                 <i class="fas fa-thumbs-up"></i> Like
                                 <span class="like-count">(<?php echo $tailor->likeCount; ?>)</span>
                             </a>
@@ -51,6 +51,16 @@
     </div>
 </section>
 <style>
+    .btn {
+        padding: -10px 20px;
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
     .btn.liked,
     .btn.liked:hover {
         background-color: #4CAF50;

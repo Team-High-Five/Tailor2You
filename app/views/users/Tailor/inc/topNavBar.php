@@ -9,7 +9,27 @@
           <button><i><img src="<?php echo URLROOT; ?>/public/img/Search.png"></i></button>
         </div>
         <a href="<?php echo URLROOT ?>/Action/index"><button class="icon-button"><i class="fas fa-envelope"></i></button></a>
-        <button class="icon-button"><i class="fas fa-bell"></i></button>
+        <div class="notification-dropdown">
+          <button id="notificationBtn" class="icon-button">
+            <i class="fas fa-bell"></i>
+            <span id="notificationBadge" class="notification-badge"></span>
+          </button>
+          <div id="notificationDropdown" class="notification-dropdown-content">
+            <div class="notification-header">
+              <h3>Notifications</h3>
+              <button id="markAllReadBtn" class="mark-all-read">Mark all as read</button>
+            </div>
+            <div id="notificationList" class="notification-list">
+              <div class="notification-loading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Loading notifications...</p>
+              </div>
+            </div>
+            <div class="notification-footer">
+              <a href="<?php echo URLROOT; ?>/Tailors/displayAppointments">View All Appointments</a>
+            </div>
+          </div>
+        </div>
         <div class="dropdown">
           <button class="tailor-drop-down"><i class="fas fa-sign-out-alt"></i></button>
           <div class="dropdown-content">
@@ -35,3 +55,7 @@
       </a>
     </div>
   </div>
+  <script>
+    const URLROOT = '<?php echo URLROOT; ?>';
+  </script>
+  <script src='<?php echo URLROOT; ?>/public/js/tailor/tailor-notification.js'></script>

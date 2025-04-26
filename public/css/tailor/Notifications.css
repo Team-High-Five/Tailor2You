@@ -1,0 +1,301 @@
+/* Notification dropdown styling for tailors */
+.notification-dropdown {
+    position: relative;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--accent-color);
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.notification-badge.visible {
+    opacity: 1;
+}
+
+.notification-dropdown-content {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: -150px;
+    width: 320px;
+    max-height: 0;
+    background: var(--card-gradient);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 1000;
+}
+
+.notification-dropdown-content.show {
+    max-height: 400px;
+    opacity: 1;
+    visibility: visible;
+}
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.notification-header h3 {
+    color: var(--accent-color);
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+}
+
+.mark-all-read {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+}
+
+.mark-all-read:hover {
+    text-decoration: underline;
+    color: var(--accent-color);
+}
+
+.notification-list {
+    max-height: 320px;
+    overflow-y: auto;
+    padding: 0;
+}
+
+.notification-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s ease;
+    position: relative;
+}
+
+.notification-item:hover {
+    background-color: var(--hover-highlight, rgba(106, 90, 205, 0.05));
+}
+
+.notification-item.unread {
+    background-color: rgba(106, 90, 205, 0.05);
+}
+
+.notification-item.unread::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--accent-color);
+}
+
+.notification-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dark);
+    margin: 0 0 4px;
+}
+
+.notification-message {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin: 0 0 8px;
+    line-height: 1.4;
+}
+
+.notification-time {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+.appointment-details {
+    background-color: var(--measurement-item-background);
+    border-left: 2px solid var(--accent-color);
+    padding: 8px 12px;
+    margin: 8px 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.appointment-details p {
+    font-size: 12px;
+    margin: 4px 0;
+    color: var(--text-muted);
+}
+
+.appointment-details strong {
+    color: var(--text-dark);
+}
+
+.notification-action {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    gap: 8px;
+}
+
+.notification-footer {
+    padding: 12px 16px;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+}
+
+.notification-footer a {
+    color: var(--accent-color);
+    font-size: 13px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.notification-footer a:hover {
+    text-decoration: underline;
+}
+
+.notification-empty {
+    padding: 30px 16px;
+    text-align: center;
+}
+
+.notification-empty i {
+    color: var(--text-muted);
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.notification-empty p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin: 0;
+}
+
+.notification-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 30px 16px;
+}
+
+.notification-loading i {
+    color: var(--accent-color);
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.notification-loading p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin: 0;
+}
+
+/* Action buttons */
+.view-btn, .accept-btn, .reject-btn {
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.view-btn {
+    background-color: var(--primary-color);
+    color: white;
+    flex: 2;
+}
+
+.view-btn:hover {
+    background-color: var(--primary-hover-color);
+}
+
+.accept-btn {
+    background-color: var(--status-accepted-bg);
+    color: var(--status-accepted-color);
+    border: 1px solid var(--status-accepted-color);
+    flex: 1;
+}
+
+.accept-btn:hover {
+    background-color: var(--status-accepted-bg-dark);
+    color: var(--status-accepted-color-dark);
+}
+
+.reject-btn {
+    background-color: var(--status-rejected-bg);
+    color: var(--status-rejected-color);
+    border: 1px solid var(--status-rejected-color);
+    flex: 1;
+}
+
+.reject-btn:hover {
+    background-color: var(--status-rejected-bg-dark);
+    color: var(--status-rejected-color-dark);
+}
+
+/* Scrollbar styling */
+.notification-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notification-list::-webkit-scrollbar-track {
+    background-color: var(--scrollbar-track, rgba(0, 0, 0, 0.05));
+    border-radius: 3px;
+}
+
+.notification-list::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb, rgba(106, 90, 205, 0.3));
+    border-radius: 3px;
+}
+
+.notification-list::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover, rgba(106, 90, 205, 0.5));
+}
+
+/* Media queries for responsive design */
+@media screen and (max-width: 768px) {
+    .notification-dropdown-content {
+        width: 300px;
+        right: -120px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .notification-dropdown-content {
+        width: 280px;
+        right: -100px;
+    }
+
+    .notification-header,
+    .notification-footer,
+    .notification-item {
+        padding: 10px 12px;
+    }
+
+    .notification-header h3 {
+        font-size: 14px;
+    }
+}
