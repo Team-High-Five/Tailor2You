@@ -13,9 +13,6 @@
             <i class="fas fa-envelope"></i>
           </button>
         </a>
-        <button class="icon-button"><i class="fas fa-bell"></i></button>
-        <a href="<?php echo URLROOT ?>/Action/index"><button class="icon-button"><i
-              class="fas fa-envelope"></i></button></a>
         <div class="notification-dropdown">
           <button id="notificationBtn" class="icon-button">
             <i class="fas fa-bell"></i>

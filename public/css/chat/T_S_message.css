@@ -72,7 +72,7 @@
 }
 
 /* User Icon */
-.user-icon {
+.chat-user-icon {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -86,13 +86,13 @@
     flex-shrink: 0;
 }
 
-.user-details {
+.conversation-item.user-details {
     flex: 1;
     min-width: 0;
     /* For text truncation */
 }
 
-.user-name {
+.conversation-item .user-name {
     display: block;
     font-weight: 600;
     color: var(--text-dark);
@@ -153,7 +153,7 @@
     align-items: center;
 }
 
-.user-info {
+.contact-list > .user-info {
     display: flex;
     flex-direction: column;
 }

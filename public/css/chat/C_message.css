@@ -147,7 +147,7 @@ body.customer-dashboard .chat-interface {
 }
 
 /* User Icon */
-.user-icon {
+.chat-user-icon {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -163,12 +163,12 @@ body.customer-dashboard .chat-interface {
 }
 
 /* User Details */
-.user-details {
+.chat-user-details {
     flex: 1;
     min-width: 0; /* For text truncation */
 }
 
-.user-name {
+.chat-user-name {
     display: block;
     font-weight: 600;
     color: var(--text-light-color);
@@ -245,7 +245,7 @@ body.customer-dashboard .chat-interface {
     align-items: center;
 }
 
-.user-info {
+.conversation-item .user-info {
     display: flex;
     flex-direction: column;
 }

@@ -34,7 +34,6 @@ if ($_SESSION['user_type'] === 'tailor') {
     <div class="chat-interface">
         <!-- Conversation List Sidebar -->
         <div class="card chat-sidebar">
-
             <div class="card-body p-0">
                 <button class="btn btn-primary" id="newConversationBtn"> + New Conversation</button>
                 <ul class="conversation-list">
@@ -42,10 +41,10 @@ if ($_SESSION['user_type'] === 'tailor') {
                         <?php foreach ($data['conversations'] as $conversation): ?>
                             <li class="conversation-item">
                                 <a href="<?php echo URLROOT; ?>/Chat/index/<?php echo $conversation->other_user_id; ?>">
-                                    <div class="user-icon">
+                                    <div class="chat-user-icon">
                                         <span><?php echo strtoupper(substr($conversation->receiver_name, 0, 1)); ?></span>
                                     </div>
-                                    <div class="user-details">
+                                    <div class="chat-user-details">
                                         <span class="user-name"><?php echo $conversation->receiver_name; ?></span>
                                         <span class="last-message"><?php echo $conversation->last_message; ?></span>
                                     </div>
@@ -125,16 +124,16 @@ if ($_SESSION['user_type'] === 'tailor') {
                     <?php foreach ($data['users'] as $user): ?>
                         <li class="contact-item">
                             <a href="<?php echo URLROOT; ?>/Chat/index/<?php echo $user->user_id; ?>">
-                                <div class="user-icon">
+                                <div class="chat-user-icon">
                                     <span><?php echo strtoupper(substr($user->first_name, 0, 1)) . strtoupper(substr($user->last_name, 0, 1)); ?></span>
                                 </div>
-                                <div class="user-details">
-                                    <span class="user-name">
+                                <div class="chat-user-details">
+                                    <span class="chat-user-name">
                                         <?php echo $user->first_name . ' ' . $user->last_name; ?>
                                         <small class="user-type">(<?php echo ucfirst($user->user_type); ?>)</small>
                                     </span>
-                                    <span class="user-info">User ID: <?php echo $user->user_id; ?></span>
-                                    <span class="user-info">Phone: <?php echo isset($user->phone_number) ? $user->phone_number : 'N/A'; ?></span>
+                                    <span class="chat-user-info">User ID: <?php echo $user->user_id; ?></span>
+                                    <span class="chat-user-info">Phone: <?php echo isset($user->phone_number) ? $user->phone_number : 'N/A'; ?></span>
                                 </div>
                             </a>
                         </li>

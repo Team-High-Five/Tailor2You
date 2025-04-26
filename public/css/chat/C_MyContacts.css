@@ -9,10 +9,8 @@ body {
 /* Contact Container */
 .contact-container {
     width: 100%;
-    max-width: 400px;
     height: 70vh; /* Set height for scrolling */
-    margin: 0px auto; /* Add margin at the top */
-    background-color: #ffffff;
+    background-color: var(--primary-color);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     overflow: hidden;
@@ -20,13 +18,13 @@ body {
     flex-direction: column;
     justify-content: flex-start;
     position: relative;
-    top: 60%; /* Adjusted to move it slightly down */
+    top: 50%; /* Adjusted to move it slightly down */
     transform: translateY(-60%);
 }
 
 /* Header */
 .sidebar-header {
-    background-color: #3b5998; /* Dark blue */
+    background-color: var(--secondary-color); /* Dark blue */
     color: #ffffff;
     padding: 15px;
     text-align: center;
@@ -137,9 +135,8 @@ body {
 }
 
 .chat-modal-content {
-    background-color: #ffffff;
+    background-color:transparent;
     margin: 10% auto;
-    padding: 20px;
     border-radius: 8px;
     width: 90%;
     height: 50%;
