@@ -1,7 +1,12 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
-
+<?php if ($_SESSION['user_type'] == 'shopkeeper') {
+  require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php';
+  require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php';
+  require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php';
+} elseif ($_SESSION['user_type'] == 'tailor') {
+  require_once APPROOT . '/views/users/Tailor/inc/Header.php';
+  require_once APPROOT . '/views/users/Tailor/inc/sideBar.php';
+  require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php';
+} ?>
 <div class="main-content">
   <div class="appointment-list-container">
     <div class="filter-bar">
@@ -43,6 +48,9 @@
             <th>Date</th>
             <th>Time</th>
             <th>Status</th>
+            <?php if ($_SESSION['user_type'] == 'shopkeeper'): ?>
+              <th>Assign Tailor</th>
+            <?php endif; ?>
           </tr>
         </thead>
         <tbody>
@@ -78,6 +86,19 @@
               <td><?php echo $displayDate; ?></td>
               <td><?php echo $displayTime; ?></td>
               <td><span class="status <?php echo strtolower($appointment->status); ?>"><?php echo ucfirst($appointment->status); ?></span></td>
+              <?php if ($_SESSION['user_type'] == 'shopkeeper'): ?>
+                <td>
+                  <form action="<?php echo URLROOT; ?>/shopkeepers/assignTailor/<?php echo $appointment->appointment_id; ?>" method="post">
+                    <select name="tailor_id" required>
+                      <option value="">Select Tailor</option>
+                      <?php foreach ($data['employees'] as $tailor) : ?>
+                        <option value="<?php echo $tailor->employee_id; ?>"><?php echo $tailor->last_name; ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                    <button type="submit" class="assign-btn">Assign</button>
+                  </form>
+                </td>
+              <?php endif; ?>
             </tr>
           <?php endforeach; ?>
         </tbody>
