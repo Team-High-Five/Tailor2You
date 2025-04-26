@@ -502,6 +502,40 @@ class Customers extends Controller
         $this->view('users/Customer/v_c_appointments', $data);
     }
 
+    public function requestRescheduleAppointment()
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'customer') {
+            redirect('users/login');
+            return;
+        }
+
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Process form
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'appointment_id' => trim($_POST['appointment_id']),
+                'proposed_date' => trim($_POST['appointment_date']),
+                'proposed_time' => trim($_POST['appointment_time']),
+                'reason' => trim($_POST['reschedule_reason'])
+            ];
+
+            // Create reschedule request
+            if ($this->customerModel->createRescheduleRequest($data)) {
+                // Send notification to customer (through notification system if implemented, or email)
+                // This would be implemented in a Notifications class
+
+                flash('appointment_message', 'Reschedule request sent to customer successfully');
+                redirect('customers/displayAppointments');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            $this->displayAppointments();
+        }
+    }
+
     public function handleReschedule($appointmentId, $action)
     {
         if (!isLoggedIn()) {
