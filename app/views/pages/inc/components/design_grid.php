@@ -1,4 +1,11 @@
 <div class="new-collection">
+  <?php flash('designs_success'); ?>
+  <?php flash('designs_error'); ?>
+  <?php flash('cart_message'); ?>
+  <?php flash('cart_error'); ?>
+  <?php flash('fabric_message'); ?>
+  <?php flash('fabric_error'); ?>
+  <?php flash('fabric_success'); ?>
   <?php if ($data['gender'] == 'gents') : ?>
     <div class="topic">Gents Collection</div>
   <?php elseif ($data['gender'] == 'ladies'): ?>

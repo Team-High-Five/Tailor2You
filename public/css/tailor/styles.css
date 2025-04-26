@@ -281,6 +281,42 @@ body {
     margin-left: 80px;
 }
 
+/* Add this to your tailor CSS file */
+.msg-flash {
+    padding: 12px 20px;
+    margin: 0 0 20px 0;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(106, 90, 205, 0.1) 0%, rgba(106, 90, 205, 0.05) 100%);
+    border-left: 4px solid var(--accent-color);
+    color: var(--text-dark);
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    position: relative;
+    animation: flashFadeIn 0.5s ease-in-out;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, rgba(46, 213, 115, 0.1) 0%, rgba(46, 213, 115, 0.05) 100%);
+    border-left: 4px solid #2ed573;
+}
+
+.alert-danger {
+    background: linear-gradient(135deg, rgba(255, 71, 87, 0.1) 0%, rgba(255, 71, 87, 0.05) 100%);
+    border-left: 4px solid #ff4757;
+}
+
+@keyframes flashFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /*--------------------------------------------------------------
 # RESPONSIVE STYLES
 --------------------------------------------------------------*/

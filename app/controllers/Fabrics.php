@@ -22,7 +22,7 @@ class Fabrics extends Controller
 
         $this->view($view, $data);
     }
-
+    
     public function addNewFabric($user_id, $view, $controller)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -146,9 +146,14 @@ class Fabrics extends Controller
         }
     }
 
-    public function deleteFabric($fabric_id, $user_id, $view, $controller)
+    public function deleteFabric($fabric_id,$controller)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            if($this->fabricModel->checkFabricLinkOnDesign($fabric_id)) {
+                flash('fabric_message', 'Fabric cannot be deleted as it is used in a design', 'alert alert-danger');
+                redirect($controller . '/displayFabricStock');
+            }
             if ($this->fabricModel->deleteFabric($fabric_id)) {
                 flash('fabric_message', 'Fabric deleted successfully');
                 redirect($controller . '/displayFabricStock');

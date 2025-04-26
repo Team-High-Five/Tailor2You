@@ -42,7 +42,7 @@ class Cart extends Controller
             // Validate inputs
             if (!$designId || !$fabricId || !$colorId) {
                 flash('cart_error', 'Invalid product details', 'alert alert-danger');
-                redirect($_SERVER['HTTP_REFERER'] ?? 'designs');
+                redirect('redirect_url' ?? 'designs');
                 return;
             }
 
@@ -89,6 +89,13 @@ class Cart extends Controller
     }
     public function quickAdd($designId = null)
     {
+        if(isset($_SESSION['user_id'])) {
+            $userId = $_SESSION['user_id'];
+        } else {
+            flash('cart_error', 'User not logged in', 'alert alert-danger');
+            redirect('users/login');
+            return;
+        }
         // Check if design ID is provided
         if (!$designId) {
             flash('cart_error', 'Invalid design ID', 'alert alert-danger');
@@ -101,7 +108,7 @@ class Cart extends Controller
         $colorId = 1; // Default color ID
 
         // Add to cart
-        if ($this->cartModel->addToCart($_SESSION['user_id'], $designId, $fabricId, $colorId)) {
+        if ($this->cartModel->addToCart($userId, $designId, $fabricId, $colorId)) {
             flash('cart_message', 'Item added to cart successfully', 'alert alert-success');
 
             // CHANGE THIS LINE: Redirect to cart page to see the item
