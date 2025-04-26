@@ -9,6 +9,11 @@
 } ?>
 
 <div class="main-content">
+  <?php flash('fabric_message'); ?>
+  <?php flash('design_message'); ?>
+  <?php flash('design_success'); ?>
+  <?php flash('design_error'); ?>
+
   <button class="btn-primary add-post-btn" id="openModalBtn">Add New Design</button>
 
   <!-- Add vertical space between button and filter bar -->

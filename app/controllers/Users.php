@@ -142,7 +142,8 @@ class Users extends Controller
         $_SESSION['user_last_name'] = $user->last_name;
         $_SESSION['user_profile_pic'] = $user->profile_pic;
 
-        if (isset($_SESSION['redirect_url'])) {
+
+        if (isset($_SESSION['redirect_url']) && $_SESSION['user_type'] == 'customer') {
             $redirect = $_SESSION['redirect_url'];
             unset($_SESSION['redirect_url']);
             // Use the clean path

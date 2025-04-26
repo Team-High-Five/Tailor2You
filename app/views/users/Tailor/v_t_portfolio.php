@@ -11,6 +11,7 @@
 <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/shopkeeper/portfolio.css">
 
 <div class="main-content">
+  <?php flash('post_message'); ?>
   <!-- Add New Post button moved outside portfolio-container like in fabric page -->
   <button class="btn-primary add-post-btn" id="openPostModalBtn">Add New Post</button>
 
@@ -18,7 +19,6 @@
   <div style="margin: 20px 0;"></div>
 
   <div class="portfolio-container">
-    <!-- Filter Bar -->
     <div class="filter-bar">
       <div class="filter-label">
         <i class="fas fa-filter"></i> Filter Portfolio

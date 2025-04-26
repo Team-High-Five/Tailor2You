@@ -64,7 +64,7 @@
                             <div class="required-badge">Required if adding option</div>
                         </div>
                         <input type="text" name="choice_name[TYPE_ID][]" placeholder="Option Name" class="name-input">
-                        <input type="number" name="choice_price[TYPE_ID][]" placeholder="Additional Cost (Rs)(Optional)" step="0.01" class="price-input">
+                        <input type="number" name="choice_price[TYPE_ID][]" placeholder="Additional Cost (Rs)(Optional)" step="0.01" class="price-input" min="0">
                         <button type="button" class="remove-choice">×</button>
                     </div>
                 </div>

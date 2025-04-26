@@ -118,8 +118,8 @@ class Designs extends Controller
         if (!isset($_SESSION['design_data'])) {
             // Redirect back or show an error
             flash('design_error', 'Design details not found. Please start again.', 'alert alert-danger');
-            redirect('designs/addCustomizeItem'); // Redirect to the first step
-            return; // Stop execution
+            redirect('designs/addCustomizeItem'); 
+            return; 
         }
 
         $design_data = $_SESSION['design_data'];
@@ -131,26 +131,22 @@ class Designs extends Controller
             return;
         }
         $categoryId = $design_data['category_id'];
-
         $category = $this->designModel->getCategoryById($categoryId);
         $subcategory = $this->designModel->getSubcategoryById($design_data['subcategory_id']);
         $customization_types = $this->designModel->getCustomizationTypesByCategoryId($categoryId);
 
-        // Get category measurements - Add this line
         $category_measurements = $this->designModel->getCategoryMeasurements($categoryId);
 
         // Log if no customization types are found for the category
         if (empty($customization_types)) {
             error_log("No specific customization types found for category ID: " . $categoryId . ". Consider adding associations or a fallback.");
-            // Optional: You could fall back to general types if needed
-            // $customization_types = $this->designModel->getCustomizationTypes();
         }
 
         // Try to get user-specific fabrics (or general)
         $fabrics = $this->designModel->getFabricsByUserId($_SESSION['user_id']);
         if (empty($fabrics)) {
             error_log("No user-specific fabrics found for user ID: " . $_SESSION['user_id'] . ", using general fabrics");
-            $fabrics = $this->designModel->getFabrics(); // Assuming getFabrics() exists and gets all fabrics
+            $fabrics = $this->designModel->getFabrics();
         }
 
         $data = [
@@ -160,10 +156,9 @@ class Designs extends Controller
             'subcategory' => $subcategory,
             'customization_types' => $customization_types,
             'fabrics' => $fabrics,
-            'category_measurements' => $category_measurements // Add this line
+            'category_measurements' => $category_measurements 
         ];
 
-        // Load the view
         $this->view('users/Tailor/v_t_customize_add_new_continue', $data);
     }
     public function saveDesign()
@@ -217,7 +212,7 @@ class Designs extends Controller
                     'subcategory_id' => $design_data['subcategory_id'],
                     'name' => $design_data['design_name'],
                     'description' => trim($_POST['description'] ?? ''),
-                    'main_image' => $main_image, // Store filename, not binary data
+                    'main_image' => $main_image, 
                     'base_price' => $design_data['base_price']
                 ];
 
@@ -232,7 +227,6 @@ class Designs extends Controller
                 if (isset($_POST['choice_name'])) {
                     foreach ($_POST['choice_name'] as $type_id => $names) {
                         foreach ($names as $index => $name) {
-                            // Skip empty names
                             if (empty($name)) continue;
 
                             // Check if image exists for this choice
@@ -242,7 +236,6 @@ class Designs extends Controller
                             ) {
                                 continue;
                             }
-
                             // Setup file data for this choice
                             $fileData = [
                                 'name' => $_FILES['choice_image']['name'][$type_id][$index],
@@ -251,23 +244,19 @@ class Designs extends Controller
                                 'error' => $_FILES['choice_image']['error'][$type_id][$index],
                                 'size' => $_FILES['choice_image']['size'][$type_id][$index]
                             ];
-
                             // Upload choice image
                             $choiceImage = FileUploader::uploadImage(
                                 $fileData,
                                 'customizations',
                                 'custom_' . $type_id . '_'
                             );
-
                             if (!$choiceImage) {
                                 throw new Exception("Failed to upload image for customization option");
                             }
-
                             // Get additional price
                             $price = !empty($_POST['choice_price'][$type_id][$index])
                                 ? floatval($_POST['choice_price'][$type_id][$index])
                                 : 0;
-
                             // Add the customization choice
                             $choiceData = [
                                 'design_id' => $designId,
@@ -283,7 +272,6 @@ class Designs extends Controller
                         }
                     }
                 }
-
                 // Process selected fabrics
                 if (isset($_POST['fabrics']) && is_array($_POST['fabrics'])) {
                     foreach ($_POST['fabrics'] as $fabricId) {
@@ -333,19 +321,13 @@ class Designs extends Controller
                 // Commit transaction
                 $this->designModel->commitTransaction();
 
-                // Clear session design data
                 unset($_SESSION['design_data']);
-
-                // Success message and redirect
                 flash('design_success', 'Design has been successfully saved!', 'alert alert-success');
                 redirect('Tailors/displayCustomizeItems');
             } catch (Exception $e) {
                 // Rollback transaction on error
                 $this->designModel->rollbackTransaction();
-
-                // Log the error
                 error_log('Error in saveDesign: ' . $e->getMessage());
-
                 // Show error to user
                 $data = [
                     'design_data' => $design_data,
@@ -363,7 +345,6 @@ class Designs extends Controller
     }
     public function deleteDesign($id = null)
     {
-        // Check if user is logged in
         if (!isLoggedIn()) {
             redirect('users/login');
             return;

@@ -22,7 +22,7 @@ class Fabrics extends Controller
 
         $this->view($view, $data);
     }
-
+    
     public function addNewFabric($user_id, $view, $controller)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
