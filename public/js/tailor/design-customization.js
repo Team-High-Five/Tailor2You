@@ -68,11 +68,6 @@ document.addEventListener('DOMContentLoaded', function () {
             const fileInput = choiceItem.querySelector('.choice-image-input');
 
             if (previewImg && fileInput) {
-                // Click on image to trigger file selection
-                previewImg.addEventListener('click', function () {
-                    fileInput.click();
-                });
-
                 // Preview the selected image
                 fileInput.addEventListener('change', function () {
                     if (this.files && this.files[0]) {
@@ -115,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
             }
-
             // Handle clicks on preview images
             if (e.target.classList.contains('choice-preview-img')) {
                 const fileInput = e.target.closest('.choice-item').querySelector('.choice-image-input');

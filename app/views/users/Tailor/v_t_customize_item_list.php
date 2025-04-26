@@ -8,12 +8,12 @@
   require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php';
 } ?>
 
-<div class="main-content">  
+<div class="main-content">
   <button class="btn-primary add-post-btn" id="openModalBtn">Add New Design</button>
-  
+
   <!-- Add vertical space between button and filter bar -->
   <div style="margin: 20px 0;"></div>
-  
+
   <div class="filter-bar">
     <div class="filter-label">
       <i class="fas fa-filter"></i> Filter Designs
@@ -75,10 +75,9 @@
   </div>
   <script src="<?php echo URLROOT; ?>/public/js/tailor/design-filters.js"></script>
 
-  <!-- Add this script for delete functionality -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('.delete-design').forEach(button => {
+      document.querySelectorAll('.delete-btn').forEach(button => {
         button.addEventListener('click', function() {
           const designId = this.getAttribute('data-id');
           if (confirm('Are you sure you want to delete this design?')) {
