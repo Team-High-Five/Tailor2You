@@ -23,10 +23,10 @@
                 <?php foreach ($data['orders'] as $order): ?>
                     <tr>
                         <td><?php echo $order->order_id; ?></td>
-                        <td><?php echo $order->customer_name; ?></a></td>
-                        <td><?php echo $order->order_date; ?></td>
-                        <td><?php echo $order->total_amount; ?></td>
-                        <td><span class="status <?php echo strtolower($order->status); ?>"><?php echo $order->status; ?></span></td>
+                        <td><?php echo $order->customer_name; ?></td>
+                        <td><?php echo date('Y-m-d', strtotime($order->order_date)); ?></td>
+                        <td><?php echo number_format($order->total_amount, 2); ?></td>
+                        <td><span class="status <?php echo strtolower($order->status); ?>"><?php echo ucfirst($order->status); ?></span></td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>

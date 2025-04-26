@@ -5,10 +5,7 @@
 <!-- Admin Dashboard -->
 <!-- Dashboard Content -->
 <div class="main-content">
-    <div class="search-bar">
-        <input type="text" placeholder="To quickly find specific users">
-        <button><i class="fas fa-search"></i></button>
-    </div>
+   
     <!-- Statistics Cards -->
     <section class="Cards">
         <div class="card-container">
@@ -38,7 +35,7 @@
                     <i class="fas fa-warehouse"></i>
                 </div>
                 <div class="card-content">
-                    <h3>Inventory</h3>
+                    <h3><a href="<?php echo URLROOT; ?>/admin/inventoryManagement" class="no-underline">Fabrics</a></h3>
                     <p><?php echo $data['inventoryCount']; ?></p>
                 </div>
             </div>

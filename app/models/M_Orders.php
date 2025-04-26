@@ -488,4 +488,20 @@ class M_Orders
         $this->db->bind(':user_id', $userId);
         return $this->db->single();
     }
+
+    public function getOrders() {
+        $this->db->query('
+            SELECT 
+                o.order_id,
+                o.order_date,
+                o.total_amount,
+                o.status,
+                u.first_name AS customer_name
+            FROM orders o
+            INNER JOIN users u ON o.customer_id = u.user_id
+            ORDER BY o.order_date DESC
+        ');
+
+        return $this->db->resultSet();
+    }
 }

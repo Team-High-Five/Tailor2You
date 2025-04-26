@@ -13,8 +13,8 @@ class Admin extends Controller
         $this->userModel = $this->model('M_Users');
         $this->adminModel = $this->model('M_Admin');
         $this->orderModel = $this->model('M_Orders');
-       // $this->inventoryModel = $this->model('M_Inventory');
-        // $this->reviewModel = $this->model('M_Reviews');
+        $this->fabricModel = $this->model('M_Fabrics');
+        $this->reviewModel = $this->model('M_Reviews');
     }
 
     public function index()
@@ -25,29 +25,20 @@ class Admin extends Controller
     public function admindashboard()
     {
         $adminModel = $this->model('M_Admin');
+        $fabricModel = $this->model('M_Fabrics'); // Load the M_Fabrics model
+
         $data = [
             'userCount' => $adminModel->getUserCount(),
             'orderCount' => $adminModel->getOrderCount(),
-            'inventoryCount' => $adminModel->getInventoryCount(),
+            'inventoryCount' => $fabricModel->getFabricsCount(), // Fetch fabric count
             'reviewCount' => $adminModel->getReviewCount(),
             'userCounts' => $adminModel->getUserCountsByType()
         ];
+
         $this->view('users/Admin/v_a_dashboard', $data);
     }
 
-   /*  public function dashboard() {
-        $adminModel = $this->model('M_Admin');
-
-        $data = [
-            'userCount' => $adminModel->getUserCount(),
-            'orderCount' => $adminModel->getOrderCount(),
-            'inventoryCount' => $adminModel->getInventoryCount(),
-            'reviewCount' => $adminModel->getReviewCount(),
-            'userCounts' => $adminModel->getUserCountsByType()
-        ];
-
-        $this->view('users/Admin/v_a_dashboard', $data);
-    }*/
+    
 
     public function manageCustomer()
     {
@@ -559,6 +550,68 @@ class Admin extends Controller
         }
 
         redirect('admin/reviewSection');
+    }
+
+    public function inventoryManagement() {
+        // Load the M_Fabrics model
+        $fabricModel = $this->model('M_Fabrics');
+
+        // Fetch all fabrics
+        $fabrics = $fabricModel->getAllFabrics(); // Assuming a method exists to fetch all fabrics
+
+        // Pass data to the view
+        $data = [
+            'fabrics' => $fabrics
+        ];
+
+        // Load the inventory management view
+        $this->view('users/Admin/v_a_inventoryManagement', $data);
+    }
+
+    public function editFabric($fabricId) {
+        $fabricModel = $this->model('M_Fabrics');
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Handle form submission
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'fabric_id' => $fabricId,
+                'fabric_name' => trim($_POST['fabric_name']),
+                'price_per_meter' => trim($_POST['price_per_meter']),
+                'stock' => trim($_POST['stock']),
+                'colors' => $_POST['colors'] ?? []
+            ];
+
+            if ($fabricModel->updateFabric($data)) {
+                flash('fabric_message', 'Fabric updated successfully');
+                redirect('admin/inventoryManagement');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            // Fetch fabric details
+            $fabric = $fabricModel->getFabricById($fabricId);
+            $colors = $fabricModel->getColors();
+
+            $data = [
+                'fabric' => $fabric,
+                'colors' => $colors
+            ];
+
+            $this->view('users/Admin/v_a_editFabric', $data);
+        }
+    }
+
+    public function deleteFabric($fabricId) {
+        $fabricModel = $this->model('M_Fabrics');
+
+        if ($fabricModel->deleteFabric($fabricId)) {
+            flash('fabric_message', 'Fabric deleted successfully');
+            redirect('admin/inventoryManagement');
+        } else {
+            die('Something went wrong');
+        }
     }
 
 }
