@@ -8,6 +8,10 @@
     require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php';
 } ?>
 <div class="main-content">
+    <?php flash('profile_message'); ?>
+    <?php flash('profile_error'); ?>
+    <?php flash('profile_success'); ?>
+    
     <div class="profile-form-container">
         <div class="profile-form">
             <form id="profileForm" action="<?php echo URLROOT; ?>/tailors/profileUpdate" method="POST" enctype="multipart/form-data">

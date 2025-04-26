@@ -262,7 +262,7 @@
 
   function confirmDelete(fabricId) {
     document.getElementById('deleteFabricModal').style.display = 'block';
-    document.getElementById('deleteFabricForm').action = '<?php echo URLROOT; ?>/tailors/deleteFabric/' + fabricId;
+    document.getElementById('deleteFabricForm').action = '<?php echo URLROOT; ?>/fabrics/deleteFabric/' + fabricId + '/Tailors';
   }
 
   function closeDeleteFabricModal() {

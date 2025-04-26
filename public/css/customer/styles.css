@@ -83,7 +83,8 @@
 
 body {
     background-image: url('../../img/Tailor.png');
-    color: rgb(178 167 167);;
+    color: rgb(178 167 167);
+    ;
     line-height: 1.6;
     overflow-x: hidden;
     perspective: 1000px;
@@ -177,4 +178,111 @@ body {
     font-size: 14px;
 
 
+}
+
+.design-flash {
+    margin: 0 0 20px 0;
+    padding: 14px 18px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    animation: flashSlideIn 0.5s ease forwards;
+    max-width: 100%;
+}
+
+.design-flash::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+}
+
+.design-flash.success {
+    background: linear-gradient(145deg, rgba(46, 213, 115, 0.08), rgba(46, 213, 115, 0.15));
+    color: #2ed573;
+}
+
+.design-flash.success::before {
+    background: #2ed573;
+}
+
+.design-flash.error {
+    background: linear-gradient(145deg, rgba(231, 76, 60, 0.08), rgba(231, 76, 60, 0.15));
+    color: #e74c3c;
+}
+
+.design-flash.error::before {
+    background: #e74c3c;
+}
+
+.design-flash.info {
+    background: linear-gradient(145deg, rgba(106, 90, 205, 0.08), rgba(106, 90, 205, 0.15));
+    color: #c4a77d;
+}
+
+.design-flash.info::before {
+    background: #c4a77d;
+}
+
+.flash-icon {
+    margin-right: 12px;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flash-content {
+    flex: 1;
+    font-weight: 500;
+}
+
+.flash-close {
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+    padding: 0 0 0 15px;
+}
+
+.flash-close:hover {
+    opacity: 1;
+}
+
+@keyframes flashSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes flashPulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+}
+
+/* Apply for multiple messages */
+.design-flash+.design-flash {
+    margin-top: 10px;
 }
