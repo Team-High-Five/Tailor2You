@@ -186,16 +186,24 @@ class Shopkeepers extends Controller
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
+            // Validate input
+            if (empty($_POST['tailor_id'])) {
+                flash('appointment_message', 'Please select a tailor to assign', 'alert alert-danger');
+                redirect('shopkeepers/displayAppointments');
+            }
+
             $data = [
                 'appointment_id' => $appointment_id,
-                'tailor_id' => trim($_POST['tailor_id'])
+                'tailor_id' => trim($_POST['tailor_id']),
+                'notes' => isset($_POST['notes']) ? trim($_POST['notes']) : 'Assigned by shopkeeper'
             ];
 
             if ($this->shopkeeperModel->assignTailorToAppointment($data)) {
                 flash('appointment_message', 'Tailor assigned successfully');
                 redirect('shopkeepers/displayAppointments');
             } else {
-                die('Something went wrong');
+                flash('appointment_message', 'Failed to assign tailor. Please try again.', 'alert alert-danger');
+                redirect('shopkeepers/displayAppointments');
             }
         } else {
             redirect('shopkeepers/displayAppointments');
