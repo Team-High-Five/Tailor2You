@@ -10,6 +10,9 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen'
         href='<?php echo URLROOT; ?>/public/css/tailor/styles.css'>
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/chat/T_S_message.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/chat/T_S_MyContacts.css">
+
 </head>
 
 <body>

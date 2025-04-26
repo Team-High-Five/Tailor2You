@@ -11,6 +11,7 @@
 @import url('viewComplaints.css');
 @import url('viewRefunds.css');
 @import url('addUser.css');
+@import url('viewReview.css');
 
 /* Global Reset */
 * {
@@ -221,64 +222,64 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 20px;
-    /* Adjust top margin as needed */
-}
-
-/* Search Container */
-.search-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
+    margin-top: 30px;
+    width: 100%;
 }
 
 /* Search Bar */
 .search-bar {
     display: flex;
     align-items: center;
-    background-color: white;
-    border-radius: 25px;
-    /* Reduce border-radius for smaller height */
-    padding: 1px;
-    /* Reduced padding */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    justify-content: center;
-    margin-top: -90px;
+    background-color: #ffffff;
+    border-radius: 30px;
+    padding: 10px 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    max-width: 600px;
+    transition: box-shadow 0.3s ease;
 }
 
-/* Search Input */
-.search-bar input {
-    width: 550px;
-    /* Adjust width as needed */
-    padding: 5px;
-    /* Reduced padding for smaller height */
+.search-bar:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.search-input {
+    flex: 1;
     border: none;
-    border-radius: 5px;
-    margin-top: 15px;
-    margin-left: 20px;
-    align-items: center;
     outline: none;
-    font-size: 14px;
-    /* Optional: Adjust font size for a compact look */
+    font-size: 16px;
+    padding: 10px;
+    border-radius: 30px;
+    margin-right: 10px;
+    color: #333;
+    background-color: #f9f9f9;
 }
 
-/* Search Button */
-.search-bar button {
-    color: black;
-    /* Adjust text color as needed */
+.search-input::placeholder {
+    color: #aaa;
+}
+
+.search-button {
+    background-color: #007BFF;
+    color: white;
     border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    padding-left: 5px;
-    /* Reduced padding for spacing */
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-/* Search Button */
-.search-bar button i {
-    color: rgb(0, 0, 0);
-    /* Set icon color to white */
-    font-size: 18px;
-    /* Adjust icon size as needed */
+.search-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.1);
+}
+
+.search-button i {
+    font-size: 1rem;
 }
 
 .complaint-form {
@@ -352,6 +353,24 @@ body {
 .user-table td:nth-child(6) {
     width: 18%;
     /* Action column */
+}
+
+/* Style for the Actions column */
+.user-table td {
+    vertical-align: middle; /* Align content vertically */
+    text-align: center; /* Center align content horizontally */
+}
+
+/* Style for buttons inside the Actions column */
+.user-table .btn {
+    display: inline-block;
+    margin: 0 5px; /* Add spacing between buttons */
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #fff;
+    transition: background-color 0.3s ease;
 }
 
 /* Button Container Styles */
@@ -502,4 +521,52 @@ Dropdown Styling
 
 .dropdown:hover .tailor-drop-down img {
     transform: rotate(180deg);
+}
+
+/* General button styles */
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    width: 150px; /* Updated width */
+}
+
+/* Edit button */
+.btn-edit {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    width: 150px; /* Updated width */
+}
+
+.btn-edit:hover {
+    background-color: #45a049; /* Darker green */
+}
+
+/* Delete button */
+.btn-delete {
+    background-color: #f44336; /* Red */
+    color: white;
+    width: 150px; /* Updated width */
+}
+
+.btn-delete:hover {
+    background-color: #d32f2f; /* Darker red */
+}
+
+/* Update button */
+.btn-primary {
+    background-color: #007BFF; /* Blue */
+    color: white;
+    width: 150px; /* Updated width */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue */
 }

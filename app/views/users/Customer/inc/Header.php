@@ -9,7 +9,8 @@
     <link rel='stylesheet' type='text/css' media='screen'
         href='<?php echo URLROOT; ?>/public/css/customer/styles.css'>
     <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/customer/reschedule_modal.css">
-
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/chat/C_message.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/chat/C_MyContacts.css">
     <script src='main.js'></script>
     <script src="<?php echo URLROOT; ?>/public/js/customer/appointment_reschedule.js" defer></script>
 
