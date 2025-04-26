@@ -123,8 +123,8 @@ class Tailors extends Controller
     public function profileUpdate()
     {
         // Check if the user is logged in
-        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
-            redirect('users/login');
+        if (!isset($_SESSION['user_id']) || ($_SESSION['user_type'] !== 'tailor' && $_SESSION['user_type'] !== 'shopkeeper')) {
+            redirect('users/login');    
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {

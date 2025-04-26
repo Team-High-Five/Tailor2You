@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <a href="<?php echo URLROOT ?>/Shopkeepers/profileUpdate">
+      <a href="<?php echo URLROOT ?>/Tailors/profileUpdate">
         <div class="user-info">
           <span>
             <?php if (isset($_SESSION['user_first_name'])): ?>
