@@ -335,12 +335,15 @@ class M_Customers
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     public function getCustomMeasurements($order_id,$user_id){
         $this->db->query('Select cdm.display_name,oim.value  from orders as o join order_items as oi on o.order_id=oi.order_id join order_item_measurements as oim on oim.item_id = oi.item_id join custom_design_measurements as cdm on oi.design_id=cdm.design_id and cdm.id=oim.item_measurement_id where o.customer_id = :customer_id and o.order_id = :order_id');
         $this->db->bind(':customer_id', $user_id);
         $this->db->bind(':order_id', $order_id);
         return $this->db->resultSet();
     }
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     // public function getAppointmentById($appointment_id)
