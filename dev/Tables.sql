@@ -445,3 +445,59 @@ CREATE TABLE `cart_items` (
   FOREIGN KEY (`fabric_id`) REFERENCES `fabrics` (`fabric_id`) ON DELETE CASCADE,
   FOREIGN KEY (`color_id`) REFERENCES `colors` (`color_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+
+-- SQL script for creating the `messages` table
+
+CREATE TABLE `messages` (
+  `message_id` int(11) NOT NULL,
+  `sender_id` int(11) NOT NULL,
+  `receiver_id` int(11) NOT NULL,
+  `text` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Add primary key and indexes
+ALTER TABLE `messages`
+  ADD PRIMARY KEY (`message_id`),
+  ADD KEY `sender_id` (`sender_id`),
+  ADD KEY `receiver_id` (`receiver_id`);
+
+-- Set AUTO_INCREMENT for the primary key
+ALTER TABLE `messages`
+  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+-- Add foreign key constraints
+ALTER TABLE `messages`
+  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+
+COMMIT;
+
+-- SQL script for creating the `reviews` table
+
+CREATE TABLE `reviews` (
+  `review_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `review_text` text NOT NULL,
+  `rating` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` enum('accepted','pending','rejected') DEFAULT 'pending',
+  `action` varchar(255) DEFAULT NULL,
+  `admin_notes` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Add primary key and indexes
+ALTER TABLE `reviews`
+  ADD PRIMARY KEY (`review_id`),
+  ADD KEY `user_id` (`user_id`);
+
+-- Set AUTO_INCREMENT for the primary key
+ALTER TABLE `reviews`
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+-- Add foreign key constraint
+ALTER TABLE `reviews`
+  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+
+COMMIT;
