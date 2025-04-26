@@ -5,12 +5,63 @@
 <style>
   .employee-table-icon {
     width: 50px;
-    height: 50%;
+    height: 50px;
     border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
   }
 </style>
 <div class="main-content">
-  <button class="add-fabric-btn" id="openEmployeeModalBtn">Add New Employee</button>
+  <button class="btn-primary add-post-btn" id="openEmployeeModalBtn">Add New Employee</button>
+  
+  <!-- Add vertical space between button and filter bar -->
+  <div style="margin: 20px 0;"></div>
+
+  <div class="filter-bar">
+    <div class="filter-label">
+      <i class="fas fa-filter"></i> Filter Employees
+    </div>
+    
+    <input type="text" id="name-search" class="search-input" placeholder="Search by name...">
+    
+    <div class="district-filter">
+      <label>District:</label>
+      <select id="district-filter" class="filter-select">
+        <option value="">All Districts</option>
+        <option value="Ampara">Ampara</option>
+        <option value="Anuradhapura">Anuradhapura</option>
+        <option value="Badulla">Badulla</option>
+        <option value="Batticaloa">Batticaloa</option>
+        <option value="Colombo">Colombo</option>
+        <option value="Galle">Galle</option>
+        <option value="Gampaha">Gampaha</option>
+        <option value="Hambantota">Hambantota</option>
+        <option value="Jaffna">Jaffna</option>
+        <option value="Kalutara">Kalutara</option>
+        <option value="Kandy">Kandy</option>
+        <option value="Kegalle">Kegalle</option>
+        <option value="Kilinochchi">Kilinochchi</option>
+        <option value="Kurunegala">Kurunegala</option>
+        <option value="Mannar">Mannar</option>
+        <option value="Matale">Matale</option>
+        <option value="Matara">Matara</option>
+        <option value="Monaragala">Monaragala</option>
+        <option value="Mullaitivu">Mullaitivu</option>
+        <option value="Nuwara Eliya">Nuwara Eliya</option>
+        <option value="Polonnaruwa">Polonnaruwa</option>
+        <option value="Puttalam">Puttalam</option>
+        <option value="Ratnapura">Ratnapura</option>
+        <option value="Trincomalee">Trincomalee</option>
+        <option value="Vavuniya">Vavuniya</option>
+      </select>
+    </div>
+    
+    <div class="portfolio-actions" style="display: inline-block; margin-left: 10px;">
+      <button id="apply-filters" class="edit-btn" style="display: inline-block; margin-right: 5px;"><i class="fas fa-check"></i> Apply</button>
+      <button id="reset-filters" class="delete-btn" style="display: inline-block;"><i class="fas fa-undo"></i> Reset</button>
+    </div>
+  </div>
 
   <div class="table-container">
     <table class="product-table">
@@ -21,6 +72,7 @@
           <th>Employee Id</th>
           <th>Phone Number</th>
           <th>Home Town</th>
+          <th>District</th>
           <th>Email</th>
           <th>Action</th>
         </tr>
@@ -45,15 +97,19 @@
             <td><?php echo $employee->employee_id; ?></td>
             <td><?php echo $employee->phone_number; ?></td>
             <td><?php echo $employee->home_town; ?></td>
+            <td><?php echo isset($employee->district) ? $employee->district : 'Not specified'; ?></td>
             <td><?php echo $employee->email; ?></td>
             <td>
-              <button class="action-btn edit-btn" onclick="openEditEmployeeModal(<?php echo $employee->employee_id; ?>)">✎</button>
-              <button class="action-btn delete-btn" onclick="confirmDelete(<?php echo $employee->employee_id; ?>)">🗑</button>
+              <div class="portfolio-actions">
+                <button class="edit-btn" onclick="openEditEmployeeModal(<?php echo $employee->employee_id; ?>)"><i class="fas fa-edit"></i></button>
+                <button class="delete-btn" onclick="confirmDelete(<?php echo $employee->employee_id; ?>)"><i class="fas fa-trash-alt"></i></button>
+              </div>
             </td>
           </tr>
         <?php endforeach; ?>
       </tbody>
     </table>
+    <div class="no-results" style="display: none;">No employees match your filter criteria</div>
   </div>
 </div>
 
@@ -123,7 +179,6 @@
             }
           });
         }
-
       });
   });
 
@@ -161,7 +216,6 @@
             }
           });
         }
-
       });
   }
 
@@ -197,3 +251,4 @@
 </script>
 
 <?php require_once APPROOT . '/views/users/Shopkeeper/inc/footer.php'; ?>
+<script src="<?php echo URLROOT; ?>/public/js/shopkeeper/employee-filters.js"></script>

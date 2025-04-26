@@ -229,16 +229,18 @@ class M_Orders
     // Get user's existing measurements if available
     public function getUserMeasurements($userId)
     {
-        $this->db->query('SELECT m.name, um.value
+        $this->db->query('SELECT m.name, um.value_inch
                      FROM user_measurements um
                      JOIN measurements m ON um.measurement_id = m.measurement_id
                      WHERE um.user_id = :user_id');
         $this->db->bind(':user_id', $userId);
         $results = $this->db->resultSet();
-
+        if(empty($results)) {
+            return []; // No measurements found for this user
+        }
         $measurements = [];
         foreach ($results as $result) {
-            $measurements[$result->name] = $result->value;
+            $measurements[$result->name] = $result->value_inch;
         }
 
         return $measurements;
@@ -301,36 +303,45 @@ class M_Orders
         } else {
             $nextValue = $result->next_value;
         }
-
+        $orderId = 'T2Y-' . str_pad($nextValue, 5, '0', STR_PAD_LEFT);
+        $nextValue = $nextValue + 1;
         // Increment the sequence for next use
-        $this->db->query('UPDATE order_sequence SET next_value = next_value + 1 WHERE id = 1');
+        $this->db->query('UPDATE `order_sequence` SET `next_value` = :nextValue WHERE `order_sequence`.`id` = 1;');
+        $this->db->bind(':nextValue', $nextValue);
+        $this->db->execute();
 
         // Format the order ID with padding (e.g., T2Y-00001)
-        $orderId = 'T2Y-' . str_pad($nextValue, 5, '0', STR_PAD_LEFT);
 
         return $orderId;
     }
+
     public function createOrder($orderData)
     {
         try {
             $this->db->beginTransaction();
 
-            // Generate the order ID
-            $orderId = $this->generateOrderId();
+            // Use the order ID passed from the controller
+            $orderId = $orderData['order_id'];
 
-            // Insert the main order
+            // Calculate tax and final amount properly
+
+            // Insert the main order with tax information
             $this->db->query('INSERT INTO orders (
-                order_id, customer_id, tailor_id, total_amount, 
-                appointment_id, delivery_address, expected_delivery_date, notes
-            ) VALUES (
-                :order_id, :customer_id, :tailor_id, :total_amount, 
-                :appointment_id, :delivery_address, DATE_ADD(CURRENT_DATE, INTERVAL 14 DAY), :notes
-            )');
+            order_id, customer_id, tailor_id, total_amount, 
+            tax_amount, final_amount, appointment_id, 
+            delivery_address, expected_delivery_date, notes
+        ) VALUES (
+            :order_id, :customer_id, :tailor_id, :total_amount, 
+            :tax_amount, :final_amount, :appointment_id, 
+            :delivery_address, DATE_ADD(CURRENT_DATE, INTERVAL 14 DAY), :notes
+        )');
 
             $this->db->bind(':order_id', $orderId);
             $this->db->bind(':customer_id', $orderData['customer_id']);
             $this->db->bind(':tailor_id', $orderData['tailor_id']);
             $this->db->bind(':total_amount', $orderData['total_amount']);
+            $this->db->bind(':tax_amount', $orderData['tax_amount']);
+            $this->db->bind(':final_amount', $orderData['final_amount']);
             $this->db->bind(':appointment_id', $orderData['appointment_id'] ?? null);
             $this->db->bind(':delivery_address', $orderData['delivery_address']);
             $this->db->bind(':notes', $orderData['notes'] ?? null);
@@ -374,13 +385,13 @@ class M_Orders
 
             $this->db->commitTransaction();
             return $orderId;
-
         } catch (Exception $e) {
             $this->db->rollbackTransaction();
             error_log('Order creation error: ' . $e->getMessage());
             return false;
         }
     }
+
     public function addOrderItemCustomizations($itemId, $customizations)
     {
         try {
@@ -397,9 +408,9 @@ class M_Orders
                     continue; // Skip if choice doesn't exist
                 }
 
-                // Insert into order_item_customizations table
+                // Fixed column name to match database schema
                 $this->db->query('INSERT INTO order_item_customizations 
-                             (item_id, customization_type_id, choice_id, price_adjustment) 
+                             (item_id, type_id, choice_id, price_adjustment) 
                              VALUES (:item_id, :type_id, :choice_id, :price_adjustment)');
 
                 $this->db->bind(':item_id', $itemId);
@@ -416,14 +427,6 @@ class M_Orders
             return false;
         }
     }
-
-    /**
-     * Add measurements to an order item
-     * 
-     * @param int $itemId The order item ID
-     * @param array $measurements Array of measurements (measurement_id => value)
-     * @return bool Success status
-     */
     public function addOrderItemMeasurements($itemId, $measurements)
     {
         try {
@@ -460,10 +463,10 @@ class M_Orders
         try {
             $this->db->query('INSERT INTO appointments (
             customer_id, tailor_shopkeeper_id, appointment_date, 
-            appointment_time, location_type, status, created_at
+            appointment_time,  status
         ) VALUES (
             :customer_id, :tailor_id, :appointment_date, 
-            :appointment_time, :location_type, :status, NOW()
+            :appointment_time,:status
         )');
 
             $this->db->bind(':customer_id', $appointmentData['customer_id']);
@@ -488,20 +491,40 @@ class M_Orders
         $this->db->bind(':user_id', $userId);
         return $this->db->single();
     }
+    public function updateOrderStatus($orderId, $newStatus, $notes = null)
+    {
+        try {
+            $this->db->beginTransaction();
 
-    public function getOrders() {
-        $this->db->query('
-            SELECT 
-                o.order_id,
-                o.order_date,
-                o.total_amount,
-                o.status,
-                u.first_name AS customer_name
-            FROM orders o
-            INNER JOIN users u ON o.customer_id = u.user_id
-            ORDER BY o.order_date DESC
-        ');
+            // 1. Update the order status
+            $this->db->query('UPDATE orders SET status = :status WHERE order_id = :order_id');
+            $this->db->bind(':status', $newStatus);
+            $this->db->bind(':order_id', $orderId);
 
-        return $this->db->resultSet();
+            if (!$this->db->execute()) {
+                throw new Exception('Failed to update order status');
+            }
+
+            // 2. Record in history table
+            $this->db->query('INSERT INTO order_status_history 
+                        (order_id, status, updated_by, notes) 
+                        VALUES (:order_id, :status, :updated_by, :notes)');
+
+            $this->db->bind(':order_id', $orderId);
+            $this->db->bind(':status', $newStatus);
+            $this->db->bind(':updated_by', $_SESSION['user_id']);
+            $this->db->bind(':notes', $notes);
+
+            if (!$this->db->execute()) {
+                throw new Exception('Failed to record status history');
+            }
+
+            $this->db->commitTransaction();
+            return true;
+        } catch (Exception $e) {
+            $this->db->rollbackTransaction();
+            error_log('Error updating order status: ' . $e->getMessage());
+            return false;
+        }
     }
 }

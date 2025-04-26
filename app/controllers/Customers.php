@@ -134,8 +134,8 @@ class Customers extends Controller
             // Validate password
             if (empty($data['password'])) {
                 $data['password_err'] = 'Please enter password';
-            } elseif (strlen($data['password']) < 6) {
-                $data['password_err'] = 'Password must be at least 6 characters';
+            } elseif (strlen($data['password']) < 8) {
+                $data['password_err'] = 'Password must be at least 8 characters';
             }
             // Validate confirm password
             if (empty($data['confirm_password'])) {
@@ -318,15 +318,16 @@ class Customers extends Controller
         $this->view('users/Customer/v_c_orders', $data);
     }
 
-    public function addPants() {
+    public function addPants()
+    {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $measurementData = [];
             foreach ($_POST['measurements'] as $id => $value) {
                 if (!empty($value)) {
-                    $cm_value = ($_POST['measurement_unit'] === 'inch') ? 
-                               $value * 2.54 : $value;
-                    $inch_value = ($_POST['measurement_unit'] === 'cm') ? 
-                                 $value * 0.393701 : $value;
+                    $cm_value = ($_POST['measurement_unit'] === 'inch') ?
+                        $value * 2.54 : $value;
+                    $inch_value = ($_POST['measurement_unit'] === 'cm') ?
+                        $value * 0.393701 : $value;
 
                     $measurementData[] = [
                         'id' => $id,
@@ -358,9 +359,10 @@ class Customers extends Controller
         }
     }
 
-            
 
-    public function addShirts() {
+
+    public function addShirts()
+    {
         if (!isset($_SESSION['user_id'])) {
             redirect('Users/login');
         }
@@ -371,10 +373,10 @@ class Customers extends Controller
             $measurementData = [];
             foreach ($_POST['measurements'] as $id => $value) {
                 if (!empty($value)) {
-                    $cm_value = ($_POST['measurement_unit'] === 'inch') ? 
-                               $value * 2.54 : $value;
-                    $inch_value = ($_POST['measurement_unit'] === 'cm') ? 
-                                 $value * 0.393701 : $value;
+                    $cm_value = ($_POST['measurement_unit'] === 'inch') ?
+                        $value * 2.54 : $value;
+                    $inch_value = ($_POST['measurement_unit'] === 'cm') ?
+                        $value * 0.393701 : $value;
 
                     $measurementData[] = [
                         'id' => $id,
@@ -407,12 +409,65 @@ class Customers extends Controller
         }
     }
 
-    public function changepassword()
+    public function changePassword()
     {
-        $data = [
-            'title' => 'Change Password'
-        ];
-        $this->view('users/Customer/v_c_changepassword', $data);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Process form
+            // Sanitize post data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            // Input data
+            $data = [
+                'title' => 'Change Password',
+                'current_password' => trim($_POST['current_password']),
+                'new_password' => trim($_POST['new_password']),
+                'confirm_password' => trim($_POST['confirm_password']),
+                'current_password_err' => '',
+                'new_password_err' => '',
+                'confirm_password_err' => '',
+                'succeed_password' => '',
+            ];
+
+            // Validate current password
+            if (empty($data['current_password'])) {
+                $data['current_password_err'] = 'Please enter current password';
+            } elseif (!$this->userModel->checkPassword($_SESSION['user_id'], $data['current_password'])) {
+                $data['current_password_err'] = 'Current password is incorrect';
+            }
+
+            // Check for errors
+            if (empty($data['current_password_err'])) {
+                // Update the password in the database
+                if ($this->userModel->updatePassword($_SESSION['user_id'], $data['new_password'])) {
+                    unset($_SESSION['user_id']);
+                    unset($_SESSION['user_email']);
+                    unset($_SESSION['user_name']);
+                    session_destroy();
+                    flash('user_message', 'Password changed successfully, please login again', 'alert alert-success');
+                    redirect('users/login');
+                } else {
+                    flash('user_message', 'Something went wrong, please try again', 'alert alert-danger');
+                    redirect('/Customers/changePassword');
+                }
+            } else {
+                // Load view with errors
+                $this->view('users/Customer/v_c_changepassword', $data);
+            }
+        } else {
+            // Init data
+            $data = [
+                'title' => 'Change Password',
+                'current_password' => '',
+                'new_password' => '',
+                'confirm_password' => '',
+                'current_password_err' => '',
+                'new_password_err' => '',
+                'confirm_password_err' => '',
+            ];
+
+            // Load view
+            $this->view('users/Customer/v_c_changepassword', $data);
+        }
     }
 
     public function updateDetails()
@@ -436,27 +491,64 @@ class Customers extends Controller
         }
 
         $appointments = $this->customerModel->getCustomerAppointments($_SESSION['user_id']);
+        $rescheduleRequests = $this->customerModel->getRescheduleRequests($_SESSION['user_id']);
 
         $data = [
             'title' => 'Appointments',
-            'appointments' => $appointments
+            'appointments' => $appointments,
+            'rescheduleRequests' => $rescheduleRequests
         ];
 
         $this->view('users/Customer/v_c_appointments', $data);
     }
 
+    public function handleReschedule($appointmentId, $action)
+    {
+        if (!isLoggedIn()) {
+            redirect('users/login');
+        }
+
+        if ($action === 'accept') {
+            if ($this->customerModel->acceptRescheduleRequest($appointmentId, $_SESSION['user_id'])) {
+                flash('appointment_message', 'You have accepted the reschedule request.');
+            } else {
+                flash('appointment_message', 'There was an error processing your request.', 'alert alert-danger');
+            }
+        } elseif ($action === 'reject') {
+            if ($this->customerModel->rejectRescheduleRequest($appointmentId, $_SESSION['user_id'])) {
+                flash('appointment_message', 'You have rejected the reschedule request.');
+            } else {
+                flash('appointment_message', 'There was an error processing your request.', 'alert alert-danger');
+            }
+        }
+
+        redirect('Customers/displayAppointments');
+    }
+
     public function displayOrders()
     {
+        if (!isLoggedIn()) {
+            redirect('users/login');
+        }
+
+        $orders = $this->customerModel->getCustomerOrders($_SESSION['user_id']);
         $data = [
-            'title' => 'Orders'
+            'title' => 'Orders',
+            'orders' => $orders
         ];
         $this->view('users/Customer/v_c_orders', $data);
     }
 
-    public function ordersViews()
+    public function ordersViews($orderId)
     {
+        $order = $this->customerModel->getCustomerOrder($_SESSION['user_id'],$orderId);
+        $measurement = $this->customerModel->getCustomerMeasurements($order->design_id, $_SESSION['user_id']);
+        $tailor = $this->customerModel->getTailorById($order->tailor_id);
         $data = [
-            'title' => 'OrdersView'
+            'title' => 'Order View',
+            'order' => $order,
+            'measurements' => $measurement,
+            'tailor' => $tailor
         ];
         $this->view('users/Customer/v_c_order_details', $data);
     }

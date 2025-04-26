@@ -13,6 +13,9 @@
 @import url('../tailor/New_Pop_up_styles.css');
 @import url('../tailor/btn_styles.css');
 @import url('profile_style.css');
+@import url('../tailor/components/status-badges.css');
+@import url('Notifications.css');
+@import url('Cart.css');
 @import url('C_message.css');
 
 
@@ -55,6 +58,20 @@
     --accent-gradient: linear-gradient(135deg, #c4a77d 0%, #d4b78d 100%);
     --accent-shadow: 0 8px 32px rgba(196, 167, 125, 0.2);
     --elegant-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+
+    /* Add status badge variables */
+    --status-pending-bg: rgba(255, 193, 7, 0.15);
+    --status-pending-color: #e5a000;
+    --status-accepted-bg: rgba(143, 188, 143, 0.15);
+    --status-accepted-color: #3cb371;
+    --status-confirmed-bg: rgba(76, 175, 80, 0.15);
+    --status-confirmed-color: #2e7d32;
+    --status-completed-bg: rgba(33, 150, 243, 0.15);
+    --status-completed-color: #1565c0;
+    --status-rejected-bg: rgba(244, 67, 54, 0.15);
+    --status-rejected-color: #c62828;
+    --status-reschedule_pending-bg: rgba(11, 7, 72, 0.15);
+    --status-reschedule_pending-color: #00c6e5;
 }
 
 * {

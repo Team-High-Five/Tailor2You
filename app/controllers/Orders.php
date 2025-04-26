@@ -60,7 +60,6 @@ class Orders extends Controller
                         // Store in session
                         $_SESSION['order_details']['fabric'] = $fabric;
 
-
                         $customizationIds = [];
                         if (isset($_SESSION['order_details']['customizations'])) {
                             foreach ($_SESSION['order_details']['customizations'] as $customization) {
@@ -105,6 +104,7 @@ class Orders extends Controller
 
     public function selectFabric($designId = null)
     {
+        $intent = isset($_GET['intent']) ? $_GET['intent'] : 'order';
         // If no design ID provided, check if one exists in the session
         if ($designId === null && !isset($_SESSION['order_details']['design'])) {
             redirect('Pages/index');
@@ -125,12 +125,12 @@ class Orders extends Controller
                 'total_price' => $design->base_price
             ];
         }
-
         $fabrics = $this->orderModel->getFabricsByDesignId($_SESSION['order_details']['design']->design_id);
 
         $data = [
             'title' => 'Select Fabric',
-            'fabrics' => $fabrics
+            'fabrics' => $fabrics,
+            'intent' => $intent 
         ];
 
         $this->view('designs/v_d_select_fabric', $data);
@@ -234,7 +234,7 @@ class Orders extends Controller
         $selectedCustomizations = [];
         foreach ($_POST as $key => $value) {
             if (strpos($key, 'customization_') === 0) {
-                $typeId = substr($key, 14); // Remove 'customization_' to get type ID
+                $typeId = substr($key, 14);
                 $choiceId = $value;
 
                 // Get choice details to store in session
@@ -487,11 +487,17 @@ class Orders extends Controller
         $paymentMethod = $_POST['payment_method'] ?? 'cod';
         $orderNumber = $this->orderModel->generateOrderId();
 
-        // Log payment details
+        // Calculate tax and final amount
+        $baseAmount = $_SESSION['order_details']['subtotal'];
+        $taxAmount = $baseAmount * 0.12;
+        $finalAmount = $baseAmount + $taxAmount;
+
         $paymentDetails = [
             'order_number' => $orderNumber,
             'payment_method' => $paymentMethod,
-            'amount' => $_SESSION['order_details']['total_price'],
+            'base_amount' => $baseAmount,
+            'tax_amount' => $taxAmount,
+            'final_amount' => $finalAmount,
             'status' => 'completed',
             'date' => date('Y-m-d H:i:s')
         ];
@@ -501,17 +507,15 @@ class Orders extends Controller
         // Get user information including address
         $user = $this->orderModel->getUserAddress($_SESSION['user_id']);
 
-        // Fix this incorrect ternary operator syntax
-        // $deliveryAddress = (isset($userAddress)) ?? $userAddress ?? 'Default Address'; 
-
-        // Correct way to get delivery address
         $deliveryAddress = $user ? $user->address : 'Default Address';
 
-        // Prepare the order data for database storage
+
         $orderData = [
             'customer_id' => $_SESSION['user_id'],
             'tailor_id' => $_SESSION['order_details']['design']->user_id,
-            'total_amount' => $_SESSION['order_details']['total_price'],
+            'total_amount' => $baseAmount,
+            'tax_amount' => $taxAmount,
+            'final_amount' => $finalAmount,
             'delivery_address' => $deliveryAddress,
             'notes' => $_POST['notes'] ?? null,
             'items' => $this->prepareOrderItems()
@@ -529,6 +533,7 @@ class Orders extends Controller
             $orderData['appointment_id'] = null;
         }
 
+        $orderData['order_id'] = $orderNumber;
         // Save to database
         $createdOrderId = $this->orderModel->createOrder($orderData);
 
@@ -565,11 +570,7 @@ class Orders extends Controller
             unset($_SESSION['clear_order_after_confirmation']);
         }
     }
-    /**
-     * Prepare order items data from session for database storage
-     * 
-     * @return array The formatted order items data
-     */
+
     private function prepareOrderItems()
     {
         $items = [];
@@ -579,11 +580,11 @@ class Orders extends Controller
             'design_id' => $_SESSION['order_details']['design']->design_id,
             'fabric_id' => $_SESSION['order_details']['fabric']->fabric_id,
             'color_id' => $_SESSION['order_details']['color']->color_id,
-            'quantity' => 1, // Default to 1 for now
+            'quantity' => 1,
             'base_price' => $_SESSION['order_details']['design']->base_price,
             'fabric_price' => $_SESSION['order_details']['fabric']->price_adjustment ?? 0,
             'customization_price' => $this->calculateCustomizationPrice(),
-            'total_price' => $_SESSION['order_details']['total_price'],
+            'total_price' => $_SESSION['order_details']['subtotal'],
             'customizations' => $this->prepareCustomizations(),
             'measurements' => $_SESSION['order_details']['measurements'] ?? []
         ];
@@ -591,11 +592,6 @@ class Orders extends Controller
         return $items;
     }
 
-    /**
-     * Calculate the total price adjustment from customizations
-     * 
-     * @return float Total customization price adjustment
-     */
     private function calculateCustomizationPrice()
     {
         $total = 0;
@@ -607,11 +603,6 @@ class Orders extends Controller
         return $total;
     }
 
-    /**
-     * Prepare customizations data for database storage
-     * 
-     * @return array The formatted customizations data
-     */
     private function prepareCustomizations()
     {
         $customizations = [];
@@ -623,13 +614,6 @@ class Orders extends Controller
         return $customizations;
     }
 
-    /**
-     * Create an appointment record in the database
-     * 
-     * @param array $appointmentData The appointment details
-     * @param int $tailorId The tailor ID
-     * @return int|null The appointment ID or null if failed
-     */
     private function createAppointment($appointmentData, $tailorId)
     {
         // Skip if this is a skipped appointment
@@ -649,9 +633,6 @@ class Orders extends Controller
         return $this->orderModel->createAppointment($appointment);
     }
 
-    /**
-     * Clear the order details from the session
-     */
     private function clearOrderSession()
     {
         // Don't immediately clear - we need this for the confirmation page

@@ -33,17 +33,19 @@ CREATE TABLE `users` (
 
 -- Create the `employees` table
 CREATE TABLE `employees` (
-    `employee_id` INT(11) NOT NULL AUTO_INCREMENT,
-    `user_id` INT(11) NOT NULL,
-    `first_name` VARCHAR(20) NOT NULL,
-    `last_name` VARCHAR(30) NOT NULL,
-    `phone_number` VARCHAR(10) NOT NULL,
-    `home_town` VARCHAR(20) NOT NULL,
-    `email` VARCHAR(30) NOT NULL,
-    `image` LONGBLOB DEFAULT NULL,
+    `employee_id` int(11) NOT NULL AUTO_INCREMENT,
+    `user_id` int(11) NOT NULL,
+    `first_name` varchar(20) NOT NULL,
+    `last_name` varchar(30) NOT NULL,
+    `phone_number` varchar(10) NOT NULL,
+    `home_town` varchar(20) NOT NULL,
+    `district` varchar(50) DEFAULT NULL,
+    `email` varchar(30) NOT NULL,
+    `image` longblob DEFAULT NULL,
     PRIMARY KEY (`employee_id`),
-    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+    KEY `user_id` (`user_id`),
+    CONSTRAINT `employees_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- -----------------------------------------------------
 -- 2. COMMUNICATION TABLES
@@ -51,15 +53,37 @@ CREATE TABLE `employees` (
 
 -- Create the `posts` table
 CREATE TABLE `posts` (
-    `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `user_id` INT(11) NOT NULL,
-    `title` VARCHAR(255) NOT NULL,
-    `description` TEXT NOT NULL,
-    `image` LONGBLOB,
-    `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `user_id` int(11) NOT NULL,
+    `title` varchar(255) NOT NULL,
+    `description` text NOT NULL,
+    `gender` enum('men', 'women', 'unisex') DEFAULT 'unisex',
+    `item_type` enum(
+        'shirt',
+        'pant',
+        'frock',
+        'skirt',
+        'blouse'
+    ) DEFAULT NULL,
+    `image` longblob DEFAULT NULL,
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+    KEY `user_id` (`user_id`),
+    CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+CREATE TABLE `likes` (
+    `like_id` int(11) NOT NULL AUTO_INCREMENT,
+    `customer_id` int(11) NOT NULL,
+    `tailor_id` int(11) NOT NULL,
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+    `status` enum('active', 'removed') DEFAULT 'active',
+    PRIMARY KEY (`like_id`),
+    UNIQUE KEY `customer_id` (`customer_id`, `tailor_id`),
+    KEY `tailor_id` (`tailor_id`),
+    CONSTRAINT `likes_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+    CONSTRAINT `likes_ibfk_2` FOREIGN KEY (`tailor_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 5 DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- Create the `appointments` table
 CREATE TABLE `appointments` (
@@ -70,7 +94,7 @@ CREATE TABLE `appointments` (
     `appointment_time` TIME NOT NULL,
     `status` ENUM(
         'accepted',
-        'processing',
+        'reschedule_pending',
         'rejected',
         'pending'
     ) NOT NULL DEFAULT 'pending',
@@ -115,42 +139,7 @@ CREATE TABLE `fabric_colors` (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- -----------------------------------------------------
--- 4. MEASUREMENT TABLES
--- -----------------------------------------------------
-
--- Create shirt measurements table
-CREATE TABLE `shirt_measurements` (
-    `user_id` int(11) DEFAULT NULL,
-    `measure` enum('cm', 'inch') DEFAULT NULL,
-    `collar_size` decimal(5, 2) NOT NULL,
-    `chest_width` decimal(5, 2) NOT NULL,
-    `waist_width` decimal(5, 2) NOT NULL,
-    `bottom_width` decimal(5, 2) NOT NULL,
-    `shoulder_width` decimal(5, 2) NOT NULL,
-    `sleeve_length` decimal(5, 2) NOT NULL,
-    `armhole_depth` decimal(5, 2) NOT NULL,
-    `bicep` decimal(5, 2) NOT NULL,
-    `cuff_size` decimal(5, 2) NOT NULL,
-    `front_length` decimal(5, 2) NOT NULL,
-    KEY `user_id` (`user_id`),
-    CONSTRAINT `shirt_measurements_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- Create pant measurements table
-CREATE TABLE `pant_measurements` (
-    `user_id` varchar(100) NOT NULL,
-    `measure` int(11) NOT NULL,
-    `waist_width` int(11) NOT NULL,
-    `seat` int(11) NOT NULL,
-    `mid_thigh_width` int(11) NOT NULL,
-    `inseam` int(11) NOT NULL,
-    `bottom_width` int(11) NOT NULL,
-    `rise_height_front` int(11) NOT NULL,
-    `rise_height_back` int(11) NOT NULL
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- -----------------------------------------------------
--- 5. CLOTHING CATEGORY AND DESIGN TABLES
+-- 4. CLOTHING CATEGORY AND DESIGN TABLES
 -- -----------------------------------------------------
 
 -- Create clothing categories table
@@ -235,80 +224,7 @@ CREATE TABLE `design_fabrics` (
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- -----------------------------------------------------
--- 6. ORDER MANAGEMENT TABLES
--- -----------------------------------------------------
-
--- Orders main table
-CREATE TABLE `orders` (
-    `order_id` VARCHAR(20) NOT NULL,
-    `customer_id` INT(11) NOT NULL,
-    `tailor_id` INT(11) NOT NULL,
-    `order_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    `total_amount` DECIMAL(10, 2) NOT NULL,
-    `status` ENUM(
-        'pending',
-        'processing',
-        'completed',
-        'cancelled'
-    ) DEFAULT 'pending',
-    `appointment_id` INT(11) NULL,
-    `delivery_address` VARCHAR(255) NOT NULL,
-    `expected_delivery_date` DATE NULL,
-    `actual_delivery_date` DATE NULL,
-    `notes` TEXT,
-    PRIMARY KEY (`order_id`),
-    FOREIGN KEY (`customer_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`tailor_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`appointment_id`) ON DELETE SET NULL
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- Create a sequence table to track the next order number
-CREATE TABLE `order_sequence` (
-    `id` INT(11) NOT NULL AUTO_INCREMENT,
-    `next_value` INT(11) NOT NULL DEFAULT 1,
-    PRIMARY KEY (`id`)
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- Order items table (one order can have multiple items)
-CREATE TABLE `order_items` (
-    `item_id` INT(11) NOT NULL AUTO_INCREMENT,
-    `order_id` VARCHAR(20) NOT NULL,
-    `design_id` INT(11) NOT NULL,
-    `fabric_id` INT(11) NOT NULL,
-    `color_id` INT(11) NOT NULL,
-    `quantity` INT(2) DEFAULT 1,
-    `base_price` DECIMAL(10, 2) NOT NULL,
-    `customization_price` DECIMAL(10, 2) DEFAULT 0.00,
-    `fabric_price` DECIMAL(10, 2) DEFAULT 0.00,
-    `total_price` DECIMAL(10, 2) NOT NULL,
-    `status` ENUM(
-        'pending',
-        'in_progress',
-        'ready',
-        'delivered'
-    ) DEFAULT 'pending',
-    PRIMARY KEY (`item_id`),
-    FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE RESTRICT,
-    FOREIGN KEY (`fabric_id`) REFERENCES `fabrics` (`fabric_id`) ON DELETE RESTRICT,
-    FOREIGN KEY (`color_id`) REFERENCES `colors` (`color_id`) ON DELETE RESTRICT
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- Order item customizations (which customization choices were selected for each item)
-CREATE TABLE `order_item_customizations` (
-    `item_customization_id` INT(11) NOT NULL AUTO_INCREMENT,
-    `item_id` INT(11) NOT NULL,
-    `type_id` INT(11) NOT NULL,
-    `choice_id` INT(11) NOT NULL,
-    `price_adjustment` DECIMAL(10, 2) DEFAULT 0.00,
-    PRIMARY KEY (`item_customization_id`),
-    FOREIGN KEY (`item_id`) REFERENCES `order_items` (`item_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`type_id`) REFERENCES `customization_types` (`type_id`) ON DELETE RESTRICT,
-    FOREIGN KEY (`choice_id`) REFERENCES `customization_choices` (`choice_id`) ON DELETE RESTRICT
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
--- -----------------------------------------------------
--- 7. ADVANCED MEASUREMENT SYSTEM TABLES
+-- 5. MEASUREMENT SYSTEM TABLES
 -- -----------------------------------------------------
 
 -- Master table of all possible clothing measurements
@@ -374,6 +290,118 @@ CREATE TABLE `custom_design_measurements` (
     UNIQUE KEY (`design_id`, `name`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
+-- Create new user_measurements table with both cm and inch values
+CREATE TABLE `user_measurements` (
+    `user_id` INT(11) NOT NULL,
+    `measurement_id` INT(11) NOT NULL,
+    `value_cm` DECIMAL(10, 2) NOT NULL,
+    `value_inch` DECIMAL(10, 2) NOT NULL,
+    `last_updated` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    PRIMARY KEY (`user_id`, `measurement_id`),
+    KEY `measurement_id` (`measurement_id`),
+    CONSTRAINT `user_measurements_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+    CONSTRAINT `user_measurements_ibfk_2` FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+
+-- -----------------------------------------------------
+-- 6. ORDER MANAGEMENT TABLES
+-- -----------------------------------------------------
+
+-- Orders main table
+CREATE TABLE `orders` (
+    `order_id` VARCHAR(20) NOT NULL,
+    `customer_id` INT(11) NOT NULL,
+    `tailor_id` INT(11) NOT NULL,
+    `order_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `total_amount` DECIMAL(10, 2) NOT NULL,
+    `tax_amount` DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    `final_amount` DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+    `status` ENUM(
+        'order_placed',
+        'fabric_cutting',
+        'stitching',
+        'ready_for_delivery',
+        'delivered',
+        'cancelled'
+    ) DEFAULT 'order_placed',
+    `appointment_id` INT(11) NULL,
+    `delivery_address` VARCHAR(255) NOT NULL,
+    `expected_delivery_date` DATE NULL,
+    `actual_delivery_date` DATE NULL,
+    `notes` TEXT,
+    PRIMARY KEY (`order_id`),
+    FOREIGN KEY (`customer_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`tailor_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`appointment_id`) ON DELETE SET NULL
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Create a sequence table to track the next order number
+CREATE TABLE `order_sequence` (
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `next_value` INT(11) NOT NULL DEFAULT 1,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Order items table (one order can have multiple items)
+CREATE TABLE `order_items` (
+    `item_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `order_id` VARCHAR(20) NOT NULL,
+    `design_id` INT(11) NOT NULL,
+    `fabric_id` INT(11) NOT NULL,
+    `color_id` INT(11) NOT NULL,
+    `quantity` INT(2) DEFAULT 1,
+    `base_price` DECIMAL(10, 2) NOT NULL,
+    `customization_price` DECIMAL(10, 2) DEFAULT 0.00,
+    `fabric_price` DECIMAL(10, 2) DEFAULT 0.00,
+    `total_price` DECIMAL(10, 2) NOT NULL,
+    `status` ENUM(
+        'order_placed',
+        'fabric_cutting',
+        'stitching',
+        'ready_for_delivery',
+        'delivered',
+        'cancelled'
+    ) DEFAULT 'order_placed',
+    PRIMARY KEY (`item_id`),
+    FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE RESTRICT,
+    FOREIGN KEY (`fabric_id`) REFERENCES `fabrics` (`fabric_id`) ON DELETE RESTRICT,
+    FOREIGN KEY (`color_id`) REFERENCES `colors` (`color_id`) ON DELETE RESTRICT
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+CREATE TABLE `order_status_history` (
+    `history_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `order_id` VARCHAR(20) NOT NULL,
+    `status` ENUM(
+        'order_placed',
+        'fabric_cutting',
+        'stitching',
+        'ready_for_delivery',
+        'delivered',
+        'cancelled'
+    ) NOT NULL,
+    `status_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated_by` INT(11) NOT NULL COMMENT 'User ID who updated the status',
+    `notes` TEXT NULL,
+    PRIMARY KEY (`history_id`),
+    FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`updated_by`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Order item customizations (which customization choices were selected for each item)
+CREATE TABLE `order_item_customizations` (
+    `item_customization_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `item_id` INT(11) NOT NULL,
+    `type_id` INT(11) NOT NULL,
+    `choice_id` INT(11) NOT NULL,
+    `price_adjustment` DECIMAL(10, 2) DEFAULT 0.00,
+    PRIMARY KEY (`item_customization_id`),
+    FOREIGN KEY (`item_id`) REFERENCES `order_items` (`item_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`type_id`) REFERENCES `customization_types` (`type_id`) ON DELETE RESTRICT,
+    FOREIGN KEY (`choice_id`) REFERENCES `customization_choices` (`choice_id`) ON DELETE RESTRICT
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
 -- Actual measurement values for order items
 CREATE TABLE `order_item_measurements` (
     `item_measurement_id` INT(11) NOT NULL AUTO_INCREMENT,
@@ -387,16 +415,6 @@ CREATE TABLE `order_item_measurements` (
     FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE RESTRICT
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
--- User profile measurements
-CREATE TABLE `user_measurements` (
-    `user_id` INT(11) NOT NULL,
-    `measurement_id` INT(11) NOT NULL,
-    `value` DECIMAL(10, 2) NOT NULL,
-    `last_updated` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`user_id`, `measurement_id`),
-    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
-    FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE CASCADE
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
 -- Create measurement ranges table
 CREATE TABLE `measurement_ranges` (
@@ -407,3 +425,23 @@ CREATE TABLE `measurement_ranges` (
     PRIMARY KEY (`measurement_id`),
     FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
+
+
+--------------------------------------------------------
+-- 7. CART MANAGEMENT TABLES
+-- -----------------------------------------------------
+-- Create cart_items table
+CREATE TABLE `cart_items` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `user_id` INT(11) NOT NULL,
+  `design_id` INT(11) NOT NULL,
+  `fabric_id` INT(11) NOT NULL,
+  `color_id` INT(11) NOT NULL,
+  `quantity` INT(2) DEFAULT 1,
+  `added_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`fabric_id`) REFERENCES `fabrics` (`fabric_id`) ON DELETE CASCADE,
+  FOREIGN KEY (`color_id`) REFERENCES `colors` (`color_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;

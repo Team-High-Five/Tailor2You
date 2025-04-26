@@ -1,13 +1,11 @@
 <?php require_once APPROOT . '/views/pages/inc/header.php'; ?>
 <?php require_once APPROOT . '/views/pages/inc/components/topnav.php'; ?>
 <!-- slider -->
-<?php require_once APPROOT . '/views/pages/inc/components/mens_slidebar.php'; ?>
+<?php require_once APPROOT . '/views/pages/inc/components/women_slidebar.php'; ?>
 <!-- Shop by Category Section -->
-<span id="mens-categories"></span>
+<span id="women-categories"></span>
 <?php require_once APPROOT . '/views/pages/inc/components/women-category.php'; ?>
-<span id="colllection"></span>
-<?php require_once APPROOT . '/views/pages/inc/components/new_collection.php'; ?>
-
+<?php require_once APPROOT . '/views/pages/inc/components/design_grid.php'; ?>
 <!-- Image Section 
     <section class="image-section">
         <img src="image/image.png" alt="Tailoring Image">
@@ -63,37 +61,9 @@
     </div>
 </section>
 <span id="footer"></span>
-<footer class="footer">
-    <div class="footer-container">
-        <!-- About Us Section -->
-        <div class="aboutUs">
-            <h3>About Us</h3>
-            <p>
-                At Tailor2You, we’re dedicated to providing personalized fashion services right at your convenience. Whether you're looking for custom-made outfits, alterations, or quick fixes, our expert tailors are here to bring your vision to life. With our platform, you can easily find the nearest tailors in your area and get the quality and fit you deserve.
-            </p>
-        </div>
 
-        <!-- Contact Us Section -->
-        <div class="footer-section">
-            <h3>Contact Us</h3>
-            <p>
-                Email: <a href="mailto:contact@example.com">tailor2you@gmail.com</a><br>
-                Phone: <a href="tel:+1234567890">+94 767 665 560</a><br>
-
-            </p>
-        </div>
-    </div>
-    <p class="footer-rights">
-        &copy; 2024 Tailor2You. All rights reserved.
-    </p>
-</footer>
-</body>
-
-</html>
 <script src="<?php echo URLROOT; ?>/public/js/script.js"></script>
 <script src="<?php echo URLROOT; ?>/public/js/slidebar.js"></script>
 
 
-</body>
-
-</html>
+<?php require_once APPROOT . '/views/pages/inc/footer.php'; ?>
