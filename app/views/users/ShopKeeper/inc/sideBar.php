@@ -34,7 +34,7 @@ function isCurrentPage($page)
     </a>
   </div>
   <div id="Customizations" class="sidebar-icon">
-    <a href="<?php echo URLROOT ?>/Shopkeepers/displayCustomizeItems">
+    <a href="<?php echo URLROOT ?>/Tailors/displayCustomizeItems">
       <img src="../<?php APPROOT ?>/public/img/Adjust.png">
     </a>
   </div>
