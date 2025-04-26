@@ -9,12 +9,13 @@
           <button><i><img src="<?php echo URLROOT; ?>/public/img/Search.png"></i></button>
         </div>
         <a href="<?php echo URLROOT; ?>/Chat/index">
-  <button class="icon-button">
-    <i class="fas fa-envelope"></i>
-  </button>
-</a>
+          <button class="icon-button">
+            <i class="fas fa-envelope"></i>
+          </button>
+        </a>
         <button class="icon-button"><i class="fas fa-bell"></i></button>
-        <a href="<?php echo URLROOT ?>/Action/index"><button class="icon-button"><i class="fas fa-envelope"></i></button></a>
+        <a href="<?php echo URLROOT ?>/Action/index"><button class="icon-button"><i
+              class="fas fa-envelope"></i></button></a>
         <div class="notification-dropdown">
           <button id="notificationBtn" class="icon-button">
             <i class="fas fa-bell"></i>
@@ -53,7 +54,8 @@
             <?php endif; ?>
           </span>
           <?php if (!empty($_SESSION['user_profile_pic'])): ?>
-            <img src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['user_profile_pic']); ?>" alt="User Avatar">
+            <img src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['user_profile_pic']); ?>"
+              alt="User Avatar">
           <?php else: ?>
             <img src="<?php echo URLROOT; ?>/public/img/Avatar.png" alt="User Avatar">
           <?php endif; ?>
