@@ -13,7 +13,6 @@
   text-align: center;
 }
 
-/* Elegant Filter Bar */
 .filter-controls {
   background: var(--card-gradient);
   backdrop-filter: blur(10px);
