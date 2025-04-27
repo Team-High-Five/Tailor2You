@@ -14,7 +14,7 @@
 </style>
 <div class="main-content">
   <button class="btn-primary add-post-btn" id="openEmployeeModalBtn">Add New Employee</button>
-  
+
   <!-- Add vertical space between button and filter bar -->
   <div style="margin: 20px 0;"></div>
 
@@ -22,9 +22,9 @@
     <div class="filter-label">
       <i class="fas fa-filter"></i> Filter Employees
     </div>
-    
+
     <input type="text" id="name-search" class="search-input" placeholder="Search by name...">
-    
+
     <div class="district-filter">
       <label>District:</label>
       <select id="district-filter" class="filter-select">
@@ -56,7 +56,7 @@
         <option value="Vavuniya">Vavuniya</option>
       </select>
     </div>
-    
+
     <div class="portfolio-actions" style="display: inline-block; margin-left: 10px;">
       <button id="apply-filters" class="edit-btn" style="display: inline-block; margin-right: 5px;"><i class="fas fa-check"></i> Apply</button>
       <button id="reset-filters" class="delete-btn" style="display: inline-block;"><i class="fas fa-undo"></i> Reset</button>
@@ -115,34 +115,40 @@
 
 <!-- Add New Employee Modal -->
 <div id="employeeModal" class="modal">
-  <div id="modal-body">
+  <div class="modal-body">
     <!-- Content from v_s_employee_add_new.php will be loaded here -->
   </div>
 </div>
 
+
 <!-- Edit Employee Modal -->
 <div id="editEmployeeModal" class="modal">
-  <div id="edit-modal-body">
+  <div class="modal-body">
     <!-- Content from v_s_edit_employee.php will be loaded here -->
   </div>
 </div>
 
 <!-- Delete Confirmation Modal -->
-<div id="deleteEmployeeModal" class="modal">
-  <div class="delete-modal-content">
-    <div class="modal-header">
-      <h1>Confirm Deletion</h1>
-      <button class="close-btn" onclick="closeDeleteEmployeeModal()">&times;</button>
-    </div>
-    <div class="delete-modal-body">
-      <p>Are you sure you want to delete this employee?</p>
-      <form id="deleteEmployeeForm" action="" method="post">
-        <button type="submit" class="submit-btn">Yes, Delete</button>
-        <button type="button" class="reset-btn" onclick="closeDeleteEmployeeModal()">Cancel</button>
-      </form>
+<div id="deleteFabricModal" class="modal">
+  <div class="modal-body">
+    <div class="delete-modal-content">
+      <div class="modal-header">
+        <h1>Confirm Deletion</h1>
+        <button class="close-btn">&times;</button>
+      </div>
+      <div class="modal-content">
+        <p>Are you sure you want to delete this employee?</p>
+        <div class="button-rows">
+          <form id="deleteEmployeeForm" action="" method="post">
+            <button type="submit" class="submit-btn">Yes, Delete</button>
+          </form>
+          <button type="button" class="reset-btn" id="cancelDelete">Cancel</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
+
 
 <script>
   document.getElementById('openEmployeeModalBtn').addEventListener('click', function() {

@@ -12,7 +12,7 @@
     <?php flash('profile_error'); ?>
     <?php flash('profile_success'); ?>
     
-    <div class="profile-form-container">
+
         <div class="profile-form">
             <form id="profileForm" action="<?php echo URLROOT; ?>/tailors/profileUpdate" method="POST" enctype="multipart/form-data">
                 <div class="profile-pic">
@@ -127,8 +127,7 @@
                 <button type="button" class="submit-btn" onclick="confirmUpdate()">Update Profile</button>
             </form>
         </div>
-    </div>
-</div>
+    </div>  
 
 <!-- Confirmation Popup -->
 <div id="confirmationPopup" class="popup">

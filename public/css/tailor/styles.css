@@ -48,7 +48,7 @@
 @import url('dark_mode_styles.css');
 @import url('Notifications.css');
 
- 
+
 /*--------------------------------------------------------------
 # THEME VARIABLES - LIGHT MODE
 --------------------------------------------------------------*/
@@ -140,75 +140,107 @@
 --------------------------------------------------------------*/
 [data-theme="dark"] {
     /* Background */
-    --bg-img: url('../../img/Tailor.png');
-    --background-color: #121218;
-    --white-color: #121218;
-    /* Inverted for dark mode */
-    --glass-effect: rgba(30, 30, 45, 0.95);
-    --bg-mask: rgba(18, 18, 24, 0.95);
+    --bg-img: none;
+    /* Removed background image for cleaner look */
+    --background-color: #12121f;
+    --white-color: #1a1a2a;
+    /* Improved dark glass effect for better layering */
+    --glass-effect: rgba(28, 28, 44, 0.85);
+    --bg-mask: rgba(22, 22, 33, 0.92);
 
-    /* Primary Colors */
-    --primary-color: #8a7ad1;
-    /* Lighter version of original primary */
-    --primary-gradient: linear-gradient(180deg, #8a7ad1 0%, #7a68ee 100%);
-    --secondary-color: #9185ee;
+    /* Primary Colors - Enhanced richness */
+    --primary-color: #9280e0;
+    --primary-gradient: linear-gradient(180deg, #9280e0 0%, #7a68ee 100%);
+    --primary-hover-color: #7a68ee;
+    --secondary-color: #9789f8;
 
-    --accent-color: #b19cd9;
+    /* Accent Colors - More vibrant for better visibility */
+    --accent-color: #b69ee8;
     --accent-hover: #a38dcb;
-    --accent-color-rgb: 177, 156, 217;
-    --accent-gradient: linear-gradient(135deg, #b19cd9 0%, #a38dcb 100%);
-    --accent-shadow: 0 8px 16px rgba(177, 156, 217, 0.3);
+    --accent-color-rgb: 182, 158, 232;
+    --accent-gradient: linear-gradient(135deg, #b69ee8 0%, #a38dcb 100%);
+    --accent-shadow: 0 8px 20px rgba(182, 158, 232, 0.25);
 
-    /* Text Colors */
-    --text-color: #e0e0e0;
+    /* New accent gradients for more depth options */
+    --accent-soft-gradient: linear-gradient(135deg, rgba(182, 158, 232, 0.1) 0%, rgba(182, 158, 232, 0.3) 100%);
+    --accent-intense-gradient: linear-gradient(135deg, #b69ee8 0%, #7a68ee 100%);
+
+    /* Text Colors - Improved contrast */
+    --text-color: #e8e8f0;
     --text-dark: #ffffff;
-    --text-muted: #9999a9;
-    --text-light-color: #b4b4c0;
+    --text-muted: #a9a9c8;
+    --text-light-color: #c4c4d8;
 
-    /* Alert Colors */
-    --danger-color: #ff6b6b;
-    --danger-dark-color: #ff4d4d;
-    --error-color: #ff6b6b;
+    /* Alert Colors - More vibrant */
+    --danger-color: #ff7a7a;
+    --danger-dark-color: #ff5252;
+    --error-color: #ff7a7a;
+    --warning-color: #ffcd4d;
+    --warning-gradient: linear-gradient(135deg, #ffcd4d 0%, #ffb74d 100%);
+    --warning-shadow: 0 8px 16px rgba(255, 205, 77, 0.25);
+    --success-color: #4cce97;
 
-    /* Borders & Inputs */
-    --input-border: #2a2a3a;
-    --border-color: #2a2a3a;
+    /* Borders & Inputs - Softer edges */
+    --input-border: #32324d;
+    --border-color: #32324d;
+    --focus-border: #5e5cc7;
 
-    /* Shadows & Effects */
-    --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-    --shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    /* Shadows & Effects - Enhanced depth */
+    --card-shadow: 0 12px 28px rgba(0, 0, 0, 0.25), 0 8px 10px rgba(0, 0, 0, 0.15);
+    --shadow: 0 12px 28px rgba(0, 0, 0, 0.25);
+    --inner-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
 
     /* Sidebar Styles */
-    --sidebar-background: linear-gradient(180deg, #1a1a2e 0%, #16162c 100%);
-    --sidebar-hover-background: rgba(255, 255, 255, 0.1);
-    --sidebar-active-background: rgba(255, 255, 255, 0.15);
-    --sidebar-active-border: #8a7ad1;
+    --sidebar-background: linear-gradient(180deg, #1e1e36 0%, #16162e 100%);
+    --sidebar-hover-background: rgba(255, 255, 255, 0.12);
+    --sidebar-active-background: rgba(182, 158, 232, 0.18);
+    --sidebar-active-border: #9280e0;
     --sidebar-icon-brightness: 1.1;
     --sidebar-icon-hover-brightness: 1.3;
 
-    /* Card & UI Components */
-    --card-gradient: linear-gradient(135deg, #1e1e2d 0%, #252538 100%);
-    --success-gradient: linear-gradient(135deg, #2dd36f 0%, #28c76f 100%);
-    --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ff4d4d 100%);
-    --measurement-color: #8a7ad1;
-    --measurement-item-background: rgba(138, 122, 209, 0.15);
+    /* Card & UI Components - Enhanced contrast */
+    --card-gradient: linear-gradient(135deg, #222236 0%, #1e1e32 100%);
+    --card-header-gradient: linear-gradient(135deg, #2a2a42 0%, #252540 100%);
+    --success-gradient: linear-gradient(135deg, #3dd680 0%, #38be77 100%);
+    --danger-gradient: linear-gradient(135deg, #ff7a7a 0%, #ff5252 100%);
+    --measurement-color: #9280e0;
+    --measurement-item-background: rgba(146, 128, 224, 0.15);
 
     /* Additional Dark Mode Specific Variables */
-    --overlay-color: rgba(18, 18, 24, 0.8);
-    --hover-highlight: rgba(138, 122, 209, 0.1);
-    --code-background: #1a1a2e;
-    --tooltip-background: #252538;
-    --scrollbar-track: #1a1a2e;
-    --scrollbar-thumb: #2a2a3a;
-    --scrollbar-thumb-hover: #3a3a4a;
+    --overlay-color: rgba(18, 18, 28, 0.85);
+    --hover-highlight: rgba(182, 158, 232, 0.12);
+    --active-highlight: rgba(182, 158, 232, 0.2);
+    --code-background: #1a1a32;
+    --tooltip-background: #2a2a42;
+
+    /* New depth variables */
+    --surface-1: #1a1a2a;
+    --surface-2: #222236;
+    --surface-3: #2a2a42;
+    --surface-accent: rgba(182, 158, 232, 0.12);
+
+    /* Scrollbar - More visible */
+    --scrollbar-track: #1a1a32;
+    --scrollbar-thumb: #32324d;
+    --scrollbar-thumb-hover: #40405d;
 
     /* Dark Mode Scrollbar */
     scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
     scrollbar-width: thin;
 
-    /* Status Colors for Dark Mode */
-    --status-accepted-bg-dark: rgba(143, 188, 143, 0.2);
-    --status-accepted-color-dark: #5cb85c;
+    /* Status Colors for Dark Mode - Better contrast */
+    --status-pending-bg-dark: rgba(255, 205, 77, 0.15);
+    --status-pending-color-dark: #ffcd4d;
+    --status-accepted-bg-dark: rgba(76, 206, 151, 0.15);
+    --status-accepted-color-dark: #4cce97;
+    --status-confirmed-bg-dark: rgba(76, 175, 80, 0.15);
+    --status-confirmed-color-dark: #66bb6a;
+    --status-completed-bg-dark: rgba(66, 165, 245, 0.15);
+    --status-completed-color-dark: #5ab0ff;
+    --status-rejected-bg-dark: rgba(255, 82, 82, 0.15);
+    --status-rejected-color-dark: #ff7a7a;
+    --status-reschedule_pending-bg-dark: rgba(145, 200, 220, 0.15);
+    --status-reschedule_pending-color-dark: #64b5f6;
 }
 
 /*--------------------------------------------------------------
@@ -243,7 +275,6 @@
 }
 
 body {
-    background-image: var(--bg-img);
     color: var(--text-color);
     line-height: 1.6;
     overflow-x: hidden;
@@ -257,14 +288,12 @@ body {
 .main-content {
     max-width: 1200px;
     width: 100%;
-    margin: 2rem auto;
     padding: 1.5rem;
     border-radius: 16px;
     transform: translateY(0);
     transition: all 0.3s ease;
     margin-bottom: 100px;
     min-height: 60vh;
-    background-color: var(--back);
 }
 
 .main-content:hover {
@@ -276,10 +305,50 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-color: var(--bg-mask);
-    backdrop-filter: blur(4px);
+    background-color: transparent;
+    backdrop-filter: none;
     margin-left: 80px;
 }
+
+--------------------------------------------------------------*/ body {
+    /* Remove background image for cleaner look */
+    background-image: none;
+    /* Use subtle gradient background instead */
+    background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+    color: var(--text-color);
+}
+
+/* Dark mode background adjustment */
+[data-theme="dark"] body {
+    background: linear-gradient(135deg, #121218 0%, #1a1a28 100%);
+}
+
+.Section-content {
+    /* Remove blur which can cause performance issues */
+    backdrop-filter: none;
+    background-color: transparent;
+}
+
+
+.main-content {
+    max-width: 1300px;
+    padding: 2rem;
+    background-color: var(--glass-effect);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--card-shadow);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transform: none;
+    /* Remove transform on main content */
+    margin-bottom: 3rem;
+    margin: 2rem auto;
+}
+
+[data-theme="dark"] .main-content {
+    background-color: rgba(30, 30, 45, 0.8);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
 
 /* Add this to your tailor CSS file */
 .msg-flash {

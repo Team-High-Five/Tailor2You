@@ -1,3 +1,6 @@
+/*--------------------------------------------------------------
+# MODAL CONTAINER & ANIMATIONS
+--------------------------------------------------------------*/
 .modal {
     display: none;
     position: fixed;
@@ -6,7 +9,7 @@
     top: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow: auto;
     background-color: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(8px);
     opacity: 0;
@@ -15,6 +18,7 @@
     justify-content: center;
     perspective: 1200px;
     pointer-events: none;
+    margin-top: 100px;
 }
 
 .modal.show {
@@ -23,6 +27,27 @@
     pointer-events: auto;
 }
 
+.modal-body {
+    background: var(--card-gradient);
+    border: 1px solid var(--border-color);
+    width: 90%;
+    max-width: 600px;
+    border-radius: 16px;
+    box-shadow: var(--card-shadow), 0 30px 60px rgba(0, 0, 0, 0.15);
+    transform: scale(0.95) translateY(30px) rotateX(5deg);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    padding: 20px;
+    overflow: hidden;
+    position: relative;
+}
+
+.modal.show .modal-body {
+    transform: scale(1) translateY(0) rotateX(0);
+    opacity: 1;
+}
+
+/* Fix for the modal-body ID selector used in some places */
 #modal-body {
     background: var(--card-gradient);
     border: 1px solid var(--border-color);
@@ -43,6 +68,9 @@
     opacity: 1;
 }
 
+/*--------------------------------------------------------------
+# MODAL HEADER
+--------------------------------------------------------------*/
 .modal-header {
     display: flex;
     justify-content: space-between;
@@ -105,6 +133,9 @@
     transform: rotate(90deg) scale(0.9);
 }
 
+/*--------------------------------------------------------------
+# MODAL CONTENT
+--------------------------------------------------------------*/
 .modal-content {
     padding: 2rem;
     max-height: calc(90vh - 100px);
@@ -126,34 +157,41 @@
     border-radius: 3px;
 }
 
-/*--------------------------------------------------------------
-  # FORM ELEMENTS WITHIN MODALS 
-  --------------------------------------------------------------*/
-.customization-form-container {
-    width: 100%;
-    max-width: 800px;
-    margin: 2rem auto;
+/* Support for both add-new-post-container and post-modal-content */
+.add-new-post-container,
+.post-modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) rgba(var(--accent-color-rgb), 0.05);
 }
 
-.customization-form-container .modal-content {
-    background: var(--card-gradient);
-    border-radius: 16px;
-    box-shadow: var(--card-shadow);
+.add-new-post-container::-webkit-scrollbar,
+.post-modal-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.add-new-post-container::-webkit-scrollbar-track,
+.post-modal-content::-webkit-scrollbar-track {
+    background: rgba(var(--accent-color-rgb), 0.05);
+    border-radius: 4px;
+}
+
+.add-new-post-container::-webkit-scrollbar-thumb,
+.post-modal-content::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 4px;
+}
+
+.add-new-post-content {
     padding: 0;
-    overflow: hidden;
 }
 
-.customization-form-container form {
-    padding: 2rem;
-}
-
+/*--------------------------------------------------------------
+# FORM ELEMENTS WITHIN MODALS
+--------------------------------------------------------------*/
 .post-form-container {
-    background: var(--card-gradient);
-    width: 100%;
-    max-width: 600px;
-    padding: 2rem;
-    border-radius: 16px;
-    box-shadow: var(--card-shadow);
+    padding: 1rem 0 0;
 }
 
 /* Form Group */
@@ -174,7 +212,8 @@
 
 .form-group input[type="text"],
 .form-group input[type="number"],
-.form-group select {
+.form-group select,
+.form-group textarea {
     width: 100%;
     padding: 12px 16px;
     border: 1px solid var(--border-color);
@@ -182,12 +221,18 @@
     font-size: 0.95rem;
     background: rgba(255, 255, 255, 0.05);
     color: var(--text-color);
-    transition: var(--transition);
+    transition: all 0.3s ease;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
 }
 
 .form-group input[type="text"]:focus,
 .form-group input[type="number"]:focus,
-.form-group select:focus {
+.form-group select:focus,
+.form-group textarea:focus {
     border-color: var(--accent-color);
     box-shadow: 0 0 0 3px rgba(var(--accent-color-rgb), 0.2);
     outline: none;
@@ -196,42 +241,20 @@
 
 .form-group input[type="text"]:hover,
 .form-group input[type="number"]:hover,
-.form-group select:hover {
+.form-group select:hover,
+.form-group textarea:hover {
     border-color: var(--accent-hover);
 }
 
-/* Radio Group */
-.radio-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 0.5rem;
+/* Form Row for Two-column Layout */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
 }
 
-.radio-group label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-    background: rgba(var(--accent-color-rgb), 0.05);
-    border: 1px solid var(--border-color);
-    transition: var(--transition);
-}
-
-.radio-group label:hover {
-    background: rgba(var(--accent-color-rgb), 0.1);
-    transform: translateY(-2px);
-}
-
-.radio-group input[type="radio"] {
-    margin-right: 8px;
-    accent-color: var(--accent-color);
-}
-
-.radio-group input[type="radio"]:checked+label {
-    background: rgba(var(--accent-color-rgb), 0.2);
-    border-color: var(--accent-color);
+.form-group.half {
+    margin-bottom: 1.5rem;
 }
 
 /* Select Styling */
@@ -248,8 +271,8 @@ select {
 }
 
 /*--------------------------------------------------------------
-  # UPLOAD SECTION 
-  --------------------------------------------------------------*/
+# UPLOAD SECTION
+--------------------------------------------------------------*/
 .upload-section {
     display: flex;
     flex-direction: column;
@@ -259,7 +282,8 @@ select {
 
 .post-pic-wrapper {
     position: relative;
-    width: 300px;
+    width: 100%;
+    max-width: 300px;
     height: 300px;
     margin: 0 auto 1rem;
     border: 2px dashed var(--accent-color);
@@ -268,6 +292,9 @@ select {
     cursor: pointer;
     transition: all 0.3s ease;
     background: rgba(var(--accent-color-rgb), 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .post-pic-wrapper:hover {
@@ -285,6 +312,14 @@ select {
 
 .post-pic-wrapper:hover img {
     transform: scale(1.08);
+}
+
+.post-pic-wrapper img.has-image {
+    opacity: 1;
+}
+
+.post-pic-wrapper img:not(.has-image) {
+    opacity: 0.7;
 }
 
 .overlay {
@@ -356,8 +391,65 @@ select {
 }
 
 /*--------------------------------------------------------------
-  # ERROR STATES
-  --------------------------------------------------------------*/
+# BUTTON STYLES
+--------------------------------------------------------------*/
+.button-rows {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--card-shadow);
+    width: 100%;
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(var(--accent-color-rgb), 0.3);
+}
+
+.reset-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.reset-btn:hover {
+    background: rgba(var(--accent-color-rgb), 0.05);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    transform: translateY(-3px);
+}
+
+/*--------------------------------------------------------------
+# ERROR STATES
+--------------------------------------------------------------*/
 .error-message {
     color: var(--danger-color);
     font-size: 0.875rem;
@@ -381,7 +473,8 @@ select {
 }
 
 .form-group.has-error input,
-.form-group.has-error select {
+.form-group.has-error select,
+.form-group.has-error textarea {
     border-color: var(--danger-color);
     background-color: rgba(255, 71, 87, 0.05);
 }
@@ -391,80 +484,39 @@ select {
 }
 
 /*--------------------------------------------------------------
-  # CONFIRMATION POPUP 
-  --------------------------------------------------------------*/
-.confirm-modal .modal-body {
-    max-width: 450px;
+# DELETE CONFIRMATION MODAL
+--------------------------------------------------------------*/
+.delete-modal-content {
+    padding: 0;
 }
 
-.confirm-modal .update-modal-body {
-    padding: 2rem;
+.delete-modal-content .modal-content {
     text-align: center;
 }
 
-.confirm-modal i {
-    font-size: 3rem;
-    color: var(--accent-color);
-    margin-bottom: 1rem;
-    animation: pulse 2s infinite;
-}
-
-.confirm-modal p {
-    font-size: 1.25rem;
-    margin-bottom: 2rem;
+.delete-modal-content p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
     color: var(--text-color);
-}
-
-.confirm-modal .button-rows {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-}
-
-.confirm-btn {
-    width: 100%;
-    padding: 0.875rem;
-    background: var(--primary-gradient);
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: var(--shadow);
-}
-
-.confirm-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--accent-shadow);
-}
-
-.reset-btn {
-    width: 100%;
-    padding: 0.875rem;
-    background: transparent;
-    color: var(--text-color);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.reset-btn:hover {
-    background: rgba(var(--accent-color-rgb), 0.05);
-    transform: translateY(-3px);
-    box-shadow: var(--shadow);
 }
 
 /*--------------------------------------------------------------
-  # RESPONSIVE ADJUSTMENTS
-  --------------------------------------------------------------*/
+# RESPONSIVE ADJUSTMENTS
+--------------------------------------------------------------*/
 @media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .button-rows {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
     .modal-body {
         width: 95%;
+        max-width: 95%;
     }
 
     .modal-header {
@@ -475,18 +527,8 @@ select {
         padding: 1.5rem;
     }
 
-    .radio-group {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
     .post-pic-wrapper {
-        width: 250px;
-        height: 250px;
-    }
-
-    .confirm-modal .button-rows {
-        grid-template-columns: 1fr;
+        height: 220px;
     }
 }
 
@@ -496,8 +538,7 @@ select {
     }
 
     .post-pic-wrapper {
-        width: 200px;
-        height: 200px;
+        height: 180px;
     }
 
     .form-group label {
@@ -506,91 +547,13 @@ select {
 
     .form-group input[type="text"],
     .form-group input[type="number"],
-    .form-group select {
+    .form-group select,
+    .form-group textarea {
         padding: 10px 12px;
         font-size: 0.9rem;
     }
-}
 
-/* Post image upload styling */
-.post-pic-wrapper {
-    width: 100%;
-    max-width: 300px;
-    height: 300px;
-    margin: 0 auto 1.5rem;
-    border: 2px dashed var(--accent-color);
-    border-radius: 12px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    background: rgba(var(--accent-color-rgb, 157, 142, 224), 0.05);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.post-pic-wrapper:hover {
-    border-color: var(--accent-hover);
-    transform: translateY(-5px);
-    box-shadow: var(--accent-shadow);
-}
-
-.post-pic-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-
-.post-pic-wrapper:hover img {
-    transform: scale(1.08);
-}
-
-.post-pic-wrapper img:not(.has-image) {
-    opacity: 0.7;
-}
-
-/* Button rows in confirmation modal */
-.button-rows {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 20px;
-}
-
-/* Portfolio-specific modifications */
-.post-modal-content {
-    padding: 0;
-    max-height: 80vh;
-    overflow-y: auto;
-}
-
-/* For scrollable content */
-.post-modal-content {
-    scrollbar-width: thin;
-    scrollbar-color: var(--accent-color) rgba(var(--accent-color-rgb), 0.05);
-}
-
-.post-modal-content::-webkit-scrollbar {
-    width: 6px;
-}
-
-.post-modal-content::-webkit-scrollbar-track {
-    background: rgba(var(--accent-color-rgb), 0.05);
-    border-radius: 4px;
-}
-
-.post-modal-content::-webkit-scrollbar-thumb {
-    background-color: var(--accent-color);
-    border-radius: 4px;
-}
-
-@media (max-width: 768px) {
-    .button-rows {
-        grid-template-columns: 1fr;
-    }
-
-    .post-pic-wrapper {
-        height: 220px;
+    .modal-content {
+        padding: 1.2rem;
     }
 }

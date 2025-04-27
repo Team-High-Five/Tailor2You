@@ -22,11 +22,97 @@ class Shopkeepers extends Controller
 
     public function index()
     {
-        $data = [
-            'title' => 'Dashboard'
+        // Check if user is logged in as tailor
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
+            redirect('users/login');
+        }
+
+        // Get dashboard statistics
+        $dashboardStats = $this->tailorModel->getDashboardStats($_SESSION['user_id']);
+
+        // Get monthly sales data for the chart
+        $monthlySalesData = $this->tailorModel->getMonthlySalesData($_SESSION['user_id']);
+
+        // Prepare the data for the chart
+        $months = [];
+        $salesValues = [];
+
+        // Initialize all 12 months with 0 values
+        $allMonths = [
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December'
         ];
 
-        $this->view('users/Shopkeeper/v_s_dashboard', $data);
+        foreach ($allMonths as $month) {
+            $months[] = $month;
+            $salesValues[] = 0;
+        }
+
+        // Fill in the actual data
+        foreach ($monthlySalesData as $data) {
+            // Month is 1-indexed, array is 0-indexed
+            $salesValues[$data->month - 1] = (int)$data->monthly_sales;
+        }
+
+        // Get order status counts for the pie chart
+        $orderStatusData = $this->tailorModel->getOrderStatusCounts($_SESSION['user_id']);
+
+        // Prepare the data for the pie chart
+        $statusLabels = [];
+        $statusCounts = [];
+        $statusColors = [
+            'order_placed' => 'rgba(106, 90, 205, 0.6)',
+            'fabric_cutting' => 'rgba(123, 104, 238, 0.6)',
+            'stitching' => 'rgba(65, 105, 225, 0.6)',
+            'ready_for_delivery' => 'rgba(46, 139, 87, 0.6)',
+            'delivered' => 'rgba(60, 179, 113, 0.6)',
+            'cancelled' => 'rgba(255, 99, 132, 0.6)',
+        ];
+
+        $displayLabels = [
+            'order_placed' => 'Order Placed',
+            'fabric_cutting' => 'Fabric Cutting',
+            'stitching' => 'Stitching',
+            'ready_for_delivery' => 'Ready for Delivery',
+            'delivered' => 'Delivered',
+            'cancelled' => 'Cancelled',
+        ];
+
+        $pieChartColors = [];
+        $pieBorderColors = [];
+
+        foreach ($orderStatusData as $status) {
+            $statusLabels[] = $displayLabels[$status->status] ?? $status->status;
+            $statusCounts[] = $status->count;
+            $color = $statusColors[$status->status] ?? 'rgba(169, 169, 169, 0.6)';
+            $pieChartColors[] = $color;
+            $pieBorderColors[] = str_replace('0.6', '1', $color);
+        }
+
+        $data = [
+            'title' => 'Dashboard',
+            'stats' => $dashboardStats,
+            'chart_data' => [
+                'months' => $months,
+                'sales_values' => $salesValues,
+                'status_labels' => $statusLabels,
+                'status_counts' => $statusCounts,
+                'pie_colors' => $pieChartColors,
+                'pie_border_colors' => $pieBorderColors
+            ]
+        ];
+
+        $this->view('users/Tailor/v_t_dashboard', $data);
     }
 
     public function profileUpdate()
@@ -371,22 +457,23 @@ class Shopkeepers extends Controller
     {
         // Create instance of M_Pages model which has the like count functionality
         $pagesModel = $this->model('M_Pages');
-        
+
         // Get posts with like counts using the getPostsByUserId method
         $posts = $pagesModel->getPostsByUserId($_SESSION['user_id']);
-        
+
         $data = [
             'title' => 'Portfolio',
             'posts' => $posts
         ];
-        
+
         $this->view('users/Shopkeeper/v_s_portfolio', $data);
     }
 
-    public function addNewPost() {
+    public function addNewPost()
+    {
         $this->view('users/ShopKeeper/v_s_profile_portfolio_add_new');
     }
-    
+
 
     public function addPost()
     {
@@ -409,10 +496,9 @@ class Shopkeepers extends Controller
 
             if ($this->userModel->addPost($data)) {
                 flash('post_message', 'Post added successfully');
-                if($_SESSION['user_type'] == 'tailor'){
+                if ($_SESSION['user_type'] == 'tailor') {
                     redirect('tailors/displayPortfolio');
-                }
-                else{
+                } else {
                     redirect('shopkeepers/displayPortfolio');
                 }
             } else {
@@ -422,7 +508,7 @@ class Shopkeepers extends Controller
             $data = [
                 'title' => 'Add New Post'
             ];
-            
+
             $this->view('users/Shopkeeper/v_s_profile_portfolio_add_new', $data);
         }
     }
@@ -452,10 +538,9 @@ class Shopkeepers extends Controller
 
             if ($this->userModel->updatePost($data)) {
                 flash('post_message', 'Post updated successfully');
-                if($_SESSION['user_type'] == 'tailor'){
+                if ($_SESSION['user_type'] == 'tailor') {
                     redirect('tailors/displayPortfolio');
-                }
-                else{
+                } else {
                     redirect('shopkeepers/displayPortfolio');
                 }
                 redirect('shopkeepers/displayPortfolio');
@@ -482,7 +567,7 @@ class Shopkeepers extends Controller
             $this->view('users/Shopkeeper/v_s_edit_post', $data);
         }
     }
-    
+
 
     public function deletePost($post_id)
     {
@@ -575,10 +660,12 @@ class Shopkeepers extends Controller
                 $data['image'] = $image;
             }
 
-            if (empty($data['first_name_err']) && empty($data['last_name_err']) && 
-                empty($data['phone_number_err']) && empty($data['email_err']) && 
-                empty($data['home_town_err']) && empty($data['district_err']) && 
-                empty($data['image_err'])) {
+            if (
+                empty($data['first_name_err']) && empty($data['last_name_err']) &&
+                empty($data['phone_number_err']) && empty($data['email_err']) &&
+                empty($data['home_town_err']) && empty($data['district_err']) &&
+                empty($data['image_err'])
+            ) {
                 if ($this->shopkeeperModel->addEmployee($data)) {
                     flash('employee_message', 'Employee added successfully');
                     redirect('Shopkeepers/displayEmployees');
@@ -645,10 +732,12 @@ class Shopkeepers extends Controller
                 $data['image'] = $image;
             }
 
-            if (empty($data['first_name_err']) && empty($data['last_name_err']) && 
-                empty($data['phone_number_err']) && empty($data['email_err']) && 
-                empty($data['home_town_err']) && empty($data['district_err']) && 
-                empty($data['image_err'])) {
+            if (
+                empty($data['first_name_err']) && empty($data['last_name_err']) &&
+                empty($data['phone_number_err']) && empty($data['email_err']) &&
+                empty($data['home_town_err']) && empty($data['district_err']) &&
+                empty($data['image_err'])
+            ) {
                 if ($this->shopkeeperModel->updateEmployee($data)) {
                     flash('employee_message', 'Employee updated successfully');
                     redirect('Shopkeepers/displayEmployees');

@@ -270,7 +270,7 @@ class Tailors extends Controller
             redirect('users/login');
         }
 
-        $this->fabricController->deleteFabric($fabric_id, $_SESSION['user_id'], 'users/Tailor/v_t_fabric_stock', 'tailors');
+        $this->fabricController->deleteFabric($fabric_id, 'tailors');
     }
     public function displayOrders()
     {
@@ -656,55 +656,70 @@ class Tailors extends Controller
             $this->view('users/Tailor/v_t_add_new_post', $data);
         }
     }
-    public function editPost($post_id)
+    public function editPost($id)
+    {
+        // Get post details
+        $post = $this->userModel->getPostById($id);
+
+        // Make sure post exists and belongs to this user
+        if (!$post || $post->user_id != $_SESSION['user_id']) {
+            // If not, redirect to portfolio
+            redirect('tailors/displayPortfolio');
+        }
+
+        $data = [
+            'post' => $post
+        ];
+
+        $this->view('users/Tailor/v_t_edit_post', $data);
+    }
+
+    /**
+     * Process post update
+     */
+    public function updatePost($id)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Sanitize POST data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            $image = null;
-            if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-                $image = file_get_contents($_FILES['image']['tmp_name']);
-            } else {
-                $post = $this->userModel->getPostById($post_id);
-                $image = $post->image;
+            // Get the existing post data
+            $post = $this->userModel->getPostById($id);
+
+            if (!$post || $post->user_id != $_SESSION['user_id']) {
+                redirect('tailors/displayPortfolio');
             }
 
-            // Input data
+            // Prepare data for update
             $data = [
-                'post_id' => $post_id,
+                'post_id' => $id,
                 'user_id' => $_SESSION['user_id'],
                 'title' => trim($_POST['title']),
                 'description' => trim($_POST['description']),
-                'image' => $image
+                'gender' => trim($_POST['gender']),
+                'item_type' => trim($_POST['item_type']),
+                'image' => $post->image // Default to existing image
             ];
+
+            // Handle image upload if provided
+            if (!empty($_FILES['image']['tmp_name'])) {
+                $image = file_get_contents($_FILES['image']['tmp_name']);
+                $data['image'] = $image;
+            }
 
             // Update post
             if ($this->userModel->updatePost($data)) {
-                flash('post_message', 'Post updated successfully');
+                flash('post_message', 'Post updated successfully!');
                 redirect('tailors/displayPortfolio');
             } else {
-                die('Something went wrong');
-            }
-        } else {
-            // Get post details
-            $post = $this->userModel->getPostById($post_id);
-
-            // Check if post exists
-            if (!$post) {
-                flash('post_message', 'Post not found', 'alert alert-danger');
+                flash('post_message', 'Error updating post', 'alert alert-danger');
                 redirect('tailors/displayPortfolio');
             }
-
-            $data = [
-                'post_id' => $post->id,
-                'title' => $post->title,
-                'description' => $post->description,
-                'image' => $post->image
-            ];
-
-            $this->view('users/Tailor/v_t_edit_post', $data);
+        } else {
+            // Redirect to portfolio if not POST
+            redirect('tailors/displayPortfolio');
         }
-    }
+    }   
 
     public function deletePost($post_id)
     {
