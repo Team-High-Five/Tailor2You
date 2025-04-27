@@ -64,56 +64,6 @@
     text-align: center;
 }
 
-.follow-button {
-    padding: 8px 20px;
-    background-color: var(--accent-color);
-    color: var(--white-color);
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.follow-button:hover {
-    background-color: var(--primary-hover-color);
-    color: var(--white-color);
-}
-
-.buttons-container {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    background-color: var(--primary-color);
-    padding: 10px 0;
-    border-radius: 12px;
-    margin-top: 1rem;
-}
-
-.menu-button {
-    color: var(--white-color);
-    background: transparent;
-    border: none;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.menu-button:hover {
-    color: var(--accent-color);
-    /* Hover color */
-}
-
-.menu-button.active {
-    border-bottom: 2px solid var(--accent-color);
-}
-
-/* Add to your tailorProfileMain.css */
-.follow-button.liked {
-    background-color: #4CAF50;
-    /* Green color for liked state */
-}
 
 form {
     display: inline;

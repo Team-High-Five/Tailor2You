@@ -23,17 +23,19 @@
           <span class="error-message" id="price-error"></span>
         </div>
         <div class="form-group">
-          <label for="color">Color</label>
-          <div id="color">
-            <?php foreach ($data['colors'] as $color): ?>
-              <div class="checkbox-group">
-                <input type="checkbox" id="color_<?php echo $color->color_id; ?>" name="colors[]" value="<?php echo $color->color_id; ?>">
-                <label for="color_<?php echo $color->color_id; ?>">
-                  <span class="color-swatch" data-color="<?php echo $color->color_name; ?>"></span>
-                  <?php echo $color->color_name; ?>
-                </label>
-              </div>
-            <?php endforeach; ?>
+          <label for="color">Color <small>(scroll to see all options)</small></label>
+          <div class="color-scroll-container">
+            <div class="checkbox-group" id="color">
+              <?php foreach ($data['colors'] as $color): ?>
+                <div>
+                  <input type="checkbox" id="color_<?php echo $color->color_id; ?>" name="colors[]" value="<?php echo $color->color_id; ?>">
+                  <label for="color_<?php echo $color->color_id; ?>">
+                    <span class="color-swatch" data-color="<?php echo $color->color_name; ?>"></span>
+                    <?php echo $color->color_name; ?>
+                  </label>
+                </div>
+              <?php endforeach; ?>
+            </div>
           </div>
           <span class="error-message" id="color-error"></span>
         </div>
@@ -55,3 +57,75 @@
     cursor: pointer;
   }
 </style>
+<script>
+  // Enhanced color selection experience
+  document.addEventListener('DOMContentLoaded', function() {
+    // Search functionality for colors (optional enhancement)
+    const colorSearchInput = document.createElement('input');
+    colorSearchInput.type = 'text';
+    colorSearchInput.placeholder = 'Search colors...';
+    colorSearchInput.classList.add('color-search');
+
+    const colorContainer = document.querySelector('.color-scroll-container');
+    if (colorContainer) {
+      colorContainer.parentNode.insertBefore(colorSearchInput, colorContainer);
+
+      colorSearchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const colorItems = document.querySelectorAll('.checkbox-group label');
+
+        colorItems.forEach(item => {
+          const colorName = item.textContent.trim().toLowerCase();
+          const colorBox = item.closest('div');
+
+          if (colorName.includes(searchTerm)) {
+            colorBox.style.display = '';
+          } else {
+            colorBox.style.display = 'none';
+          }
+        });
+      });
+
+      // Auto-scroll to selected items
+      const checkboxes = document.querySelectorAll('.checkbox-group input[type="checkbox"]');
+      checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+          if (this.checked) {
+            const label = this.nextElementSibling;
+            label.scrollIntoView({
+              behavior: 'smooth',
+              block: 'nearest'
+            });
+          }
+        });
+      });
+
+      // Add "Select All" and "Clear" buttons
+      const controlsDiv = document.createElement('div');
+      controlsDiv.classList.add('color-selection-controls');
+
+      const selectAllBtn = document.createElement('button');
+      selectAllBtn.type = 'button';
+      selectAllBtn.classList.add('micro-btn');
+      selectAllBtn.textContent = 'Select All';
+
+      const clearBtn = document.createElement('button');
+      clearBtn.type = 'button';
+      clearBtn.classList.add('micro-btn');
+      clearBtn.textContent = 'Clear';
+
+      controlsDiv.appendChild(selectAllBtn);
+      controlsDiv.appendChild(clearBtn);
+
+      colorContainer.parentNode.insertBefore(controlsDiv, colorContainer.nextSibling);
+
+      selectAllBtn.addEventListener('click', function() {
+        checkboxes.forEach(box => box.checked = true);
+      });
+
+      clearBtn.addEventListener('click', function() {
+        checkboxes.forEach(box => box.checked = false);
+      });
+    }
+  });
+</script>

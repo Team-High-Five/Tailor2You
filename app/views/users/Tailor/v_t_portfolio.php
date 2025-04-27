@@ -108,27 +108,32 @@
     <div class="no-results" style="display: none;">No portfolio items match your filter criteria</div>
   </div>
 </div>
-
-<!-- Modal Structure -->
+<!-- Modal Structure with Proper Animation Classes -->
 <div id="postModal" class="modal">
-  <div id="modal-body">
-    <!-- Content from v_s_profile_portfolio_add_new.php will be loaded here -->
+  <div class="modal-body">
+    <div class="post-modal-content">
+      <!-- Content from v_t_portfolio_add_new.php will be loaded here -->
+    </div>
   </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
+<!-- Delete Confirmation Modal with Modern Structure -->
 <div id="deletePostModal" class="modal">
-  <div class="delete-modal-content">
-    <div class="modal-header">
-      <h1>Confirm Deletion</h1>
-      <button class="close-btn" onclick="closeDeletePostModal()">&times;</button>
-    </div>
-    <div class="delete-modal-body">
-      <p>Are you sure you want to delete this post?</p>
-      <form id="deletePostForm" action="" method="post">
-        <button type="submit" class="submit-btn">Yes, Delete</button>
-        <button type="button" class="reset-btn" onclick="closeDeletePostModal()">Cancel</button>
-      </form>
+  <div class="modal-body">
+    <div class="delete-modal-content">
+      <div class="modal-header">
+        <h1>Confirm Deletion</h1>
+        <button class="close-btn">&times;</button>
+      </div>
+      <div class="modal-content">
+        <p>Are you sure you want to delete this post?</p>
+        <form id="deletePostForm" action="" method="post">
+          <div class="button-rows">
+            <button type="submit" class="submit-btn">Yes, Delete</button>
+            <button type="button" class="reset-btn">Cancel</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
@@ -137,78 +142,141 @@
   document.addEventListener('DOMContentLoaded', function() {
     const openPostModalBtn = document.getElementById('openPostModalBtn');
     const postModal = document.getElementById('postModal');
-    const modalBody = document.getElementById('modal-body');
 
+    // Handle opening the Add New Post modal with animation
     openPostModalBtn.addEventListener('click', function() {
-      postModal.style.display = 'block';
-      // Load the shopkeeper's add new post view
-      fetch('<?php echo URLROOT; ?>/shopkeepers/addNewPost')
+      // First set display to flex
+      postModal.style.display = 'flex';
+
+      // Force browser reflow to enable transition
+      void postModal.offsetWidth;
+
+      // Then add the show class for animation
+      setTimeout(() => {
+        postModal.classList.add('show');
+      }, 10);
+
+      // Load the tailor's add new post view
+      fetch('<?php echo URLROOT; ?>/Shopkeepers/addNewPost')
         .then(response => response.text())
         .then(html => {
-          modalBody.innerHTML = html;
+          document.querySelector('#postModal .modal-body .post-modal-content').innerHTML = html;
           attachEventListeners(); // Attach event listeners after content is loaded
+        })
+        .catch(error => {
+          console.error('Error loading form:', error);
+          closeModal(postModal);
         });
     });
 
-    document.addEventListener('click', function(event) {
-      if (event.target.classList.contains('close-btn') || event.target.id === 'postModal') {
-        postModal.style.display = 'none';
-      }
-    });
-
-    const editButtons = document.querySelectorAll('.edit-btn');
-    editButtons.forEach(button => {
+    // Handle edit post buttons
+    document.querySelectorAll('.edit-btn').forEach(button => {
       button.addEventListener('click', function() {
         const postId = this.getAttribute('data-post-id');
-        postModal.style.display = 'block';
-        // Load the content of the edit post view into the modal
-        fetch('<?php echo URLROOT; ?>/shopkeepers/editPost/' + postId)
+
+        // First set display to flex
+        postModal.style.display = 'flex';
+
+        // Force browser reflow
+        void postModal.offsetWidth;
+
+        // Then add the show class
+        setTimeout(() => {
+          postModal.classList.add('show');
+        }, 10);
+
+        // Load the edit form
+        fetch('<?php echo URLROOT; ?>/Shopkeepers/editPost/' + postId)
           .then(response => response.text())
           .then(html => {
-            modalBody.innerHTML = html;
-            attachEventListeners(); // Attach event listeners after content is loaded
+            document.querySelector('#postModal .modal-body .post-modal-content').innerHTML = html;
+            attachEventListeners();
+          })
+          .catch(error => {
+            console.error('Error loading edit form:', error);
+            closeModal(postModal);
           });
       });
     });
 
+    // Generic close modal function
+    function closeModal(modal) {
+      modal.classList.remove('show');
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 300); // Match your CSS transition time
+    }
+
+    // Confirm delete function
+    window.confirmDeletePost = function(postId) {
+      const deleteModal = document.getElementById('deletePostModal');
+      document.getElementById('deletePostForm').action =
+        '<?php echo URLROOT; ?>/Shopkeepers/deletePost/' + postId;
+
+      // First set display to flex
+      deleteModal.style.display = 'flex';
+
+      // Force browser reflow
+      void deleteModal.offsetWidth;
+
+      // Then add the show class
+      setTimeout(() => {
+        deleteModal.classList.add('show');
+      }, 10);
+    };
+
+    // Close on clicking close button or outside the modal
+    document.addEventListener('click', function(event) {
+      // Close button handling
+      if (event.target.classList.contains('close-btn')) {
+        const modal = event.target.closest('.modal');
+        if (modal) closeModal(modal);
+      }
+
+      // Reset button in delete modal
+      if (event.target.classList.contains('reset-btn')) {
+        const modal = event.target.closest('.modal');
+        if (modal) closeModal(modal);
+      }
+
+      // Click outside modal
+      if (event.target.classList.contains('modal')) {
+        closeModal(event.target);
+      }
+    });
+
+    // Image preview functionality
     function attachEventListeners() {
       const uploadPhotoInput = document.getElementById('upload-photo');
       const photoPreview = document.getElementById('post-preview');
 
       if (uploadPhotoInput && photoPreview) {
+        // Preview image on select
         uploadPhotoInput.addEventListener('change', function() {
           const file = this.files[0];
           if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
               photoPreview.src = e.target.result;
-            }
+              photoPreview.classList.add('has-image');
+            };
             reader.readAsDataURL(file);
           }
         });
 
+        // Trigger file input when clicking on preview area
         photoPreview.addEventListener('click', function() {
           uploadPhotoInput.click();
         });
       }
-    }
-  });
 
-  function confirmDeletePost(postId) {
-    const deletePostModal = document.getElementById('deletePostModal');
-    deletePostModal.style.display = 'block';
-    document.getElementById('deletePostForm').action = '<?php echo URLROOT; ?>/shopkeepers/deletePost/' + postId;
-  }
-
-  function closeDeletePostModal() {
-    document.getElementById('deletePostModal').style.display = 'none';
-  }
-
-  // Close modal when clicking on close button or outside
-  window.addEventListener('click', function(event) {
-    const deletePostModal = document.getElementById('deletePostModal');
-    if (event.target == deletePostModal) {
-      deletePostModal.style.display = 'none';
+      // Add form validation if needed
+      const postForm = document.getElementById('addPostForm') || document.getElementById('editPostForm');
+      if (postForm) {
+        postForm.addEventListener('submit', function(e) {
+          // Add validation logic here if needed
+        });
+      }
     }
   });
 </script>

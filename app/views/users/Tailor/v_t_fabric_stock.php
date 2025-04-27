@@ -85,111 +85,128 @@
 </div>
 
 <script>
+  // Open Add Fabric Modal with animation
   document.getElementById('openFabricModalBtn').addEventListener('click', function() {
-    document.getElementById('fabricModal').style.display = 'block';
+    const modal = document.getElementById('fabricModal');
+
+    // First set display to flex
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+
+    // Force browser reflow to enable transition
+    void modal.offsetWidth;
+
+    // Then add the show class for animation
+    setTimeout(() => {
+      modal.classList.add('show');
+    }, 10);
+
+    // Fetch the content
     fetch('<?php echo URLROOT; ?>/tailors/addNewFabric')
       .then(response => response.text())
       .then(html => {
         document.getElementById('modal-body').innerHTML = html;
-
-        // Add event listeners for image preview
-        document.getElementById('post-preview').addEventListener('click', function() {
-          document.getElementById('upload-photo').click();
-        });
-
-        document.getElementById('upload-photo').addEventListener('change', function(event) {
-          const file = event.target.files[0];
-          const reader = new FileReader();
-          reader.onload = function() {
-            const output = document.getElementById('post-preview');
-            output.src = reader.result;
-          };
-          reader.readAsDataURL(file);
-
-          // Validate image size
-          if (file.size > 1048576) { // 1MB = 1048576 bytes
-            document.getElementById('image-error').textContent = 'Image size cannot exceed 1MB';
-          } else {
-            document.getElementById('image-error').textContent = '';
-          }
-        });
-
-        document.getElementById('addFabricForm').addEventListener('submit', function(event) {
-          let isValid = true;
-
-          // Validate fabric name
-          const fabricName = document.getElementById('fabric-name').value;
-          if (fabricName.trim() === '') {
-            document.getElementById('fabric-name-error').textContent = 'Please enter fabric name';
-            isValid = false;
-          } else {
-            document.getElementById('fabric-name-error').textContent = '';
-          }
-
-          // Validate price
-          const price = document.getElementById('price').value;
-          if (price.trim() === '' || isNaN(price) || parseFloat(price) < 0) {
-            document.getElementById('price-error').textContent = 'Please enter a valid price';
-            isValid = false;
-          } else {
-            document.getElementById('price-error').textContent = '';
-          }
-
-          // Validate stock
-          const stock = document.getElementById('stock').value;
-          if (stock.trim() === '' || isNaN(stock) || parseFloat(stock) < 0) {
-            document.getElementById('stock-error').textContent = 'Stock cannot be negative';
-            isValid = false;
-          } else {
-            document.getElementById('stock-error').textContent = '';
-          }
-
-          // Validate colors
-          const colors = document.querySelectorAll('input[name="colors[]"]:checked');
-          if (colors.length === 0) {
-            document.getElementById('color-error').textContent = 'Please select at least one color';
-            isValid = false;
-          } else {
-            document.getElementById('color-error').textContent = '';
-          }
-
-          // Validate image size
-          const imageInput = document.getElementById('upload-photo');
-          if (imageInput.files.length > 0) {
-            const imageFile = imageInput.files[0];
-            if (imageFile.size > 1048576) { // 1MB = 1048576 bytes
-              document.getElementById('image-error').textContent = 'Image size cannot exceed 1MB';
-              isValid = false;
-            } else {
-              document.getElementById('image-error').textContent = '';
-            }
-          }
-
-          if (!isValid) {
-            event.preventDefault();
-          }
-        });
+        initializeFormHandlers('addFabricForm', 'post-preview', 'upload-photo');
+      })
+      .catch(error => {
+        console.error('Error loading form:', error);
+        modal.classList.remove('show');
+        setTimeout(() => {
+          modal.style.display = 'none';
+        }, 300);
       });
   });
 
+  // Open Edit Fabric Modal with animation
   function openEditFabricModal(fabricId) {
-    document.getElementById('editFabricModal').style.display = 'block';
+    const modal = document.getElementById('editFabricModal');
+
+    // First set display to flex
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+
+    // Force browser reflow
+    void modal.offsetWidth;
+
+    // Then add the show class
+    setTimeout(() => {
+      modal.classList.add('show');
+    }, 10);
+
+    // Fetch the content
     fetch('<?php echo URLROOT; ?>/tailors/editFabric/' + fabricId)
       .then(response => response.text())
       .then(html => {
         document.getElementById('edit-modal-body').innerHTML = html;
+        initializeFormHandlers('editFabricForm', 'post-preview', 'upload-photo');
+      })
+      .catch(error => {
+        console.error('Error loading edit form:', error);
+        modal.classList.remove('show');
+        setTimeout(() => {
+          modal.style.display = 'none';
+        }, 300);
+      });
+  }
 
-        // Add event listeners for image preview
-        document.getElementById('post-preview').addEventListener('click', function() {
-          document.getElementById('upload-photo').click();
-        });
+  // Confirm Delete Modal with animation
+  function confirmDelete(fabricId) {
+    const modal = document.getElementById('deleteFabricModal');
 
-        document.getElementById('upload-photo').addEventListener('change', function(event) {
+    // Set form action
+    document.getElementById('deleteFabricForm').action =
+      '<?php echo URLROOT; ?>/fabrics/deleteFabric/' + fabricId + '/Tailors';
+
+    // First set display to flex
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+
+    // Force browser reflow
+    void modal.offsetWidth;
+
+    // Then add the show class
+    setTimeout(() => {
+      modal.classList.add('show');
+    }, 10);
+  }
+
+  // Generic close modal function with animation
+  function closeModal(modalId) {
+    const modal = document.getElementById(modalId);
+    modal.classList.remove('show');
+
+    // Wait for animation to complete before hiding
+    setTimeout(() => {
+      modal.style.display = 'none';
+    }, 300); // Match your CSS transition time
+  }
+
+  // Close Delete Fabric Modal function
+  function closeDeleteFabricModal() {
+    closeModal('deleteFabricModal');
+  }
+
+  // Helper function to initialize image upload and form validation
+  function initializeFormHandlers(formId, previewId, uploadId) {
+    // Image preview functionality
+    const preview = document.getElementById(previewId);
+    const upload = document.getElementById(uploadId);
+
+    if (preview && upload) {
+      preview.addEventListener('click', function() {
+        upload.click();
+      });
+
+      upload.addEventListener('change', function(event) {
+        if (event.target.files.length > 0) {
           const file = event.target.files[0];
           const reader = new FileReader();
+
           reader.onload = function() {
-            const output = document.getElementById('post-preview');
-            output.src = reader.result;
+            preview.src = reader.result;
           };
 
           reader.readAsDataURL(file);
@@ -200,93 +217,98 @@
           } else {
             document.getElementById('image-error').textContent = '';
           }
-        });
-
-        document.getElementById('editFabricForm').addEventListener('submit', function(event) {
-          let isValid = true;
-
-          // Validate fabric name
-          const fabricName = document.getElementById('fabric-name').value;
-          if (fabricName.trim() === '') {
-            document.getElementById('fabric-name-error').textContent = 'Please enter fabric name';
-            isValid = false;
-          } else {
-            document.getElementById('fabric-name-error').textContent = '';
-          }
-
-          // Validate price
-          const price = document.getElementById('price').value;
-          if (price.trim() === '' || isNaN(price) || parseFloat(price) < 0) {
-            document.getElementById('price-error').textContent = 'Please enter a valid price';
-            isValid = false;
-          } else {
-            document.getElementById('price-error').textContent = '';
-          }
-
-          // Validate stock
-          const stock = document.getElementById('stock').value;
-          if (stock.trim() === '' || isNaN(stock) || parseFloat(stock) < 0) {
-            document.getElementById('stock-error').textContent = 'Stock cannot be negative';
-            isValid = false;
-          } else {
-            document.getElementById('stock-error').textContent = '';
-          }
-
-          // Validate colors
-          const colors = document.querySelectorAll('input[name="colors[]"]:checked');
-          if (colors.length === 0) {
-            document.getElementById('color-error').textContent = 'Please select at least one color';
-            isValid = false;
-          } else {
-            document.getElementById('color-error').textContent = '';
-          }
-
-          // Validate image size
-          const imageInput = document.getElementById('upload-photo');
-          if (imageInput.files.length > 0) {
-            const imageFile = imageInput.files[0];
-            if (imageFile.size > 1048576) { // 1MB = 1048576 bytes
-              document.getElementById('image-error').textContent = 'Image size cannot exceed 1MB';
-              isValid = false;
-            } else {
-              document.getElementById('image-error').textContent = '';
-            }
-          }
-
-          if (!isValid) {
-            event.preventDefault();
-          }
-        });
+        }
       });
+    }
+
+    // Form validation
+    const form = document.getElementById(formId);
+    if (form) {
+      form.addEventListener('submit', function(event) {
+        let isValid = true;
+
+        // Validate fabric name
+        const fabricName = document.getElementById('fabric-name');
+        if (fabricName && fabricName.value.trim() === '') {
+          document.getElementById('fabric-name-error').textContent = 'Please enter fabric name';
+          isValid = false;
+        } else if (fabricName) {
+          document.getElementById('fabric-name-error').textContent = '';
+        }
+
+        // Validate price
+        const price = document.getElementById('price');
+        if (price && (price.value.trim() === '' || isNaN(price.value) || parseFloat(price.value) < 0)) {
+          document.getElementById('price-error').textContent = 'Please enter a valid price';
+          isValid = false;
+        } else if (price) {
+          document.getElementById('price-error').textContent = '';
+        }
+
+        // Validate stock
+        const stock = document.getElementById('stock');
+        if (stock && (stock.value.trim() === '' || isNaN(stock.value) || parseFloat(stock.value) < 0)) {
+          document.getElementById('stock-error').textContent = 'Stock cannot be negative';
+          isValid = false;
+        } else if (stock) {
+          document.getElementById('stock-error').textContent = '';
+        }
+
+        // Validate colors
+        const colors = document.querySelectorAll('input[name="colors[]"]:checked');
+        if (colors.length === 0) {
+          document.getElementById('color-error').textContent = 'Please select at least one color';
+          isValid = false;
+        } else {
+          document.getElementById('color-error').textContent = '';
+        }
+
+        // Validate image size
+        const imageInput = document.getElementById(uploadId);
+        if (imageInput && imageInput.files.length > 0) {
+          const imageFile = imageInput.files[0];
+          if (imageFile.size > 1048576) { // 1MB = 1048576 bytes
+            document.getElementById('image-error').textContent = 'Image size cannot exceed 1MB';
+            isValid = false;
+          } else {
+            document.getElementById('image-error').textContent = '';
+          }
+        }
+
+        if (!isValid) {
+          event.preventDefault();
+        }
+      });
+    }
   }
 
-  function confirmDelete(fabricId) {
-    document.getElementById('deleteFabricModal').style.display = 'block';
-    document.getElementById('deleteFabricForm').action = '<?php echo URLROOT; ?>/fabrics/deleteFabric/' + fabricId + '/Tailors';
-  }
-
-  function closeDeleteFabricModal() {
-    document.getElementById('deleteFabricModal').style.display = 'none';
-  }
-
-  document.querySelectorAll('.close-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      document.getElementById('fabricModal').style.display = 'none';
-      document.getElementById('editFabricModal').style.display = 'none';
-      document.getElementById('deleteFabricModal').style.display = 'none';
+  // Set up event listeners for close buttons (after DOM is fully loaded)
+  document.addEventListener('DOMContentLoaded', function() {
+    // Use event delegation for close buttons
+    document.addEventListener('click', function(event) {
+      if (event.target.classList.contains('close-btn')) {
+        const modal = event.target.closest('.modal');
+        if (modal) {
+          modal.classList.remove('show');
+          setTimeout(() => {
+            modal.style.display = 'none';
+          }, 300);
+        }
+      }
     });
-  });
 
-  window.addEventListener('click', function(event) {
-    if (event.target == document.getElementById('fabricModal')) {
-      document.getElementById('fabricModal').style.display = 'none';
-    }
-    if (event.target == document.getElementById('editFabricModal')) {
-      document.getElementById('editFabricModal').style.display = 'none';
-    }
-    if (event.target == document.getElementById('deleteFabricModal')) {
-      document.getElementById('deleteFabricModal').style.display = 'none';
-    }
+    // Click outside to close modal
+    window.addEventListener('click', function(event) {
+      const modals = document.querySelectorAll('.modal');
+      modals.forEach(modal => {
+        if (event.target === modal) {
+          modal.classList.remove('show');
+          setTimeout(() => {
+            modal.style.display = 'none';
+          }, 300);
+        }
+      });
+    });
   });
 </script>
 
