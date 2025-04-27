@@ -123,7 +123,7 @@ class Tailors extends Controller
     public function profileUpdate()
     {
         // Check if the user is logged in
-        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
+        if (!isset($_SESSION['user_id']) || ($_SESSION['user_type'] !== 'tailor' && $_SESSION['user_type'] !== 'shopkeeper')) {
             redirect('users/login');
         }
 
@@ -132,7 +132,9 @@ class Tailors extends Controller
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             // Handle file upload
-            $profilePic = null;
+            $tailor = $this->userModel->getUserById($_SESSION['user_id']);
+            $profilePic = $tailor->profile_pic;
+
             if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] == 0) {
                 $profilePic = file_get_contents($_FILES['profile_pic']['tmp_name']);
             }

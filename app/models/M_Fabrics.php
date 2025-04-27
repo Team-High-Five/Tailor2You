@@ -46,7 +46,8 @@ class M_Fabrics
         }
     }
 
-    public function getFabricById($fabricId) {
+    public function getFabricById($fabricId)
+    {
         $this->db->query('
             SELECT f.*, GROUP_CONCAT(c.color_name SEPARATOR ", ") AS colors
             FROM fabrics f
@@ -68,7 +69,12 @@ class M_Fabrics
         $this->db->bind(':fabric_id', $data['fabric_id']);
         return $this->db->execute();
     }
-
+    public function checkFabricLinkOnDesign($fabric_id)
+    {
+        $this->db->query('SELECT COUNT(*) AS count FROM design_fabrics WHERE fabric_id = :fabric_id');
+        $this->db->bind(':fabric_id', $fabric_id);
+        return $this->db->single()->count > 0;
+    }
     public function deleteFabric($fabric_id)
     {
         $this->db->query('DELETE FROM fabrics WHERE fabric_id = :fabric_id');
@@ -94,12 +100,14 @@ class M_Fabrics
         return $this->db->single();
     }
 
-    public function getAllFabrics() {
+    public function getAllFabrics()
+    {
         $this->db->query('SELECT * FROM fabrics ORDER BY fabric_id ASC'); // Order by fabric_id in ascending order
         return $this->db->resultSet();
     }
 
-    public function getFabricsCount() {
+    public function getFabricsCount()
+    {
         $this->db->query('SELECT COUNT(*) AS count FROM fabrics');
         return $this->db->single()->count;
     }

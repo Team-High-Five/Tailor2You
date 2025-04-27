@@ -3,6 +3,8 @@
 <?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
 
 <div class="main-content">
+  <?php flash('fabric_message'); ?>
+
   <button class="add-fabric-btn" id="openFabricModalBtn">Add New Fabric</button>
 
   <div class="table-container">
@@ -260,7 +262,7 @@
 
   function confirmDelete(fabricId) {
     document.getElementById('deleteFabricModal').style.display = 'block';
-    document.getElementById('deleteFabricForm').action = '<?php echo URLROOT; ?>/tailors/deleteFabric/' + fabricId;
+    document.getElementById('deleteFabricForm').action = '<?php echo URLROOT; ?>/fabrics/deleteFabric/' + fabricId + '/Tailors';
   }
 
   function closeDeleteFabricModal() {

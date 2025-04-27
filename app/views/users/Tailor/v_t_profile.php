@@ -1,7 +1,17 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
+<?php if ($_SESSION['user_type'] == 'shopkeeper') {
+    require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php';
+    require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php';
+    require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php';
+} elseif ($_SESSION['user_type'] == 'tailor') {
+    require_once APPROOT . '/views/users/Tailor/inc/Header.php';
+    require_once APPROOT . '/views/users/Tailor/inc/sideBar.php';
+    require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php';
+} ?>
 <div class="main-content">
+    <?php flash('profile_message'); ?>
+    <?php flash('profile_error'); ?>
+    <?php flash('profile_success'); ?>
+    
     <div class="profile-form-container">
         <div class="profile-form">
             <form id="profileForm" action="<?php echo URLROOT; ?>/tailors/profileUpdate" method="POST" enctype="multipart/form-data">

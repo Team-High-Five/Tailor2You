@@ -149,10 +149,6 @@ class M_Designs
 
         return $this->db->execute();
     }
-
-    /**
-     * Update the addDesign method to correctly handle the design_name field
-     */
     public function addDesign($data)
     {
         $this->db->query('
@@ -211,6 +207,10 @@ class M_Designs
             $this->db->execute();
 
             $this->db->query('DELETE FROM design_fabrics WHERE design_id = :id');
+            $this->db->bind(':id', $id);
+            $this->db->execute();
+
+            $this->db->query('DELETE FROM design_measurements WHERE design_id = :id');
             $this->db->bind(':id', $id);
             $this->db->execute();
 

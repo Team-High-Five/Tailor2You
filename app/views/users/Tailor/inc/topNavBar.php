@@ -64,3 +64,4 @@
     const URLROOT = '<?php echo URLROOT; ?>';
   </script>
   <script src='<?php echo URLROOT; ?>/public/js/tailor/tailor-notification.js'></script>
+  <script src='<?php echo URLROOT; ?>/public/js/tailor/flash-msg.js'></script>
