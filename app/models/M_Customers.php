@@ -117,7 +117,7 @@ class M_Customers
     }
 
     public function getCustomerOrder($customer_id, $order_id){
-        $this->db->query('Select d.description as design_description,app.status as app_status, app.appointment_date, app.appointment_time, o.*,oi.*, oi.status as order_status, u.*, d.*, f.*,c.* from orders as o join order_items as oi on oi.order_id=o.order_id join users as u on u.user_id=o.tailor_id join designs as d on d.design_id = oi.design_id join colors as c on c.color_id = oi.color_id join appointments as app on app.appointment_id=o.appointment_id join fabrics as f on f.fabric_id=oi.fabric_id where o.customer_id = :customer_id and o.order_id = :order_id');
+        $this->db->query('Select d.description as design_description, o.*,oi.*, oi.status as order_status, u.*, d.*, f.*,c.* from orders as o join order_items as oi on oi.order_id=o.order_id join users as u on u.user_id=o.tailor_id join designs as d on d.design_id = oi.design_id join colors as c on c.color_id = oi.color_id join fabrics as f on f.fabric_id=oi.fabric_id where o.customer_id = :customer_id and o.order_id = :order_id');
         $this->db->bind(':customer_id', $customer_id);
         $this->db->bind(':order_id', $order_id);
         return $this->db->single();
@@ -335,12 +335,6 @@ class M_Customers
     }
 
 
-    public function getCustomMeasurements($order_id,$user_id){
-        $this->db->query('Select cdm.display_name,oim.value  from orders as o join order_items as oi on o.order_id=oi.order_id join order_item_measurements as oim on oim.item_id = oi.item_id join custom_design_measurements as cdm on oi.design_id=cdm.design_id and cdm.id=oim.item_measurement_id where o.customer_id = :customer_id and o.order_id = :order_id');
-        $this->db->bind(':customer_id', $user_id);
-        $this->db->bind(':order_id', $order_id);
-        return $this->db->resultSet();
-    }
 
     // public function getAppointmentById($appointment_id)
     // {

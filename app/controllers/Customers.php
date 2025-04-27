@@ -578,13 +578,11 @@ class Customers extends Controller
         $order = $this->customerModel->getCustomerOrder($_SESSION['user_id'],$orderId);
         $measurement = $this->customerModel->getCustomerMeasurements($order->design_id, $_SESSION['user_id']);
         $tailor = $this->customerModel->getTailorById($order->tailor_id);
-        $cusmeasurments = $this->customerModel->getCustomMeasurements($order->order_id, $_SESSION['user_id']);
         $data = [
             'title' => 'Order View',
             'order' => $order,
             'measurements' => $measurement,
-            'tailor' => $tailor,
-            'customermeasurments' => $cusmeasurments
+            'tailor' => $tailor
         ];
         $this->view('users/Customer/v_c_order_details', $data);
     }
