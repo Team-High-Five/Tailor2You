@@ -33,6 +33,8 @@ class M_Users
         $row = $this->db->single();
 
         if ($row && password_verify($password, $row->password)) {
+            // Store admin ID in session
+            $_SESSION['admin_id'] = $row->user_id;
             return $row;
         } else {
             return false;

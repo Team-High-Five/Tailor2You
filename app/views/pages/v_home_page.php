@@ -25,21 +25,28 @@ require_once APPROOT . '/views/pages/inc/components/new_collection.php';
 <span id="feedback"></span>
 <!-- Feedback Section -->
 <section class="feedback">
-    <div class="feedback-header">
-        <p class="sub-heading">Your words matter</p>
-    </div>
     <div class="feedback-container">
         <!-- Feedback Cards -->
         <div class="feedback-cards">
             <h1 class="main-heading">We would love to hear about your experience!</h1>
             <div id="feedback-list">
-                <!-- Feedback dynamically loaded -->
+                <?php if (!empty($data['reviews'])): ?>
+                    <?php foreach ($data['reviews'] as $review): ?>
+                        <div class="feedback-card">
+                            <p class="feedback-text">"<?php echo htmlspecialchars($review->review_text); ?>"</p>
+                            <p class="feedback-rating">Rating: <?php echo str_repeat('⭐', $review->rating); ?></p>
+                            <p class="feedback-date"><?php echo date('F j, Y', strtotime($review->created_at)); ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p>No feedback available yet.</p>
+                <?php endif; ?>
             </div>
         </div>
         <!-- Feedback Form -->
         <div class="feedback-form-container">
 
-            <form id="feedback-form">
+            <form id="feedback-form" action="<?php echo URLROOT; ?>/Feedback/submit" method="POST">
                 <label for="name">Full Name</label>
                 <input type="text" id="name" name="name" placeholder="Enter your name" required>
                 <label for="email">Email</label>

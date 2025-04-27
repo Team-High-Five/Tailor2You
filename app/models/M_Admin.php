@@ -116,7 +116,7 @@ class M_Admin {
 
     public function getInventoryCount()
     {
-        $this->db->query("SELECT COUNT(*) as count FROM inventory");
+        $this->db->query("SELECT COUNT(*) as count FROM fabrics"); // Query the fabrics table
         return $this->db->single()->count;
     }
 
@@ -168,5 +168,20 @@ class M_Admin {
         $this->db->bind(':review_id', $review_id);
 
         return $this->db->execute();
+    }
+
+    public function login($email, $password)
+    {
+        $this->db->query('SELECT * FROM users WHERE email = :email');
+        $this->db->bind(':email', $email);
+        $row = $this->db->single();
+
+        if ($row && password_verify($password, $row->password)) {
+            // Store admin ID in session
+            $_SESSION['admin_id'] = $row->user_id;
+            return $row;
+        } else {
+            return false;
+        }
     }
 }

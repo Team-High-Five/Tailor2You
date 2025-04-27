@@ -41,6 +41,7 @@
         <div class="form-group">
             <label for="outputFormat">Output Format:</label>
             <select id="outputFormat" name="outputFormat" required>
+            
                 <option value="pdf">PDF</option>
             </select>
         </div>

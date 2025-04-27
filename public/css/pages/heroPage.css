@@ -636,3 +636,30 @@
 .feedback-form-container {
     animation: slideUp 0.6s ease forwards;
 }
+
+/* Feedback Cards */
+.feedback-card {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.feedback-text {
+    font-size: 1rem;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+
+.feedback-rating {
+    font-size: 0.9rem;
+    color: #ffcc00;
+    margin-bottom: 5px;
+}
+
+.feedback-date {
+    font-size: 0.8rem;
+    color: #888;
+}
