@@ -8,6 +8,17 @@
   require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php';
 } ?>
 <div class="main-content">
+  <?php flash('appointment_message'); ?>
+  <?php flash('appointment_error'); ?>
+  <?php flash('appointment_success'); ?>
+  <?php flash('reschedule_message'); ?>
+  <?php flash('reschedule_error'); ?>
+  <?php flash('reschedule_success'); ?>
+  <?php flash('reschedule_request_message'); ?>
+  <?php flash('reschedule_request_error'); ?>
+  <?php flash('reschedule_request_success'); ?>
+  <?php flash('reschedule_request_rejected'); ?>
+  <?php flash('reschedule_request_accepted'); ?>
   <div class="appointment-list-container">
     <div class="filter-bar">
       <div class="filter-label">

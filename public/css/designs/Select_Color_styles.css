@@ -317,6 +317,155 @@
 .color-swatch[data-color="burgundy"] {
   background-color: #800020;
 }
+
 .color-swatch[data-color="pink"] {
   background-color: #FFC0CB;
+}
+
+color-swatch[data-color="Navy Blue"] {
+  background-color: #000080;
+}
+
+.color-swatch[data-color="Burgundy"] {
+  background-color: #800020;
+}
+
+.color-swatch[data-color="Forest Green"] {
+  background-color: #228B22;
+}
+
+.color-swatch[data-color="Teal"] {
+  background-color: #008080;
+}
+
+.color-swatch[data-color="Mint Green"] {
+  background-color: #98FB98;
+}
+
+.color-swatch[data-color="Olive"] {
+  background-color: #808000;
+}
+
+.color-swatch[data-color="Beige"] {
+  background-color: #F5F5DC;
+  border: 1px solid var(--border-color);
+}
+
+.color-swatch[data-color="Cream"] {
+  background-color: #FFFDD0;
+  border: 1px solid var(--border-color);
+}
+
+.color-swatch[data-color="Ivory"] {
+  background-color: #FFFFF0;
+  border: 1px solid var(--border-color);
+}
+
+.color-swatch[data-color="Tan"] {
+  background-color: #D2B48C;
+}
+
+.color-swatch[data-color="Brown"] {
+  background-color: #A52A2A;
+}
+
+.color-swatch[data-color="Khaki"] {
+  background-color: #C3B091;
+}
+
+.color-swatch[data-color="Charcoal"] {
+  background-color: #36454F;
+}
+
+.color-swatch[data-color="Silver"] {
+  background-color: #C0C0C0;
+}
+
+.color-swatch[data-color="Gold"] {
+  background-color: #FFD700;
+}
+
+.color-swatch[data-color="Turquoise"] {
+  background-color: #40E0D0;
+}
+
+.color-swatch[data-color="Coral"] {
+  background-color: #FF7F50;
+}
+
+.color-swatch[data-color="Peach"] {
+  background-color: #FFDAB9;
+}
+
+.color-swatch[data-color="Lavender"] {
+  background-color: #E6E6FA;
+  border: 1px solid var(--border-color);
+}
+
+.color-swatch[data-color="Lilac"] {
+  background-color: #C8A2C8;
+}
+
+.color-swatch[data-color="Magenta"] {
+  background-color: #FF00FF;
+}
+
+.color-swatch[data-color="Maroon"] {
+  background-color: #800000;
+}
+
+.color-swatch[data-color="Mustard"] {
+  background-color: #FFDB58;
+}
+
+.color-swatch[data-color="Sage"] {
+  background-color: #BCB88A;
+}
+
+.color-swatch[data-color="Sky Blue"] {
+  background-color: #87CEEB;
+}
+
+.color-swatch[data-color="Royal Blue"] {
+  background-color: #4169E1;
+}
+
+.color-swatch[data-color="Baby Blue"] {
+  background-color: #89CFF0;
+}
+
+.color-swatch[data-color="Hot Pink"] {
+  background-color: #FF69B4;
+}
+
+.color-swatch[data-color="Salmon"] {
+  background-color: #FA8072;
+}
+
+.color-swatch[data-color="Rust"] {
+  background-color: #B7410E;
+}
+
+.color-swatch[data-color="Emerald"] {
+  background-color: #50C878;
+}
+
+.color-swatch[data-color="Mauve"] {
+  background-color: #E0B0FF;
+}
+
+.color-swatch[data-color="Indigo"] {
+  background-color: #4B0082;
+}
+
+.color-swatch[data-color="Aqua"] {
+  background-color: #00FFFF;
+}
+
+.color-swatch[data-color="Fuchsia"] {
+  background-color: #FF00FF;
+}
+
+.color-swatch[data-color="Plum"] {
+  background-color: #8E4585;
 }

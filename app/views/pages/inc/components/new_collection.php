@@ -16,7 +16,9 @@
           <p class="price">Rs. <?php echo number_format($design->base_price, 2); ?></p>
 
           <div class="buttons">
-            <button class="add-to-cart" onclick="selectFabric(<?php echo $design->design_id; ?>)">Add to Cart</button>
+            <button class="add-to-cart" onclick="addToCartFlow(<?php echo $design->design_id; ?>)">
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
             <button class="place-order" onclick="selectFabric(<?php echo $design->design_id; ?>)">Design Customize</button>
           </div>
         </div>
@@ -32,5 +34,10 @@
 <script>
   function selectFabric(designId) {
     window.location.href = '<?php echo URLROOT; ?>/Orders/selectFabric/' + designId;
+  }
+
+  function addToCartFlow(designId) {
+    // Navigate directly to the quickAdd method instead of using fetch
+    window.location.href = '<?php echo URLROOT; ?>/cart/quickAdd/' + designId;
   }
 </script>

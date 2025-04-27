@@ -452,7 +452,12 @@ class Shopkeepers extends Controller
 
             if ($this->userModel->addPost($data)) {
                 flash('post_message', 'Post added successfully');
-                redirect('shopkeepers/displayPortfolio');
+                if($_SESSION['user_type'] == 'tailor'){
+                    redirect('tailors/displayPortfolio');
+                }
+                else{
+                    redirect('shopkeepers/displayPortfolio');
+                }
             } else {
                 die('Something went wrong');
             }
@@ -460,6 +465,7 @@ class Shopkeepers extends Controller
             $data = [
                 'title' => 'Add New Post'
             ];
+            
             $this->view('users/Shopkeeper/v_s_profile_portfolio_add_new', $data);
         }
     }
@@ -489,6 +495,12 @@ class Shopkeepers extends Controller
 
             if ($this->userModel->updatePost($data)) {
                 flash('post_message', 'Post updated successfully');
+                if($_SESSION['user_type'] == 'tailor'){
+                    redirect('tailors/displayPortfolio');
+                }
+                else{
+                    redirect('shopkeepers/displayPortfolio');
+                }
                 redirect('shopkeepers/displayPortfolio');
             } else {
                 die('Something went wrong');

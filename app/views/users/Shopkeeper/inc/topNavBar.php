@@ -12,7 +12,11 @@
           <input type="text" placeholder="Type to search">
           <button><i><img src="<?php echo URLROOT; ?>/public/img/Search.png"></i></button>
         </div>
-        <button class="icon-button"><i class="fas fa-envelope"></i></button>
+        <a href="<?php echo URLROOT; ?>/Chat/index">
+  <button class="icon-button">
+    <i class="fas fa-envelope"></i>
+  </button>
+</a>
         <button class="icon-button"><i class="fas fa-bell"></i></button>
         <div class="dropdown">
           <button class="tailor-drop-down"><i class="fas fa-sign-out-alt"></i></button>
@@ -21,7 +25,7 @@
           </div>
         </div>
       </div>
-      <a href="<?php echo URLROOT ?>/Shopkeepers/profileUpdate">
+      <a href="<?php echo URLROOT ?>/Tailors/profileUpdate">
         <div class="user-info">
           <span>
             <?php if (isset($_SESSION['user_first_name'])): ?>

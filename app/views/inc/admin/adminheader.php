@@ -16,30 +16,33 @@
     <header class="header">
         <div class="logo">
             <img src="<?php echo URLROOT; ?>/public/img/admin/logo.jpg" alt="Tailor2You Logo">
-            <!-- Replace with your logo image path -->
         </div>
         <div class="profile-section">
-            <i class="fas fa-bell"></i>
+            <!-- Message Icon -->
+            <a href="<?php echo URLROOT; ?>/admin/messages" class="icon-link">
+                <i class="fas fa-envelope"></i>
+                <span class="icon-badge"></span> <!-- Example badge for unread messages -->
+            </a>
+            <!-- Notification Icon -->
+            <a href="<?php echo URLROOT; ?>/admin/notifications" class="icon-link">
+                <i class="fas fa-bell"></i>
+                <span class="icon-badge"></span> <!-- Example badge for notifications -->
+            </a>
+            <!-- Logout Icon -->
+            <a href="<?php echo URLROOT; ?>/pages/index" class="logout-icon">
+                <i class="fas fa-sign-out-alt"></i>
+            </a>
+            <!-- User Info -->
             <div class="user-info">
                 <span>
-                    <?php if (isset($_SESSION['user_first_name'])): ?>
-                        <?php echo $_SESSION['user_first_name']; ?>
-                    <?php else: ?>
-                        Guest
-                    <?php endif; ?>
+                    <?php echo isset($data['adminDetails']->first_name) ? $data['adminDetails']->first_name : 'Guest'; ?>
                 </span>
-                <?php if (!empty($_SESSION['user_profile_pic'])): ?>
-                    <img src="data:image/jpeg;base64,<?php echo base64_encode($_SESSION['user_profile_pic']); ?>"
+                <?php if (!empty($data['adminDetails']->profile_pic)): ?>
+                    <img src="data:image/jpeg;base64,<?php echo base64_encode($data['adminDetails']->profile_pic); ?>"
                         alt="User Avatar">
                 <?php else: ?>
                     <img src="<?php echo URLROOT; ?>/public/img/Avatar.png" alt="User Avatar">
                 <?php endif; ?>
-            </div>
-            <i class="fas fa-ellipsis-h" onclick="toggleDropdown()"></i>
-            <!-- Dropdown menu -->
-            <div class="dropdown-menu" id="dropdownMenu">
-                <button onclick="logout()">Logout</button>
-                <button onclick="signOut()">Sign Out</button>
             </div>
         </div>
     </header>

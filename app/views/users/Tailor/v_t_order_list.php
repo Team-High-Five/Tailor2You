@@ -8,6 +8,10 @@
   require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php';
 } ?>
 <div class="main-content">
+  <?php flash('order_message'); ?>
+  <?php flash('order_error'); ?>
+  <?php flash('order_success'); ?>
+  
   <div class="tailor-container">
     <div class="order-list-container">
 

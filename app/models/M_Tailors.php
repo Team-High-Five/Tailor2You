@@ -16,6 +16,120 @@ class M_Tailors
         $row = $this->db->single();
         return $row ? $row : false;
     }
+    public function getDashboardStats($tailor_id)
+    {
+        // Get total orders count
+        $this->db->query("SELECT COUNT(*) as total_orders FROM orders WHERE tailor_id = :tailor_id");
+        $this->db->bind(':tailor_id', $tailor_id);
+        $totalOrders = $this->db->single()->total_orders;
+
+        // Get previous week orders for comparison
+        $this->db->query("SELECT COUNT(*) as prev_week_orders FROM orders 
+                     WHERE tailor_id = :tailor_id 
+                     AND order_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 WEEK) AND DATE_SUB(NOW(), INTERVAL 1 WEEK)");
+        $this->db->bind(':tailor_id', $tailor_id);
+        $prevWeekOrders = $this->db->single()->prev_week_orders;
+
+        // Get current week orders for comparison
+        $this->db->query("SELECT COUNT(*) as current_week_orders FROM orders 
+                     WHERE tailor_id = :tailor_id 
+                     AND order_date >= DATE_SUB(NOW(), INTERVAL 1 WEEK)");
+        $this->db->bind(':tailor_id', $tailor_id);
+        $currentWeekOrders = $this->db->single()->current_week_orders;
+
+        // Calculate order percentage change
+        $orderPercentChange = 0;
+        if ($prevWeekOrders > 0) {
+            $orderPercentChange = round((($currentWeekOrders - $prevWeekOrders) / $prevWeekOrders) * 100, 1);
+        }
+
+        // Get total sales amount
+        $this->db->query("SELECT SUM(total_amount) as total_sales FROM orders WHERE tailor_id = :tailor_id");
+        $this->db->bind(':tailor_id', $tailor_id);
+        $totalSales = $this->db->single()->total_sales ?? 0;
+
+        // Get yesterday's sales
+        $this->db->query("SELECT SUM(total_amount) as yesterday_sales FROM orders 
+                     WHERE tailor_id = :tailor_id 
+                     AND DATE(order_date) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)");
+        $this->db->bind(':tailor_id', $tailor_id);
+        $yesterdaySales = $this->db->single()->yesterday_sales ?? 0;
+
+        // Get today's sales
+        $this->db->query("SELECT SUM(total_amount) as today_sales FROM orders 
+                     WHERE tailor_id = :tailor_id 
+                     AND DATE(order_date) = CURDATE()");
+        $this->db->bind(':tailor_id', $tailor_id);
+        $todaySales = $this->db->single()->today_sales ?? 0;
+
+        // Calculate sales percentage change
+        $salesPercentChange = 0;
+        if ($yesterdaySales > 0) {
+            $salesPercentChange = round((($todaySales - $yesterdaySales) / $yesterdaySales) * 100, 1);
+        }
+
+        // Get total appointments count
+        $this->db->query("SELECT COUNT(*) as total_appointments FROM appointments 
+                     WHERE tailor_shopkeeper_id = :tailor_id");
+        $this->db->bind(':tailor_id', $tailor_id);
+        $totalAppointments = $this->db->single()->total_appointments;
+
+        // Get yesterday's appointments
+        $this->db->query("SELECT COUNT(*) as yesterday_appointments FROM appointments 
+                     WHERE tailor_shopkeeper_id = :tailor_id 
+                     AND DATE(appointment_date) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)");
+        $this->db->bind(':tailor_id', $tailor_id);
+        $yesterdayAppointments = $this->db->single()->yesterday_appointments;
+
+        // Get today's appointments
+        $this->db->query("SELECT COUNT(*) as today_appointments FROM appointments 
+                     WHERE tailor_shopkeeper_id = :tailor_id 
+                     AND DATE(appointment_date) = CURDATE()");
+        $this->db->bind(':tailor_id', $tailor_id);
+        $todayAppointments = $this->db->single()->today_appointments;
+
+        // Calculate appointments percentage change
+        $appointmentPercentChange = 0;
+        if ($yesterdayAppointments > 0) {
+            $appointmentPercentChange = round((($todayAppointments - $yesterdayAppointments) / $yesterdayAppointments) * 100, 1);
+        }
+
+        return [
+            'total_orders' => $totalOrders,
+            'order_percent_change' => $orderPercentChange,
+            'total_sales' => $totalSales,
+            'sales_percent_change' => $salesPercentChange,
+            'total_appointments' => $totalAppointments,
+            'appointment_percent_change' => $appointmentPercentChange
+        ];
+    }
+
+    public function getMonthlySalesData($tailor_id)
+    {
+        $this->db->query("SELECT 
+                        MONTH(order_date) as month,
+                        MONTHNAME(order_date) as month_name,
+                        SUM(total_amount) as monthly_sales
+                      FROM orders
+                      WHERE tailor_id = :tailor_id
+                      AND YEAR(order_date) = YEAR(CURDATE())
+                      GROUP BY MONTH(order_date), MONTHNAME(order_date)
+                      ORDER BY MONTH(order_date)");
+        $this->db->bind(':tailor_id', $tailor_id);
+        return $this->db->resultSet();
+    }
+
+    public function getOrderStatusCounts($tailor_id)
+    {
+        $this->db->query("SELECT 
+                        status,
+                        COUNT(*) as count
+                      FROM orders
+                      WHERE tailor_id = :tailor_id
+                      GROUP BY status");
+        $this->db->bind(':tailor_id', $tailor_id);
+        return $this->db->resultSet();
+    }
 
     public function getColors()
     {
@@ -369,5 +483,43 @@ class M_Tailors
             $this->db->rollbackTransaction();
             return false;
         }
+    }
+    public function getRecentAppointments($tailorId, $status = 'pending')
+    {
+        $this->db->query("SELECT a.*, 
+                      u.first_name as customer_first_name, 
+                      u.last_name as customer_last_name,
+                      a.created_at
+                      FROM appointments a
+                      JOIN users u ON a.customer_id = u.user_id
+                      WHERE a.tailor_shopkeeper_id = :tailor_id
+                      AND a.status = :status
+                      ORDER BY a.created_at DESC
+                      LIMIT 10");
+
+        $this->db->bind(':tailor_id', $tailorId);
+        $this->db->bind(':status', $status);
+
+        return $this->db->resultSet();
+    }
+
+    /**
+     * Get recent orders
+     */
+    public function getRecentOrders($tailorId, $status = 'order_placed')
+    {
+        $this->db->query("SELECT o.*,
+                      CONCAT(u.first_name, ' ', u.last_name) as customer_name
+                      FROM orders o
+                      JOIN users u ON o.customer_id = u.user_id
+                      WHERE o.tailor_id = :tailor_id
+                      AND o.status = :status
+                      ORDER BY o.order_date DESC
+                      LIMIT 10");
+
+        $this->db->bind(':tailor_id', $tailorId);
+        $this->db->bind(':status', $status);
+
+        return $this->db->resultSet();
     }
 }

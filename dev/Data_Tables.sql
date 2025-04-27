@@ -18,6 +18,45 @@ VALUES ('Black'),
     ('Gray'),
     ('Pink');
 
+INSERT INTO
+    `colors` (`color_name`)
+VALUES ('Navy Blue'),
+    ('Burgundy'),
+    ('Forest Green'),
+    ('Teal'),
+    ('Mint Green'),
+    ('Olive'),
+    ('Beige'),
+    ('Cream'),
+    ('Ivory'),
+    ('Tan'),
+    ('Brown'),
+    ('Khaki'),
+    ('Charcoal'),
+    ('Silver'),
+    ('Gold'),
+    ('Turquoise'),
+    ('Coral'),
+    ('Peach'),
+    ('Lavender'),
+    ('Lilac'),
+    ('Magenta'),
+    ('Maroon'),
+    ('Mustard'),
+    ('Sage'),
+    ('Sky Blue'),
+    ('Royal Blue'),
+    ('Baby Blue'),
+    ('Hot Pink'),
+    ('Salmon'),
+    ('Rust'),
+    ('Emerald'),
+    ('Mauve'),
+    ('Indigo'),
+    ('Aqua'),
+    ('Fuchsia'),
+    ('Plum');
+
 -- -----------------------------------------------------
 -- 2. CLOTHING CATEGORIES DATA
 -- -----------------------------------------------------
@@ -92,6 +131,365 @@ VALUES (
         'Jacket',
         'All types of jackets',
         'unisex'
+    );
+-- -----------------------------------------------------
+-- Suit Category (ID: 3)
+-- -----------------------------------------------------
+INSERT INTO
+    `category_measurements` (
+        `category_id`,
+        `measurement_id`,
+        `is_required`,
+        `display_order`
+    )
+SELECT
+    3,
+    `measurement_id`,
+    CASE
+        WHEN `name` IN (
+            'chest',
+            'shoulder_width',
+            'sleeve_length',
+            'waist',
+            'pant_waist',
+            'seat',
+            'inseam'
+        ) THEN TRUE
+        ELSE FALSE
+    END,
+    CASE
+    -- Jacket measurements
+        WHEN `name` = 'chest' THEN 1
+        WHEN `name` = 'shoulder_width' THEN 2
+        WHEN `name` = 'sleeve_length' THEN 3
+        WHEN `name` = 'waist' THEN 4
+        WHEN `name` = 'bicep' THEN 5
+        WHEN `name` = 'back_length' THEN 6
+        -- Pant measurements
+        WHEN `name` = 'pant_waist' THEN 7
+        WHEN `name` = 'seat' THEN 8
+        WHEN `name` = 'inseam' THEN 9
+        WHEN `name` = 'outseam' THEN 10
+        WHEN `name` = 'thigh' THEN 11
+        ELSE 100
+    END
+FROM `measurements`
+WHERE
+    `name` IN (
+        'chest',
+        'shoulder_width',
+        'sleeve_length',
+        'waist',
+        'bicep',
+        'wrist',
+        'back_length',
+        'pant_waist',
+        'seat',
+        'thigh',
+        'knee',
+        'inseam',
+        'outseam',
+        'front_rise',
+        'back_rise'
+    );
+
+-- -----------------------------------------------------
+-- Dress Category (ID: 4)
+-- -----------------------------------------------------
+INSERT INTO
+    `category_measurements` (
+        `category_id`,
+        `measurement_id`,
+        `is_required`,
+        `display_order`
+    )
+SELECT
+    4,
+    `measurement_id`,
+    CASE
+        WHEN `name` IN (
+            'chest',
+            'waist',
+            'hip',
+            'shoulder_width'
+        ) THEN TRUE
+        ELSE FALSE
+    END,
+    CASE
+        WHEN `name` = 'chest' THEN 1
+        WHEN `name` = 'waist' THEN 2
+        WHEN `name` = 'hip' THEN 3
+        WHEN `name` = 'shoulder_width' THEN 4
+        WHEN `name` = 'front_length' THEN 5
+        WHEN `name` = 'back_length' THEN 6
+        WHEN `name` = 'sleeve_length' THEN 7
+        WHEN `name` = 'armhole_depth' THEN 8
+        ELSE 100
+    END
+FROM `measurements`
+WHERE
+    `name` IN (
+        'chest',
+        'waist',
+        'hip',
+        'shoulder_width',
+        'sleeve_length',
+        'armhole_depth',
+        'front_length',
+        'back_length'
+    );
+
+-- -----------------------------------------------------
+-- Skirt Category (ID: 5)
+-- -----------------------------------------------------
+INSERT INTO
+    `category_measurements` (
+        `category_id`,
+        `measurement_id`,
+        `is_required`,
+        `display_order`
+    )
+SELECT
+    5,
+    `measurement_id`,
+    CASE
+        WHEN `name` IN ('waist', 'hip') THEN TRUE
+        ELSE FALSE
+    END,
+    CASE
+        WHEN `name` = 'waist' THEN 1
+        WHEN `name` = 'hip' THEN 2
+        WHEN `name` = 'front_length' THEN 3
+        WHEN `name` = 'back_length' THEN 4
+        ELSE 100
+    END
+FROM `measurements`
+WHERE
+    `name` IN (
+        'waist',
+        'hip',
+        'front_length',
+        'back_length'
+    );
+
+-- -----------------------------------------------------
+-- Blouse Category (ID: 6)
+-- -----------------------------------------------------
+INSERT INTO
+    `category_measurements` (
+        `category_id`,
+        `measurement_id`,
+        `is_required`,
+        `display_order`
+    )
+SELECT
+    6,
+    `measurement_id`,
+    CASE
+        WHEN `name` IN (
+            'chest',
+            'shoulder_width',
+            'sleeve_length',
+            'waist'
+        ) THEN TRUE
+        ELSE FALSE
+    END,
+    CASE
+        WHEN `name` = 'chest' THEN 1
+        WHEN `name` = 'waist' THEN 2
+        WHEN `name` = 'shoulder_width' THEN 3
+        WHEN `name` = 'sleeve_length' THEN 4
+        WHEN `name` = 'armhole_depth' THEN 5
+        WHEN `name` = 'back_length' THEN 6
+        WHEN `name` = 'front_length' THEN 7
+        ELSE 100
+    END
+FROM `measurements`
+WHERE
+    `name` IN (
+        'chest',
+        'waist',
+        'shoulder_width',
+        'sleeve_length',
+        'armhole_depth',
+        'back_length',
+        'front_length'
+    );
+
+-- -----------------------------------------------------
+-- Saree Blouse Category (ID: 7)
+-- -----------------------------------------------------
+INSERT INTO
+    `category_measurements` (
+        `category_id`,
+        `measurement_id`,
+        `is_required`,
+        `display_order`
+    )
+SELECT
+    7,
+    `measurement_id`,
+    CASE
+        WHEN `name` IN (
+            'chest',
+            'waist',
+            'shoulder_width',
+            'sleeve_length'
+        ) THEN TRUE
+        ELSE FALSE
+    END,
+    CASE
+        WHEN `name` = 'chest' THEN 1
+        WHEN `name` = 'waist' THEN 2
+        WHEN `name` = 'shoulder_width' THEN 3
+        WHEN `name` = 'sleeve_length' THEN 4
+        WHEN `name` = 'armhole_depth' THEN 5
+        WHEN `name` = 'back_length' THEN 6
+        WHEN `name` = 'front_length' THEN 7
+        WHEN `name` = 'neck' THEN 8
+        ELSE 100
+    END
+FROM `measurements`
+WHERE
+    `name` IN (
+        'chest',
+        'waist',
+        'shoulder_width',
+        'sleeve_length',
+        'armhole_depth',
+        'back_length',
+        'front_length',
+        'neck'
+    );
+
+-- -----------------------------------------------------
+-- Kurta Category (ID: 8)
+-- -----------------------------------------------------
+INSERT INTO
+    `category_measurements` (
+        `category_id`,
+        `measurement_id`,
+        `is_required`,
+        `display_order`
+    )
+SELECT
+    8,
+    `measurement_id`,
+    CASE
+        WHEN `name` IN (
+            'chest',
+            'shoulder_width',
+            'sleeve_length',
+            'shirt_length'
+        ) THEN TRUE
+        ELSE FALSE
+    END,
+    CASE
+        WHEN `name` = 'chest' THEN 1
+        WHEN `name` = 'shoulder_width' THEN 2
+        WHEN `name` = 'sleeve_length' THEN 3
+        WHEN `name` = 'shirt_length' THEN 4
+        WHEN `name` = 'waist' THEN 5
+        WHEN `name` = 'neck' THEN 6
+        WHEN `name` = 'bicep' THEN 7
+        WHEN `name` = 'wrist' THEN 8
+        ELSE 100
+    END
+FROM `measurements`
+WHERE
+    `name` IN (
+        'chest',
+        'shoulder_width',
+        'sleeve_length',
+        'shirt_length',
+        'waist',
+        'neck',
+        'bicep',
+        'wrist'
+    );
+
+-- -----------------------------------------------------
+-- Waistcoat Category (ID: 9)
+-- -----------------------------------------------------
+INSERT INTO
+    `category_measurements` (
+        `category_id`,
+        `measurement_id`,
+        `is_required`,
+        `display_order`
+    )
+SELECT
+    9,
+    `measurement_id`,
+    CASE
+        WHEN `name` IN (
+            'chest',
+            'waist',
+            'shoulder_width'
+        ) THEN TRUE
+        ELSE FALSE
+    END,
+    CASE
+        WHEN `name` = 'chest' THEN 1
+        WHEN `name` = 'waist' THEN 2
+        WHEN `name` = 'shoulder_width' THEN 3
+        WHEN `name` = 'back_length' THEN 4
+        WHEN `name` = 'front_length' THEN 5
+        ELSE 100
+    END
+FROM `measurements`
+WHERE
+    `name` IN (
+        'chest',
+        'waist',
+        'shoulder_width',
+        'back_length',
+        'front_length'
+    );
+
+-- -----------------------------------------------------
+-- Jacket Category (ID: 10)
+-- -----------------------------------------------------
+INSERT INTO
+    `category_measurements` (
+        `category_id`,
+        `measurement_id`,
+        `is_required`,
+        `display_order`
+    )
+SELECT
+    10,
+    `measurement_id`,
+    CASE
+        WHEN `name` IN (
+            'chest',
+            'shoulder_width',
+            'sleeve_length'
+        ) THEN TRUE
+        ELSE FALSE
+    END,
+    CASE
+        WHEN `name` = 'chest' THEN 1
+        WHEN `name` = 'shoulder_width' THEN 2
+        WHEN `name` = 'sleeve_length' THEN 3
+        WHEN `name` = 'waist' THEN 4
+        WHEN `name` = 'bicep' THEN 5
+        WHEN `name` = 'wrist' THEN 6
+        WHEN `name` = 'back_length' THEN 7
+        WHEN `name` = 'front_length' THEN 8
+        ELSE 100
+    END
+FROM `measurements`
+WHERE
+    `name` IN (
+        'chest',
+        'shoulder_width',
+        'sleeve_length',
+        'waist',
+        'bicep',
+        'wrist',
+        'back_length',
+        'front_length'
     );
 
 -- -----------------------------------------------------
@@ -317,7 +715,6 @@ SELECT (
             name = 'Kurta'
     ), 'Trail Cut', 'Kurta with asymmetrical hemline';
 
-
 -- Add subcategories for Shirts
 INSERT INTO
     `clothing_subcategories` (
@@ -388,7 +785,6 @@ SELECT (
             name = 'Pants'
     ), 'Flat Front', 'Pants without pleats for a sleek look';
 
-
 -- Add subcategories for Waistcoat
 INSERT INTO
     `clothing_subcategories` (
@@ -423,7 +819,6 @@ SELECT (
         WHERE
             name = 'Waistcoat'
     ), 'Embroidered', 'Waistcoats with decorative embroidery patterns';
-
 
 -- Add subcategories for Jacket
 INSERT INTO
@@ -460,7 +855,6 @@ SELECT (
             name = 'Jacket'
     ), 'Sherwani', 'Long coat-like jacket for formal occasions';
 
-
 -- Add subcategories for Suits
 INSERT INTO
     `clothing_subcategories` (
@@ -495,8 +889,6 @@ SELECT (
         WHERE
             name = 'Suit'
     ), 'Classic Fit', 'Traditional suits with a roomier cut';
-
-
 
 -- Add subcategories for Dresses
 INSERT INTO
