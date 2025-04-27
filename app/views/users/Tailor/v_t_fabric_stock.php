@@ -137,7 +137,7 @@
           <form id="deleteFabricForm" action="" method="post">
             <button type="submit" class="submit-btn">Yes, Delete</button>
           </form>
-          <button type="button" class="reset-btn" onclick="closeDeleteFabricModal()">Cancel</button>
+          
         </div>
       </div>
     </div>
