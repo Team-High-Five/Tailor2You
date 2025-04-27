@@ -13,12 +13,22 @@ class Pages extends Controller
     }
     public function index()
     {
+        // Fetch featured designs
         $featuredDesigns = $this->pageModel->getFeaturedDesigns(6);
 
+        // Load the M_Reviews model
+        $reviewModel = $this->model('M_Reviews');
+
+        // Fetch the latest accepted reviews (limit to 5 or any number you prefer)
+        $reviews = $reviewModel->getLatestReviews(5);
+
+        // Pass both designs and reviews to the view
         $data = [
             'title' => 'Home Page',
-            'designs' => $featuredDesigns
+            'designs' => $featuredDesigns,
+            'reviews' => $reviews
         ];
+
         $this->view('pages/v_home_page', $data);
     }
     public function notFound()
@@ -284,4 +294,5 @@ class Pages extends Controller
         // Redirect back to the tailor's profile page
         redirect('pages/tailorProfile/' . $post->user_id);
     }
+    
 }

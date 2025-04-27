@@ -9,7 +9,6 @@
     </div>
     <a href="<?php echo URLROOT; ?>/admin/inventoryManagement"><i class="fas fa-boxes"></i> Inventory Management</a>
     <a href="<?php echo URLROOT; ?>/admin/refundPayments"><i class="fas fa-dollar-sign"></i> Refund Payments</a>
-    <a href="<?php echo URLROOT; ?>/admin/complaintsSection"><i class="fas fa-comments"></i> Complaints</a>
     <a href="<?php echo URLROOT; ?>/admin/reviewSection"><i class="fas fa-comments"></i> Reviews</a>
     <a href="<?php echo URLROOT; ?>/admin/generateReports"><i class="fas fa-file-alt"></i> Reports</a>
 </div>

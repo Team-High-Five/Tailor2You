@@ -12,7 +12,7 @@
         <thead>
             <tr>
                 <th>Order ID</th>
-                <th>Customer</th>
+                <th>Customer ID</th>
                 <th>Date</th>
                 <th>Total Amount</th>
                 <th>Status</th>
@@ -23,7 +23,7 @@
                 <?php foreach ($data['orders'] as $order): ?>
                     <tr>
                         <td><?php echo $order->order_id; ?></td>
-                        <td><?php echo $order->customer_name; ?></td>
+                        <td><?php echo $order->customer_id; ?></td>
                         <td><?php echo date('Y-m-d', strtotime($order->order_date)); ?></td>
                         <td><?php echo number_format($order->total_amount, 2); ?></td>
                         <td><span class="status <?php echo strtolower($order->status); ?>"><?php echo ucfirst($order->status); ?></span></td>

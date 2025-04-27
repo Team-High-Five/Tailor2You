@@ -77,7 +77,7 @@ if ($_SESSION['user_type'] === 'tailor') {
                         <?php echo isset($data['receiver']) && is_object($data['receiver']) ? $data['receiver']->first_name . ' ' . $data['receiver']->last_name : 'Unknown User'; ?>
                     </span>
                 </div>
-                <div class="chat-messages">
+                <div class="chat-messages" id="chatMessages">
                     <?php if (!empty($data['messages']) && is_array($data['messages'])): ?>
                         <?php foreach ($data['messages'] as $message): ?>
                             <div class="message <?php echo $message->sender_id == $_SESSION['user_id'] ? 'sent' : 'received'; ?>">
@@ -88,7 +88,7 @@ if ($_SESSION['user_type'] === 'tailor') {
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <p>No messages available.</p>
+                        <p class="no-messages">No messages available.</p>
                     <?php endif; ?>
                 </div>
                 <div class="chat-input">
@@ -146,19 +146,74 @@ if ($_SESSION['user_type'] === 'tailor') {
     </div>
 </div>
 <script>
-    // JavaScript to handle modal opening and closing
-    document.getElementById('newConversationBtn').onclick = function () {
-        document.getElementById('contactModal').style.display = 'block';
-    }
-
-    document.querySelector('.close').onclick = function () {
-        document.getElementById('contactModal').style.display = 'none';
-    }
-
-    window.onclick = function (event) {
-        if (event.target == document.getElementById('contactModal')) {
-            document.getElementById('contactModal').style.display = 'none';
+    // Replace your entire modal JavaScript with this:
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded - checking for modal elements');
+        
+        const newConversationBtn = document.getElementById('newConversationBtn');
+        const contactModal = document.getElementById('contactModal');
+        const closeBtn = document.querySelector('.close');
+        
+        console.log('Button found:', !!newConversationBtn);
+        console.log('Modal found:', !!contactModal);
+        
+        if (newConversationBtn && contactModal) {
+            newConversationBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Button clicked - opening modal');
+                
+                // Use both display:block and a CSS class for better compatibility
+                contactModal.style.display = 'block';
+                contactModal.classList.add('show');
+                
+                console.log('Modal style after opening:', contactModal.style.display);
+            });
         }
+        
+        if (closeBtn) {
+            closeBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('Close button clicked');
+                
+                contactModal.style.display = 'none';
+                contactModal.classList.remove('show');
+            });
+        }
+        
+        // Close when clicking outside
+        window.onclick = function(event) {
+            if (event.target === contactModal) {
+                console.log('Clicked outside modal - closing');
+                contactModal.style.display = 'none';
+                contactModal.classList.remove('show');
+            }
+        };
+        
+        // Rest of your chat scroll code...
+        // Keep your existing scrollChatToBottom function and observer
+    });
+    
+    // Auto-scroll chat to bottom on load
+    function scrollChatToBottom() {
+        const chatMessages = document.querySelector('.chat-messages');
+        if (chatMessages) {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    }
+
+    // Observe changes to chat messages and scroll down when new messages arrive
+    const chatMessages = document.querySelector('.chat-messages');
+    if (chatMessages) {
+        const observer = new MutationObserver(function(mutations) {
+            scrollChatToBottom();
+        });
+        
+        observer.observe(chatMessages, {
+            childList: true,
+            subtree: true
+        });
     }
 </script>
 <?php

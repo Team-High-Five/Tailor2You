@@ -60,12 +60,7 @@
 .user-table th:nth-child(7), .user-table td:nth-child(7) {
     width: 10%; /* Date column */
 }
-.user-table th:nth-child(8), .user-table td:nth-child(8) {
-    width: 10%; /* Date column */
-}
-.user-table th:nth-child(9), .user-table td:nth-child(9) {
-    width: 35%; /* Date column */
-}
+
 select {
     padding: 5px;
     border-radius: 5px;
