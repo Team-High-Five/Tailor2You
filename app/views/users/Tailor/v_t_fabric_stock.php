@@ -7,6 +7,12 @@
   require_once APPROOT . '/views/users/Tailor/inc/sideBar.php';
   require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php';
 } ?>
+<style>
+  .modal-body {
+    margin-top: 400px;
+
+  }
+</style>
 <div class="main-content">
   <?php flash('fabric_message'); ?>
   <?php flash('fabric_error'); ?>
@@ -138,7 +144,11 @@
   </div>
 </div>
 
-
+<style>
+  .modal-body {
+    margin-top: 350px;
+  }
+</style>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
@@ -364,6 +374,8 @@
     });
   });
 </script>
+
+
 
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>
 <script src="<?php echo URLROOT; ?>/public/js/tailor/fabric-filters.js"></script>

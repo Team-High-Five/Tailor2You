@@ -1,12 +1,11 @@
 <div class="add-new-fabric-container">
-  <div class="add-new-fabric-content">
+  
     <div class="modal-header">
       <h1>Add New Fabric</h1>
       <a href="<?php echo URLROOT ?>/Tailors/displayFabricStock"><button class="close-btn">&times;</button></a>
     </div>
     <div class="fabric-form-container">
       <form id="addFabricForm" action="<?php echo URLROOT; ?>/Tailors/addNewFabric" method="post" enctype="multipart/form-data">
-
         <div class="post-pic-wrapper">
           <img src="<?php echo URLROOT; ?>/public/img/add-image.png" alt="Post Picture" id="post-preview">
         </div>

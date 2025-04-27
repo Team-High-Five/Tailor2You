@@ -142,6 +142,12 @@
     </div>
   </div>
 </div>
+
+<style>
+  .modal-body {
+    margin-top: 350px;
+  }
+</style>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     const uploadPhotoInput = document.getElementById('upload-photo');
