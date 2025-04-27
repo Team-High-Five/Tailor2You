@@ -10,8 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel='stylesheet' type='text/css' media='screen'
         href='<?php echo URLROOT; ?>/public/css/tailor/styles.css'>
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/chat/T_S_message.css">
-    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/chat/T_S_MyContacts.css">
+
 
 </head>
 

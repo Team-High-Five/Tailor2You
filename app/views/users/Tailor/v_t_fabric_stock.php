@@ -7,11 +7,7 @@
   require_once APPROOT . '/views/users/Tailor/inc/sideBar.php';
   require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php';
 } ?>
-<style>
-  .modal-body {
-    margin-top: 400px;
 
-  }
 </style>
 <div class="main-content">
   <?php flash('fabric_message'); ?>

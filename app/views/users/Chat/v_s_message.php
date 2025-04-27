@@ -5,20 +5,36 @@ if ($_SESSION['user_type'] === 'tailor') {
     require_once APPROOT . '/views/users/Tailor/inc/Header.php';
     require_once APPROOT . '/views/users/Tailor/inc/SideBar.php';
     require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php';
+?>
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/chat/T_S_message.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/chat/T_S_MyContacts.css">
+<?php
 } elseif ($_SESSION['user_type'] === 'customer') {
     $data['title'] = 'Messages | Customer Dashboard';
     require_once APPROOT . '/views/users/Customer/inc/Header.php';
     require_once APPROOT . '/views/users/Customer/inc/sideBar.php';
     require_once APPROOT . '/views/users/Customer/inc/topNavBar.php';
+?>
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/chat/C_message.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/chat/C_MyContacts.css">
+<?php
 } elseif ($_SESSION['user_type'] === 'shopkeeper') {
     $data['title'] = 'Messages | Shopkeeper Dashboard';
     require_once APPROOT . '/views/users/ShopKeeper/inc/Header.php';
     require_once APPROOT . '/views/users/ShopKeeper/inc/SideBar.php';
     require_once APPROOT . '/views/users/ShopKeeper/inc/topNavBar.php';
+?>
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/chat/T_S_message.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/chat/T_S_MyContacts.css">
+<?php
 } elseif ($_SESSION['user_type'] === 'admin') {
     $data['title'] = 'Messages | Admin Dashboard';
     require_once APPROOT . '/views/inc/admin/adminheader.php';
     require_once APPROOT . '/views/inc/admin/adminsidebar.php';
+?>
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/chat/T_S_message.css">
+    <link rel="stylesheet" href="<?php echo URLROOT; ?>/public/css/chat/T_S_MyContacts.css">
+<?php
 }
 ?>
 
@@ -149,39 +165,39 @@ if ($_SESSION['user_type'] === 'tailor') {
     // Replace your entire modal JavaScript with this:
     document.addEventListener('DOMContentLoaded', function() {
         console.log('DOM loaded - checking for modal elements');
-        
+
         const newConversationBtn = document.getElementById('newConversationBtn');
         const contactModal = document.getElementById('contactModal');
         const closeBtn = document.querySelector('.close');
-        
+
         console.log('Button found:', !!newConversationBtn);
         console.log('Modal found:', !!contactModal);
-        
+
         if (newConversationBtn && contactModal) {
             newConversationBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 console.log('Button clicked - opening modal');
-                
+
                 // Use both display:block and a CSS class for better compatibility
                 contactModal.style.display = 'block';
                 contactModal.classList.add('show');
-                
+
                 console.log('Modal style after opening:', contactModal.style.display);
             });
         }
-        
+
         if (closeBtn) {
             closeBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
                 console.log('Close button clicked');
-                
+
                 contactModal.style.display = 'none';
                 contactModal.classList.remove('show');
             });
         }
-        
+
         // Close when clicking outside
         window.onclick = function(event) {
             if (event.target === contactModal) {
@@ -190,11 +206,11 @@ if ($_SESSION['user_type'] === 'tailor') {
                 contactModal.classList.remove('show');
             }
         };
-        
+
         // Rest of your chat scroll code...
         // Keep your existing scrollChatToBottom function and observer
     });
-    
+
     // Auto-scroll chat to bottom on load
     function scrollChatToBottom() {
         const chatMessages = document.querySelector('.chat-messages');
@@ -209,7 +225,7 @@ if ($_SESSION['user_type'] === 'tailor') {
         const observer = new MutationObserver(function(mutations) {
             scrollChatToBottom();
         });
-        
+
         observer.observe(chatMessages, {
             childList: true,
             subtree: true
