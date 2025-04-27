@@ -255,8 +255,8 @@ class Admin extends Controller
                 'birth_date' => trim($_POST['birth_date']),
                 'home_town' => trim($_POST['home_town']),
                 'address' => trim($_POST['address']),
-                'bio' => trim($_POST['bio']),
-                'category' => trim($_POST['category']),
+                'bio' => isset($_POST['bio']) ? trim($_POST['bio']) : '',  // Check if exists
+                'category' => isset($_POST['category']) ? trim($_POST['category']) : '',
                 'profile_pic' => $profilePic,
                 'status' => trim($_POST['status'])
             ];

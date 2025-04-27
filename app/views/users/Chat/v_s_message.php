@@ -77,7 +77,7 @@ if ($_SESSION['user_type'] === 'tailor') {
                         <?php echo isset($data['receiver']) && is_object($data['receiver']) ? $data['receiver']->first_name . ' ' . $data['receiver']->last_name : 'Unknown User'; ?>
                     </span>
                 </div>
-                <div class="chat-messages">
+                <div class="chat-messages" id="chatMessages">
                     <?php if (!empty($data['messages']) && is_array($data['messages'])): ?>
                         <?php foreach ($data['messages'] as $message): ?>
                             <div class="message <?php echo $message->sender_id == $_SESSION['user_id'] ? 'sent' : 'received'; ?>">
@@ -88,7 +88,7 @@ if ($_SESSION['user_type'] === 'tailor') {
                             </div>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <p>No messages available.</p>
+                        <p class="no-messages">No messages available.</p>
                     <?php endif; ?>
                 </div>
                 <div class="chat-input">
@@ -159,6 +159,41 @@ if ($_SESSION['user_type'] === 'tailor') {
         if (event.target == document.getElementById('contactModal')) {
             document.getElementById('contactModal').style.display = 'none';
         }
+    }
+
+    // Auto-scroll chat to bottom on load
+    function scrollChatToBottom() {
+        const chatMessages = document.querySelector('.chat-messages');
+        if (chatMessages) {
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+    }
+
+    // Call on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        scrollChatToBottom();
+        
+        // Also scroll down when sending a message
+        const messageForm = document.querySelector('.message-form');
+        if (messageForm) {
+            messageForm.addEventListener('submit', function() {
+                // Use setTimeout to ensure this happens after the message is added
+                setTimeout(scrollChatToBottom, 100);
+            });
+        }
+    });
+
+    // Observe changes to chat messages and scroll down when new messages arrive
+    const chatMessages = document.querySelector('.chat-messages');
+    if (chatMessages) {
+        const observer = new MutationObserver(function(mutations) {
+            scrollChatToBottom();
+        });
+        
+        observer.observe(chatMessages, {
+            childList: true,
+            subtree: true
+        });
     }
 </script>
 <?php

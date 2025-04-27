@@ -527,21 +527,8 @@ class M_Orders
             return false;
         }
     }
-
-    // Fetch all orders
     public function getOrders() {
-        $this->db->query('
-            SELECT 
-                orders.order_id, 
-                CONCAT(users.first_name, " ", users.last_name) AS customer_name, 
-                orders.order_date, 
-                orders.total_amount, 
-                orders.status 
-            FROM orders
-            INNER JOIN users ON orders.customer_id = users.user_id
-            ORDER BY orders.order_date DESC
-        ');
-
+        $this->db->query('SELECT * FROM orders');
         return $this->db->resultSet();
     }
 }

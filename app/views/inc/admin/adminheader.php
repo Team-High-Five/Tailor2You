@@ -1,3 +1,14 @@
+<?php
+// Add this at the top of your adminheader.php file
+require_once APPROOT . '/models/M_Admin.php';
+
+// Get admin details from session
+$adminDetails = null;
+if(isset($_SESSION['admin_id'])) {
+    $adminModel = new M_Admin();
+    $adminDetails = $adminModel->getUserById($_SESSION['admin_id']);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -37,15 +48,33 @@
                 <a href="<?php echo URLROOT; ?>/pages/index" class="icon-link">
                     <i class="fas fa-sign-out-alt"></i>
                 </a>
+                                
                 <div class="user-info">
                     <span>
-                        <?php echo isset($data['adminDetails']->first_name) ? $data['adminDetails']->first_name : 'Guest'; ?>
+                        <?php 
+                        if(isset($_SESSION['admin_id'])) {
+                            require_once APPROOT . '/models/M_Admin.php';
+                            $adminModel = new M_Admin();
+                            $admin = $adminModel->getUserById($_SESSION['admin_id']);
+                            echo isset($admin->first_name) ? $admin->first_name : 'Admin';
+                        } else {
+                            echo 'Guest';
+                        }
+                        ?>
                     </span>
-                    <?php if (!empty($data['adminDetails']->profile_pic)): ?>
-                        <img src="data:image/jpeg;base64,<?php echo base64_encode($data['adminDetails']->profile_pic); ?>" alt="User Avatar">
-                    <?php else: ?>
-                        <img src="<?php echo URLROOT; ?>/public/img/Avatar.png" alt="User Avatar">
-                    <?php endif; ?>
+                    <?php 
+                    if(isset($_SESSION['admin_id'])) {
+                        require_once APPROOT . '/models/M_Admin.php';
+                        $adminModel = new M_Admin();
+                        $admin = $adminModel->getUserById($_SESSION['admin_id']);
+                        if (!empty($admin->profile_pic)): ?>
+                            <img src="data:image/jpeg;base64,<?php echo base64_encode($admin->profile_pic); ?>" alt="Admin Avatar">
+                        <?php else: ?>
+                            <img src="<?php echo URLROOT; ?>/public/img/Avatar.png" alt="Avatar">
+                        <?php endif;
+                    } else { ?>
+                        <img src="<?php echo URLROOT; ?>/public/img/Avatar.png" alt="Avatar">
+                    <?php } ?>
                 </div>
             </div>
         </header>
