@@ -242,7 +242,7 @@ class Tailors extends Controller
         if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'tailor') {
             redirect('users/login');
         }
-
+        
         $this->fabricController->displayFabricStock($_SESSION['user_id'], 'users/Tailor/v_t_fabric_stock');
     }
 

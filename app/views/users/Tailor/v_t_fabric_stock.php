@@ -11,17 +11,13 @@
   <?php flash('fabric_message'); ?>
   <?php flash('fabric_error'); ?>
   <?php flash('fabric_success'); ?>
-  
+
   <button class="btn-primary add-post-btn" id="openFabricModalBtn">Add New Fabric</button>
-
-  <!-- Add vertical space between button and filter bar -->
   <div style="margin: 20px 0;"></div>
-
   <div class="filter-bar">
     <div class="filter-label">
       <i class="fas fa-filter"></i> Filter Fabrics
     </div>
-
     <div class="price-filter">
       <label>Price:</label>
       <select id="price-sort" class="filter-select">
@@ -30,7 +26,6 @@
         <option value="desc">Highest to Lowest</option>
       </select>
     </div>
-
     <div class="stock-filter">
       <label>Stock:</label>
       <select id="stock-sort" class="filter-select">
@@ -39,7 +34,6 @@
         <option value="desc">Highest to Lowest</option>
       </select>
     </div>
-
     <div class="color-filter">
       <label>Colors:</label>
       <select id="color-select" class="filter-select">
@@ -132,17 +126,18 @@
         <button class="close-btn">&times;</button>
       </div>
       <div class="modal-content">
-        <p>Are you sure you want to delete this fabric?</p>
-        <div class="button-rows">
-          <form id="deleteFabricForm" action="" method="post">
-            <button type="submit" class="submit-btn">Yes, Delete</button>
-          </form>
-          
+        <div class="confirmation-icon">
+          <i class="ri-error-warning-line"></i>
         </div>
+        <p>Are you sure you want to delete this fabric?</p>
+        <form id="deleteFabricForm" action="" method="post">
+          <button type="submit" class="submit-btn">Yes, Delete</button>
+        </form>
       </div>
     </div>
   </div>
 </div>
+
 
 
 <script>
