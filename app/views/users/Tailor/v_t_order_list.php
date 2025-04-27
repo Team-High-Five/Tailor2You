@@ -1,7 +1,17 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
+<?php if ($_SESSION['user_type'] == 'shopkeeper') {
+  require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php';
+  require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php';
+  require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php';
+} elseif ($_SESSION['user_type'] == 'tailor') {
+  require_once APPROOT . '/views/users/Tailor/inc/Header.php';
+  require_once APPROOT . '/views/users/Tailor/inc/sideBar.php';
+  require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php';
+} ?>
 <div class="main-content">
+  <?php flash('order_message'); ?>
+  <?php flash('order_error'); ?>
+  <?php flash('order_success'); ?>
+  
   <div class="tailor-container">
     <div class="order-list-container">
 
@@ -107,6 +117,22 @@
 
                       <a href="<?php echo URLROOT; ?>/Tailors/displayOrderDetails/<?php echo $order->order_id; ?>" class="view-order-btn"> <i class="fas fa-eye"></i>View Order</a>
                     </div>
+                  </td>
+
+                  <?php if ($_SESSION['user_type'] == 'shopkeeper'): ?>
+                    <td>
+                      <form action="<?php echo URLROOT; ?>/shopkeepers/assignTailor/<?php echo $order->order_id ?>" method="post">
+                        <select name="tailor_id" required>
+                          <option value="">Select Tailor</option>
+                          <?php foreach ($data['employees'] as $tailor) : ?>
+                            <option value="<?php echo $tailor->employee_id; ?>"><?php echo $tailor->last_name; ?></option>
+                          <?php endforeach; ?>
+                        </select>
+                        <button type="submit" class="assign-btn">Assign</button>
+                      </form>
+                    </td>
+                  <?php endif; ?>
+
                 </tr>
               <?php endforeach; ?>
             <?php else: ?>

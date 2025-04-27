@@ -16,10 +16,7 @@
         <p class="caption">Casual Pants</p>
     </div>
 </div>
-<?php require_once APPROOT . '/views/pages/inc/components/new_collection.php'; ?>
-<div>
-    <button class="explore-btn">Explore now</button>
-</div>
-</body>
+<?php require_once APPROOT . '/views/pages/inc/components/design_grid.php'; ?>
 
-</html>
+
+<?php require_once APPROOT . '/views/pages/inc/footer.php'; ?>

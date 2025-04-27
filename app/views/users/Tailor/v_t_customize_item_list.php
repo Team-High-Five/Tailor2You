@@ -1,8 +1,24 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
+<?php if ($_SESSION['user_type'] == 'shopkeeper') {
+  require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php';
+  require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php';
+  require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php';
+} elseif ($_SESSION['user_type'] == 'tailor') {
+  require_once APPROOT . '/views/users/Tailor/inc/Header.php';
+  require_once APPROOT . '/views/users/Tailor/inc/sideBar.php';
+  require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php';
+} ?>
+
 <div class="main-content">
-  <button class="add-fabric-btn" id="openModalBtn">Add New Design</button>
+  <?php flash('fabric_message'); ?>
+  <?php flash('design_message'); ?>
+  <?php flash('design_success'); ?>
+  <?php flash('design_error'); ?>
+
+  <button class="btn-primary add-post-btn" id="openModalBtn">Add New Design</button>
+
+  <!-- Add vertical space between button and filter bar -->
+  <div style="margin: 20px 0;"></div>
+
   <div class="filter-bar">
     <div class="filter-label">
       <i class="fas fa-filter"></i> Filter Designs
@@ -64,10 +80,9 @@
   </div>
   <script src="<?php echo URLROOT; ?>/public/js/tailor/design-filters.js"></script>
 
-  <!-- Add this script for delete functionality -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      document.querySelectorAll('.delete-design').forEach(button => {
+      document.querySelectorAll('.delete-btn').forEach(button => {
         button.addEventListener('click', function() {
           const designId = this.getAttribute('data-id');
           if (confirm('Are you sure you want to delete this design?')) {

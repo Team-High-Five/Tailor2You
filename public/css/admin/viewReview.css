@@ -96,23 +96,25 @@ button {
     margin-right: 10px;
 }
 
-/* Save Button */
-.save-btn {
-    background-color: #008cba;
+.accept-btn, .reject-btn {
+    width: 200px; /* Increased button width */
+    padding: 12px; /* Adjust padding for better appearance */
+    text-align: center;
+    border: none;
+    border-radius: 5px;
     color: white;
+    cursor: pointer;
+    font-size: 16px; /* Increase font size for better readability */
 }
 
-/* Accept and Reject Buttons */
 .accept-btn {
-    background-color: #4caf50;
-    color: white;
+    background-color: #4CAF50; /* Green for Accept */
 }
 
 .reject-btn {
-    background-color: #f44336;
-    color: white;
+    background-color: #f44336; /* Red for Reject */
 }
 
-button:hover {
+.accept-btn:hover, .reject-btn:hover {
     opacity: 0.9;
 }

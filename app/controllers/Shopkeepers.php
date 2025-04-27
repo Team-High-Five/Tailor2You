@@ -6,13 +6,17 @@ require_once APPROOT . '/controllers/Fabrics.php';
 class Shopkeepers extends Controller
 {
     private $shopkeeperModel;
+    private $designModel;
     private $userModel;
     private $fabricController;
+    private $tailorModel;
 
     public function __construct()
     {
         $this->shopkeeperModel = $this->model('M_Shopkeepers');
         $this->userModel = $this->model('M_Users');
+        $this->designModel = $this->model('M_Designs');
+        $this->tailorModel = $this->model('M_Tailors');
         $this->fabricController = new Fabrics();
     }
 
@@ -172,13 +176,41 @@ class Shopkeepers extends Controller
         ];
         $this->view('users/Shopkeeper/v_s_fabric_add_new', $data);
     }
+    public function assignTailor($appointment_id)
+    {
+        if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
+            redirect('users/login');
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'appointment_id' => $appointment_id,
+                'tailor_id' => trim($_POST['tailor_id'])
+            ];
+
+            if ($this->shopkeeperModel->assignTailorToAppointment($data)) {
+                flash('appointment_message', 'Tailor assigned successfully');
+                redirect('shopkeepers/displayAppointments');
+            } else {
+                die('Something went wrong');
+            }
+        } else {
+            redirect('shopkeepers/displayAppointments');
+        }
+    }
 
     public function displayOrders()
     {
+        $orders = $this->tailorModel->getOrdersByTailorId($_SESSION['user_id']);
+        $employees = $this->shopkeeperModel->getEmployeesByUserId($_SESSION['user_id']);
         $data = [
-            'title' => 'Orders'
+            'title' => 'Orders',
+            'orders' => $orders,
+            'employees' => $employees
         ];
-        $this->view('users/Shopkeeper/v_s_order_list', $data);
+        $this->view('users/Tailor/v_t_order_list', $data);
     }
 
     public function displayOrderProgress()
@@ -212,13 +244,14 @@ class Shopkeepers extends Controller
         if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'shopkeeper') {
             redirect('users/login');
         }
-
+        $employees = $this->shopkeeperModel->getEmployeesByUserId($_SESSION['user_id']);
         $appointments = $this->shopkeeperModel->getAppointmentsByShopkeeperId($_SESSION['user_id']);
         $data = [
             'title' => 'Appointments',
-            'appointments' => $appointments
+            'appointments' => $appointments,
+            'employees' => $employees
         ];
-        $this->view('users/Shopkeeper/v_s_appointment_list', $data);
+        $this->view('users/Tailor/v_t_appointment_list', $data);
     }
 
     public function displayAppointmentDetails($appointment_id)
@@ -376,7 +409,12 @@ class Shopkeepers extends Controller
 
             if ($this->userModel->addPost($data)) {
                 flash('post_message', 'Post added successfully');
-                redirect('shopkeepers/displayPortfolio');
+                if($_SESSION['user_type'] == 'tailor'){
+                    redirect('tailors/displayPortfolio');
+                }
+                else{
+                    redirect('shopkeepers/displayPortfolio');
+                }
             } else {
                 die('Something went wrong');
             }
@@ -384,6 +422,7 @@ class Shopkeepers extends Controller
             $data = [
                 'title' => 'Add New Post'
             ];
+            
             $this->view('users/Shopkeeper/v_s_profile_portfolio_add_new', $data);
         }
     }
@@ -413,6 +452,12 @@ class Shopkeepers extends Controller
 
             if ($this->userModel->updatePost($data)) {
                 flash('post_message', 'Post updated successfully');
+                if($_SESSION['user_type'] == 'tailor'){
+                    redirect('tailors/displayPortfolio');
+                }
+                else{
+                    redirect('shopkeepers/displayPortfolio');
+                }
                 redirect('shopkeepers/displayPortfolio');
             } else {
                 die('Something went wrong');
@@ -458,7 +503,7 @@ class Shopkeepers extends Controller
         $data = [
             'title' => 'Customize Items'
         ];
-        $this->view('users/Shopkeeper/v_s_customize_item_list', $data);
+        $this->view('users/Shopkeeper/v_t_customize_item_list', $data);
     }
 
     public function displayCustomizeItemDetails()
@@ -474,7 +519,7 @@ class Shopkeepers extends Controller
         $data = [
             'title' => 'Add Customize Item'
         ];
-        $this->view('users/Shopkeeper/v_s_customize_add_new', $data);
+        $this->view('users/Tailor/v_s_customize_add_new', $data);
     }
 
     public function addNewCustomizeItem()

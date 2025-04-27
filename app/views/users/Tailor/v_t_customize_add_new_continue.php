@@ -64,7 +64,7 @@
                             <div class="required-badge">Required if adding option</div>
                         </div>
                         <input type="text" name="choice_name[TYPE_ID][]" placeholder="Option Name" class="name-input">
-                        <input type="number" name="choice_price[TYPE_ID][]" placeholder="Additional Cost (Rs)(Optional)" step="0.01" class="price-input">
+                        <input type="number" name="choice_price[TYPE_ID][]" placeholder="Additional Cost (Rs)(Optional)" step="0.01" class="price-input" min="0">
                         <button type="button" class="remove-choice">×</button>
                     </div>
                 </div>
@@ -271,8 +271,219 @@
             });
         });
     });
+    // Real-time price validation
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get all price input fields (both customization options and fabric prices)
+        const priceInputs = document.querySelectorAll('.price-input, .fabric-price');
+
+        // Add validation to each price input
+        priceInputs.forEach(input => {
+            // Create validation message element
+            const validationMsg = document.createElement('div');
+            validationMsg.className = 'price-validation-message';
+            input.parentNode.appendChild(validationMsg);
+
+            // Add event listeners for real-time validation
+            input.addEventListener('input', validatePrice);
+            input.addEventListener('blur', validatePrice);
+
+            // Initial validation state
+            input.dataset.valid = 'true';
+        });
+
+        // Validate price function
+        function validatePrice(e) {
+            const input = e.target;
+            const value = input.value.trim();
+            const validationMsg = input.parentNode.querySelector('.price-validation-message');
+
+            // Reset validation state
+            validationMsg.textContent = '';
+            validationMsg.classList.remove('error', 'warning');
+            input.classList.remove('price-error', 'price-warning');
+            input.dataset.valid = 'true';
+
+            // Skip validation if field is empty (assuming it's optional)
+            if (value === '') {
+                return;
+            }
+
+            // Check if it's a valid number
+            if (isNaN(parseFloat(value)) || !isFinite(value)) {
+                showError(input, validationMsg, 'Please enter a valid number');
+                return;
+            }
+
+            // Check for negative numbers
+            if (parseFloat(value) < 0) {
+                showError(input, validationMsg, 'Price cannot be negative');
+                return;
+            }
+
+            // Check decimal places (max 2 decimal places)
+            const decimalParts = value.split('.');
+            if (decimalParts.length > 1 && decimalParts[1].length > 2) {
+                showWarning(input, validationMsg, 'Maximum 2 decimal places allowed');
+                return;
+            }
+
+            // Additional check for unrealistic high values (optional)
+            if (parseFloat(value) > 100000) {
+                showWarning(input, validationMsg, 'Price seems unusually high');
+                return;
+            }
+        }
+
+        function showError(input, msgElement, message) {
+            input.classList.add('price-error');
+            msgElement.textContent = message;
+            msgElement.classList.add('error');
+            input.dataset.valid = 'false';
+        }
+
+        function showWarning(input, msgElement, message) {
+            input.classList.add('price-warning');
+            msgElement.textContent = message;
+            msgElement.classList.add('warning');
+            input.dataset.valid = 'warning';
+        }
+
+        // Validate all prices before form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const invalidInputs = document.querySelectorAll('.price-input[data-valid="false"], .fabric-price[data-valid="false"]');
+
+            if (invalidInputs.length > 0) {
+                e.preventDefault();
+                // Scroll to the first invalid input
+                invalidInputs[0].scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+                invalidInputs[0].focus();
+
+                // Show form-level error message
+                const formError = document.createElement('div');
+                formError.className = 'design-flash error';
+                formError.innerHTML = `
+        <div class="flash-icon"><i class="fas fa-exclamation-circle"></i></div>
+        <div class="flash-content">Please fix the price errors before saving.</div>
+      `;
+
+                // Insert at the top of the active tab
+                const activeTab = document.querySelector('.tab-pane.active');
+                activeTab.insertAdjacentElement('afterbegin', formError);
+
+                // Remove the message after 5 seconds
+                setTimeout(() => formError.remove(), 5000);
+            }
+        });
+    });
+
+    function attachPriceValidation(container) {
+        const newPriceInputs = container.querySelectorAll('.price-input');
+        newPriceInputs.forEach(input => {
+            if (!input.hasAttribute('data-validation-attached')) {
+                // Mark as having validation attached
+                input.setAttribute('data-validation-attached', 'true');
+
+                // Create validation message element
+                const validationMsg = document.createElement('div');
+                validationMsg.className = 'price-validation-message';
+                input.parentNode.appendChild(validationMsg);
+
+                // Add event listeners
+                input.addEventListener('input', validatePrice);
+                input.addEventListener('blur', validatePrice);
+
+                // Initial validation state
+                input.dataset.valid = 'true';
+            }
+        });
+    }
+
+    // Call this function after adding new customization options
+    document.addEventListener('choiceAdded', function(e) {
+        if (e.detail && e.detail.container) {
+            attachPriceValidation(e.detail.container);
+        }
+    });
 </script>
 
+<style>
+    /* Price validation styles */
+    .price-input,
+    .fabric-price {
+        position: relative;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .price-error {
+        border-color: #ff4757 !important;
+        box-shadow: 0 0 0 1px rgba(255, 71, 87, 0.5) !important;
+        background-color: rgba(255, 71, 87, 0.05) !important;
+    }
+
+    .price-warning {
+        border-color: #ffa502 !important;
+        box-shadow: 0 0 0 1px rgba(255, 165, 2, 0.5) !important;
+        background-color: rgba(255, 165, 2, 0.05) !important;
+    }
+
+    .price-validation-message {
+        position: absolute;
+        font-size: 12px;
+        margin-top: 4px;
+        font-weight: 500;
+        opacity: 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: opacity 0.3s ease, max-height 0.3s ease;
+        left: 0;
+        right: 0;
+    }
+
+    .price-validation-message.error,
+    .price-validation-message.warning {
+        opacity: 1;
+        max-height: 40px;
+    }
+
+    .price-validation-message.error {
+        color: #ff4757;
+    }
+
+    .price-validation-message.warning {
+        color: #ffa502;
+    }
+
+    /* For fabric items, adjust positioning */
+    .fabric-item .price-validation-message {
+        text-align: center;
+    }
+
+    /* Shake animation for invalid inputs when form is submitted */
+    @keyframes shake {
+
+        0%,
+        100% {
+            transform: translateX(0);
+        }
+
+        20%,
+        60% {
+            transform: translateX(-5px);
+        }
+
+        40%,
+        80% {
+            transform: translateX(5px);
+        }
+    }
+
+    .shake {
+        animation: shake 0.5s ease;
+    }
+</style>
 <!-- Include existing design customization JS -->
 <script src="<?php echo URLROOT; ?>/public/js/tailor/design-customization.js"></script>
 

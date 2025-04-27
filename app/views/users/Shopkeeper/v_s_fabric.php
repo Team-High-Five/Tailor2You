@@ -48,8 +48,10 @@
       </select>
     </div>
     
-    <button id="apply-filters" class="filter-btn">Apply</button>
-    <button id="reset-filters" class="rst-btn">Reset</button>
+    <div class="portfolio-actions" style="display: inline-block; margin-left: 10px;">
+      <button id="apply-filters" class="edit-btn" style="display: inline-block; margin-right: 5px;"><i class="fas fa-check"></i> Apply</button>
+      <button id="reset-filters" class="delete-btn" style="display: inline-block;"><i class="fas fa-undo"></i> Reset</button>
+    </div>
   </div>
 
   <div class="table-container">

@@ -8,6 +8,7 @@
 @import url('meetTailor.css');
 @import url('tailorProfileMain.css');
 @import url('appointments.css');
+@import url('footer.css');
 
 :root {
     --primary-color: #1a1a1a;

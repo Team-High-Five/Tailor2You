@@ -1,0 +1,21 @@
+.accept-btn, .reject-btn {
+    width: 100px; /* Set button width */
+    padding: 10px;
+    text-align: center;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.accept-btn {
+    background-color: #4CAF50; /* Green for Accept */
+}
+
+.reject-btn {
+    background-color: #f44336; /* Red for Reject */
+}
+
+.accept-btn:hover, .reject-btn:hover {
+    opacity: 0.9;
+}
