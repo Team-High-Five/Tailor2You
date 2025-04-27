@@ -1,11 +1,64 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
+<?php if ($_SESSION['user_type'] == 'shopkeeper') {
+  require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php';
+  require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php';
+  require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php';
+} elseif ($_SESSION['user_type'] == 'tailor') {
+  require_once APPROOT . '/views/users/Tailor/inc/Header.php';
+  require_once APPROOT . '/views/users/Tailor/inc/sideBar.php';
+  require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php';
+} ?>
+<style>
+  .modal-body {
+    margin-top: 400px;
 
+  }
+</style>
 <div class="main-content">
   <?php flash('fabric_message'); ?>
+  <?php flash('fabric_error'); ?>
+  <?php flash('fabric_success'); ?>
 
-  <button class="add-fabric-btn" id="openFabricModalBtn">Add New Fabric</button>
+  <button class="btn-primary add-post-btn" id="openFabricModalBtn">Add New Fabric</button>
+  <div style="margin: 20px 0;"></div>
+  <div class="filter-bar">
+    <div class="filter-label">
+      <i class="fas fa-filter"></i> Filter Fabrics
+    </div>
+    <div class="price-filter">
+      <label>Price:</label>
+      <select id="price-sort" class="filter-select">
+        <option value="">Default</option>
+        <option value="asc">Lowest to Highest</option>
+        <option value="desc">Highest to Lowest</option>
+      </select>
+    </div>
+    <div class="stock-filter">
+      <label>Stock:</label>
+      <select id="stock-sort" class="filter-select">
+        <option value="">Default</option>
+        <option value="asc">Lowest to Highest</option>
+        <option value="desc">Highest to Lowest</option>
+      </select>
+    </div>
+    <div class="color-filter">
+      <label>Colors:</label>
+      <select id="color-select" class="filter-select">
+        <option value="">All Colors</option>
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="black">Black</option>
+        <option value="white">White</option>
+        <option value="yellow">Yellow</option>
+        <option value="purple">Purple</option>
+        <option value="orange">Orange</option>
+        <option value="gray">Gray</option>
+        <option value="brown">Brown</option>
+      </select>
+    </div>
+
+    <button id="reset-filters" class="rst-btn">Reset</button>
+  </div>
 
   <div class="table-container">
     <table class="product-table">
@@ -43,251 +96,286 @@
               <?php endforeach; ?>
             </td>
             <td>
-              <button class="action-btn edit-btn" onclick="openEditFabricModal(<?php echo $fabric->fabric_id; ?>)">✎</button>
-              <button class="action-btn delete-btn" onclick="confirmDelete(<?php echo $fabric->fabric_id; ?>)">🗑</button>
+              <div class="portfolio-actions">
+                <button class="edit-btn" onclick="openEditFabricModal(<?php echo $fabric->fabric_id; ?>)"><i class="fas fa-edit"></i></button>
+                <button class="delete-btn" onclick="confirmDelete(<?php echo $fabric->fabric_id; ?>)"><i class="fas fa-trash-alt"></i></button>
+              </div>
             </td>
           </tr>
         <?php endforeach; ?>
       </tbody>
     </table>
+    <div class="no-results" style="display: none;">No fabrics match your filter criteria</div>
   </div>
 </div>
 
 <!-- Add New Fabric Modal -->
 <div id="fabricModal" class="modal">
-  <div id="modal-body">
-    <!-- Content from v_t_add_new_fabric.php will be loaded here -->
+  <div class="modal-body">
+    <!-- Content from v_s_add_new_fabric.php will be loaded here -->
   </div>
 </div>
 
 <!-- Edit Fabric Modal -->
 <div id="editFabricModal" class="modal">
-  <div id="edit-modal-body">
-    <!-- Content from v_t_edit_fabric.php will be loaded here -->
+  <div class="modal-body">
+    <!-- Content from v_s_edit_fabric.php will be loaded here -->
   </div>
 </div>
 
 <!-- Delete Confirmation Modal -->
 <div id="deleteFabricModal" class="modal">
-  <div class="delete-modal-content">
-    <div class="modal-header">
-      <h1>Confirm Deletion</h1>
-      <button class="close-btn" onclick="closeDeleteFabricModal()">&times;</button>
-    </div>
-    <div class="delete-modal-body">
-      <p>Are you sure you want to delete this fabric?</p>
-      <form id="deleteFabricForm" action="" method="post">
-        <button type="submit" class="submit-btn">Yes, Delete</button>
-        <button type="button" class="reset-btn" onclick="closeDeleteFabricModal()">Cancel</button>
-      </form>
+  <div class="modal-body">
+    <div class="delete-modal-content">
+      <div class="modal-header">
+        <h1>Confirm Deletion</h1>
+        <button class="close-btn">&times;</button>
+      </div>
+      <div class="modal-content">
+        <div class="confirmation-icon">
+          <i class="ri-error-warning-line"></i>
+        </div>
+        <p>Are you sure you want to delete this fabric?</p>
+        <form id="deleteFabricForm" action="" method="post">
+          <button type="submit" class="submit-btn">Yes, Delete</button>
+        </form>
+      </div>
     </div>
   </div>
 </div>
 
+<style>
+  .modal-body {
+    margin-top: 350px;
+  }
+</style>
+
 <script>
-  document.getElementById('openFabricModalBtn').addEventListener('click', function() {
-    document.getElementById('fabricModal').style.display = 'block';
-    fetch('<?php echo URLROOT; ?>/tailors/addNewFabric')
-      .then(response => response.text())
-      .then(html => {
-        document.getElementById('modal-body').innerHTML = html;
+  document.addEventListener('DOMContentLoaded', function() {
+    // Open Add Fabric Modal
+    document.getElementById('openFabricModalBtn').addEventListener('click', function() {
+      const modal = document.getElementById('fabricModal');
 
-        // Add event listeners for image preview
-        document.getElementById('post-preview').addEventListener('click', function() {
-          document.getElementById('upload-photo').click();
+      // First display the modal
+      modal.style.display = 'flex';
+
+      // Force browser reflow to enable transition
+      void modal.offsetWidth;
+
+      // Then add the show class for animation
+      modal.classList.add('show');
+
+      // Fetch the content
+      fetch('<?php echo URLROOT; ?>/tailors/addNewFabric')
+        .then(response => response.text())
+        .then(html => {
+          document.querySelector('#fabricModal .modal-body').innerHTML = html;
+
+          // After content is loaded, attach event handlers
+          attachEventListeners('addFabricForm', 'post-preview', 'upload-photo');
+        })
+        .catch(error => {
+          console.error('Error loading form:', error);
         });
-
-        document.getElementById('upload-photo').addEventListener('change', function(event) {
-          const file = event.target.files[0];
-          const reader = new FileReader();
-          reader.onload = function() {
-            const output = document.getElementById('post-preview');
-            output.src = reader.result;
-          };
-          reader.readAsDataURL(file);
-
-          // Validate image size
-          if (file.size > 1048576) { // 1MB = 1048576 bytes
-            document.getElementById('image-error').textContent = 'Image size cannot exceed 1MB';
-          } else {
-            document.getElementById('image-error').textContent = '';
-          }
-        });
-
-        document.getElementById('addFabricForm').addEventListener('submit', function(event) {
-          let isValid = true;
-
-          // Validate fabric name
-          const fabricName = document.getElementById('fabric-name').value;
-          if (fabricName.trim() === '') {
-            document.getElementById('fabric-name-error').textContent = 'Please enter fabric name';
-            isValid = false;
-          } else {
-            document.getElementById('fabric-name-error').textContent = '';
-          }
-
-          // Validate price
-          const price = document.getElementById('price').value;
-          if (price.trim() === '' || isNaN(price) || parseFloat(price) < 0) {
-            document.getElementById('price-error').textContent = 'Please enter a valid price';
-            isValid = false;
-          } else {
-            document.getElementById('price-error').textContent = '';
-          }
-
-          // Validate stock
-          const stock = document.getElementById('stock').value;
-          if (stock.trim() === '' || isNaN(stock) || parseFloat(stock) < 0) {
-            document.getElementById('stock-error').textContent = 'Stock cannot be negative';
-            isValid = false;
-          } else {
-            document.getElementById('stock-error').textContent = '';
-          }
-
-          // Validate colors
-          const colors = document.querySelectorAll('input[name="colors[]"]:checked');
-          if (colors.length === 0) {
-            document.getElementById('color-error').textContent = 'Please select at least one color';
-            isValid = false;
-          } else {
-            document.getElementById('color-error').textContent = '';
-          }
-
-          // Validate image size
-          const imageInput = document.getElementById('upload-photo');
-          if (imageInput.files.length > 0) {
-            const imageFile = imageInput.files[0];
-            if (imageFile.size > 1048576) { // 1MB = 1048576 bytes
-              document.getElementById('image-error').textContent = 'Image size cannot exceed 1MB';
-              isValid = false;
-            } else {
-              document.getElementById('image-error').textContent = '';
-            }
-          }
-
-          if (!isValid) {
-            event.preventDefault();
-          }
-        });
-      });
-  });
-
-  function openEditFabricModal(fabricId) {
-    document.getElementById('editFabricModal').style.display = 'block';
-    fetch('<?php echo URLROOT; ?>/tailors/editFabric/' + fabricId)
-      .then(response => response.text())
-      .then(html => {
-        document.getElementById('edit-modal-body').innerHTML = html;
-
-        // Add event listeners for image preview
-        document.getElementById('post-preview').addEventListener('click', function() {
-          document.getElementById('upload-photo').click();
-        });
-
-        document.getElementById('upload-photo').addEventListener('change', function(event) {
-          const file = event.target.files[0];
-          const reader = new FileReader();
-          reader.onload = function() {
-            const output = document.getElementById('post-preview');
-            output.src = reader.result;
-          };
-
-          reader.readAsDataURL(file);
-
-          // Validate image size
-          if (file.size > 1048576) { // 1MB = 1048576 bytes
-            document.getElementById('image-error').textContent = 'Image size cannot exceed 1MB';
-          } else {
-            document.getElementById('image-error').textContent = '';
-          }
-        });
-
-        document.getElementById('editFabricForm').addEventListener('submit', function(event) {
-          let isValid = true;
-
-          // Validate fabric name
-          const fabricName = document.getElementById('fabric-name').value;
-          if (fabricName.trim() === '') {
-            document.getElementById('fabric-name-error').textContent = 'Please enter fabric name';
-            isValid = false;
-          } else {
-            document.getElementById('fabric-name-error').textContent = '';
-          }
-
-          // Validate price
-          const price = document.getElementById('price').value;
-          if (price.trim() === '' || isNaN(price) || parseFloat(price) < 0) {
-            document.getElementById('price-error').textContent = 'Please enter a valid price';
-            isValid = false;
-          } else {
-            document.getElementById('price-error').textContent = '';
-          }
-
-          // Validate stock
-          const stock = document.getElementById('stock').value;
-          if (stock.trim() === '' || isNaN(stock) || parseFloat(stock) < 0) {
-            document.getElementById('stock-error').textContent = 'Stock cannot be negative';
-            isValid = false;
-          } else {
-            document.getElementById('stock-error').textContent = '';
-          }
-
-          // Validate colors
-          const colors = document.querySelectorAll('input[name="colors[]"]:checked');
-          if (colors.length === 0) {
-            document.getElementById('color-error').textContent = 'Please select at least one color';
-            isValid = false;
-          } else {
-            document.getElementById('color-error').textContent = '';
-          }
-
-          // Validate image size
-          const imageInput = document.getElementById('upload-photo');
-          if (imageInput.files.length > 0) {
-            const imageFile = imageInput.files[0];
-            if (imageFile.size > 1048576) { // 1MB = 1048576 bytes
-              document.getElementById('image-error').textContent = 'Image size cannot exceed 1MB';
-              isValid = false;
-            } else {
-              document.getElementById('image-error').textContent = '';
-            }
-          }
-
-          if (!isValid) {
-            event.preventDefault();
-          }
-        });
-      });
-  }
-
-  function confirmDelete(fabricId) {
-    document.getElementById('deleteFabricModal').style.display = 'block';
-    document.getElementById('deleteFabricForm').action = '<?php echo URLROOT; ?>/fabrics/deleteFabric/' + fabricId + '/Tailors';
-  }
-
-  function closeDeleteFabricModal() {
-    document.getElementById('deleteFabricModal').style.display = 'none';
-  }
-
-  document.querySelectorAll('.close-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
-      document.getElementById('fabricModal').style.display = 'none';
-      document.getElementById('editFabricModal').style.display = 'none';
-      document.getElementById('deleteFabricModal').style.display = 'none';
     });
-  });
 
-  window.addEventListener('click', function(event) {
-    if (event.target == document.getElementById('fabricModal')) {
-      document.getElementById('fabricModal').style.display = 'none';
+    // Edit Fabric Modal
+    window.openEditFabricModal = function(fabricId) {
+      const modal = document.getElementById('editFabricModal');
+
+      // First display the modal
+      modal.style.display = 'flex';
+
+      // Force browser reflow to enable transition
+      void modal.offsetWidth;
+
+      // Then add the show class for animation
+      modal.classList.add('show');
+
+      // Fetch the content
+      fetch('<?php echo URLROOT; ?>/tailors/editFabric/' + fabricId)
+        .then(response => response.text())
+        .then(html => {
+          document.querySelector('#editFabricModal .modal-body').innerHTML = html;
+
+          // After content is loaded, attach event handlers
+          attachEventListeners('editFabricForm', 'post-preview', 'upload-photo');
+        })
+        .catch(error => {
+          console.error('Error loading form:', error);
+        });
+    };
+
+    // Delete Fabric Modal
+    window.confirmDelete = function(fabricId) {
+      const modal = document.getElementById('deleteFabricModal');
+
+      // Set the form action
+      document.getElementById('deleteFabricForm').action =
+        '<?php echo URLROOT; ?>/tailors/deleteFabric/' + fabricId;
+
+      // Show the modal with animation
+      modal.style.display = 'flex';
+      void modal.offsetWidth;
+      modal.classList.add('show');
+    };
+
+    window.closeDeleteFabricModal = function() {
+      const modal = document.getElementById('deleteFabricModal');
+      modal.classList.remove('show');
+
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 300);
+    };
+
+    // Generic function to attach event listeners to forms
+    function attachEventListeners(formId, previewId, uploadId) {
+      const form = document.getElementById(formId);
+      const preview = document.getElementById(previewId);
+      const upload = document.getElementById(uploadId);
+
+      if (preview) {
+        // Find the wrapper div
+        const wrapper = preview.closest('.post-pic-wrapper');
+        if (wrapper && upload) {
+          wrapper.addEventListener('click', function() {
+            upload.click();
+          });
+        }
+      }
+
+      if (upload && preview) {
+        upload.addEventListener('change', function(event) {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function() {
+              preview.src = reader.result;
+              preview.classList.add('has-image');
+            };
+            reader.readAsDataURL(file);
+
+            // Image validation
+            const errorElement = document.getElementById('image-error');
+            if (errorElement) {
+              if (file.size > 1048576) { // 1MB
+                errorElement.textContent = 'Image size cannot exceed 1MB';
+                errorElement.classList.add('show');
+              } else {
+                errorElement.textContent = '';
+                errorElement.classList.remove('show');
+              }
+            }
+          }
+        });
+      }
+
+      // Form validation
+      if (form) {
+        form.addEventListener('submit', function(event) {
+          validateFabricForm(event, form);
+        });
+      }
     }
-    if (event.target == document.getElementById('editFabricModal')) {
-      document.getElementById('editFabricModal').style.display = 'none';
+
+    // Function to validate fabric forms
+    function validateFabricForm(event, form) {
+      let isValid = true;
+
+      // Fabric name validation
+      const fabricName = form.querySelector('[name="fabric_name"]');
+      if (fabricName && fabricName.value.trim() === '') {
+        showError(fabricName, 'fabric-name-error', 'Please enter fabric name');
+        isValid = false;
+      } else if (fabricName) {
+        clearError('fabric-name-error');
+      }
+
+      // Price validation
+      const price = form.querySelector('[name="price"]');
+      if (price && (price.value.trim() === '' || isNaN(price.value) || parseFloat(price.value) <= 0)) {
+        showError(price, 'price-error', 'Please enter a valid price');
+        isValid = false;
+      } else if (price) {
+        clearError('price-error');
+      }
+
+      // Stock validation
+      const stock = form.querySelector('[name="stock"]');
+      if (stock && (stock.value.trim() === '' || isNaN(stock.value) || parseFloat(stock.value) < 0)) {
+        showError(stock, 'stock-error', 'Stock cannot be negative');
+        isValid = false;
+      } else if (stock) {
+        clearError('stock-error');
+      }
+
+      // Colors validation
+      const colors = form.querySelectorAll('input[name="colors[]"]:checked');
+      if (colors.length === 0) {
+        showError(null, 'color-error', 'Please select at least one color');
+        isValid = false;
+      } else {
+        clearError('color-error');
+      }
+
+      // Prevent form submission if validation fails
+      if (!isValid) {
+        event.preventDefault();
+      }
     }
-    if (event.target == document.getElementById('deleteFabricModal')) {
-      document.getElementById('deleteFabricModal').style.display = 'none';
+
+    function showError(element, errorId, message) {
+      const errorElement = document.getElementById(errorId);
+      if (errorElement) {
+        errorElement.textContent = message;
+        errorElement.classList.add('show');
+
+        // Add error class to parent form-group if element exists
+        if (element) {
+          const formGroup = element.closest('.form-group');
+          if (formGroup) formGroup.classList.add('has-error');
+        }
+      }
     }
+
+    function clearError(errorId) {
+      const errorElement = document.getElementById(errorId);
+      if (errorElement) {
+        errorElement.textContent = '';
+        errorElement.classList.remove('show');
+
+        // Find parent and remove error class
+        const formGroup = errorElement.closest('.form-group');
+        if (formGroup) formGroup.classList.remove('has-error');
+      }
+    }
+
+    // Close buttons and background click handling
+    document.addEventListener('click', function(event) {
+      // Close button handling
+      if (event.target.classList.contains('close-btn')) {
+        const modal = event.target.closest('.modal');
+        if (modal) {
+          modal.classList.remove('show');
+          setTimeout(() => {
+            modal.style.display = 'none';
+          }, 300);
+        }
+      }
+
+      // Background click handling
+      if (event.target.classList.contains('modal')) {
+        event.target.classList.remove('show');
+        setTimeout(() => {
+          event.target.style.display = 'none';
+        }, 300);
+      }
+    });
   });
 </script>
 
+
+
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>
+<script src="<?php echo URLROOT; ?>/public/js/tailor/fabric-filters.js"></script>

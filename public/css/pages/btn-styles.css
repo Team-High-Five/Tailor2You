@@ -1,0 +1,177 @@
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  
+  .btn--primary {
+    background: var(--accent-gradient);
+    color: var(--text-light);
+  }
+  
+  .btn--secondary {
+    background: var(--glass-effect);
+    color: var(--text-light);
+    border: 1px solid var(--accent-color);
+  }
+  
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--accent-shadow);
+  }
+  .action-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.action-buttons button,
+.action-buttons a {
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+}
+
+.request-button {
+    background: var(--accent-gradient);
+    color: var(--primary-color);
+}
+
+.request-button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--accent-shadow);
+}
+
+.skip-button {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-light);
+    border: 1px solid var(--glass-effect);
+}
+
+.skip-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
+}
+
+.product-card .buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+    gap: 12px;
+}
+
+.product-card .buttons button {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid var(--accent-color);
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--text-light);
+    background: var(--secondary-color);
+    font-weight: 500;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.product-card .buttons button:first-child {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.product-card .buttons button:hover {
+    background-color: var(--button-hover-bg);
+    transform: translateY(-2px);
+}
+
+
+
+/* Arrows Styling */
+.arrows {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.arrows button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-light);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+}
+
+.arrows button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.arrows button:active {
+    transform: scale(0.95);
+}
+
+.follow-button {
+    padding: 8px 20px;
+    background-color: var(--accent-color);
+    color: var(--white-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.follow-button:hover {
+    background-color: var(--primary-hover-color);
+    color: var(--white-color);
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    background-color: var(--primary-color);
+    padding: 10px 0;
+    border-radius: 12px;
+    margin-top: 1rem;
+}
+
+.menu-button {
+    color: var(--white-color);
+    background: transparent;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.menu-button:hover {
+    color: var(--accent-color);
+    /* Hover color */
+}
+
+.menu-button.active {
+    border-bottom: 2px solid var(--accent-color);
+}
+
+/* Add to your tailorProfileMain.css */
+.follow-button.liked {
+    background-color: #4CAF50;
+    /* Green color for liked state */
+}

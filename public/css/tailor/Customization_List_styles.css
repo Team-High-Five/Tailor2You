@@ -1,169 +1,406 @@
-.filter-bar {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-    align-items: center;
-}
-
+/*--------------------------------------------------------------
+# PRODUCT GRID WITH ANIMATION
+--------------------------------------------------------------*/
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 25px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUpIn 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
+@keyframes fadeUpIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Staggered animation for children */
+.product-grid>div {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: staggerFadeIn 0.5s ease forwards;
+}
+
+@keyframes staggerFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Create staggered delay for each product card */
+.product-grid>div:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.product-grid>div:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.product-grid>div:nth-child(3) {
+    animation-delay: 0.2s;
+}
+
+.product-grid>div:nth-child(4) {
+    animation-delay: 0.25s;
+}
+
+.product-grid>div:nth-child(5) {
+    animation-delay: 0.3s;
+}
+
+.product-grid>div:nth-child(6) {
+    animation-delay: 0.35s;
+}
+
+.product-grid>div:nth-child(7) {
+    animation-delay: 0.4s;
+}
+
+.product-grid>div:nth-child(8) {
+    animation-delay: 0.45s;
+}
+
+.product-grid>div:nth-child(9) {
+    animation-delay: 0.5s;
+}
+
+.product-grid>div:nth-child(n+10) {
+    animation-delay: 0.55s;
+}
+
+/*--------------------------------------------------------------
+  # MODERN PRODUCT CARD WITH DESIGN SYSTEM VARIABLES
+  --------------------------------------------------------------*/
 .product-card {
-    background-color: var(--background-color);
-    border-radius: 12px;
-    box-shadow: var(--card-shadow);
-    padding: 20px;
+    background: var(--card-gradient);
+    border-radius: 16px;
+    padding: 24px;
     text-align: center;
+    position: relative;
     transition: var(--transition);
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--card-shadow);
+    isolation: isolate;
+    /* Create stacking context for pseudo-elements */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.product-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right,
+            rgba(var(--accent-color-rgb), 0.15),
+            transparent 60%);
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .product-card:hover {
-    transform: var(--card-hover-transform);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--accent-shadow);
+    border-color: var(--accent-color);
+}
+
+.product-card:hover::before {
+    opacity: 1;
 }
 
 .product-card img {
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: 130px;
     object-fit: cover;
-    border-radius: 10px;
-    margin-bottom: 15px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    transform: translateY(0) scale(1) rotate(0);
+    border: 1px solid var(--border-color);
 }
 
-
+.product-card:hover img {
+    transform: translateY(-5px) scale(1.05) rotate(-2deg);
+    box-shadow: var(--accent-shadow);
+    border-color: var(--accent-color);
+}
 
 .product-card h3 {
-    margin: 10px 0 5px;
-    font-size: 18px;
-    color: var(--text-dark);
+    margin: 12px 0 8px;
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--text-light-color);
+    letter-spacing: 0.3px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 5px;
+    transition: var(--transition);
+}
+
+.product-card:hover h3 {
+    color: var(--accent-color);
+}
+
+.product-card h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--accent-color);
+    transform: translateX(-50%);
+    transition: width 0.4s ease;
+}
+
+.product-card:hover h3::after {
+    width: 70%;
 }
 
 .product-card p {
     margin: 5px 0;
     color: var(--text-muted);
     font-size: 14px;
+    transition: var(--transition);
+}
+
+.product-card:hover p {
+    color: var(--text-color);
 }
 
 .product-card .price {
-    font-weight: bold;
-    color: var(--primary-color);
-    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent-color);
+    font-size: 18px;
+    margin: 12px 0;
+    display: inline-block;
+    position: relative;
+    transition: var(--transition);
+}
+
+.product-card:hover .price {
+    transform: scale(1.1);
+    text-shadow: 0 0 15px rgba(var(--accent-color-rgb), 0.5);
+}
+
+.product-card .product-actions {
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    transition: opacity 0.3s ease, transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    opacity: 0.85;
+    transform: translateY(5px);
+}
+
+.product-card:hover .product-actions {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /*--------------------------------------------------------------
-# PRODUCT ACTION BUTTONS
---------------------------------------------------------------*/
-.product-actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 15px;
-    justify-content: center;
-}
-
+  # ACTION BUTTONS WITH DESIGN SYSTEM VARIABLES
+  --------------------------------------------------------------*/
 .action-btn {
+    /* Base Layout */
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    padding: 10px 16px;
-    border-radius: 8px;
+    gap: 10px;
+
+    /* Sizing & Shape */
+    padding: 12px 18px;
+    border-radius: 10px;
+    min-width: 110px;
+    min-height: 44px;
+
+    /* Typography */
     font-weight: 600;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+
+    /* Visual Style */
     border: none;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
+
+    /* Interactive Behavior */
+    cursor: pointer;
+    transition: var(--transition);
+    overflow: hidden;
+    position: relative;
     text-decoration: none;
-    min-width: 95px;
+    transform: translateZ(0);
 }
 
 /* Edit Button */
 .edit-btn {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    color: white;
+    background: var(--primary-gradient);
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .edit-btn:hover,
-.edit-btn:focus {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(106, 90, 205, 0.4);
+.edit-btn:focus-visible {
+    transform: var(--card-hover-transform);
+    box-shadow: var(--accent-shadow);
     color: white;
 }
 
 /* Delete Button */
 .delete-btn {
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5253 100%);
+    background: var(--danger-gradient);
     color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 .delete-btn:hover,
-.delete-btn:focus {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+.delete-btn:focus-visible {
+    transform: var(--card-hover-transform);
+    box-shadow: var(--warning-shadow);
 }
 
-/* Button Icons */
-.action-btn i {
-    font-size: 1rem;
-}
-
-/* Active/Pressed State */
+/* Active State for Both Button Types */
 .action-btn:active {
-    transform: translateY(1px);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.1s cubic-bezier(0.2, 0, 0.2, 1);
 }
 
-/* Dark Mode Support */
-[data-theme="dark"] .edit-btn {
-    background: linear-gradient(135deg, #8a7ad1 0%, #7a68ee 100%);
+/*--------------------------------------------------------------
+  # NO DESIGNS MESSAGE
+  --------------------------------------------------------------*/
+.no-designs-message {
+    grid-column: 1 / -1;
+    padding: 40px;
+    text-align: center;
+    background: var(--card-gradient);
+    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--card-shadow);
+    animation: pulseMessage 2s infinite alternate;
 }
 
-[data-theme="dark"] .delete-btn {
-    background: linear-gradient(135deg, #ff7675 0%, #ff4757 100%);
+.no-designs-message p {
+    color: var(--text-light-color);
+    font-size: 18px;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .product-actions {
-        flex-direction: row;
-        gap: 8px;
+@keyframes pulseMessage {
+    from {
+        box-shadow: var(--card-shadow);
     }
 
-    .action-btn {
-        padding: 8px 12px;
-        min-width: 85px;
+    to {
+        box-shadow: var(--accent-shadow);
+    }
+}
+
+/*--------------------------------------------------------------
+  # NEW COLOR SUGGESTIONS
+  --------------------------------------------------------------*/
+:root {
+    /* New gradient suggestions */
+    --subtle-accent-gradient: linear-gradient(135deg,
+            rgba(var(--accent-color-rgb), 0.1) 0%,
+            rgba(var(--accent-color-rgb), 0.2) 100%);
+
+    --intense-accent-gradient: linear-gradient(135deg,
+            var(--accent-color) 0%,
+            var(--primary-color) 100%);
+
+    /* Interactive state colors */
+    --hover-transition-bg: rgba(var(--accent-color-rgb), 0.08);
+    --active-state-color: #6244b8;
+
+    /* Additional shadow */
+    --inner-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* Apply new variables to enhance design elements */
+.product-card.featured {
+    background: var(--subtle-accent-gradient);
+    border-left: 3px solid var(--accent-color);
+}
+
+.filter-select:focus {
+    background-color: var(--hover-transition-bg);
+}
+
+/*--------------------------------------------------------------
+  # RESPONSIVE ADJUSTMENTS
+  --------------------------------------------------------------*/
+@media (max-width: 1024px) {
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .filter-bar {
+        padding: 14px 16px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .filter-label {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .filter-select {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .rst-btn {
+        padding: 10px 15px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 15px;
+    }
+
+    .product-card {
+        padding: 20px;
+    }
+
+    .product-card img {
+        width: 110px;
+        height: 110px;
     }
 }
 
 @media (max-width: 480px) {
-    .action-btn span {
-        display: none;
-    }
-
-    .action-btn {
-        padding: 10px;
-        min-width: 40px;
-        border-radius: 50%;
-    }
-
-    .action-btn i {
-        font-size: 1.1rem;
-        margin: 0;
-    }
-}
-
-/* Responsive Design */
-@media screen and (max-width: 768px) {
-    .filter-bar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
     .product-grid {
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
     }
 
     .product-card {
@@ -171,8 +408,9 @@
     }
 
     .product-card img {
-        width: 100px;
-        height: 100px;
+        width: 90px;
+        height: 90px;
+        margin-bottom: 12px;
     }
 
     .product-card h3 {
@@ -184,46 +422,6 @@
     }
 
     .product-card .price {
-        font-size: 14px;
-    }
-
-    .product-card .product-actions button {
-        font-size: 10px;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .filter-bar {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .product-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .product-card {
-        padding: 10px;
-    }
-
-    .product-card img {
-        width: 80px;
-        height: 80px;
-    }
-
-    .product-card h3 {
-        font-size: 14px;
-    }
-
-    .product-card p {
-        font-size: 10px;
-    }
-
-    .product-card .price {
-        font-size: 12px;
-    }
-
-    .product-card .product-actions button {
-        font-size: 8px;
+        font-size: 15px;
     }
 }

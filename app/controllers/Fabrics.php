@@ -74,7 +74,7 @@ class Fabrics extends Controller
                 'stock_err' => '',
                 'image_err' => ''
             ];
-
+    
             $this->view($view, $data);
         }
     }

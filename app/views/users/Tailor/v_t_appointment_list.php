@@ -19,7 +19,7 @@
   <?php flash('reschedule_request_success'); ?>
   <?php flash('reschedule_request_rejected'); ?>
   <?php flash('reschedule_request_accepted'); ?>
-  <div class="appointment-list-container">
+
     <div class="filter-bar">
       <div class="filter-label">
         <i class="fas fa-filter"></i> Filter Appointments
@@ -166,13 +166,21 @@
       </div>
     </div>
   </div>
-</div>
 
 <script>
   document.querySelectorAll('.appointment-link').forEach(link => {
     link.addEventListener('click', function(event) {
       event.preventDefault();
-      document.getElementById('AppointmentCard').style.display = 'block';
+      const appointmentModal = document.getElementById('AppointmentCard');
+      
+      // First show the modal
+      appointmentModal.style.display = 'flex';
+      
+      // Then add the show class after a tiny delay to trigger animation
+      setTimeout(() => {
+        appointmentModal.classList.add('show');
+      }, 10);
+      
       // Load the content of v_t_appointment_card.php into the modal
       fetch(this.href)
         .then(response => response.text())
@@ -184,17 +192,35 @@
 
   document.querySelectorAll('.close-btn').forEach(btn => {
     btn.addEventListener('click', function() {
-      document.getElementById('AppointmentCard').style.display = 'none';
-      document.getElementById('rescheduleAppointmentModal').style.display = 'none';
+      const appointmentModal = document.getElementById('AppointmentCard');
+      const rescheduleModal = document.getElementById('rescheduleAppointmentModal');
+      
+      // Remove show class first to trigger animation
+      appointmentModal.classList.remove('show');
+      rescheduleModal.classList.remove('show');
+      
+      // Hide after animation completes
+      setTimeout(() => {
+        appointmentModal.style.display = 'none';
+        rescheduleModal.style.display = 'none';
+      }, 300);
     });
   });
 
   window.addEventListener('click', function(event) {
     if (event.target == document.getElementById('AppointmentCard')) {
-      document.getElementById('AppointmentCard').style.display = 'none';
+      const appointmentModal = document.getElementById('AppointmentCard');
+      appointmentModal.classList.remove('show');
+      setTimeout(() => {
+        appointmentModal.style.display = 'none';
+      }, 300);
     }
     if (event.target == document.getElementById('rescheduleAppointmentModal')) {
-      document.getElementById('rescheduleAppointmentModal').style.display = 'none';
+      const rescheduleModal = document.getElementById('rescheduleAppointmentModal');
+      rescheduleModal.classList.remove('show');
+      setTimeout(() => {
+        rescheduleModal.style.display = 'none';
+      }, 300);
     }
   });
 
@@ -203,7 +229,12 @@
       event.preventDefault();
       const appointmentId = event.target.dataset.id;
       document.getElementById('reschedule-form').action = '<?php echo URLROOT; ?>/tailors/requestRescheduleAppointment/' + appointmentId;
-      document.getElementById('rescheduleAppointmentModal').style.display = 'block';
+      
+      const rescheduleModal = document.getElementById('rescheduleAppointmentModal');
+      rescheduleModal.style.display = 'flex';
+      setTimeout(() => {
+        rescheduleModal.classList.add('show');
+      }, 10);
     }
   });
 </script>

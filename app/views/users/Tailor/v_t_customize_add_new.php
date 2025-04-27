@@ -1,4 +1,4 @@
-<div class="customization-form-container">
+
   <div class="modal-content">
     <div class="modal-header">
       <h1>Add New Design</h1>
@@ -41,4 +41,3 @@
       <button type="submit" class="submit-btn">Continue</button>
     </form>
   </div>
-</div>

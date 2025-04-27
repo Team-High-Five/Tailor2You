@@ -1,60 +1,77 @@
-/* Add this to your Customization_List_styles.css file */
+/*--------------------------------------------------------------
+  # FILTER BAR
+  --------------------------------------------------------------*/
 .filter-bar {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    background: var(--white-color);
-    border-radius: 10px;
-    padding: 12px 15px;
-    gap: 15px;
-    margin-bottom: 25px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    gap: 12px;
+    margin-bottom: 2rem;
+    padding: 1rem 1.5rem;
+    background: var(--card-gradient);
+    border-radius: 16px;
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
 }
 
 .filter-label {
-    font-weight: 600;
-    color: var(--text-dark);
     display: flex;
     align-items: center;
-    gap: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--accent-color);
+    margin-right: 0.5rem;
 }
 
 .filter-label i {
-    color: var(--accent-color);
+    margin-right: 8px;
+    font-size: 1.1rem;
 }
 
 .filter-select {
-    padding: 8px 15px;
+    padding: 8px 12px;
     border-radius: 8px;
     border: 1px solid var(--border-color);
-    background-color: var(--background-color);
-    color: var(--text-dark);
-    font-size: 14px;
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-color);
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    min-width: 120px;
     cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 140px;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239d8ee0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 32px;
 }
 
 .filter-select:hover,
 .filter-select:focus {
     border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.15);
     outline: none;
 }
 
 .rst-btn {
-    background-color: #f8f9fa;
-    border: 1px solid var(--border-color);
-    color: var(--text-muted);
-    padding: 8px 15px;
+    padding: 8px 16px;
     border-radius: 8px;
+    background: var(--accent-soft-gradient);
+    color: var(--accent-color);
+    border: 1px solid rgba(var(--accent-color-rgb), 0.2);
     cursor: pointer;
-    font-size: 14px;
-    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
     margin-left: auto;
 }
 
 .rst-btn:hover {
-    background-color: #e9ecef;
-    color: var(--text-dark);
+    background: var(--accent-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(var(--accent-color-rgb), 0.3);
 }
 
 /* Filtered item styling */
@@ -112,7 +129,7 @@
         min-width: 0;
     }
 
-    .rst-btn  .calendar-btn{
+    .rst-btn .calendar-btn {
         width: 100%;
         margin-top: 5px;
     }

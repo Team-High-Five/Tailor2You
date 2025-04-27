@@ -1,6 +1,7 @@
 /*--------------------------------------------------------------
-# BUTTON BASE STYLES
+# BUTTON BASE STYLES WITH ENHANCED ANIMATIONS
 --------------------------------------------------------------*/
+
 .btn,
 .btn-primary,
 .submit-btn,
@@ -8,188 +9,454 @@
 .btn-accept-btn,
 .reschedule-btn {
     display: inline-block;
-    padding: 10px 20px;
-    border-radius: 6px;
+    padding: 12px 24px;
+    border-radius: 8px;
     cursor: pointer;
     border: none;
     font-weight: 600;
     text-align: center;
     text-decoration: none;
-    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 1;
+    letter-spacing: 0.5px;
+}
+
+/* Ripple effect for all buttons */
+.btn::before,
+.btn-primary::before,
+.submit-btn::before,
+.progress-btn::before,
+.btn-accept-btn::before,
+.reschedule-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 300%;
+    height: 300%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, transparent 70%);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.6s ease-out;
+    border-radius: 50%;
+    z-index: -1;
+}
+
+.btn:hover::before,
+.btn-primary:hover::before,
+.submit-btn:hover::before,
+.progress-btn:hover::before,
+.btn-accept-btn:hover::before,
+.reschedule-btn:hover::before {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
+    animation: ripple 0.8s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0;
+    }
 }
 
 /*--------------------------------------------------------------
 # PRIMARY BUTTONS
 --------------------------------------------------------------*/
+
 .btn-primary {
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    background: var(--primary-gradient);
     color: var(--white-color);
+    box-shadow: 0 6px 12px rgba(var(--accent-color-rgb), 0.2);
 }
 
 .btn-primary:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(106, 90, 205, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(var(--accent-color-rgb), 0.4);
 }
 
 .btn-primary:active {
-    transform: scale(0.98);
+    transform: scale(0.96) translateY(-2px);
+}
+
+/* Gradient border animation */
+.btn-primary::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    z-index: -2;
+    background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--secondary-color), var(--primary-color));
+    background-size: 300% 100%;
+    border-radius: 10px;
+    animation: gradientBorder 6s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.btn-primary:hover::after {
+    opacity: 1;
+}
+
+@keyframes gradientBorder {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 /*--------------------------------------------------------------
 # DANGER BUTTONS
 --------------------------------------------------------------*/
+
 .btn-danger,
 .btn-cancel,
 .btn-reject-btn {
     background-color: var(--danger-color);
     color: var(--white-color);
+    box-shadow: 0 6px 12px rgba(244, 67, 54, 0.2);
 }
 
 .btn-danger:hover,
 .btn-cancel:hover,
 .btn-reject-btn:hover {
     background-color: var(--danger-dark-color);
-    transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(244, 67, 54, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(244, 67, 54, 0.4);
 }
 
 .btn-danger:active,
 .btn-cancel:active,
 .btn-reject-btn:active {
-    transform: scale(0.98);
+    transform: scale(0.96) translateY(-2px);
 }
 
 /*--------------------------------------------------------------
 # SUBMIT BUTTONS
 --------------------------------------------------------------*/
+
 .submit-btn {
-    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    background: var(--primary-gradient);
     color: var(--white-color);
     font-size: 16px;
     margin-top: 20px;
+    box-shadow: 0 6px 12px rgba(var(--accent-color-rgb), 0.2);
+    position: relative;
 }
 
 .submit-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(106, 90, 205, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(var(--accent-color-rgb), 0.4);
 }
 
 .submit-btn:active {
-    transform: scale(0.98);
+    transform: scale(0.96) translateY(-2px);
 }
 
-/*--------------------------------------------------------------
-# RESET & FILTER BUTTONS
---------------------------------------------------------------*/
-.reset-btn {
-    background-color: #5bc0de;
-    color: var(--white-color);
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    margin-top: 10px;
-    transition: var(--transition);
+/* Add loading animation */
+.submit-btn.loading {
+    pointer-events: none;
 }
 
-.reset-btn:hover {
-    background-color: var(--danger-color);
-    transform: translateY(-3px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+.submit-btn.loading::after {
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: calc(50% - 10px);
+    right: 15px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spinner 0.8s linear infinite;
 }
 
-
-
-/*--------------------------------------------------------------
-# CLOSE BUTTONS
---------------------------------------------------------------*/
-.close-btn {
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: var(--text-dark);
-    transition: color 0.3s ease;
-}
-
-.close-btn:hover,
-.close-btn:focus {
-    color: var(--danger-color);
-    text-decoration: none;
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 /*--------------------------------------------------------------
 # SPECIALIZED BUTTONS
 --------------------------------------------------------------*/
+
 .add-fabric-btn {
     background-color: #6a1b9a;
     color: var(--white-color);
-    padding: 10px 20px;
+    padding: 12px 24px;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     margin-bottom: 20px;
     transition: var(--transition);
+    position: relative;
+    overflow: hidden;
 }
 
 .add-fabric-btn:hover {
     background-color: #510a87;
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05) translateY(-3px);
+    box-shadow: 0 8px 16px rgba(106, 27, 154, 0.4);
 }
 
-.btn-accept-btn {
-    background: #6c63ff;
-    color: var(--white-color);
+/* Add a plus icon animation */
+.add-fabric-btn::before {
+    content: '+';
+    position: absolute;
+    left: 15px;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.3s ease;
 }
 
-.progress-btn {
-    background-color: #6c63ff;
-    color: var(--white-color);
-    font-size: 0.875rem;
+.add-fabric-btn:hover::before {
+    opacity: 1;
+    transform: translateX(0);
 }
 
-.progress-btn:hover,
-.btn-accept-btn:hover {
-    background-color: #5a52d1;
-    transform: translateY(-3px);
-}
-
-.reschedule-btn {
-    background-color: #6c63ff;
-    color: var(--white-color);
-    border-radius: 6px;
-    margin-top: 20px;
-}
-
-.reschedule-btn:hover {
-    background-color: #5a53cc;
-    transform: translateY(-3px);
-}
-
-.exit-btn {
-    border: none;
-    margin-top: 20px;
-    border-radius: 8px;
-    padding: 1rem 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.exit-btn:hover {
-    background-color: var(--border-color);
-    transform: translateY(-3px);
+.add-fabric-btn:hover {
+    padding-left: 30px;
 }
 
 /*--------------------------------------------------------------
 # BUTTON GROUPS
 --------------------------------------------------------------*/
+
 .action-buttons {
     display: flex;
     justify-content: flex-end;
     gap: 1rem;
     margin-top: 2rem;
+}
+
+/* Add hover effect for button groups */
+.action-buttons>button:hover {
+    z-index: 2;
+}
+
+/* Pulse animation for important buttons */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(var(--accent-color-rgb), 0.7);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(var(--accent-color-rgb), 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(var(--accent-color-rgb), 0);
+    }
+}
+
+.btn-primary.pulse,
+.submit-btn.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Enhanced Action Buttons with Modern UX */
+.action-btn {
+    /* Base Layout */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+
+    /* Sizing & Shape */
+    padding: 12px 18px;
+    border-radius: 10px;
+    min-width: 110px;
+    min-height: 44px;
+    /* Touch-friendly */
+
+    /* Typography */
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.3px;
+
+    /* Visual Style */
+    border: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+
+    /* Interactive Behavior */
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.2, 0, 0.2, 1);
+    overflow: hidden;
+    position: relative;
+    text-decoration: none;
+    backface-visibility: hidden;
+    transform: translateZ(0);
+
+    /* Accessibility */
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Edit Button */
+.edit-btn {
+    background: linear-gradient(135deg,
+            var(--primary-color) 0%,
+            var(--secondary-color) 100%);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.edit-btn:hover,
+.edit-btn:focus-visible {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(106, 90, 205, 0.35),
+        0 3px 3px rgba(106, 90, 205, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+    color: white;
+}
+
+/* Delete Button */
+.delete-btn {
+    background: linear-gradient(135deg,
+            #ff6b6b 0%,
+            #ee5253 100%);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.delete-btn:hover,
+.delete-btn:focus-visible {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(255, 107, 107, 0.3),
+        0 3px 3px rgba(255, 107, 107, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+/* Active State for Both Button Types */
+.action-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1),
+        inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.1s cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+/* ===== RIPPLE EFFECT ===== */
+.action-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.5);
+    opacity: 0;
+    border-radius: 100%;
+    transform: scale(1) translate(-50%, -50%);
+    transform-origin: 50% 50%;
+}
+
+.action-btn:focus-visible::after {
+    animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+    0% {
+        transform: scale(0, 0);
+        opacity: 0.7;
+    }
+
+    20% {
+        transform: scale(25, 25);
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(40, 40);
+    }
+}
+
+/* ===== FOCUS ACCESSIBILITY ===== */
+.action-btn:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 2px;
+}
+
+/* ===== ICON ANIMATION ===== */
+.action-btn i {
+    transition: transform 0.3s ease;
+}
+
+.edit-btn:hover i {
+    transform: rotate(15deg) scale(1.2);
+}
+
+.delete-btn:hover i {
+    transform: rotate(-15deg) scale(1.2);
+}
+
+/* ===== LOADING STATE ===== */
+.action-btn.loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.action-btn.loading i {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 480px) {
+    .action-btn {
+        min-width: 44px;
+        aspect-ratio: 1;
+        padding: 0;
+        border-radius: 10px;
+    }
+
+    .action-btn span {
+        display: none;
+    }
+
+    .action-btn i {
+        font-size: 1.1rem;
+        margin: 0;
+    }
+}
+
+/* ===== CONFIRMATION ANIMATION ===== */
+.action-btn.confirmed {
+    animation: confirmPulse 1s;
+}
+
+@keyframes confirmPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
 }

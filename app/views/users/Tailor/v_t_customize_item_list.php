@@ -103,18 +103,27 @@
 </div>
 <script>
   document.getElementById('openModalBtn').addEventListener('click', function() {
-    document.getElementById('customizeModal').style.display = 'block';
+    const modal = document.getElementById('customizeModal');
     // Load the content of v_t_customize_add_new.php into the modal
     fetch('<?php echo URLROOT; ?>/designs/addCustomizeItem')
       .then(response => response.text())
       .then(html => {
         document.getElementById('modal-body').innerHTML = html;
+        // Add the show class AFTER content is loaded
+        modal.classList.add('show');
         setupFormHandlers();
-      });
-  });
 
-  document.querySelector('.close-btn').addEventListener('click', function() {
-    document.getElementById('customizeModal').style.display = 'none';
+        // Add event listener to the close button AFTER it exists in DOM
+        const closeBtn = modal.querySelector('.close-btn');
+        if (closeBtn) {
+          closeBtn.addEventListener('click', function() {
+            modal.classList.remove('show');
+            setTimeout(() => {
+              modal.style.display = 'none';
+            }, 300); // Match transition time
+          });
+        }
+      });
   });
 
   function setupFormHandlers() {

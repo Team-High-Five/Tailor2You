@@ -23,10 +23,10 @@
     <div class="action-buttons">
       <?php if ($data['appointment']->status === 'pending') : ?>
         <form action="<?php echo URLROOT; ?>/tailors/acceptAppointment/<?php echo $data['appointment']->appointment_id; ?>" method="post">
-          <button type="submit" class="action-button accept-button">Accept Appointment</button>
+          <button type="submit" class="action-button accept-button">Accept       Appointment</button>
         </form>
       <?php endif; ?>
-      <button class="action-button reject-button" data-id="<?php echo $data['appointment']->appointment_id; ?>">Reschedule Appointment</button>
+      <button class="action-button reject-button" data-id="<?php echo $data['appointment']->appointment_id; ?>">Reschedule </button>
     </div>
   </div>
 </div>

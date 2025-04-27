@@ -1,7 +1,12 @@
-<?php require_once APPROOT . '/views/users/Tailor/inc/Header.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/sideBar.php'; ?>
-<?php require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php'; ?>
-
+<?php if ($_SESSION['user_type'] == 'shopkeeper') {
+  require_once APPROOT . '/views/users/Shopkeeper/inc/Header.php';
+  require_once APPROOT . '/views/users/Shopkeeper/inc/sideBar.php';
+  require_once APPROOT . '/views/users/Shopkeeper/inc/topNavBar.php';
+} elseif ($_SESSION['user_type'] == 'tailor') {
+  require_once APPROOT . '/views/users/Tailor/inc/Header.php';
+  require_once APPROOT . '/views/users/Tailor/inc/sideBar.php';
+  require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php';
+} ?>
 <div class="main-content">
   <div class="stats">
     <div class="card orders-card">
@@ -84,6 +89,50 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // 3D tilt effect on stat cards
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+
+        const angleX = (y - centerY) / 10;
+        const angleY = (centerX - x) / 10;
+
+        card.style.transform = `perspective(1000px) rotateX(${angleX}deg) rotateY(${angleY}deg) translateZ(10px)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+      });
+    });
+
+    // Activate chart animations
+    const chartContainers = document.querySelectorAll('.chart-container');
+    const options = {
+      threshold: 0.3
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('chart-animate');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, options);
+
+    chartContainers.forEach(container => {
+      observer.observe(container);
+    });
+
+    // Uncomment these when your API endpoints are ready
+    fetchRecentOrders();
+    fetchUpcomingAppointments();
+  });
   // Bar Chart
   const barCtx = document.getElementById('barChart').getContext('2d');
   const barChart = new Chart(barCtx, {
@@ -285,210 +334,5 @@
   // fetchUpcomingAppointments();
 </script>
 
-<style>
-  .chart-title {
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-    color: var(--accent-color);
-    text-align: center;
-  }
-
-  .recent-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-top: 30px;
-  }
-
-  @media (max-width: 1200px) {
-    .recent-section {
-      grid-template-columns: 1fr;
-    }
-  }
-
-  .recent-orders,
-  .upcoming-appointments {
-    background: var(--card-gradient);
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: var(--card-shadow);
-  }
-
-  .recent-orders h3,
-  .upcoming-appointments h3 {
-    color: var(--accent-color);
-    margin-bottom: 15px;
-    font-size: 1.2rem;
-    display: inline-block;
-  }
-
-  .view-all-link {
-    float: right;
-    font-size: 0.9rem;
-  }
-
-  .view-all-link a {
-    color: var(--accent-color);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-  }
-
-  .view-all-link a:hover {
-    text-decoration: underline;
-  }
-
-  .view-all-link i {
-    margin-left: 5px;
-    font-size: 1rem;
-  }
-
-  .order-table-container {
-    overflow-x: auto;
-  }
-
-  .order-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
-
-  .order-table th {
-    background-color: rgba(106, 90, 205, 0.1);
-    color: var(--text-color);
-    font-weight: 500;
-    text-align: left;
-    padding: 10px;
-  }
-
-  .order-table td {
-    padding: 12px 10px;
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  .status-badge {
-    display: inline-block;
-    padding: 5px 10px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 500;
-  }
-
-  .appointment-list {
-    margin-top: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .appointment-card {
-    display: flex;
-    align-items: center;
-    background-color: rgba(255, 255, 255, 0.05);
-    padding: 15px;
-    border-radius: 8px;
-    transition: var(--transition);
-  }
-
-  .appointment-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
-  }
-
-  .appointment-date {
-    min-width: 60px;
-    text-align: center;
-  }
-
-  .appointment-date .date {
-    font-weight: 600;
-    color: var(--accent-color);
-  }
-
-  .appointment-date .time {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-  }
-
-  .appointment-details {
-    flex: 1;
-    margin-left: 15px;
-  }
-
-  .customer-name {
-    font-weight: 500;
-    margin-bottom: 5px;
-  }
-
-  .view-details {
-    margin-left: auto;
-    color: var(--accent-color);
-    font-size: 1.1rem;
-    transition: var(--transition);
-  }
-
-  .view-details:hover {
-    transform: scale(1.1);
-  }
-
-  .loading-data,
-  .no-data,
-  .error-data {
-    text-align: center;
-    padding: 20px;
-    color: var(--text-muted);
-    font-style: italic;
-  }
-
-  .error-data {
-    color: var(--error-color);
-  }
-
-  /* Status badge colors */
-  .status-pending {
-    background-color: var(--status-pending-bg);
-    color: var(--status-pending-color);
-  }
-
-  .status-cutting {
-    background-color: rgba(65, 105, 225, 0.15);
-    color: #4169e1;
-  }
-
-  .status-stitching {
-    background-color: rgba(138, 43, 226, 0.15);
-    color: #8a2be2;
-  }
-
-  .status-ready {
-    background-color: rgba(46, 139, 87, 0.15);
-    color: #2e8b57;
-  }
-
-  .status-accepted {
-    background-color: var(--status-accepted-bg);
-    color: var(--status-accepted-color);
-  }
-
-  .status-confirmed {
-    background-color: var(--status-confirmed-bg);
-    color: var(--status-confirmed-color);
-  }
-
-  .status-completed {
-    background-color: var(--status-completed-bg);
-    color: var(--status-completed-color);
-  }
-
-  .status-rejected {
-    background-color: var(--status-rejected-bg);
-    color: var(--status-rejected-color);
-  }
-
-  .status-reschedule_pending {
-    background-color: var(--status-reschedule_pending-bg);
-    color: var(--status-reschedule_pending-color);
-  }
-</style>
 
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>

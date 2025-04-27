@@ -205,34 +205,6 @@
     }
 }
 
-/* Arrows Styling */
-.arrows {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-}
-
-.arrows button {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: var(--text-light);
-    font-size: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
-}
-
-.arrows button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: scale(1.1);
-}
-
-.arrows button:active {
-    transform: scale(0.95);
-}
 
 /* Responsive Design */
 @media screen and (max-width: 1200px) {
