@@ -28,7 +28,6 @@ class Users extends Controller
             if (empty($data['email'])) {
                 $data['email_err'] = 'Please enter email';
             } elseif (!$this->userModel->findUserByEmail($data['email'])) {
-
                 $data['email_err'] = 'No user found';
             }
 
@@ -36,12 +35,24 @@ class Users extends Controller
                 $data['password_err'] = 'Please enter password';
             }
 
+
             if (empty($data['email_err']) && empty($data['password_err'])) {
                 $loggedInUser = $this->userModel->login($data['email'], $data['password']);
                 if (!$loggedInUser) {
                     $data['password_err'] = 'Password incorrect';
                 } else {
-                    $this->createUserSession($loggedInUser);
+                    if ($loggedInUser) {
+                        $this->createUserSession($loggedInUser);
+                    } else {
+                        // Check if user exists but is inactive
+                        $user = $this->userModel->findUserByEmail($data['email']);
+                        if ($user && $user->status === 'inactive' && $user->user_type === 'customer') {
+                            flash('login_message', 'This account has been deactivated', 'alert alert-danger');
+                        } else {
+                            flash('login_message', 'Invalid email/password combination', 'alert alert-danger');
+                        }
+                        redirect('users/login');
+                    }
                 }
             }
 
@@ -181,7 +192,9 @@ class Users extends Controller
         // Redirect to the tailor's dashboard
         redirect('tailors/index');
     }
-    public function validateInput($data) {}
+    public function validateInput($data)
+    {
+    }
 
     public function selectCreateAccount()
     {

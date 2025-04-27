@@ -379,4 +379,38 @@ class M_Customers
 
         return false;
     }
+    public function deactivateCustomer($id)
+    {
+    try {
+        $this->db->beginTransaction();
+
+        // Update user status to inactive
+        $this->db->query('UPDATE users SET status = :status 
+                         WHERE user_id = :id AND user_type = "customer"');
+        
+        $this->db->bind(':status', 'inactive');
+        $this->db->bind(':id', $id);
+        
+        $result = $this->db->execute();
+
+        // Cancel any active appointments
+        $this->db->query('UPDATE appointments SET status = "cancelled" 
+                         WHERE customer_id = :id AND status IN ("pending", "accepted")');
+        $this->db->bind(':id', $id);
+        $this->db->execute();
+
+        // Cancel any active orders
+        $this->db->query('UPDATE orders SET status = "cancelled" 
+                         WHERE customer_id = :id AND status NOT IN ("delivered", "cancelled")');
+        $this->db->bind(':id', $id);
+        $this->db->execute();
+
+        $this->db->commitTransaction();
+        return $result;
+    } catch (Exception $e) {
+        $this->db->rollbackTransaction();
+        error_log("Error deactivating customer: " . $e->getMessage());
+        return false;
+    }
+    }
 }

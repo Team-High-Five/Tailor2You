@@ -586,4 +586,35 @@ class Customers extends Controller
         ];
         $this->view('users/Customer/v_c_order_details', $data);
     }
-}
+    public function deleteUser($id)
+    {
+    if (!isLoggedIn()) {
+        redirect('users/login');
+    }
+
+    // Verify if the logged-in user is trying to delete their own account
+    if ($_SESSION['user_id'] != $id) {
+        flash('profile_message', 'Unauthorized access', 'alert alert-danger');
+        redirect('customers/profileUpdate');
+        return;
+    }
+
+    try {
+        if ($this->customerModel->deactivateCustomer($id)) {
+            // Clear all session data
+            session_unset();
+            session_destroy();
+            
+            flash('user_message', 'Your account has been deactivated successfully');
+            redirect('users/login');
+        } else {
+            throw new Exception('Failed to deactivate account');
+        }
+    } catch (Exception $e) {
+        flash('profile_message', 'Error deactivating account: ' . $e->getMessage(), 'alert alert-danger');
+        redirect('customers/profileUpdate');
+    }
+    }
+    
+    
+}   
