@@ -223,4 +223,5 @@ class M_Pages
         $this->db->bind(':id', $id);
         return $this->db->resultSet();
     }
+ 
 }

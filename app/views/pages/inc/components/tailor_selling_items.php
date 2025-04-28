@@ -1,56 +1,40 @@
 <section class="product-grid">
-  <div class="product-card">
-    <img src="<?php echo URLROOT; ?>/public/img/designs/men2.jpg" alt="White Shirt">
-    <p class="tailor">Tailor - B.A.Bandara</p>
-    <p class="price">Rs. 3500</p>
-    <div class="buttons">
-      <button>Add to Cart</button>
-      <button>Place Order</button>
-    </div>
-  </div>
-  <div class="product-card">
-    <img src="<?php echo URLROOT; ?>/public/img/designs/me6.jpeg" alt="Patterned Shirt">
-    <p class="tailor">Tailor - B.A.Bandara</p>
-    <p class="price">Rs. 3500</p>
-    <div class="buttons">
-      <button>Add to Cart</button>
-      <button>Place Order</button>
-    </div>
-  </div>
-  <div class="product-card">
-    <img src="<?php echo URLROOT; ?>/public/img/designs/me8.jpeg" alt="Navy Shirt">
-    <p class="tailor">Tailor - B.A.Bandara</p>
-    <p class="price">Rs. 3500</p>
-    <div class="buttons">
-      <button>Add to Cart</button>
-      <button>Place Order</button>
-    </div>
-  </div>
-  <div class="product-card">
-    <img src="<?php echo URLROOT; ?>/public/img/designs/m1.jpeg" alt="Green Shirt">
-    <p class="tailor">Tailor - B.A.Bandara</p>
-    <p class="price">Rs. 3500</p>
-    <div class="buttons">
-      <button>Add to Cart</button>
-      <button>Place Order</button>
-    </div>
-  </div>
-  <div class="product-card">
-    <img src="<?php echo URLROOT; ?>/public/img/designs/men4.jpeg" alt="Beige Shirt">
-    <p class="tailor">Tailor - B.A.Bandara</p>
-    <p class="price">Rs. 3500</p>
-    <div class="buttons">
-      <button>Add to Cart</button>
-      <button>Place Order</button>
-    </div>
-  </div>
-  <div class="product-card">
-    <img src="<?php echo URLROOT; ?>/public/img/designs/m2.jpeg" alt="Dark Blue Shirt">
-    <p class="tailor">Tailor - B.A.Bandara</p>
-    <p class="price">Rs. 3500</p>
-    <div class="buttons">
-      <button>Add to Cart</button>
-      <button>Place Order</button>
-    </div>
-  </div>
-</section>
+    <?php if (!empty($data['designs'])) : ?>
+      <?php foreach ($data['designs'] as $design) : ?>
+        <div class="product-card">
+          <?php if (!empty($design->main_image)) : ?>
+            <img src="<?php echo URLROOT; ?>/public/img/uploads/designs/<?php echo $design->main_image; ?>" alt="<?php echo $design->name; ?>"
+              onerror="this.src='<?php echo URLROOT; ?>/public/img/designs/placeholder.jpg'">
+          <?php else : ?>
+            <img src="<?php echo URLROOT; ?>/public/img/designs/placeholder.jpg" alt="Design Image">
+          <?php endif; ?>
+
+          <p class="design-name"><?php echo $design->name; ?></p>
+          
+          <p class="price">Rs. <?php echo number_format($design->base_price, 2); ?></p>
+
+          <div class="buttons">
+            <button class="add-to-cart" onclick="addToCartFlow(<?php echo $design->design_id; ?>)">
+              <i class="fas fa-cart-plus"></i> Add to Cart
+            </button>
+            <button class="place-order" onclick="selectFabric(<?php echo $design->design_id; ?>)">Design Customize</button>
+          </div>
+        </div>
+      <?php endforeach; ?>
+    <?php else : ?>
+      <div class="no-designs">
+        <p>No designs available at the moment.</p>
+      </div>
+    <?php endif; ?>
+  </section>
+</div>
+<script>
+  function selectFabric(designId) {
+    window.location.href = '<?php echo URLROOT; ?>/Orders/selectFabric/' + designId;
+  }
+
+  function addToCartFlow(designId) {
+    // Navigate directly to the quickAdd method instead of using fetch
+    window.location.href = '<?php echo URLROOT; ?>/cart/quickAdd/' + designId;
+  }
+</script>
