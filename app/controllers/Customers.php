@@ -34,6 +34,7 @@ class Customers extends Controller
                 'email' => trim($_POST['email']),
                 'phone_number' => trim($_POST['phone_number']),
                 'nic' => trim($_POST['NIC']),
+                'student_id' => trim($_POST['student_id']),
                 'birth_date' => trim($_POST['birth_date']),
                 'home_town' => trim($_POST['home_town']),
                 'address' => trim($_POST['address']),
@@ -46,56 +47,58 @@ class Customers extends Controller
                 'home_town_err' => '',
                 'address_err' => ''
             ];
-            // Validate inputs
-            // Validate email
+            
             if (empty($data['email'])) {
                 $data['email_err'] = 'Please enter email';
             } else {
-                // Check email
+               
                 if ($this->userModel->findUserByEmail($data['email'])) {
                     $data['email_err'] = 'Email is already taken';
                 }
             }
-            // Validate first name
+           
             if (empty($data['first_name'])) {
                 $data['first_name_err'] = 'Please enter first name';
             }
-            // Validate last name
+            
             if (empty($data['last_name'])) {
                 $data['last_name_err'] = 'Please enter last name';
             }
-            // Validate phone number
+           
             if (empty($data['phone_number'])) {
                 $data['phone_number_err'] = 'Please enter phone number';
             }
-            // Validate NIC
+            
             if (empty($data['nic'])) {
                 $data['nic_err'] = 'Please enter NIC number';
             }
-            // Validate birth date
+            if (empty($data['student_id'])) {
+                $data['student_id_err'] = 'Please enter Student ID number';
+            }
+            
             if (empty($data['birth_date'])) {
                 $data['birth_date_err'] = 'Please enter birth date';
             }
-            // Validate home town
+           
             if (empty($data['home_town'])) {
                 $data['home_town_err'] = 'Please enter home town';
             }
-            // Validate address
+           
             if (empty($data['address'])) {
                 $data['address_err'] = 'Please enter address';
             }
-            // Make sure errors are empty
-            if (empty($data['email_err']) && empty($data['first_name_err']) && empty($data['last_name_err']) && empty($data['phone_number_err']) && empty($data['nic_err']) && empty($data['birth_date_err']) && empty($data['home_town_err']) && empty($data['address_err'])) {
-                // Store validated data in session
+            
+            if (empty($data['email_err']) && empty($data['first_name_err']) && empty($data['last_name_err']) && empty($data['phone_number_err']) && empty($data['nic_err']) && empty($data['student_id_err']) && empty($data['birth_date_err']) && empty($data['home_town_err']) && empty($data['address_err'])) {
+               
                 $_SESSION['customer_register_data'] = $data;
-                // Redirect to create password page
+                
                 redirect('Customers/createPassword');
             } else {
-                // Load view with errors
+                
                 $this->view('users/Customer/v_c_register', $data);
             }
         } else {
-            // Init data
+            
             $data = [
                 'first_name' => '',
                 'last_name' => '',
@@ -114,7 +117,7 @@ class Customers extends Controller
                 'home_town_err' => '',
                 'address_err' => ''
             ];
-            // Load view
+            
             $this->view('users/Customer/v_c_register', $data);
         }
     }
@@ -196,6 +199,7 @@ class Customers extends Controller
             'email_err' => '',
             'phone_number_err' => '',
             'nic_err' => '',
+            'student_id_err' => '',
             'birth_date_err' => '',
             'home_town_err' => '',
             'address_err' => '',
@@ -230,6 +234,7 @@ class Customers extends Controller
                 'email' => trim($_POST['email']),
                 'phone_number' => trim($_POST['phone_number']),
                 'nic' => trim($_POST['nic']),
+                'student_id' => trim($_POST['student_id']),
                 'birth_date' => trim($_POST['birth_date']),
                 'home_town' => trim($_POST['home_town']),
                 'address' => trim($_POST['address']),
@@ -281,6 +286,7 @@ class Customers extends Controller
                 'email_err' => '',
                 'phone_number_err' => '',
                 'nic_err' => '',
+                'student_id_err' => '',
                 'birth_date_err' => '',
                 'home_town_err' => '',
                 'address_err' => '',
@@ -300,6 +306,7 @@ class Customers extends Controller
         $_SESSION['user_email'] = $customer->email;
         $_SESSION['user_phone_number'] = $customer->phone_number;
         $_SESSION['user_nic'] = $customer->nic;
+        $_SESSION['user_student_id'] = $customer->student_id;
         $_SESSION['user_birth_date'] = $customer->birth_date;
         $_SESSION['user_home_town'] = $customer->home_town;
         $_SESSION['user_address'] = $customer->address;
@@ -412,11 +419,9 @@ class Customers extends Controller
     public function changePassword()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Process form
-            // Sanitize post data
+            
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            // Input data
             $data = [
                 'title' => 'Change Password',
                 'current_password' => trim($_POST['current_password']),
@@ -428,16 +433,15 @@ class Customers extends Controller
                 'succeed_password' => '',
             ];
 
-            // Validate current password
             if (empty($data['current_password'])) {
                 $data['current_password_err'] = 'Please enter current password';
             } elseif (!$this->userModel->checkPassword($_SESSION['user_id'], $data['current_password'])) {
                 $data['current_password_err'] = 'Current password is incorrect';
             }
 
-            // Check for errors
+
             if (empty($data['current_password_err'])) {
-                // Update the password in the database
+                
                 if ($this->userModel->updatePassword($_SESSION['user_id'], $data['new_password'])) {
                     unset($_SESSION['user_id']);
                     unset($_SESSION['user_email']);
@@ -450,11 +454,11 @@ class Customers extends Controller
                     redirect('/Customers/changePassword');
                 }
             } else {
-                // Load view with errors
+                
                 $this->view('users/Customer/v_c_changepassword', $data);
             }
         } else {
-            // Init data
+            
             $data = [
                 'title' => 'Change Password',
                 'current_password' => '',
@@ -465,7 +469,7 @@ class Customers extends Controller
                 'confirm_password_err' => '',
             ];
 
-            // Load view
+          
             $this->view('users/Customer/v_c_changepassword', $data);
         }
     }

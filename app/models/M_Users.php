@@ -37,7 +37,7 @@ class M_Users
             return false;
         }
 
-        // Check if user is inactive and customer
+        
         if ($row->status === 'inactive' && $row->user_type === 'customer') {
             return false;
         }
@@ -145,7 +145,7 @@ class M_Users
         $this->db->bind(':password', password_hash($new_password, PASSWORD_DEFAULT));
         $this->db->bind(':user_id', $user_id);
 
-        // Execute
+       
         return $this->db->execute();
     }
 
@@ -163,15 +163,16 @@ class M_Users
     }
     public function updateUser($data)
     {
-        $this->db->query('UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, phone_number = :phone_number, nic = :nic, birth_date = :birth_date, home_town = :home_town, address = :address, bio = :bio, category = :category, profile_pic = :profile_pic WHERE user_id = :user_id');
+        $this->db->query('UPDATE users SET first_name = :first_name, last_name = :last_name, email = :email, phone_number = :phone_number, nic = :nic, student_id = :student_id, birth_date = :birth_date, home_town = :home_town, address = :address, bio = :bio, category = :category, profile_pic = :profile_pic WHERE user_id = :user_id');
 
-        // Bind values
+        
         $this->db->bind(':user_id', $data['user_id']);
         $this->db->bind(':first_name', $data['first_name']);
         $this->db->bind(':last_name', $data['last_name']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':phone_number', $data['phone_number']);
         $this->db->bind(':nic', $data['nic']);
+        $this->db->bind(':student_id', $data['student_id']);       
         $this->db->bind(':birth_date', $data['birth_date']);
         $this->db->bind(':home_town', $data['home_town']);
         $this->db->bind(':address', $data['address']);
@@ -179,7 +180,7 @@ class M_Users
         $this->db->bind(':category', $data['category']);
         $this->db->bind(':profile_pic', $data['profile_pic']);
 
-        // Execute
+        
         return $this->db->execute();
     }
 }

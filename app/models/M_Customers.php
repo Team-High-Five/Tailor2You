@@ -384,7 +384,7 @@ class M_Customers
     try {
         $this->db->beginTransaction();
 
-        // Update user status to inactive
+        
         $this->db->query('UPDATE users SET status = :status 
                          WHERE user_id = :id AND user_type = "customer"');
         
@@ -393,13 +393,13 @@ class M_Customers
         
         $result = $this->db->execute();
 
-        // Cancel any active appointments
+       
         $this->db->query('UPDATE appointments SET status = "cancelled" 
                          WHERE customer_id = :id AND status IN ("pending", "accepted")');
         $this->db->bind(':id', $id);
         $this->db->execute();
 
-        // Cancel any active orders
+        
         $this->db->query('UPDATE orders SET status = "cancelled" 
                          WHERE customer_id = :id AND status NOT IN ("delivered", "cancelled")');
         $this->db->bind(':id', $id);
@@ -412,5 +412,13 @@ class M_Customers
         error_log("Error deactivating customer: " . $e->getMessage());
         return false;
     }
+    }
+
+    public function getmeasurementbyid($displayname)
+    {
+        $this->db->query('SELECT um.user_id,um.measurement_id,m.display_name,um.value_cm from measurements as m join user_measurements as um on um.measurement_id=m.measurement_id where m.display_name = :$displayname ');
+        $this->db->bind(':displayname', $displayname);
+        $row = $this->db->single();
+        return $row ? $row : false;
     }
 }

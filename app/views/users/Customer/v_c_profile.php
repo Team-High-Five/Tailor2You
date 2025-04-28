@@ -66,11 +66,18 @@
             <span class="error" id="nic_err"></span>
           </div>
           <div class="form-group">
+            <label for="student_id">Student ID</label>
+            <input type="text" id="student_id" name="student_id" value="<?php echo $data['user']->student_id; ?>" required>
+            <span class="error" id="student_id_err"></span>
+          </div>
+        </div>
+
+        <div class="form-group">
             <label for="birth_date">Birth Date</label>
             <input type="date" id="birth_date" name="birth_date" value="<?php echo $data['user']->birth_date; ?>" required>
             <span class="error" id="birth_date_err"></span>
-          </div>
         </div>
+        
 
         <div class="form-two-group">
           <div class="form-group">
@@ -94,7 +101,7 @@
   </div>
 </div>
 
-<!-- Confirmation Popup -->
+
 <div id="confirmationPopup" class="popup">
   <div class="popup-content">
     <div class="modal-header">
@@ -112,7 +119,7 @@
   </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
+
 <div id="deleteUserModal" class="modal">
   <div class="delete-modal-content">
     <div class="modal-header">
