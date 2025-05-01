@@ -13,7 +13,6 @@ class Pages extends Controller
     }
     public function index()
     {
-        // Fetch featured designs
         $featuredDesigns = $this->pageModel->getFeaturedDesigns(6);
 
         // Load the M_Reviews model

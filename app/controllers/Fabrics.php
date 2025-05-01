@@ -189,7 +189,7 @@ class Fabrics extends Controller
             $errors['color_err'] = 'Please select available colors';
         }
 
-        // Only check image for new fabrics (when fabric_id is not set)
+    
         if (!isset($data['fabric_id']) && empty($data['image'])) {
             $errors['image_err'] = 'Please upload an image';
         } elseif (!empty($data['image']) && strlen($data['image']) > 1048576) { // 1MB
