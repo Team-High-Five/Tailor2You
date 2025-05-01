@@ -104,6 +104,11 @@
                 <span class="error"><?php echo $data['bio_err']; ?></span>
             <?php endif; ?>
         </div>
+        <div class="form-group">
+                <label for="join_date">Join Date</label>
+                <input type="date" id="join_date" name="join_date" value="<?php echo $data['user']->join_date; ?>" readonly>
+            </div>
+      
 
         <div class="radio-group">
             <span class="title">Category:</span>

@@ -17,6 +17,7 @@
         <div class="followers">
             <div><?php echo $data['postCount']; ?><br>Posts</div>
             <div><?php echo $data['likeCount']; ?><br>Likes</div>
+            <div><?php echo $data['exp'] ; ?> yrs<br>Experience</div>
         </div>
         <?php if (isLoggedIn()): ?>
             <form action="<?php echo URLROOT; ?>/Pages/likeTailor/<?php echo $data['tailor']->user_id; ?>" method="post">

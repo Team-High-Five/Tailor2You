@@ -104,22 +104,15 @@
     <div class="no-results" style="display: none;">No fabrics match your filter criteria</div>
   </div>
 </div>
-
-<!-- Add New Fabric Modal -->
 <div id="fabricModal" class="modal">
   <div class="modal-body">
-    <!-- Content from v_s_add_new_fabric.php will be loaded here -->
   </div>
 </div>
 
-<!-- Edit Fabric Modal -->
 <div id="editFabricModal" class="modal">
   <div class="modal-body">
-    <!-- Content from v_s_edit_fabric.php will be loaded here -->
   </div>
 </div>
-
-<!-- Delete Confirmation Modal -->
 <div id="deleteFabricModal" class="modal">
   <div class="modal-body">
     <div class="delete-modal-content">
@@ -148,26 +141,16 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Open Add Fabric Modal
     document.getElementById('openFabricModalBtn').addEventListener('click', function() {
       const modal = document.getElementById('fabricModal');
-
-      // First display the modal
       modal.style.display = 'flex';
-
-      // Force browser reflow to enable transition
       void modal.offsetWidth;
-
-      // Then add the show class for animation
       modal.classList.add('show');
-
-      // Fetch the content
       fetch('<?php echo URLROOT; ?>/tailors/addNewFabric')
         .then(response => response.text())
         .then(html => {
           document.querySelector('#fabricModal .modal-body').innerHTML = html;
 
-          // After content is loaded, attach event handlers
           attachEventListeners('addFabricForm', 'post-preview', 'upload-photo');
         })
         .catch(error => {
@@ -175,26 +158,20 @@
         });
     });
 
-    // Edit Fabric Modal
     window.openEditFabricModal = function(fabricId) {
       const modal = document.getElementById('editFabricModal');
 
-      // First display the modal
       modal.style.display = 'flex';
 
-      // Force browser reflow to enable transition
       void modal.offsetWidth;
 
-      // Then add the show class for animation
       modal.classList.add('show');
 
-      // Fetch the content
       fetch('<?php echo URLROOT; ?>/tailors/editFabric/' + fabricId)
         .then(response => response.text())
         .then(html => {
           document.querySelector('#editFabricModal .modal-body').innerHTML = html;
 
-          // After content is loaded, attach event handlers
           attachEventListeners('editFabricForm', 'post-preview', 'upload-photo');
         })
         .catch(error => {
@@ -202,15 +179,12 @@
         });
     };
 
-    // Delete Fabric Modal
     window.confirmDelete = function(fabricId) {
       const modal = document.getElementById('deleteFabricModal');
 
-      // Set the form action
       document.getElementById('deleteFabricForm').action =
         '<?php echo URLROOT; ?>/tailors/deleteFabric/' + fabricId;
 
-      // Show the modal with animation
       modal.style.display = 'flex';
       void modal.offsetWidth;
       modal.classList.add('show');
@@ -225,14 +199,13 @@
       }, 300);
     };
 
-    // Generic function to attach event listeners to forms
     function attachEventListeners(formId, previewId, uploadId) {
       const form = document.getElementById(formId);
       const preview = document.getElementById(previewId);
       const upload = document.getElementById(uploadId);
 
       if (preview) {
-        // Find the wrapper div
+
         const wrapper = preview.closest('.post-pic-wrapper');
         if (wrapper && upload) {
           wrapper.addEventListener('click', function() {
@@ -251,11 +224,23 @@
               preview.classList.add('has-image');
             };
             reader.readAsDataURL(file);
-
-            // Image validation
+ 
             const errorElement = document.getElementById('image-error');
             if (errorElement) {
-              if (file.size > 1048576) { // 1MB
+
+              if(file.type !== 'image/jpeg' && file.type !== 'image/png'&& file.type !== 'image/jpg') { 
+                errorElement.textContent = 'Only JPEG and PNG formats are allowed';
+                errorElement.classList.add('show');
+              }
+              else if(file === null) {
+                errorElement.textContent = 'Please select an image';
+                errorElement.classList.add('show');
+              }
+              else if (file.size < 1024) { // 1KB
+                errorElement.textContent = 'Image size cannot be less than 1KB';
+                errorElement.classList.add('show');
+              }
+              else if (file.size > 1048576) { // 1MB
                 errorElement.textContent = 'Image size cannot exceed 1MB';
                 errorElement.classList.add('show');
               } else {

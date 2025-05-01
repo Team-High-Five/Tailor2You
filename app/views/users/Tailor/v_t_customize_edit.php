@@ -25,8 +25,6 @@
         <form action="<?php echo URLROOT; ?>/designs/editDesign/<?php echo $data['design']->design_id; ?>" method="post" enctype="multipart/form-data">
             <div class="form-section">
                 <h2>Basic Details</h2>
-
-                <!-- Gender Selection -->
                 <div class="form-group">
                     <label>Gender</label>
                     <div class="radio-group">
@@ -46,8 +44,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Category Selection -->
                 <div class="form-group">
                     <label for="category">Category</label>
                     <select id="category" name="category_id" required>
@@ -62,7 +58,6 @@
                     </select>
                 </div>
 
-                <!-- Subcategory Selection -->
                 <div class="form-group">
                     <label for="sub-category">Sub Category</label>
                     <select id="sub-category" name="subcategory_id">
@@ -76,25 +71,21 @@
                     </select>
                 </div>
 
-                <!-- Design Name -->
                 <div class="form-group">
                     <label for="design_name">Design Name</label>
                     <input type="text" id="design_name" name="design_name" value="<?php echo $data['design']->name; ?>" required>
                 </div>
 
-                <!-- Design Description -->
                 <div class="form-group">
                     <label for="description">Description</label>
                     <textarea id="description" name="description" rows="4"><?php echo $data['design']->description; ?></textarea>
                 </div>
 
-                <!-- Base Price -->
                 <div class="form-group">
                     <label for="base_price">Base Price (Rs)</label>
                     <input type="number" id="base_price" name="base_price" min="0" step="0.01" value="<?php echo $data['design']->base_price; ?>" required>
                 </div>
 
-                <!-- Status -->
                 <div class="form-group">
                     <label>Status</label>
                     <div class="radio-group">
@@ -135,7 +126,6 @@
                 </div>
             </div>
 
-            <!-- Customization Options Section -->
             <div class="form-section">
                 <h2>Customization Options</h2>
                 <?php if (!empty($data['customization_types'])): ?>
@@ -204,7 +194,7 @@
                     <p class="no-customizations">No customization types available for this category</p>
                 <?php endif; ?>
             </div>
-            <!-- Fabrics Section -->
+   
             <div class="form-section">
                 <h2>Available Fabrics</h2>
 
@@ -247,7 +237,7 @@
                     <p class="no-fabrics">No fabrics available. <a href="<?php echo URLROOT; ?>/fabrics/add">Add fabrics</a> first.</p>
                 <?php endif; ?>
             </div>
-            <!-- Measurements Section -->
+  
             <div class="form-section">
                 <h2>Required Measurements</h2>
                 <p class="measurements-info">Select which measurements you need for this design. These will be requested from customers during ordering.</p>

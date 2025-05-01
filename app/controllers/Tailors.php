@@ -63,7 +63,6 @@ class Tailors extends Controller
             $salesValues[] = 0;
         }
 
-        // Fill in the actual data
         foreach ($monthlySalesData as $data) {
             // Month is 1-indexed, array is 0-indexed
             $salesValues[$data->month - 1] = (int)$data->monthly_sales;
@@ -122,24 +121,18 @@ class Tailors extends Controller
 
     public function profileUpdate()
     {
-        // Check if the user is logged in
         if (!isset($_SESSION['user_id']) || ($_SESSION['user_type'] !== 'tailor' && $_SESSION['user_type'] !== 'shopkeeper')) {
             redirect('users/login');
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Process form
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-            // Handle file upload
             $tailor = $this->userModel->getUserById($_SESSION['user_id']);
             $profilePic = $tailor->profile_pic;
 
             if (isset($_FILES['profile_pic']) && $_FILES['profile_pic']['error'] == 0) {
                 $profilePic = file_get_contents($_FILES['profile_pic']['tmp_name']);
             }
-
-            // Get tailor details
             $tailor = $this->userModel->getUserById($_SESSION['user_id']);
 
             $data = [
@@ -156,6 +149,7 @@ class Tailors extends Controller
                 'bio' => trim($_POST['bio']),
                 'category' => trim($_POST['category']),
                 'profile_pic' => $profilePic,
+                'join_date' => trim($_POST['join_date']),
                 'user' => $tailor,
                 'first_name_err' => '',
                 'last_name_err' => '',
@@ -213,7 +207,8 @@ class Tailors extends Controller
                 'address_err' => '',
                 'bio_err' => '',
                 'category_err' => '',
-                'profile_pic_err' => ''
+                'profile_pic_err' => '',
+                'join_date'=>''
             ];
 
             $this->view('users/Tailor/v_t_profile', $data);
@@ -764,11 +759,8 @@ class Tailors extends Controller
     public function tailorRegister()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Process form
-            // Sanitize post data
+            
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-            // Input data
             $data = [
                 'user_type' => 'tailor',
                 'first_name' => trim($_POST['first_name']),
@@ -779,6 +771,7 @@ class Tailors extends Controller
                 'birth_date' => trim($_POST['birth_date']),
                 'home_town' => trim($_POST['home_town']),
                 'address' => trim($_POST['address']),
+                'join_date' => trim($_POST['join_date']),
                 'first_name_err' => '',
                 'last_name_err' => '',
                 'email_err' => '',
@@ -786,64 +779,48 @@ class Tailors extends Controller
                 'nic_err' => '',
                 'birth_date_err' => '',
                 'home_town_err' => '',
-                'address_err' => ''
+                'address_err' => '',
+                'date_join_err'=>''
             ];
 
-            // Validate inputs
-            // Validate email
+          
             if (empty($data['email'])) {
                 $data['email_err'] = 'Please enter email';
             } else {
-                // Check email
                 if ($this->userModel->findUserByEmail($data['email'])) {
                     $data['email_err'] = 'Email is already taken';
                 }
             }
-
-            // Validate first name
             if (empty($data['first_name'])) {
                 $data['first_name_err'] = 'Please enter first name';
             }
-
-            // Validate last name
             if (empty($data['last_name'])) {
                 $data['last_name_err'] = 'Please enter last name';
             }
-
-            // Validate phone number
             if (empty($data['phone_number'])) {
                 $data['phone_number_err'] = 'Please enter phone number';
             }
-
-            // Validate NIC
             if (empty($data['nic'])) {
                 $data['nic_err'] = 'Please enter NIC number';
             }
 
-            // Validate birth date
             if (empty($data['birth_date'])) {
                 $data['birth_date_err'] = 'Please enter birth date';
             }
 
-            // Validate home town
             if (empty($data['home_town'])) {
                 $data['home_town_err'] = 'Please enter home town';
             }
 
-            // Validate address
             if (empty($data['address'])) {
                 $data['address_err'] = 'Please enter address';
             }
 
-            // Make sure errors are empty
             if (empty($data['email_err']) && empty($data['first_name_err']) && empty($data['last_name_err']) && empty($data['phone_number_err']) && empty($data['nic_err']) && empty($data['birth_date_err']) && empty($data['home_town_err']) && empty($data['address_err'])) {
-                // Store validated data in session
                 $_SESSION['tailor_register_data'] = $data;
-
-                // Redirect to create password page
                 redirect('tailors/createPassword');
             } else {
-                // Load view with errors
+
                 $this->view('users/Tailor/v_t_register', $data);
             }
         } else {
@@ -864,7 +841,8 @@ class Tailors extends Controller
                 'nic_err' => '',
                 'birth_date_err' => '',
                 'home_town_err' => '',
-                'address_err' => ''
+                'address_err' => '',
+                'join_date'=>'',
             ];
 
             // Load view
@@ -875,26 +853,20 @@ class Tailors extends Controller
     public function createPassword()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Process form
-            // Sanitize post data
+           
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            // Input data
             $data = [
                 'password' => trim($_POST['password']),
                 'confirm_password' => trim($_POST['confirm_password']),
                 'password_err' => '',
                 'confirm_password_err' => ''
             ];
-
-            // Validate password
             if (empty($data['password'])) {
                 $data['password_err'] = 'Please enter password';
             } elseif (strlen($data['password']) < 6) {
                 $data['password_err'] = 'Password must be at least 6 characters';
             }
-
-            // Validate confirm password
             if (empty($data['confirm_password'])) {
                 $data['confirm_password_err'] = 'Please confirm password';
             } else {
@@ -903,16 +875,12 @@ class Tailors extends Controller
                 }
             }
 
-            // Make sure errors are empty
             if (empty($data['password_err']) && empty($data['confirm_password_err'])) {
-                // Hash password
+
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
-                // Get the rest of the data from the session
                 $tailorData = $_SESSION['tailor_register_data'];
                 $tailorData['password'] = $data['password'];
-
-                // Register tailor
                 if ($this->userModel->register($tailorData)) {
                     flash('register_success', 'You are registered and can log in');
                     redirect('users/login');
@@ -920,11 +888,9 @@ class Tailors extends Controller
                     die('Something went wrong');
                 }
             } else {
-                // Load view with errors
                 $this->view('users/Tailor/v_t_createpassword', $data);
             }
         } else {
-            // Init data
             $data = [
                 'password' => '',
                 'confirm_password' => '',
@@ -932,7 +898,6 @@ class Tailors extends Controller
                 'confirm_password_err' => ''
             ];
 
-            // Load view
             $this->view('users/Tailor/v_t_createpassword', $data);
         }
     }

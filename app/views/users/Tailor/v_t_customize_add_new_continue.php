@@ -8,18 +8,14 @@
         <input type="hidden" name="subcategory_id" value="<?php echo $data['subcategory']->subcategory_id; ?>">
         <input type="hidden" name="design_name" value="<?php echo $data['design_data']['design_name']; ?>">
         <input type="hidden" name="base_price" value="<?php echo $data['design_data']['base_price']; ?>">
-
-        <!-- Tab Navigation -->
         <div class="design-tabs">
             <button type="button" class="tab-btn active" data-tab="basic-info">Basic Information</button>
             <button type="button" class="tab-btn" data-tab="customizations">Customization Options</button>
             <button type="button" class="tab-btn" data-tab="fabrics">Fabric Selection</button>
             <button type="button" class="tab-btn" data-tab="measurements">Required Measurements</button>
         </div>
-
-        <!-- Tab Content -->
         <div class="tab-content">
-            <!-- Basic Information Tab -->
+      
             <div class="tab-pane active" id="basic-info">
                 <div class="top-row">
                     <div class="category-section">
@@ -49,13 +45,9 @@
                     <button type="button" class="next-tab" data-next="customizations">Next: Customization Options</button>
                 </div>
             </div>
-
-            <!-- Customization Options Tab -->
             <div class="tab-pane" id="customizations">
                 <h2>Optional Customizations</h2>
                 <p class="options-info">You can leave customizations empty or add details for any options you offer.</p>
-
-                <!-- Add this hidden template that will be used by JavaScript -->
                 <div id="choice-template" style="display: none;">
                     <div class="choice-item">
                         <div class="choice-image-container">
@@ -78,7 +70,6 @@
                             </div>
                             <div class="accordion-content">
                                 <div class="customization-choices" data-type="<?php echo $type->type_id; ?>">
-                                    <!-- Empty div to start with no options -->
                                 </div>
                                 <button type="button" class="add-choice" data-type="<?php echo $type->type_id; ?>">+ Add Option</button>
                             </div>
@@ -91,8 +82,6 @@
                     <button type="button" class="next-tab" data-next="fabrics">Next: Fabric Selection</button>
                 </div>
             </div>
-
-            <!-- Fabrics Tab -->
             <div class="tab-pane" id="fabrics">
                 <h2>Available Fabrics</h2>
                 <p>Select the fabrics that can be used with this design.</p>
@@ -126,8 +115,6 @@
                     <button type="button" class="next-tab" data-next="measurements">Next: Required Measurements</button>
                 </div>
             </div>
-
-            <!-- Measurements Tab -->
             <div class="tab-pane" id="measurements">
                 <h2>Required Measurements</h2>
                 <p class="measurements-info">Select which measurements you need for this design. These will be requested from customers during ordering.</p>
@@ -177,7 +164,6 @@
                     <p>Add any custom measurements you need for this design</p>
 
                     <div id="custom-measurements-container">
-                        <!-- Will be populated by JavaScript -->
                     </div>
 
                     <button type="button" id="add-custom-measurement" class="add-item-btn">
@@ -218,25 +204,21 @@
     }
 </style>
 
-<!-- Add Tab Navigation JavaScript -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Tab switching functionality
+    
         const tabButtons = document.querySelectorAll('.tab-btn');
         const tabPanes = document.querySelectorAll('.tab-pane');
         const nextButtons = document.querySelectorAll('.next-tab');
         const prevButtons = document.querySelectorAll('.prev-tab');
 
-        // Tab button click handler
         tabButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const tabId = this.getAttribute('data-tab');
 
-                // Update active tab button
                 tabButtons.forEach(btn => btn.classList.remove('active'));
                 this.classList.add('active');
 
-                // Show selected tab content
                 tabPanes.forEach(pane => {
                     pane.classList.remove('active');
                     if (pane.id === tabId) {
@@ -245,8 +227,6 @@
                 });
             });
         });
-
-        // Next button click handler
         nextButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const nextTabId = this.getAttribute('data-next');

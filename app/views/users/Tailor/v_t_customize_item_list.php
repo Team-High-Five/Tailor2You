@@ -16,7 +16,6 @@
 
   <button class="btn-primary add-post-btn" id="openModalBtn">Add New Design</button>
 
-  <!-- Add vertical space between button and filter bar -->
   <div style="margin: 20px 0;"></div>
 
   <div class="filter-bar">
@@ -93,34 +92,30 @@
     });
   </script>
 </div>
-
-<!-- Modal Structure -->
+]
 <div id="customizeModal" class="modal">
 
   <div id="modal-body">
-    <!-- Content from v_t_customize_add_new.php will be loaded here -->
   </div>
 </div>
 <script>
   document.getElementById('openModalBtn').addEventListener('click', function() {
     const modal = document.getElementById('customizeModal');
-    // Load the content of v_t_customize_add_new.php into the modal
     fetch('<?php echo URLROOT; ?>/designs/addCustomizeItem')
       .then(response => response.text())
       .then(html => {
         document.getElementById('modal-body').innerHTML = html;
-        // Add the show class AFTER content is loaded
+
         modal.classList.add('show');
         setupFormHandlers();
 
-        // Add event listener to the close button AFTER it exists in DOM
         const closeBtn = modal.querySelector('.close-btn');
         if (closeBtn) {
           closeBtn.addEventListener('click', function() {
             modal.classList.remove('show');
             setTimeout(() => {
               modal.style.display = 'none';
-            }, 300); // Match transition time
+            }, 300);
           });
         }
       });
@@ -136,21 +131,16 @@
       return;
     }
 
-    // Store original categories for filtering
     const originalCategories = [...categorySelect.options].slice(1);
-
-    // Handle gender selection
     genderInputs.forEach(input => {
       input.addEventListener('change', function() {
         const selectedGender = this.value;
-        // Filter categories based on gender
         categorySelect.innerHTML = '<option value="">Select Category</option>';
         originalCategories.forEach(option => {
           if (option.dataset.gender === selectedGender || option.dataset.gender === 'unisex') {
             categorySelect.appendChild(option.cloneNode(true));
           }
         });
-        // Reset subcategories
         subCategorySelect.innerHTML = '<option value="">Select Sub Category</option>';
       });
     });
@@ -160,7 +150,6 @@
       console.log('Selected category ID:', categoryId);
 
       if (categoryId) {
-        // Load subcategories
         fetch('<?php echo URLROOT; ?>/designs/getSubcategories/' + categoryId)
           .then(response => response.text())
           .then(html => {

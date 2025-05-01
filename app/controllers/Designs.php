@@ -62,7 +62,6 @@ class Designs extends Controller
     {
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Sanitize POST data
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $data = [
@@ -74,8 +73,6 @@ class Designs extends Controller
                 'base_price' => trim($_POST['base_price']),
                 'errors' => []
             ];
-
-            // Validate inputs
             if (empty($data['gender'])) {
                 $data['errors']['gender'] = 'Please select gender';
             }
@@ -92,12 +89,10 @@ class Designs extends Controller
                 $data['errors']['base_price'] = 'Please enter base price';
             }
 
-            // If no errors, proceed to next step
             if (empty($data['errors'])) {
                 $_SESSION['design_data'] = $data;
                 redirect('designs/customizeDesign');
             } else {
-                // Load view with errors
                 $data['categories'] = $this->designModel->getCategories();
                 $this->view('users/Tailor/v_t_customize_add_new', $data);
             }
@@ -107,24 +102,19 @@ class Designs extends Controller
     }
     public function customizeDesign()
     {
-        // Check if the user is logged in
         if (!isLoggedIn()) {
             $_SESSION['redirect_url'] = 'designs/customizeDesign';
             redirect('users/login');
             exit();
         }
 
-        // Check if design data is set in session
         if (!isset($_SESSION['design_data'])) {
-            // Redirect back or show an error
             flash('design_error', 'Design details not found. Please start again.', 'alert alert-danger');
-            redirect('designs/addCustomizeItem'); 
-            return; 
+            redirect('designs/addCustomizeItem');
+            return;
         }
 
         $design_data = $_SESSION['design_data'];
-
-        // Validate category ID exists in design_data
         if (!isset($design_data['category_id']) || !is_numeric($design_data['category_id'])) {
             flash('design_error', 'Invalid category selection. Please start again.', 'alert alert-danger');
             redirect('designs/addCustomizeItem');
@@ -136,13 +126,9 @@ class Designs extends Controller
         $customization_types = $this->designModel->getCustomizationTypesByCategoryId($categoryId);
 
         $category_measurements = $this->designModel->getCategoryMeasurements($categoryId);
-
-        // Log if no customization types are found for the category
         if (empty($customization_types)) {
             error_log("No specific customization types found for category ID: " . $categoryId . ". Consider adding associations or a fallback.");
         }
-
-        // Try to get user-specific fabrics (or general)
         $fabrics = $this->designModel->getFabricsByUserId($_SESSION['user_id']);
         if (empty($fabrics)) {
             error_log("No user-specific fabrics found for user ID: " . $_SESSION['user_id'] . ", using general fabrics");
@@ -156,7 +142,7 @@ class Designs extends Controller
             'subcategory' => $subcategory,
             'customization_types' => $customization_types,
             'fabrics' => $fabrics,
-            'category_measurements' => $category_measurements 
+            'category_measurements' => $category_measurements
         ];
 
         $this->view('users/Tailor/v_t_customize_add_new_continue', $data);
@@ -164,23 +150,17 @@ class Designs extends Controller
     public function saveDesign()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Check if user is logged in
             if (!isLoggedIn()) {
                 redirect('users/login');
                 return;
             }
-
-            // Load FileUploader helper
             require_once APPROOT . '/helpers/FileUploader.php';
-
-            // Retrieve design data from session
             if (!isset($_SESSION['design_data'])) {
                 redirect('designs/addCustomizeItem');
                 return;
             }
             $design_data = $_SESSION['design_data'];
 
-            // Handle main design image upload
             $main_image = FileUploader::uploadImage(
                 $_FILES['main_image'],
                 'designs',
@@ -200,11 +180,9 @@ class Designs extends Controller
                 return;
             }
 
-            // Begin database transaction
             $this->designModel->beginTransaction();
 
             try {
-                // Create design data array
                 $designData = [
                     'user_id' => $_SESSION['user_id'],
                     'gender' => $design_data['gender'],
@@ -212,31 +190,27 @@ class Designs extends Controller
                     'subcategory_id' => $design_data['subcategory_id'],
                     'name' => $design_data['design_name'],
                     'description' => trim($_POST['description'] ?? ''),
-                    'main_image' => $main_image, 
+                    'main_image' => $main_image,
                     'base_price' => $design_data['base_price']
                 ];
 
-                // Add design to database
                 $designId = $this->designModel->addDesign($designData);
 
                 if (!$designId) {
                     throw new Exception("Failed to add design to database");
                 }
 
-                // Process customization choices
                 if (isset($_POST['choice_name'])) {
                     foreach ($_POST['choice_name'] as $type_id => $names) {
                         foreach ($names as $index => $name) {
                             if (empty($name)) continue;
 
-                            // Check if image exists for this choice
                             if (
                                 !isset($_FILES['choice_image']['name'][$type_id][$index]) ||
                                 empty($_FILES['choice_image']['name'][$type_id][$index])
                             ) {
                                 continue;
                             }
-                            // Setup file data for this choice
                             $fileData = [
                                 'name' => $_FILES['choice_image']['name'][$type_id][$index],
                                 'type' => $_FILES['choice_image']['type'][$type_id][$index],
@@ -244,7 +218,6 @@ class Designs extends Controller
                                 'error' => $_FILES['choice_image']['error'][$type_id][$index],
                                 'size' => $_FILES['choice_image']['size'][$type_id][$index]
                             ];
-                            // Upload choice image
                             $choiceImage = FileUploader::uploadImage(
                                 $fileData,
                                 'customizations',
@@ -253,11 +226,9 @@ class Designs extends Controller
                             if (!$choiceImage) {
                                 throw new Exception("Failed to upload image for customization option");
                             }
-                            // Get additional price
                             $price = !empty($_POST['choice_price'][$type_id][$index])
                                 ? floatval($_POST['choice_price'][$type_id][$index])
                                 : 0;
-                            // Add the customization choice
                             $choiceData = [
                                 'design_id' => $designId,
                                 'type_id' => $type_id,
@@ -272,7 +243,6 @@ class Designs extends Controller
                         }
                     }
                 }
-                // Process selected fabrics
                 if (isset($_POST['fabrics']) && is_array($_POST['fabrics'])) {
                     foreach ($_POST['fabrics'] as $fabricId) {
                         $priceAdjustment = !empty($_POST['fabric_price'][$fabricId])
@@ -290,15 +260,12 @@ class Designs extends Controller
                         }
                     }
                 }
-                // Process measurements
                 if (isset($_POST['measurements']) && is_array($_POST['measurements'])) {
                     $measurementRequired = $_POST['measurement_required'] ?? [];
                     if (!$this->designModel->addDesignMeasurements($designId, $_POST['measurements'], $measurementRequired)) {
                         throw new Exception("Failed to save design measurements");
                     }
                 }
-
-                // Process custom measurements
                 if (isset($_POST['custom_name']) && is_array($_POST['custom_name'])) {
                     foreach ($_POST['custom_name'] as $index => $name) {
                         if (empty($name)) continue;
@@ -317,18 +284,14 @@ class Designs extends Controller
                         }
                     }
                 }
-
-                // Commit transaction
                 $this->designModel->commitTransaction();
 
                 unset($_SESSION['design_data']);
                 flash('design_success', 'Design has been successfully saved!', 'alert alert-success');
                 redirect('Tailors/displayCustomizeItems');
             } catch (Exception $e) {
-                // Rollback transaction on error
                 $this->designModel->rollbackTransaction();
                 error_log('Error in saveDesign: ' . $e->getMessage());
-                // Show error to user
                 $data = [
                     'design_data' => $design_data,
                     'category' => $this->designModel->getCategoryById($design_data['category_id']),
@@ -351,11 +314,9 @@ class Designs extends Controller
         }
 
         if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($id)) {
-            // Check if the design belongs to the current user
             $design = $this->designModel->getDesignById($id);
 
             if ($design && $design->user_id == $_SESSION['user_id']) {
-                // Delete the design
                 if ($this->designModel->deleteDesign($id)) {
                     flash('design_message', 'Design removed successfully');
                 } else {
@@ -421,10 +382,7 @@ class Designs extends Controller
             if (empty($data['base_price'])) {
                 $data['errors']['base_price'] = 'Please enter base price';
             }
-
-            // Check if a new image was uploaded
             if (!empty($_FILES['main_image']['name'])) {
-                // Upload new image
                 $newImage = FileUploader::uploadImage(
                     $_FILES['main_image'],
                     'designs',
@@ -435,8 +393,6 @@ class Designs extends Controller
                     $data['errors']['main_image'] = 'Failed to upload image. Please try a different file.';
                 } else {
                     $data['main_image'] = $newImage;
-
-                    // Delete old image if it exists
                     $oldImage = $this->designModel->getDesignById($id)->main_image;
                     if (!empty($oldImage)) {
                         $oldImagePath = ROOTPATH . '/public/img/uploads/designs/' . $oldImage;
@@ -449,7 +405,6 @@ class Designs extends Controller
             if (empty($data['errors'])) {
                 $this->designModel->beginTransaction();
                 try {
-                    // Update basic design info
                     if (!$this->designModel->updateDesign($data)) {
                         throw new Exception("Failed to update design basic information");
                     }
@@ -459,23 +414,17 @@ class Designs extends Controller
                     } else {
                         $this->designModel->removeAllCustomizationChoices($id);
                     }
-
-                    // Process customization choices
                     if (isset($_POST['choice_name'])) {
                         foreach ($_POST['choice_name'] as $type_id => $names) {
                             foreach ($names as $index => $name) {
-                                // Skip empty names
                                 if (empty($name)) continue;
 
-                                // Check if image exists for this choice
                                 if (
                                     !isset($_FILES['choice_image']['name'][$type_id][$index]) ||
                                     empty($_FILES['choice_image']['name'][$type_id][$index])
                                 ) {
                                     continue;
                                 }
-
-                                // Setup file data for this choice
                                 $fileData = [
                                     'name' => $_FILES['choice_image']['name'][$type_id][$index],
                                     'type' => $_FILES['choice_image']['type'][$type_id][$index],
@@ -483,8 +432,6 @@ class Designs extends Controller
                                     'error' => $_FILES['choice_image']['error'][$type_id][$index],
                                     'size' => $_FILES['choice_image']['size'][$type_id][$index]
                                 ];
-
-                                // Upload choice image
                                 $choiceImage = FileUploader::uploadImage(
                                     $fileData,
                                     'customizations',
@@ -494,13 +441,9 @@ class Designs extends Controller
                                 if (!$choiceImage) {
                                     throw new Exception("Failed to upload image for customization option");
                                 }
-
-                                // Get additional price
                                 $price = !empty($_POST['choice_price'][$type_id][$index])
                                     ? floatval($_POST['choice_price'][$type_id][$index])
                                     : 0;
-
-                                // Add the customization choice
                                 $choiceData = [
                                     'design_id' => $id,
                                     'type_id' => $type_id,
@@ -515,7 +458,6 @@ class Designs extends Controller
                             }
                         }
                     }
-                    // Process selected fabrics
                     $this->designModel->removeAllDesignFabrics($id);
 
                     if (isset($_POST['fabrics']) && is_array($_POST['fabrics'])) {
@@ -535,8 +477,6 @@ class Designs extends Controller
                             }
                         }
                     }
-
-                    // Process measurements
                     $this->designModel->removeAllDesignMeasurements($id);
                     if (isset($_POST['measurements']) && is_array($_POST['measurements'])) {
                         $measurementRequired = $_POST['measurement_required'] ?? [];
@@ -547,7 +487,6 @@ class Designs extends Controller
                     if (isset($_POST['custom_measurement_id']) && is_array($_POST['custom_measurement_id'])) {
                         $existingIds = $_POST['custom_measurement_id'];
                         for ($i = 0; $i < count($existingIds); $i++) {
-                            // Skip if no ID (shouldn't happen)
                             if (empty($existingIds[$i])) continue;
 
                             $customMeasurementData = [

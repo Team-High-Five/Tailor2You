@@ -13,16 +13,10 @@ class Pages extends Controller
     }
     public function index()
     {
-        // Fetch featured designs
         $featuredDesigns = $this->pageModel->getFeaturedDesigns(6);
-
-        // Load the M_Reviews model
         $reviewModel = $this->model('M_Reviews');
-
-        // Fetch the latest accepted reviews (limit to 5 or any number you prefer)
         $reviews = $reviewModel->getLatestReviews(5);
 
-        // Pass both designs and reviews to the view
         $data = [
             'title' => 'Home Page',
             'designs' => $featuredDesigns,
@@ -83,7 +77,7 @@ class Pages extends Controller
 
     public function womenSkirtCategories()
     {
-        $_SESSION['redirect_url'] ='pages/womenSkirtCategories';
+        $_SESSION['redirect_url'] = 'pages/womenSkirtCategories';
         $category_id = $this->pageModel->getCategoryByName('Skirt');
         $featuredDesigns = $this->pageModel->getDesignsByCategory($category_id);
         $data = [
@@ -155,7 +149,7 @@ class Pages extends Controller
 
     public function genderSel()
     {
-        $_SESSION['redirect_url'] ='pages/genderSel';
+        $_SESSION['redirect_url'] = 'pages/genderSel';
         $users = $this->pageModel->getUsers();
         $data = [
             'users' => $users
@@ -168,7 +162,6 @@ class Pages extends Controller
     {
         $sellers = $this->pageModel->getAllSellers();
 
-        // Add like counts and like status for each seller
         foreach ($sellers as $seller) {
             $seller->likeCount = $this->pageModel->getLikeCountByUserId($seller->user_id);
             $seller->hasLiked = false;
@@ -184,39 +177,29 @@ class Pages extends Controller
     }
     public function tailorProfile($id = null)
     {
-        // If no ID is provided, redirect to the tailor list page
         if ($id === null) {
             redirect('pages/tailorPage');
         }
 
-        // Get specific tailor data by ID
         $tailor = $this->pageModel->getSellerById($id);
 
-        // If tailor doesn't exist, redirect to 404 page
         if (!$tailor) {
             redirect('pages/notFound');
         }
-
-        // Get tailor's posts count
         $postCount = $this->pageModel->getPostCountByUserId($id);
 
-        // Get tailor's likes count
         $likeCount = $this->pageModel->getLikeCountByUserId($id);
-
-        // Get tailor's posts for display
+        $join_date=date('Y', strtotime($tailor->join_date));
+        $current_date = date('Y');
+        $exp = $current_date- $join_date;
         $posts = $this->pageModel->getPostsByUserId($id);
-
-        // Get tailor's designs for display
         $designs = $this->pageModel->getDesignsByUserId($id);
         $posts = $this->pageModel->getPostsByUserId($id);
-
-        // Get posts that the logged-in user has liked
         $likedPosts = [];
         if (isLoggedIn()) {
             $likedPosts = $this->pageModel->getLikedPostsByUser($_SESSION['user_id']);
         }
 
-        // Check if logged-in user has liked this tailor
         $hasLiked = false;
         if (isLoggedIn()) {
             $hasLiked = $this->pageModel->hasUserLikedTailor($_SESSION['user_id'], $id);
@@ -229,7 +212,8 @@ class Pages extends Controller
             'posts' => $posts,
             'designs' => $designs,
             'hasLiked' => $hasLiked,
-            'liked_posts' => $likedPosts
+            'liked_posts' => $likedPosts,
+            'exp'=>$exp
         ];
 
 
@@ -294,5 +278,4 @@ class Pages extends Controller
         // Redirect back to the tailor's profile page
         redirect('pages/tailorProfile/' . $post->user_id);
     }
-    
 }

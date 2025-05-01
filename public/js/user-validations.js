@@ -21,7 +21,7 @@ function validateField(field) {
     const fieldName = field.name;
     const value = field.value.trim();
     let errorMessage = '';
-
+    const today = new Date();
     switch (fieldName) {
         case 'first_name':
             if (value === '') {
@@ -52,7 +52,7 @@ function validateField(field) {
             }
             break;
         case 'birth_date':
-            const today = new Date();
+            
             const minDate = new Date('1900-01-01');
             const maxDate = new Date(today.getFullYear() - 12, today.getMonth(), today.getDate());
             const birthDate = new Date(value);
@@ -68,6 +68,11 @@ function validateField(field) {
         case 'address':
             if (value === '') {
                 errorMessage = 'Address is required';
+            }
+            break;
+        case 'join_date':
+            if (join_date>today) {
+                errorMessage = `Join date must be before today`;
             }
             break;
     }

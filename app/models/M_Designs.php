@@ -30,8 +30,6 @@ class M_Designs
     public function getCategoriesWithSubcategories()
     {
         $categories = $this->getCategories();
-
-        // Attach subcategories to each category
         foreach ($categories as $category) {
             $this->db->query('SELECT * FROM clothing_subcategories WHERE category_id = :category_id ORDER BY name');
             $this->db->bind(':category_id', $category->category_id);
@@ -75,7 +73,7 @@ class M_Designs
             return $results;
         } catch (Exception $e) {
             error_log("Error in getCustomizationTypesByCategoryId: " . $e->getMessage());
-            return []; // Return empty array on error
+            return [];
         }
     }
 
@@ -100,7 +98,6 @@ class M_Designs
 
     public function addDesignCustomizationChoice($data)
     {
-        // First insert the customization choice
         $this->db->query('
             INSERT INTO customization_choices (type_id, name, image, price_adjustment)
             VALUES (:type_id, :name, :image, :price_adjustment)
@@ -114,11 +111,7 @@ class M_Designs
         if (!$this->db->execute()) {
             return false;
         }
-
-        // Get the last inserted choice ID
         $choiceId = $this->db->lastInsertId();
-
-        // Now link this choice to the design
         $this->db->query('
             INSERT INTO design_customizations (design_id, choice_id)
             VALUES (:design_id, :choice_id)
@@ -129,13 +122,6 @@ class M_Designs
 
         return $this->db->execute();
     }
-
-    /**
-     * Associate a fabric with a design
-     *
-     * @param array $data Design fabric data
-     * @return bool Success/failure
-     */
     public function addDesignFabric($data)
     {
         $this->db->query('
@@ -160,7 +146,7 @@ class M_Designs
         $this->db->bind(':gender', $data['gender']);
         $this->db->bind(':category_id', $data['category_id']);
         $this->db->bind(':subcategory_id', $data['subcategory_id']);
-        $this->db->bind(':name', $data['name']); // This should be design_name in the data array
+        $this->db->bind(':name', $data['name']);
         $this->db->bind(':description', $data['description']);
         $this->db->bind(':main_image', $data['main_image']);
         $this->db->bind(':base_price', $data['base_price']);
@@ -264,9 +250,7 @@ class M_Designs
 
         return $this->db->execute();
     }
-    /**
-     * Get all customization choices for a design
-     */
+
     public function getDesignCustomizationChoices($designId)
     {
         $this->db->query('
@@ -280,9 +264,6 @@ class M_Designs
         return $this->db->resultSet();
     }
 
-    /**
-     * Get all fabrics associated with a design
-     */
     public function getDesignFabrics($designId)
     {
         $this->db->query('
@@ -295,9 +276,6 @@ class M_Designs
         return $this->db->resultSet();
     }
 
-    /**
-     * Remove customization choices that were not selected during edit
-     */
     public function removeUnselectedCustomizationChoices($designId, $choiceIds)
     {
         // Convert to a comma-separated string of IDs for the query
@@ -312,9 +290,6 @@ class M_Designs
         return $this->db->execute();
     }
 
-    /**
-     * Remove all customization choices for a design
-     */
     public function removeAllCustomizationChoices($designId)
     {
         $this->db->query('
@@ -325,9 +300,6 @@ class M_Designs
         return $this->db->execute();
     }
 
-    /**
-     * Remove all fabric associations for a design
-     */
     public function removeAllDesignFabrics($designId)
     {
         $this->db->query('
@@ -339,9 +311,6 @@ class M_Designs
     }
 
 
-    /**
-     * Get measurements associated with a specific category
-     */
     public function getCategoryMeasurements($categoryId)
     {
         $this->db->query('
@@ -355,9 +324,6 @@ class M_Designs
         return $this->db->resultSet();
     }
 
-    /**
-     * Add design measurements when saving a design
-     */
     public function addDesignMeasurements($designId, $measurementIds, $isRequired = array())
     {
         foreach ($measurementIds as $measurementId) {
@@ -380,9 +346,7 @@ class M_Designs
         return true;
     }
 
-    /**
-     * Add custom measurements for a design
-     */
+  
     public function addCustomDesignMeasurement($data)
     {
         $this->db->query('
@@ -413,9 +377,6 @@ class M_Designs
         return $this->db->resultSet();
     }
 
-    /**
-     * Get custom design measurements
-     */
     public function getCustomDesignMeasurements($designId)
     {
         $this->db->query('
@@ -428,9 +389,6 @@ class M_Designs
         return $this->db->resultSet();
     }
 
-    /**
-     * Remove all design measurements
-     */
     public function removeAllDesignMeasurements($designId)
     {
         $this->db->query('
@@ -441,9 +399,6 @@ class M_Designs
         return $this->db->execute();
     }
 
-    /**
-     * Remove all custom design measurements
-     */
     public function removeAllCustomDesignMeasurements($designId)
     {
         $this->db->query('
@@ -453,10 +408,6 @@ class M_Designs
         $this->db->bind(':design_id', $designId);
         return $this->db->execute();
     }
-
-    /**
-     * Update custom design measurement
-     */
     public function updateCustomDesignMeasurement($data)
     {
         $this->db->query('
@@ -485,17 +436,11 @@ class M_Designs
         return $this->db->beginTransaction();
     }
 
-    /**
-     * Commit a database transaction
-     */
     public function commitTransaction()
     {
         return $this->db->commitTransaction();
     }
 
-    /**
-     * Roll back a database transaction
-     */
     public function rollbackTransaction()
     {
         return $this->db->rollbackTransaction();

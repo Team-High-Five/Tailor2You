@@ -19,27 +19,22 @@ class M_Orders
 
         $params = [':status' => 'active'];
 
-        // Add category filter if provided
         if (isset($filters['category_id'])) {
             $sql .= ' AND d.category_id = :category_id';
             $params[':category_id'] = $filters['category_id'];
         }
 
-        // Add gender filter if provided
         if (isset($filters['gender'])) {
             $sql .= ' AND (d.gender = :gender OR d.gender = "unisex")';
             $params[':gender'] = $filters['gender'];
         }
 
-        // Add tailor filter if provided
         if (isset($filters['tailor_id'])) {
             $sql .= ' AND d.user_id = :tailor_id';
             $params[':tailor_id'] = $filters['tailor_id'];
         }
 
         $sql .= ' ORDER BY d.created_at DESC';
-
-        // Add limit if provided
         if ($limit) {
             $sql .= ' LIMIT :limit';
             $params[':limit'] = $limit;
@@ -96,7 +91,6 @@ class M_Orders
             $this->db->bind(':fabric_id', $fabricId);
             $this->db->bind(':design_id', $designId);
         } else {
-            // Fallback to just getting the fabric without price adjustment
             $this->db->query('SELECT * FROM fabrics WHERE fabric_id = :id');
             $this->db->bind(':id', $fabricId);
         }
@@ -145,15 +139,10 @@ class M_Orders
         $this->db->bind(':choice_id', $choiceId);
         return $this->db->single();
     }
-
-    // Calculate design price with selected options
     public function calculateDesignPrice($designId, $fabricId = null, $customizations = [])
     {
-        // Get base design price
         $design = $this->getDesignById($designId);
         $totalPrice = $design->base_price;
-
-        // Add fabric price adjustment if provided
         if ($fabricId) {
             $this->db->query('SELECT price_adjustment FROM design_fabrics 
                               WHERE design_id = :design_id AND fabric_id = :fabric_id');
@@ -165,8 +154,6 @@ class M_Orders
                 $totalPrice += $fabricAdjustment->price_adjustment;
             }
         }
-
-        // Add customization price adjustments
         if (!empty($customizations)) {
             foreach ($customizations as $choiceId) {
                 $this->db->query('SELECT price_adjustment FROM customization_choices 
@@ -182,10 +169,8 @@ class M_Orders
 
         return $totalPrice;
     }
-    // Get measurements required for a design category
     public function getMeasurementsByDesignId($designId)
     {
-        // Get main measurements from design_measurements table
         $this->db->query('SELECT m.*, dm.is_required, dm.description as custom_description
                      FROM measurements m
                      JOIN design_measurements dm ON m.measurement_id = dm.measurement_id
@@ -193,23 +178,17 @@ class M_Orders
                      ORDER BY dm.display_order');
         $this->db->bind(':design_id', $designId);
         $measurements = $this->db->resultSet();
-
-        // Get any custom measurements specific to this design
         $this->db->query('SELECT * FROM custom_design_measurements 
                      WHERE design_id = :design_id 
                      ORDER BY display_order');
         $this->db->bind(':design_id', $designId);
         $customMeasurements = $this->db->resultSet();
-
-        // Get default ranges for common measurements
         $this->db->query('SELECT m.name, mr.min_value, mr.max_value, mr.increment
                      FROM measurements m
                      LEFT JOIN measurement_ranges mr ON m.measurement_id = mr.measurement_id
                      WHERE m.measurement_id IN (SELECT measurement_id FROM design_measurements WHERE design_id = :design_id)');
         $this->db->bind(':design_id', $designId);
         $measurementRanges = $this->db->resultSet();
-
-        // Create lookup array for ranges
         $ranges = [];
         foreach ($measurementRanges as $range) {
             $ranges[$range->name] = [
@@ -224,10 +203,7 @@ class M_Orders
             'customMeasurements' => $customMeasurements,
             'ranges' => $ranges
         ];
-    }
-
-    // Get user's existing measurements if available
-    public function getUserMeasurements($userId)
+    }    public function getUserMeasurements($userId)
     {
         $this->db->query('SELECT m.name, um.value_inch
                      FROM user_measurements um
@@ -236,7 +212,7 @@ class M_Orders
         $this->db->bind(':user_id', $userId);
         $results = $this->db->resultSet();
         if(empty($results)) {
-            return []; // No measurements found for this user
+            return []; 
         }
         $measurements = [];
         foreach ($results as $result) {
@@ -245,11 +221,9 @@ class M_Orders
 
         return $measurements;
     }
-
-    // Save measurements to session or database
     public function saveMeasurements($orderItemId, $measurements, $userId = null)
     {
-        // First save to order item measurements
+ 
         foreach ($measurements as $measurementId => $value) {
             $this->db->query('INSERT INTO order_item_measurements 
                          (item_id, measurement_id, value, measurement_source) 
@@ -261,8 +235,6 @@ class M_Orders
             $this->db->bind(':source', $userId ? 'profile' : 'manual');
             $this->db->execute();
         }
-
-        // Also save to user profile if user is logged in
         if ($userId) {
             foreach ($measurements as $measurementId => $value) {
                 $this->db->query('INSERT INTO user_measurements 
@@ -292,12 +264,10 @@ class M_Orders
     }
     public function generateOrderId()
     {
-        // Get the next value from the sequence table
         $this->db->query('SELECT next_value FROM order_sequence WHERE id = 1');
         $result = $this->db->single();
 
         if (!$result) {
-            // Initialize the sequence if needed
             $this->db->query('INSERT INTO order_sequence (id, next_value) VALUES (1, 1)');
             $nextValue = 1;
         } else {
@@ -305,13 +275,9 @@ class M_Orders
         }
         $orderId = 'T2Y-' . str_pad($nextValue, 5, '0', STR_PAD_LEFT);
         $nextValue = $nextValue + 1;
-        // Increment the sequence for next use
         $this->db->query('UPDATE `order_sequence` SET `next_value` = :nextValue WHERE `order_sequence`.`id` = 1;');
         $this->db->bind(':nextValue', $nextValue);
         $this->db->execute();
-
-        // Format the order ID with padding (e.g., T2Y-00001)
-
         return $orderId;
     }
 
@@ -319,13 +285,7 @@ class M_Orders
     {
         try {
             $this->db->beginTransaction();
-
-            // Use the order ID passed from the controller
             $orderId = $orderData['order_id'];
-
-            // Calculate tax and final amount properly
-
-            // Insert the main order with tax information
             $this->db->query('INSERT INTO orders (
             order_id, customer_id, tailor_id, total_amount, 
             tax_amount, final_amount, appointment_id, 
@@ -347,8 +307,6 @@ class M_Orders
             $this->db->bind(':notes', $orderData['notes'] ?? null);
 
             $this->db->execute();
-
-            // Insert order items
             foreach ($orderData['items'] as $item) {
                 $this->db->query('INSERT INTO order_items (
                     order_id, design_id, fabric_id, color_id, quantity, 
@@ -372,12 +330,9 @@ class M_Orders
 
                 $itemId = $this->db->lastInsertId();
 
-                // Add any customizations
                 if (!empty($item['customizations'])) {
                     $this->addOrderItemCustomizations($itemId, $item['customizations']);
                 }
-
-                // Add measurements
                 if (!empty($item['measurements'])) {
                     $this->addOrderItemMeasurements($itemId, $item['measurements']);
                 }
@@ -396,7 +351,6 @@ class M_Orders
     {
         try {
             foreach ($customizations as $typeId => $choiceId) {
-                // Get information about this customization choice
                 $this->db->query('SELECT cc.*, ct.name as type_name 
                              FROM customization_choices cc
                              JOIN customization_types ct ON cc.type_id = ct.type_id
@@ -405,10 +359,9 @@ class M_Orders
                 $choice = $this->db->single();
 
                 if (!$choice) {
-                    continue; // Skip if choice doesn't exist
+                    continue; 
                 }
 
-                // Fixed column name to match database schema
                 $this->db->query('INSERT INTO order_item_customizations 
                              (item_id, type_id, choice_id, price_adjustment) 
                              VALUES (:item_id, :type_id, :choice_id, :price_adjustment)');
@@ -431,12 +384,8 @@ class M_Orders
     {
         try {
             foreach ($measurements as $key => $value) {
-                // Skip non-measurement fields that might be in the form
                 if (strpos($key, 'measurement_') === 0) {
-                    // Extract the actual measurement ID
                     $measurementId = substr($key, 12);
-
-                    // Only add if we have a valid measurement and value
                     if (is_numeric($measurementId) && is_numeric($value)) {
                         $this->db->query('INSERT INTO order_item_measurements 
                                      (item_id, measurement_id, value, measurement_source) 
@@ -445,7 +394,7 @@ class M_Orders
                         $this->db->bind(':item_id', $itemId);
                         $this->db->bind(':measurement_id', $measurementId);
                         $this->db->bind(':value', $value);
-                        $this->db->bind(':source', 'manual'); // Could be 'manual' or 'profile'
+                        $this->db->bind(':source', 'manual');
 
                         $this->db->execute();
                     }
@@ -495,8 +444,6 @@ class M_Orders
     {
         try {
             $this->db->beginTransaction();
-
-            // 1. Update the order status
             $this->db->query('UPDATE orders SET status = :status WHERE order_id = :order_id');
             $this->db->bind(':status', $newStatus);
             $this->db->bind(':order_id', $orderId);
@@ -504,8 +451,6 @@ class M_Orders
             if (!$this->db->execute()) {
                 throw new Exception('Failed to update order status');
             }
-
-            // 2. Record in history table
             $this->db->query('INSERT INTO order_status_history 
                         (order_id, status, updated_by, notes) 
                         VALUES (:order_id, :status, :updated_by, :notes)');

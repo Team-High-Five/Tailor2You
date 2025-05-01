@@ -43,21 +43,18 @@ class Orders extends Controller
             return;
         }
 
-        // Determine which type of selection is being processed
         $selection_type = $_POST['selection_type'] ?? '';
 
         switch ($selection_type) {
             case 'fabric':
                 $fabricId = $_POST['selected_fabric_id'] ?? null;
                 if ($fabricId) {
-                    // Get fabric details - pass the design ID to get price adjustment
                     $fabric = $this->orderModel->getFabricById(
                         $fabricId,
                         $_SESSION['order_details']['design']->design_id
                     );
 
                     if ($fabric) {
-                        // Store in session
                         $_SESSION['order_details']['fabric'] = $fabric;
 
                         $customizationIds = [];
@@ -105,13 +102,10 @@ class Orders extends Controller
     public function selectFabric($designId = null)
     {
         $intent = isset($_GET['intent']) ? $_GET['intent'] : 'order';
-        // If no design ID provided, check if one exists in the session
         if ($designId === null && !isset($_SESSION['order_details']['design'])) {
             redirect('Pages/index');
             return;
         }
-
-        // If design ID provided but not in session, fetch and store it
         if ($designId !== null && (!isset($_SESSION['order_details']['design']) || $_SESSION['order_details']['design']->design_id != $designId)) {
             $design = $this->orderModel->getDesignById($designId);
 
@@ -138,13 +132,10 @@ class Orders extends Controller
 
     public function selectColor($fabricId = null)
     {
-        // If no fabric ID provided, check if one exists in the session
         if ($fabricId === null && !isset($_SESSION['order_details']['fabric'])) {
             redirect('designs/selectFabric');
             return;
         }
-
-        // If fabric ID provided but not in session, fetch and store it
         if ($fabricId !== null && (!isset($_SESSION['order_details']['fabric']) || $_SESSION['order_details']['fabric']->fabric_id != $fabricId)) {
             $fabric = $this->orderModel->getFabricById(
                 $fabricId,
@@ -157,9 +148,6 @@ class Orders extends Controller
             }
 
             $_SESSION['order_details']['fabric'] = $fabric;
-
-            //Matter only when back button is clicked
-            // If customizations are already selected, recalculate the price
             $customizationIds = [];
             if (isset($_SESSION['order_details']['customizations'])) {
                 foreach ($_SESSION['order_details']['customizations'] as $customization) {
@@ -200,7 +188,6 @@ class Orders extends Controller
 
         $customizationTypes = $this->orderModel->getCustomizationTypesByDesignId($designId);
 
-        // For each type, get the available choices
         $customizationData = [];
         foreach ($customizationTypes as $type) {
             $choices = $this->orderModel->getDesignCustomizationChoices($designId, $type->type_id);
@@ -229,15 +216,12 @@ class Orders extends Controller
         if (!isset($_SESSION['order_details']['customizations'])) {
             $_SESSION['order_details']['customizations'] = [];
         }
-
-        // Get selected customizations from form
         $selectedCustomizations = [];
         foreach ($_POST as $key => $value) {
             if (strpos($key, 'customization_') === 0) {
                 $typeId = substr($key, 14);
                 $choiceId = $value;
 
-                // Get choice details to store in session
                 $choice = $this->orderModel->getCustomizationChoiceById($choiceId);
                 if ($choice) {
                     $selectedCustomizations[$typeId] = $choice;
@@ -264,7 +248,6 @@ class Orders extends Controller
 
     public function enterMeasurements()
     {
-        // Check if design, fabric and color are selected
         if (!isset($_SESSION['order_details']['design']) || !isset($_SESSION['order_details']['fabric'])) {
             redirect('Orders/selectFabric');
             return;
@@ -280,13 +263,8 @@ class Orders extends Controller
             return;
         }
 
-        // Get necessary design info
         $designId = $_SESSION['order_details']['design']->design_id;
-
-        // Get required measurements for this design
         $measurementsData = $this->orderModel->getMeasurementsByDesignId($designId);
-
-        // Get user's existing measurements if logged in
         $userMeasurements = [];
         if (isset($_SESSION['user_id'])) {
             $userMeasurements = $this->orderModel->getUserMeasurements($_SESSION['user_id']);
@@ -310,15 +288,12 @@ class Orders extends Controller
             return;
         }
 
-        // Store measurements in session for now
         $_SESSION['order_details']['measurements'] = $_POST;
 
-        // Redirect to appointment booking
         redirect('Orders/bookAppointment');
     }
     public function processAppointment()
     {
-        // Check if user is logged in
         if (!isset($_SESSION['user_id'])) {
             flash('appointment_error', 'Please login to book an appointment', 'alert alert-danger');
             redirect('Users/login');
@@ -338,29 +313,22 @@ class Orders extends Controller
             redirect('Orders/bookAppointment');
             return;
         }
-
-        // Store appointment in session
         $_SESSION['order_details']['appointment'] = [
             'date' => $appointmentDate,
             'time' => $appointmentTime,
             'location_type' => $locationType
         ];
-
-        // Redirect to order review page
         redirect('Orders/reviewOrder');
     }
 
     public function bookAppointment()
     {
         $_SESSION['redirect_url'] = 'Orders/bookAppointment';
-        // Check authentication first
+
         if (!isset($_SESSION['user_id'])) {
             redirect('Users/login');
             return;
         }
-
-
-        // Check if previous steps are completed
         if (
             !isset($_SESSION['order_details']['design']) ||
             !isset($_SESSION['order_details']['fabric']) ||
@@ -370,14 +338,9 @@ class Orders extends Controller
             redirect('Orders/enterMeasurements');
             return;
         }
-
-        // Get the tailor ID from the design
         $tailorId = $_SESSION['order_details']['design']->user_id;
 
-        // Get selected date (from form submission or default to 3 days from now)
         $selectedDate = $_POST['appointment_date'] ?? date('Y-m-d', strtotime('+1 day'));
-
-        // Get booked slots for the selected date
         $bookedSlots = $this->appointModel->getBookedTimeSlots($tailorId, $selectedDate);
 
         $data = [
@@ -402,7 +365,6 @@ class Orders extends Controller
     }
     public function reviewOrder()
     {
-        // Check if all necessary details are in session
         if (
             !isset($_SESSION['order_details']['design']) ||
             !isset($_SESSION['order_details']['fabric']) ||
@@ -412,14 +374,11 @@ class Orders extends Controller
             redirect('Orders/enterMeasurements');
             return;
         }
-
-        // Check if appointment exists OR was explicitly skipped
         if (!isset($_SESSION['order_details']['appointment'])) {
             redirect('Orders/bookAppointment');
             return;
         }
 
-        // Get measurement names from the database for better display
         if (isset($_SESSION['order_details']['measurements'])) {
             $_SESSION['order_details']['measurement_names'] =
                 $this->orderModel->getMeasurementNames();
@@ -435,22 +394,17 @@ class Orders extends Controller
 
     public function placeOrder()
     {
-        // Check user authentication
         if (!isset($_SESSION['user_id'])) {
             flash('order_error', 'Please login to complete your order', 'alert alert-danger');
             redirect('Users/login');
             return;
         }
-
-        // Check if order details exist
         if (!isset($_SESSION['order_details'])) {
             redirect('Orders');
             return;
         }
 
         flash('order_success', 'Your order has been placed successfully!', 'alert alert-success');
-
-        // Redirect to a confirmation page
         redirect('Orders/payment');
     }
 
@@ -458,7 +412,6 @@ class Orders extends Controller
 
     public function payment()
     {
-        // Check if session contains order details
         if (!isset($_SESSION['order_details']) || !isset($_SESSION['order_details']['total_price'])) {
             redirect('Orders/reviewOrder');
             return;
@@ -487,7 +440,6 @@ class Orders extends Controller
         $paymentMethod = $_POST['payment_method'] ?? 'cod';
         $orderNumber = $this->orderModel->generateOrderId();
 
-        // Calculate tax and final amount
         $baseAmount = $_SESSION['order_details']['subtotal'];
         $taxAmount = $baseAmount * 0.12;
         $finalAmount = $baseAmount + $taxAmount;
@@ -503,8 +455,6 @@ class Orders extends Controller
         ];
 
         $_SESSION['order_details']['payment'] = $paymentDetails;
-
-        // Get user information including address
         $user = $this->orderModel->getUserAddress($_SESSION['user_id']);
 
         $deliveryAddress = $user ? $user->address : 'Default Address';
@@ -520,26 +470,21 @@ class Orders extends Controller
             'notes' => $_POST['notes'] ?? null,
             'items' => $this->prepareOrderItems()
         ];
-
-        // If appointment was scheduled, include it
         if (isset($_SESSION['order_details']['appointment']) && !isset($_SESSION['order_details']['appointment']['skipped'])) {
-            // Create the appointment record first
             $appointmentId = $this->createAppointment($_SESSION['order_details']['appointment'], $orderData['tailor_id']);
             if ($appointmentId) {
                 $orderData['appointment_id'] = $appointmentId;
             }
         } else {
-            // If appointment was skipped, explicitly set it to null
+            
             $orderData['appointment_id'] = null;
         }
 
         $orderData['order_id'] = $orderNumber;
-        // Save to database
         $createdOrderId = $this->orderModel->createOrder($orderData);
 
 
         if ($createdOrderId) {
-            // Store the order ID in session for the confirmation page
             $_SESSION['order_details']['order_id'] = $createdOrderId;
 
             flash('order_success', 'Your order has been placed successfully!', 'alert alert-success');
@@ -551,7 +496,6 @@ class Orders extends Controller
     }
     public function orderConfirmation()
     {
-        // Check if order details exist in session
         if (!isset($_SESSION['order_details'])) {
             redirect('Orders');
             return;
@@ -564,7 +508,6 @@ class Orders extends Controller
 
         $this->view('designs/v_d_order_confirmation', $data);
 
-        // Clear the order session data if flag is set
         if (isset($_SESSION['clear_order_after_confirmation']) && $_SESSION['clear_order_after_confirmation']) {
             unset($_SESSION['order_details']);
             unset($_SESSION['clear_order_after_confirmation']);
@@ -575,7 +518,6 @@ class Orders extends Controller
     {
         $items = [];
 
-        // Currently we have just one item in the system, but this is designed for multiple items
         $items[] = [
             'design_id' => $_SESSION['order_details']['design']->design_id,
             'fabric_id' => $_SESSION['order_details']['fabric']->fabric_id,
@@ -616,7 +558,6 @@ class Orders extends Controller
 
     private function createAppointment($appointmentData, $tailorId)
     {
-        // Skip if this is a skipped appointment
         if (isset($appointmentData['skipped']) && $appointmentData['skipped']) {
             return null;
         }
@@ -635,8 +576,7 @@ class Orders extends Controller
 
     private function clearOrderSession()
     {
-        // Don't immediately clear - we need this for the confirmation page
-        // Instead we'll set a flag to clear it after showing the confirmation
+       
         $_SESSION['clear_order_after_confirmation'] = true;
     }
 }

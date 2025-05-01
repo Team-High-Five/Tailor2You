@@ -18,7 +18,6 @@ class Appointments extends Controller
     public function makeAppointment($tailor_id = null)
     {
         if (!isLoggedIn()) {
-            // Store only the relative path for redirect
             $_SESSION['redirect_url'] = 'appointments/makeAppointment/' . $tailor_id;
             redirect('users/login');
             exit();
@@ -31,8 +30,6 @@ class Appointments extends Controller
         if (!$tailor) {
             redirect('pages/tailorPages');
         }
-
-        // Get booked slots for today
         $date = isset($_POST['appointment_date']) ? $_POST['appointment_date'] : date('Y-m-d');
         $bookedSlots = $this->appointmentModel->getBookedTimeSlots($tailor_id, $date);
 

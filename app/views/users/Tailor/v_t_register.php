@@ -58,6 +58,10 @@
                     <span class="error" id="address_err"></span>
                 </div>
             </div>
+            <div class="form-row">
+                <input placeholder="Join Date" name="join_date" type="text" onfocus="(this.type='date')" onblur="(this.type='text')" max="<?php echo date('Y-m-d');?>" />
+                <span class="error" id="join_date_err"></span>
+            </div>
             <button type="submit" class="continue-btn">Continue</button>
         </form>
     </div>
@@ -70,3 +74,15 @@
 </body>
 
 </html>
+
+<!-- Warning: A non-numeric value encountered in C:\xampp\htdocs\Tailor2You\app\controllers\Pages.php on line 194
+Tailor House Logo
+Home
+New Collection
+Custom Tailoring
+Meet Tailors
+Contact
+About Us
+Account
+Profile
+testing testing -->

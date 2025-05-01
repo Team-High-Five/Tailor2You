@@ -18,12 +18,10 @@ class M_Tailors
     }
     public function getDashboardStats($tailor_id)
     {
-        // Get total orders count
+
         $this->db->query("SELECT COUNT(*) as total_orders FROM orders WHERE tailor_id = :tailor_id");
         $this->db->bind(':tailor_id', $tailor_id);
         $totalOrders = $this->db->single()->total_orders;
-
-        // Get previous week orders for comparison
         $this->db->query("SELECT COUNT(*) as prev_week_orders FROM orders 
                      WHERE tailor_id = :tailor_id 
                      AND order_date BETWEEN DATE_SUB(NOW(), INTERVAL 2 WEEK) AND DATE_SUB(NOW(), INTERVAL 1 WEEK)");
@@ -411,8 +409,6 @@ class M_Tailors
         if (!$order) {
             return false;
         }
-
-        // Fetch order items
         $this->db->query('
         SELECT oi.*, 
                d.name as design_name, d.description as design_description, d.main_image as design_image,
@@ -426,8 +422,6 @@ class M_Tailors
     ');
         $this->db->bind(':order_id', $order_id);
         $order->items = $this->db->resultSet();
-
-        // Fetch measurements for each item (existing code)
         foreach ($order->items as $item) {
             $this->db->query('
             SELECT oim.*, m.name as measurement_name, m.display_name
@@ -500,7 +494,6 @@ class M_Tailors
             $sql .= " AND a.status = :status";
         }
 
-        // Prioritize upcoming appointments first
         $sql .= " ORDER BY 
               CASE WHEN a.appointment_date >= CURDATE() THEN 0 ELSE 1 END, 
               a.appointment_date ASC, 
@@ -517,9 +510,7 @@ class M_Tailors
         return $this->db->resultSet();
     }
 
-    /**
-     * Get recent orders with improved sorting
-     */
+
     public function getRecentOrders($tailorId, $status = null)
     {
         $sql = "SELECT o.*,

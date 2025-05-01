@@ -43,8 +43,7 @@ class M_Users
 
     public function register($data)
     {
-        $this->db->query('INSERT INTO users (user_type, first_name, last_name, email, password, phone_number, nic, birth_date, home_town, address, bio, category, profile_pic) VALUES (:user_type, :first_name, :last_name, :email, :password, :phone_number, :nic, :birth_date, :home_town, :address, :bio, :category, :profile_pic)');
-        // Bind values
+        $this->db->query('INSERT INTO users (user_type, first_name, last_name, email, password, phone_number, nic, birth_date, home_town, address, bio, category, profile_pic,status,join_date) VALUES (:user_type, :first_name, :last_name, :email, :password, :phone_number, :nic, :birth_date, :home_town, :address,Null,Null,Null,:status,:join_date)');
         $this->db->bind(':user_type', $data['user_type']);
         $this->db->bind(':first_name', $data['first_name']);
         $this->db->bind(':last_name', $data['last_name']);
@@ -55,11 +54,10 @@ class M_Users
         $this->db->bind(':birth_date', $data['birth_date']);
         $this->db->bind(':home_town', $data['home_town']);
         $this->db->bind(':address', $data['address']);
-        $this->db->bind(':bio', $data['bio']);
-        $this->db->bind(':category', $data['category']);
-        $this->db->bind(':profile_pic', $data['profile_pic']);
 
-        // Execute
+        $this->db->bind(':join_date', $data['join_date']);
+        $this->db->bind(':status', 'active');
+
         return $this->db->execute();
     }
     public function getPostsByUserId($user_id)

@@ -11,7 +11,7 @@
       </a>
     </div>
     <?php if (!empty($data['order']->items)): ?>
-      <?php $item = $data['order']->items[0]; // Display first item details 
+      <?php $item = $data['order']->items[0];
       ?>
       <div class="details-content">
         <div class="product-showcase">
@@ -125,14 +125,12 @@
             <label for="status">Change Status To:</label>
             <select name="status" id="status" class="form-select">
               <?php
-              // Get the current index in the status flow
+
               $statusKeys = array_keys($data['statusOptions']);
               $currentIndex = array_search($data['order']->status, $statusKeys);
-
-              // Only show statuses that come after the current one
               for ($i = $currentIndex + 1; $i < count($statusKeys); $i++):
                 $value = $statusKeys[$i];
-                if ($value != 'cancelled'): // We'll add cancelled separately at the end
+                if ($value != 'cancelled'): 
               ?>
                   <option value="<?php echo $value; ?>"><?php echo $data['statusOptions'][$value]; ?></option>
               <?php
@@ -157,7 +155,6 @@
   </div>
 </div>
 <style>
-  /* Main Layout and Container Styles */
   .item-details-container {
     max-width: 1100px;
     margin: 0 auto;
@@ -196,7 +193,6 @@
     color: var(--danger-color, #dc3545);
   }
 
-  /* Content Sections */
   .details-content {
     display: flex;
     flex-wrap: wrap;
@@ -232,7 +228,6 @@
     margin-bottom: 15px;
   }
 
-  /* Color Options */
   .color-options {
     display: flex;
     gap: 10px;
@@ -604,7 +599,6 @@
     white-space: nowrap;
   }
 
-  /* For no customizations message */
   .no-data-message {
     color: var(--text-muted);
     font-style: italic;

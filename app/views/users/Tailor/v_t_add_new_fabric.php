@@ -9,7 +9,7 @@
         <div class="post-pic-wrapper">
           <img src="<?php echo URLROOT; ?>/public/img/add-image.png" alt="Post Picture" id="post-preview">
         </div>
-        <input type="file" id="upload-photo" name="image" accept="image/*" style="display: none;">
+        <input type="file" id="upload-photo" name="image" accept="image/*" style="display: none;" required>
         <span class="error-message" id="image-error"></span>
         <div class="form-group">
           <label for="fabric-name">Fabric Name</label>

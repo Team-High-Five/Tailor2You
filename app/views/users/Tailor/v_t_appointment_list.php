@@ -66,18 +66,17 @@
         </tr>
       </thead>
       <tbody>
-        <?php foreach ($data['appointments'] as $appointment) :
-          // Format date for display
+         <?php foreach ($data['appointments'] as $appointment) :
+         
           $displayDate = date('d M Y', strtotime($appointment->appointment_date));
-          // Get timestamp for easy date comparison
+  
           $dateTimestamp = strtotime($appointment->appointment_date);
 
-          // Format time for display
+         
           $displayTime = date('h:i a', strtotime($appointment->appointment_time));
-          // Get 24-hour format time for easy filtering
+        
           $hour24 = date('H', strtotime($appointment->appointment_time));
 
-          // Determine time period
           $timePeriod = '';
           if ($hour24 < 12) {
             $timePeriod = 'morning';
@@ -120,15 +119,12 @@
 </div>
 </div>
 
-<!-- Modal Structure -->
 <div id="AppointmentCard" class="modal">
   <div id="modal-body">
-    <!-- Content from v_t_appointment_card.php will be loaded here -->
+
   </div>
 </div>
 
-<!-- Reschedule Appointment Modal -->
-<!-- Reschedule Appointment Modal -->
 <div id="rescheduleAppointmentModal" class="modal">
   <div class="modal-body">
     <div class="add-new-post-container">
@@ -147,7 +143,7 @@
               <label for="appointment_time">Proposed New Time</label>
               <select id="appointment_time" name="appointment_time" required>
                 <?php
-                // Generate 30-minute time slots from 8:00 to 19:00
+              
                 for ($hour = 8; $hour < 19; $hour++) {
                   for ($minute = 0; $minute < 60; $minute += 30) {
                     $time = sprintf('%02d:%02d', $hour, $minute);
@@ -181,10 +177,8 @@
       event.preventDefault();
       const appointmentModal = document.getElementById('AppointmentCard');
 
-      // First show the modal
       appointmentModal.style.display = 'flex';
 
-      // Then add the show class after a tiny delay to trigger animation
       setTimeout(() => {
         appointmentModal.classList.add('show');
       }, 10);

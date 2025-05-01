@@ -62,7 +62,6 @@
         <tbody>
           <?php if (!empty($data['orders'])): ?>
             <?php foreach ($data['orders'] as $order):
-              // Calculate timestamp for JS filtering
               $orderTimestamp = strtotime($order->order_date);
               $priceNumeric = floatval($order->total_amount);
             ?>
@@ -147,8 +146,6 @@
   </div>
 </div>
 
-
-<!-- Include the order filter script -->
 <script src="<?php echo URLROOT; ?>/public/js/tailor/order-filter.js"></script>
 
 <?php require_once APPROOT . '/views/users/Tailor/inc/footer.php'; ?>

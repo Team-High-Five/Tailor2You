@@ -62,29 +62,26 @@ class M_Fabrics
 
     public function updateFabric($data)
     {
-        // Step 1: Update fabric details - Execute this immediately
         $this->db->query('UPDATE fabrics SET fabric_name = :fabric_name, price_per_meter = :price, stock = :stock WHERE fabric_id = :fabric_id');
         $this->db->bind(':fabric_name', $data['fabric_name']);
         $this->db->bind(':price', floatval($data['price']));
         $this->db->bind(':stock', floatval($data['stock']));
         $this->db->bind(':fabric_id', $data['fabric_id']);
-        $mainUpdateSuccess = $this->db->execute();  // Execute immediately
+        $mainUpdateSuccess = $this->db->execute();  
 
-        // Step 2: Only update image if a new one was uploaded - As a separate query
-        $imageUpdateSuccess = true;  // Default to true if no image update needed
+    
+        $imageUpdateSuccess = true; 
         if ($data['image']) {
             $this->db->query('UPDATE fabrics SET image = :image WHERE fabric_id = :fabric_id');
             $this->db->bind(':image', $data['image']);
             $this->db->bind(':fabric_id', $data['fabric_id']);
-            $imageUpdateSuccess = $this->db->execute();  // Execute the image update
+            $imageUpdateSuccess = $this->db->execute();  
         }
 
-        // Step 3: Delete existing color relationships
         $this->db->query('DELETE FROM fabric_colors WHERE fabric_id = :fabric_id');
         $this->db->bind(':fabric_id', $data['fabric_id']);
         $colorDeleteSuccess = $this->db->execute();
 
-        // Step 4: Insert new color relationships
         $colorSuccess = true;
         if (!empty($data['colors'])) {
             foreach ($data['colors'] as $color_id) {
@@ -97,7 +94,6 @@ class M_Fabrics
             }
         }
 
-        // Return true only if all operations were successful
         return $mainUpdateSuccess && $imageUpdateSuccess && $colorDeleteSuccess && $colorSuccess;
     }
     public function checkFabricLinkOnDesign($fabric_id)
@@ -133,7 +129,7 @@ class M_Fabrics
 
     public function getAllFabrics()
     {
-        $this->db->query('SELECT * FROM fabrics ORDER BY fabric_id ASC'); // Order by fabric_id in ascending order
+        $this->db->query('SELECT * FROM fabrics ORDER BY fabric_id ASC');
         return $this->db->resultSet();
     }
 
