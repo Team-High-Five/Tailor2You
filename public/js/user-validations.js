@@ -51,6 +51,10 @@ function validateField(field) {
                 errorMessage = 'Invalid NIC number';
             }
             break;
+        case 'student_id':
+            if (value === '') {
+                errorMessage = 'student id is required'
+            }
         case 'birth_date':
             const today = new Date();
             const minDate = new Date('1900-01-01');

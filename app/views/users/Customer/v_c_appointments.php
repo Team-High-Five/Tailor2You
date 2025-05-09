@@ -91,7 +91,7 @@
                     <span class="close-modal">&times;</span>
                 </div>
                 <div class="modal-body">
-                    <form id="rescheduleForm" method="post">
+                    <form id="rescheduleForm" method="post" action="<?php echo URLROOT; ?>/Customers/requestRescheduleAppointment">
                         <input type="hidden" id="appointmentId" name="appointment_id">
                         <input type="hidden" id="tailorId" name="tailor_id">
 
@@ -119,9 +119,13 @@
                             </select>
                         </div>
 
+                        <div class="form-group">
+                            <label for="reschedule_reason">Reason</label>
+                            <input type="text" id="reschedule_reason" name="reschedule_reason" required>
+                        </div>
                         <div class="modal-actions">
                             <button type="submit" class="confirm-btn">Confirm Reschedule</button>
-                            <button type="button" class="cancel-btn">Cancel</button>
+                            <!-- <button type="button" class="cancel-btn">Cancel</button> -->
                         </div>
                     </form>
                 </div>

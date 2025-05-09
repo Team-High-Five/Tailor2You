@@ -29,7 +29,7 @@ class Users extends Controller
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Sanitize post data
+            
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
             $data = [
@@ -42,7 +42,6 @@ class Users extends Controller
             if (empty($data['email'])) {
                 $data['email_err'] = 'Please enter email';
             } elseif (!$this->userModel->findUserByEmail($data['email'])) {
-
                 $data['email_err'] = 'No user found';
             }
 
@@ -50,16 +49,28 @@ class Users extends Controller
                 $data['password_err'] = 'Please enter password';
             }
 
+
             if (empty($data['email_err']) && empty($data['password_err'])) {
                 $loggedInUser = $this->userModel->login($data['email'], $data['password']);
                 if (!$loggedInUser) {
                     $data['password_err'] = 'Password incorrect';
                 } else {
-                    $this->createUserSession($loggedInUser);
+                    if ($loggedInUser) {
+                        $this->createUserSession($loggedInUser);
+                    } else {
+                        
+                        $user = $this->userModel->findUserByEmail($data['email']);
+                        if ($user && $user->status === 'inactive' && $user->user_type === 'customer') {
+                            flash('login_message', 'This account has been deactivated', 'alert alert-danger');
+                        } else {
+                            flash('login_message', 'Invalid email/password combination', 'alert alert-danger');
+                        }
+                        redirect('users/login');
+                    }
                 }
             }
 
-            // Load view with errors
+            
             $this->view('users/v_login', $data);
         } else {
             // Init data
@@ -78,11 +89,10 @@ class Users extends Controller
     public function changePassword()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Process form
-            // Sanitize post data
+            
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            // Input data
+           
             $data = [
                 'current_password' => trim($_POST['current_password']),
                 'new_password' => trim($_POST['new_password']),
@@ -94,30 +104,30 @@ class Users extends Controller
                 'title' => 'Change Password'
             ];
 
-            // Validate current password
+            
             if (empty($data['current_password'])) {
                 $data['current_password_err'] = 'Please enter current password';
             } elseif (!$this->userModel->checkPassword($_SESSION['user_id'], $data['current_password'])) {
                 $data['current_password_err'] = 'Current password is incorrect';
             }
 
-            // Validate new password
+            
             if (empty($data['new_password'])) {
                 $data['new_password_err'] = 'Please enter new password';
             } elseif (strlen($data['new_password']) < 6) {
                 $data['new_password_err'] = 'Password must be at least 6 characters long';
             }
 
-            // Validate confirm password
+            
             if (empty($data['confirm_password'])) {
                 $data['confirm_password_err'] = 'Please confirm password';
             } elseif ($data['new_password'] != $data['confirm_password']) {
                 $data['confirm_password_err'] = 'Passwords do not match';
             }
 
-            // Check for errors
+            
             if (empty($data['current_password_err']) && empty($data['new_password_err']) && empty($data['confirm_password_err'])) {
-                // Update the password in the database
+                
                 if ($this->userModel->updatePassword($_SESSION['user_id'], $data['new_password'])) {
                     flash('user_message', 'Password changed successfully');
                     redirect('/Customers/changePassword');
@@ -126,11 +136,11 @@ class Users extends Controller
                     redirect('/Customers/changePassword');
                 }
             } else {
-                // Load view with errors
+               
                 $this->view('users/Customer/v_c_changepassword', $data);
             }
         } else {
-            // Init data
+           
             $data = [
                 'current_password' => '',
                 'new_password' => '',
@@ -140,7 +150,7 @@ class Users extends Controller
                 'confirm_password_err' => '',
             ];
 
-            // Load view
+            
             $this->view('/Customers/changePassword', $data);
         }
     }
@@ -196,7 +206,9 @@ class Users extends Controller
         // Redirect to the tailor's dashboard
         redirect('tailors/index');
     }
-    public function validateInput($data) {}
+    public function validateInput($data)
+    {
+    }
 
     public function selectCreateAccount()
     {

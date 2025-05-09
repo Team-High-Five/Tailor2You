@@ -2,9 +2,10 @@
 <?php require_once APPROOT . '/views/users/Customer/inc/sideBar.php'; ?>
 <?php require_once APPROOT . '/views/users/Customer/inc/topNavBar.php'; ?>
 <link rel='stylesheet' type='text/css' media='screen' href='<?php echo URLROOT; ?>/public/css/customer/profilebuttons_styles.css'>
+
 <div class="passcontainer">
     <div class="shirt-measurement-layout">
-        <!-- Existing form content -->
+        
         <main class="main-content">
           <section class="content">
             <h2>Shirt Measurement</h2>
@@ -29,6 +30,7 @@
                          <?php echo $measurement->is_required ? 'required' : ''; ?>>
               <?php endforeach; ?>
 
+             
               <button type="submit" class="btn-save" style="display: none;">Save Changes</button>
             </form>
 
@@ -129,14 +131,14 @@
         });
     }
 
-    // Handle unit change
+    
     cmRadio.addEventListener('change', toggleInputs);
     inchRadio.addEventListener('change', toggleInputs);
 
-    // Update both cm and inch values when input changes
+   
     inputs.forEach(input => {
         input.addEventListener('input', function() {
-            // Allow only numerical input
+            
             this.value = this.value.replace(/[^0-9.]/g, '');
 
             if (this.value) {

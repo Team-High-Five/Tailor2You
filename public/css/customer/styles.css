@@ -62,8 +62,8 @@
     /* Add status badge variables */
     --status-pending-bg: rgba(255, 193, 7, 0.15);
     --status-pending-color: #e5a000;
-    --status-accepted-bg: rgba(143, 188, 143, 0.15);
-    --status-accepted-color: #3cb371;
+    --status-accepted-bg: rgba(25, 211, 140, 0.15);
+    --status-accepted-color: #093f20;
     --status-confirmed-bg: rgba(76, 175, 80, 0.15);
     --status-confirmed-color: #2e7d32;
     --status-completed-bg: rgba(33, 150, 243, 0.15);

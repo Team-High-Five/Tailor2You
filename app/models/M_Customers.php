@@ -333,4 +333,92 @@ class M_Customers
         $this->db->bind(':appointment_id', $appointmentId);
         return $this->db->single();
     }
+
+
+
+    // public function getAppointmentById($appointment_id)
+    // {
+    //     $this->db->query('
+    //     SELECT 
+    //         appointments.*, 
+    //         users.first_name, 
+    //         users.last_name, 
+    //         users.profile_pic,
+    //         tailors.first_name AS tailor_first_name, 
+    //         tailors.last_name AS tailor_last_name 
+    //     FROM appointments 
+    //     JOIN users ON appointments.customer_id = users.user_id 
+    //     JOIN users AS tailors ON appointments.tailor_shopkeeper_id = tailors.user_id 
+    //     WHERE appointments.appointment_id = :appointment_id
+    // ');
+    //     $this->db->bind(':appointment_id', $appointment_id);
+
+    //     return $this->db->single();
+    // }
+
+    public function createRescheduleRequest($data)
+    {
+        $this->db->query('INSERT INTO reschedule_requests 
+                     (appointment_id, requested_by, proposed_date, proposed_time, reason) 
+                     VALUES (:appointment_id, :requested_by, :proposed_date, :proposed_time, :reason)');
+
+        $this->db->bind(':appointment_id', $data['appointment_id']);
+        $this->db->bind(':requested_by', 'customer'); // Since this is from the tailor
+        $this->db->bind(':proposed_date', $data['proposed_date']);
+        $this->db->bind(':proposed_time', $data['proposed_time']);
+        $this->db->bind(':reason', $data['reason']);
+
+        // Update appointment status to indicate a reschedule is pending
+        if ($this->db->execute()) {
+            $this->db->query('UPDATE appointments 
+                         SET status = "reschedule_pending" 
+                         WHERE appointment_id = :appointment_id');
+            $this->db->bind(':appointment_id', $data['appointment_id']);
+            return $this->db->execute();
+        }
+
+        return false;
+    }
+    public function deactivateCustomer($id)
+    {
+    try {
+        $this->db->beginTransaction();
+
+        
+        $this->db->query('UPDATE users SET status = :status 
+                         WHERE user_id = :id AND user_type = "customer"');
+        
+        $this->db->bind(':status', 'inactive');
+        $this->db->bind(':id', $id);
+        
+        $result = $this->db->execute();
+
+       
+        $this->db->query('UPDATE appointments SET status = "cancelled" 
+                         WHERE customer_id = :id AND status IN ("pending", "accepted")');
+        $this->db->bind(':id', $id);
+        $this->db->execute();
+
+        
+        $this->db->query('UPDATE orders SET status = "cancelled" 
+                         WHERE customer_id = :id AND status NOT IN ("delivered", "cancelled")');
+        $this->db->bind(':id', $id);
+        $this->db->execute();
+
+        $this->db->commitTransaction();
+        return $result;
+    } catch (Exception $e) {
+        $this->db->rollbackTransaction();
+        error_log("Error deactivating customer: " . $e->getMessage());
+        return false;
+    }
+    }
+
+    public function getmeasurementbyid($displayname)
+    {
+        $this->db->query('SELECT um.user_id,um.measurement_id,m.display_name,um.value_cm from measurements as m join user_measurements as um on um.measurement_id=m.measurement_id where m.display_name = :$displayname ');
+        $this->db->bind(':displayname', $displayname);
+        $row = $this->db->single();
+        return $row ? $row : false;
+    }
 }
