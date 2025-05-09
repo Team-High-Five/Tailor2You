@@ -143,4 +143,84 @@ class M_Shopkeepers
         $this->db->bind(':id', $userId);
         return $this->db->resultSet();
     }
+
+    public function assignTailorToOrder($data)
+    {
+        try {
+            // Begin transaction
+            $this->db->query('START TRANSACTION');
+            
+            // Insert into order_tailor_assignments table
+            $this->db->query('INSERT INTO order_tailor_assignments (order_id, tailor_id, assigned_by, notes) 
+                             VALUES (:order_id, :tailor_id, :assigned_by, :notes)');
+            $this->db->bind(':order_id', $data['order_id']);
+            $this->db->bind(':tailor_id', $data['tailor_id']);
+            $this->db->bind(':assigned_by', $data['assigned_by']);
+            $this->db->bind(':notes', $data['notes'] ?? null);
+            
+            $this->db->execute();
+            
+            // Update the order status to indicate a tailor has been assigned
+            $this->db->query('UPDATE orders SET status = :status WHERE order_id = :order_id');
+            $this->db->bind(':status', 'fabric_cutting');
+            $this->db->bind(':order_id', $data['order_id']);
+            
+            $this->db->execute();
+            
+            // Add entry to order status history
+            $this->db->query('INSERT INTO order_status_history (order_id, status, updated_by, notes) 
+                             VALUES (:order_id, :status, :updated_by, :notes)');
+            $this->db->bind(':order_id', $data['order_id']);
+            $this->db->bind(':status', 'fabric_cutting');
+            $this->db->bind(':updated_by', $data['assigned_by']);
+            $this->db->bind(':notes', 'Tailor assigned: Employee #' . $data['tailor_id']);
+            
+            $this->db->execute();
+            
+            // Commit the transaction
+            $this->db->query('COMMIT');
+            return true;
+            
+        } catch (Exception $e) {
+            // Rollback transaction if any query fails
+            $this->db->query('ROLLBACK');
+            error_log('Error assigning tailor to order: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function assignTailorToAppointment($data)
+    {
+        try {
+            // Begin transaction
+            $this->db->query('START TRANSACTION');
+            
+            // Insert into appointment_tailor_assignments table
+            $this->db->query('INSERT INTO appointment_tailor_assignments (appointment_id, tailor_id, assigned_by, notes) 
+                             VALUES (:appointment_id, :tailor_id, :assigned_by, :notes)');
+            $this->db->bind(':appointment_id', $data['appointment_id']);
+            $this->db->bind(':tailor_id', $data['tailor_id']);
+            $this->db->bind(':assigned_by', $_SESSION['user_id']);
+            $this->db->bind(':notes', $data['notes'] ?? "Assigned by shopkeeper");
+            
+            $this->db->execute();
+            
+            // Update the appointment status to indicate a tailor has been assigned
+            $this->db->query('UPDATE appointments SET status = :status WHERE appointment_id = :appointment_id');
+            $this->db->bind(':status', 'accepted');
+            $this->db->bind(':appointment_id', $data['appointment_id']);
+            
+            $this->db->execute();
+            
+            // Commit the transaction
+            $this->db->query('COMMIT');
+            return true;
+            
+        } catch (Exception $e) {
+            // Rollback transaction if any query fails
+            $this->db->query('ROLLBACK');
+            error_log('Error assigning tailor to appointment: ' . $e->getMessage());
+            return false;
+        }
+    }
 }

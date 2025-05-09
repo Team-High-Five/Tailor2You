@@ -103,6 +103,20 @@ CREATE TABLE `appointments` (
     FOREIGN KEY (`tailor_shopkeeper_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
+-- Create appointment_tailor_assignments table
+CREATE TABLE `appointment_tailor_assignments` (
+    `assignment_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `appointment_id` INT(11) NOT NULL,
+    `tailor_id` INT(11) NOT NULL,
+    `assigned_by` INT(11) NOT NULL,
+    `assigned_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `notes` TEXT NULL,
+    PRIMARY KEY (`assignment_id`),
+    FOREIGN KEY (`appointment_id`) REFERENCES `appointments` (`appointment_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`tailor_id`) REFERENCES `employees` (`employee_id`) ON DELETE RESTRICT,
+    FOREIGN KEY (`assigned_by`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
 -- -----------------------------------------------------
 -- 3. FABRIC AND COLOR TABLES
 -- -----------------------------------------------------
@@ -444,6 +458,20 @@ CREATE TABLE `cart_items` (
   FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE CASCADE,
   FOREIGN KEY (`fabric_id`) REFERENCES `fabrics` (`fabric_id`) ON DELETE CASCADE,
   FOREIGN KEY (`color_id`) REFERENCES `colors` (`color_id`) ON DELETE CASCADE
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Create order_tailor_assignments table
+CREATE TABLE `order_tailor_assignments` (
+    `assignment_id` INT(11) NOT NULL AUTO_INCREMENT,
+    `order_id` VARCHAR(20) NOT NULL,
+    `tailor_id` INT(11) NOT NULL,
+    `assigned_by` INT(11) NOT NULL,
+    `assigned_date` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `notes` TEXT NULL,
+    PRIMARY KEY (`assignment_id`),
+    FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`tailor_id`) REFERENCES `employees` (`employee_id`) ON DELETE RESTRICT,
+    FOREIGN KEY (`assigned_by`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 

@@ -99,7 +99,7 @@
               <td><span class="status <?php echo strtolower($appointment->status); ?>"><?php echo ucfirst($appointment->status); ?></span></td>
               <?php if ($_SESSION['user_type'] == 'shopkeeper'): ?>
                 <td>
-                  <form action="<?php echo URLROOT; ?>/shopkeepers/assignTailor/<?php echo $appointment->appointment_id; ?>" method="post">
+                  <form action="<?php echo URLROOT; ?>/shopkeepers/assignTailorToAppointment/<?php echo $appointment->appointment_id; ?>" method="post">
                     <select name="tailor_id" required>
                       <option value="">Select Tailor</option>
                       <?php foreach ($data['employees'] as $tailor) : ?>
