@@ -82,7 +82,7 @@ class Pages extends Controller
 
     public function womenSkirtCategories()
     {
-        $_SESSION['redirect_url'] ='pages/womenSkirtCategories';
+        $_SESSION['redirect_url'] = 'pages/womenSkirtCategories';
         $category_id = $this->pageModel->getCategoryByName('Skirt');
         $featuredDesigns = $this->pageModel->getDesignsByCategory($category_id);
         $data = [
@@ -154,7 +154,7 @@ class Pages extends Controller
 
     public function genderSel()
     {
-        $_SESSION['redirect_url'] ='pages/genderSel';
+        $_SESSION['redirect_url'] = 'pages/genderSel';
         $users = $this->pageModel->getUsers();
         $data = [
             'users' => $users
@@ -165,20 +165,23 @@ class Pages extends Controller
 
     public function tailorPage()
     {
-        $sellers = $this->pageModel->getAllSellers();
+        $filters = [
+            'gender' => $_GET['gender'] ?? '',
+            'category' => $_GET['category'] ?? '',
+            'location' => $_GET['location'] ?? ''
+        ];
 
-        // Add like counts and like status for each seller
+        $sellers = $this->pageModel->getAllSellers($filters);
+
         foreach ($sellers as $seller) {
             $seller->likeCount = $this->pageModel->getLikeCountByUserId($seller->user_id);
-            $seller->hasLiked = false;
-            if (isLoggedIn()) {
-                $seller->hasLiked = $this->pageModel->hasUserLikedTailor($_SESSION['user_id'], $seller->user_id);
-            }
+            $seller->hasLiked = isLoggedIn() ? $this->pageModel->hasUserLikedTailor($_SESSION['user_id'], $seller->user_id) : false;
         }
 
         $data = [
             'sellers' => $sellers
         ];
+
         $this->view('pages/v_meet_tailor', $data);
     }
     public function tailorProfile($id = null)
@@ -293,5 +296,4 @@ class Pages extends Controller
         // Redirect back to the tailor's profile page
         redirect('pages/tailorProfile/' . $post->user_id);
     }
-    
 }

@@ -7,18 +7,49 @@
         <div class="filter-controls">
             <div class="filter-controls__wrapper">
                 <div class="filter-controls__options">
+                    <!-- Search Bar -->
+                    <input type="text" id="search-bar" class="filter-controls__search" placeholder="Search by name...">
                     <span class="filter-controls__label" style="font-weight: bold;">Filter By</span>
-                    <span class="filter-controls__label">Gender</span>
-                    <span class="filter-controls__label">Category</span>
-                    <span class="filter-controls__label">Location</span>
+                    <div class="custom-dropdown" id="gender-dropdown">
+                        <div class="custom-dropdown__selected">All Genders</div>
+                        <ul class="custom-dropdown__options">
+                            <li class="custom-dropdown__option" data-value="">All Genders</li>
+                            <li class="custom-dropdown__option" data-value="Gents">Gents</li>
+                            <li class="custom-dropdown__option" data-value="Ladies">Ladies</li>
+                        </ul>
+                    </div>
+
+                    <div class="custom-dropdown" id="category-dropdown">
+                        <div class="custom-dropdown__selected">All Categories</div>
+                        <ul class="custom-dropdown__options">
+                            <li class="custom-dropdown__option" data-value="">All Categories</li>
+                            <li class="custom-dropdown__option" data-value="tailor">Tailor</li>
+                            <li class="custom-dropdown__option" data-value="shopkeeper">Shopkeeper</li>
+                        </ul>
+                    </div>
+
+                    <div class="custom-dropdown" id="location-dropdown">
+                        <div class="custom-dropdown__selected">All Locations</div>
+                        <ul class="custom-dropdown__options">
+                            <li class="custom-dropdown__option" data-value="">All Locations</li>
+                            <li class="custom-dropdown__option" data-value="colombo">Colombo</li>
+                            <li class="custom-dropdown__option" data-value="kandy">Kandy</li>
+                            <li class="custom-dropdown__option" data-value="galle">Galle</li>
+                            <li class="custom-dropdown__option" data-value="jaffna">Jaffna</li>
+                        </ul>
+                    </div>
+                    <div class="filter-controls__reset" id="reset-filters">Reset Filter</div>
                 </div>
-                <div class="filter-controls__reset">Reset Filter</div>
             </div>
         </div>
+
         <!-- Profile Cards -->
         <div class="profile-container">
             <?php foreach ($data['sellers'] as $tailor): ?>
-                <div class="profile-card">
+                <div class="profile-card"
+                    data-location="<?php echo strtolower($tailor->home_town); ?>"
+                    data-gender="<?php echo strtolower($tailor->gender); ?>"
+                    data-category="<?php echo strtolower($tailor->user_type); ?>">
                     <div class="profile-card__content">
                         <img class="profile-card__image" src="data:image/jpeg;base64,<?php echo base64_encode($tailor->profile_pic); ?>" alt="Profile">
                         <div class="profile-card__details">
@@ -37,10 +68,12 @@
                                 </button>
                             </form>
                         <?php else: ?>
-                            <a href="<?php echo URLROOT; ?>/users/login" class="btn btn--loged-out">
-                                <i class="fas fa-thumbs-up"></i> Like
-                                <span class="like-count">(<?php echo $tailor->likeCount; ?>)</span>
-                            </a>
+                            <form action="<?php echo URLROOT; ?>/Pages/likeTailor/<?php echo $tailor->user_id; ?>" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn--secondary">
+                                    <i class="fas fa-thumbs-up"></i> Like
+                                    <span class="like-count">(<?php echo $tailor->likeCount; ?>)</span>
+                                </button>
+                            </form>
                         <?php endif; ?>
 
                         <a href="<?php echo URLROOT ?>/Appointments/makeAppointment/<?php echo $tailor->user_id; ?>"><button class="btn btn--secondary"><i class="fas fa-calendar-alt"></i> Appointment</button></a>
@@ -49,6 +82,7 @@
             <?php endforeach; ?>
         </div>
     </div>
+    <script src="<?php echo URLROOT; ?>/public/js/tailor-list.js"></script>
 </section>
 <style>
     .btn {
@@ -70,5 +104,27 @@
     .like-count {
         font-size: 0.9em;
         margin-left: 3px;
+    }
+
+    /* Ensure parent containers do not interfere */
+    .tailor-section {
+        position: relative;
+        /* Create a stacking context for the section */
+        z-index: 0;
+        /* Ensure it does not interfere with dropdowns */
+    }
+
+    .filter-controls {
+        position: relative;
+        /* Create a stacking context for the dropdowns */
+        z-index: 10;
+        /* Ensure it is above the profile cards */
+    }
+
+    .profile-container {
+        position: relative;
+        /* Create a stacking context for the profile cards */
+        z-index: 1;
+        /* Ensure it is below the dropdowns */
     }
 </style>
