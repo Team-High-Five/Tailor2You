@@ -40,7 +40,58 @@ class M_Users
             return false;
         }
     }
+    public function saveResetToken($email, $token)
+    {
+        // Calculate expiration time (e.g., 1 hour from now)
+        $expiry = date('Y-m-d H:i:s', time() + 3600);
 
+        $this->db->query('INSERT INTO password_resets (email, token, expires_at) 
+                     VALUES (:email, :token, :expires_at)
+                     ON DUPLICATE KEY UPDATE token = :token, expires_at = :expires_at');
+
+        $this->db->bind(':email', $email);
+        $this->db->bind(':token', $token);
+        $this->db->bind(':expires_at', $expiry);
+
+        return $this->db->execute();
+    }
+
+    public function checkResetToken($token)
+    {
+        $this->db->query('SELECT * FROM password_resets WHERE token = :token AND expires_at > NOW()');
+        $this->db->bind(':token', $token);
+
+        $result = $this->db->single();
+
+        return ($result) ? true : false;
+    }
+
+    public function resetPassword($token, $password)
+    {
+        // First, get the email associated with this token
+        $this->db->query('SELECT email FROM password_resets WHERE token = :token AND expires_at > NOW()');
+        $this->db->bind(':token', $token);
+
+        $row = $this->db->single();
+
+        if ($row) {
+            // Update the user's password
+            $this->db->query('UPDATE users SET password = :password WHERE email = :email');
+            $this->db->bind(':password', password_hash($password, PASSWORD_DEFAULT));
+            $this->db->bind(':email', $row->email);
+
+            if ($this->db->execute()) {
+                // Delete the reset token
+                $this->db->query('DELETE FROM password_resets WHERE token = :token');
+                $this->db->bind(':token', $token);
+                $this->db->execute();
+
+                return true;
+            }
+        }
+
+        return false;
+    }
     public function register($data)
     {
         $this->db->query('INSERT INTO users (user_type, first_name, last_name, email, password, phone_number, nic, birth_date, home_town, address, bio, category, profile_pic) VALUES (:user_type, :first_name, :last_name, :email, :password, :phone_number, :nic, :birth_date, :home_town, :address, :bio, :category, :profile_pic)');

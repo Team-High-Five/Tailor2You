@@ -8,7 +8,7 @@
 <?php require_once APPROOT . '/views/pages/inc/components/tailor_list.php'; ?>
 
 <!-- footer -->
-<?php require_once APPROOT . '/views/pages/inc/components/footer.php'; ?>
+<?php require_once APPROOT . '/views/pages/inc/footer.php'; ?>
 
 <script src="<?php echo URLROOT; ?>/public/js/script.js"></script>
 <script src="<?php echo URLROOT; ?>/public/js/slidebar.js"></script>

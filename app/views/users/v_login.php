@@ -16,7 +16,7 @@
             <div class="input-group">
                 <div class="input-group_top">
                     <span>Password </span>
-                    <a href="#" class="forgot-password">Forgot?</a>
+                    <a href="<?php echo URLROOT; ?>/Users/forgotPassword" class="forgot-password">Forgot?</a>
                 </div>
                 <input type="password" name="password" placeholder="" required>
                 <span class="form-invalid"><?php echo !empty($data['password_err']) ? $data['password_err'] : ''; ?></span>

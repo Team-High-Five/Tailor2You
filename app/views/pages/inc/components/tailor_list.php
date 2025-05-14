@@ -126,5 +126,35 @@
         /* Create a stacking context for the profile cards */
         z-index: 1;
         /* Ensure it is below the dropdowns */
+    }    /* Custom Scrollbar for Tailor Section */
+    .tailor-section {
+      /* existing styles... */
+      background: var(--gradient-background);
+      min-height: 100vh;
+      padding: 2rem;
+      color: var(--text-light);
+    
+      /* Enable vertical scrolling if needed */
+      overflow-y: auto;
+      max-height: 100vh;
+      scrollbar-width: thin; /* Firefox */
+      scrollbar-color: var(--accent-color) var(--card-gradient); /* Firefox */
+    }
+    
+    /* Webkit browsers (Chrome, Edge, Safari) */
+    .tailor-section::-webkit-scrollbar {
+      width: 10px;
+      background: var(--card-gradient);
+      border-radius: 8px;
+    }
+    
+    .tailor-section::-webkit-scrollbar-thumb {
+      background: var(--accent-color);
+      border-radius: 8px;
+      border: 2px solid var(--card-gradient);
+    }
+    
+    .tailor-section::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-hover);
     }
 </style>
