@@ -24,7 +24,7 @@ require_once APPROOT . '/views/pages/inc/components/new_collection.php';
 
 <span id="feedback"></span>
 <!-- Feedback Section -->
-
+<?php require_once APPROOT . '/views/pages/inc/components/feedback.php'; ?>
 <span id="footer"></span>
 
 <script src="<?php echo URLROOT; ?>/public/js/script.js"></script>

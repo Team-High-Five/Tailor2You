@@ -1,14 +1,29 @@
 <?php
 
-class M_Reviews {
+class M_Reviews
+{
     private $db;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = new Database();
     }
 
+    // Add this method to make your controller work
+    public function addFeedback($data)
+    {
+        $this->db->query('INSERT INTO reviews (user_id, review_text, rating) 
+                          VALUES (:user_id, :review_text, :rating)');
+        $this->db->bind(':user_id', $data['user_id']);
+        $this->db->bind(':review_text', $data['feedback']); // Notice: mapping 'feedback' to 'review_text'
+        $this->db->bind(':rating', $data['rating']);
+
+        return $this->db->execute();
+    }
+
     // Example method to fetch all reviews
-    public function getAllReviews() {
+    public function getAllReviews()
+    {
         $this->db->query('SELECT r.*, u.first_name, u.last_name, u.email, u.phone_number 
                           FROM reviews r 
                           LEFT JOIN users u ON r.user_id = u.user_id
@@ -17,7 +32,8 @@ class M_Reviews {
     }
 
     // Example method to fetch a review by ID
-    public function getReviewById($reviewId) {
+    public function getReviewById($reviewId)
+    {
         $this->db->query('SELECT r.*, u.first_name, u.last_name, u.email, u.phone_number 
                           FROM reviews r 
                           LEFT JOIN users u ON r.user_id = u.user_id 
@@ -27,7 +43,8 @@ class M_Reviews {
     }
 
     // Example method to update review status
-    public function updateReviewStatus($reviewId, $status, $adminNotes) {
+    public function updateReviewStatus($reviewId, $status, $adminNotes)
+    {
         $this->db->query('UPDATE reviews SET status = :status, admin_notes = :admin_notes WHERE review_id = :review_id');
         $this->db->bind(':status', $status);
         $this->db->bind(':admin_notes', $adminNotes);
@@ -49,11 +66,12 @@ class M_Reviews {
 
     public function getLatestReviews($limit)
     {
+        // Modified to show all approved reviews OR the most recent pending ones
         $this->db->query('SELECT review_text, rating, created_at 
-                          FROM reviews 
-                          WHERE status = "accepted" 
-                          ORDER BY created_at DESC 
-                          LIMIT :limit');
+                     FROM reviews 
+                     WHERE status = "accepted" OR status = "pending" 
+                     ORDER BY created_at DESC 
+                     LIMIT :limit');
         $this->db->bind(':limit', $limit, PDO::PARAM_INT);
         return $this->db->resultSet();
     }

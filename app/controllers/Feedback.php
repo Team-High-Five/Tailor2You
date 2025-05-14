@@ -8,88 +8,76 @@ class Feedback extends Controller
 
     public function __construct()
     {
-        // Load the feedback model
+        // Make sure we're loading the right model
         $this->feedbackModel = $this->model('M_Reviews');
     }
 
-    // Submit feedback from the home page
-    public function submit()
+    public function index()
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Sanitize POST data
-            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-            // Prepare data
-            $data = [
-                'user_id' => isLoggedIn() ? $_SESSION['user_id'] : null, // Use logged-in user ID if available
-                'review_text' => trim($_POST['feedback']),
-                'rating' => trim($_POST['rating']),
-                'errors' => []
-            ];
-
-            // Validate data
-            if (empty($data['review_text'])) {
-                $data['errors']['review_text'] = 'Feedback cannot be empty.';
-            }
-            if (empty($data['rating'])) {
-                $data['errors']['rating'] = 'Rating is required.';
-            }
-
-            // If no errors, save the feedback
-            if (empty($data['errors'])) {
-                if ($this->feedbackModel->addReview($data)) {
-                    flash('feedback_message', 'Thank you for your feedback!');
-                    redirect('pages/index#feedback');
-                } else {
-                    die('Something went wrong while submitting your feedback.');
-                }
-            } else {
-                // Reload the page with errors
-                $this->view('pages/v_home_page', $data);
-            }
-        } else {
-            redirect('pages/index');
-        }
-    }
-
-    // Fetch all reviews for the admin panel
-    public function adminView()
-    {
-        $reviews = $this->feedbackModel->getAllReviews();
+        // Get reviews to display
+        $reviews = $this->feedbackModel->getLatestReviews(5); // Get 5 latest reviews
 
         $data = [
             'reviews' => $reviews
         ];
 
-        $this->view('users/Admin/v_a_reviewSection', $data);
+        $this->view('pages/v_home_page', $data);
     }
 
-    // Update review status (accept, reject, etc.)
-    public function updateStatus($reviewId)
+    public function submit()
     {
-        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $status = trim($_POST['status']);
-            
-            if ($this->adminModel->updateReviewStatus($reviewId, $status, "")) {
-                flash('review_message', 'Review status updated successfully');
-            } else {
-                flash('review_message', 'Failed to update review status', 'alert alert-danger');
-            }
+        // Check if user is logged in
+        if (!isLoggedIn()) {
+            flash('feedback_error', 'You must be logged in to submit feedback');
+            redirect('users/login');
+            return;
         }
-        redirect('admin/reviewSection');
-    }
 
-    // Update review notes
-    public function updateNotes($reviewId) {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $notes = trim($_POST['admin_notes']);
-            $status = trim($_POST['status']);
-            
-            $success = $this->adminModel->updateReviewStatus($reviewId, $status, $notes);
-            
-            header('Content-Type: application/json');
-            echo json_encode(['success' => $success]);
-            exit;
+            // Sanitize POST data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'user_id' => $_SESSION['user_id'],
+                'feedback' => trim($_POST['feedback']), // This is mapped to review_text in the model
+                'rating' => trim($_POST['rating']),
+                'rating_err' => '',
+                'feedback_err' => ''
+            ];
+
+            // Validate data
+            if (empty($data['rating'])) {
+                $data['rating_err'] = 'Please select a rating';
+            }
+
+            if (empty($data['feedback'])) {
+                $data['feedback_err'] = 'Please enter your feedback';
+            }
+
+            // Make sure no errors
+            if (empty($data['rating_err']) && empty($data['feedback_err'])) {
+                // Submit feedback
+                if ($this->feedbackModel->addFeedback($data)) {
+                    flash('feedback_success', 'Your feedback has been submitted successfully');
+                    redirect('pages/index');
+                } else {
+                    flash('feedback_error', 'Something went wrong, please try again');
+                    // Get reviews to display
+                    $reviews = $this->feedbackModel->getLatestReviews(5);
+                    $data['reviews'] = $reviews;
+                    $this->view('pages/v_home_page', $data);
+                }
+            } else {
+                // Load view with errors
+                flash('feedback_error', 'Please fix the errors in your submission');
+                // Get reviews to display
+                $reviews = $this->feedbackModel->getLatestReviews(5);
+                $data['reviews'] = $reviews;
+                $this->view('pages/v_home_page', $data);
+            }
+        } else {
+            // Redirect to homepage if not POST request
+            redirect('pages/index');
         }
     }
 }
