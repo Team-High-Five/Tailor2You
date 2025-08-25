@@ -45,25 +45,20 @@
 ## 🖼️ Screenshots
 
 <p>
-  <img src="./docs/readme-images/landing.png" alt="Landing Page" width="49%" />
+  <img src="./docs/readme-images/landing.png" alt="Landing Page" width="45%" />
+  <img src="./docs/readme-images/tailor_dashboard.png" alt="Tailor Dashboard" width="45%" />
 </p>
 <p>
-  <img src="./docs/readme-images/tailor_dashboard.png" alt="Tailor Dashboard" width="49%" />
+  <img src="./docs/readme-images/tailor_dashboard.png" alt="Tailor Dashboard" width="45%" />
+  <img src="./docs/readme-images/fabrics.png" alt="Fabrics" width="45%" />
 </p>
 <p>
-  <img src="./docs/readme-images/tailor_dashboard.png" alt="Tailor Dashboard" width="49%" />
+  <img src="./docs/readme-images/tailor_custom.png" alt="Tailor Customization" width="45%" />
+  <img src="./docs/readme-images/dark_mode.png" alt="Dark Mode" width="45%" />
 </p>
 <p>
-  <img src="./docs/readme-images/fabrics.png" alt="Fabrics" width="49%" />
-</p>
-<p>
-  <img src="./docs/readme-images/tailor_custom.png" alt="Tailor Customization" width="49%" />
-</p>
-<p>
-  <img src="./docs/readme-images/dark_mode.png" alt="Dark Mode" width="49%" />
-</p>
-<p>
-  <img src="./docs/readme-images/cloths_custom.png" alt="Cloths Customization" width="49%" />
+  <img src="./docs/readme-images/cloths_custom.png" alt="Cloths Customization" width="45%" />
+  <img src="./docs/readme-images/appointment.png" alt="Appointment" width="45%" />
 </p>
 
 ---
