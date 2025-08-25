@@ -4,7 +4,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 1200px; /* Adjust width as needed */
+    max-width: 1200px;
+    /* Adjust width as needed */
     margin: 0 auto;
 }
 
@@ -42,7 +43,7 @@
 }
 
 .search-bar button:hover {
-    background-color: #0056b3;
+    background-color: #c7c9cb;
 }
 
 /* Statistics Cards */
@@ -69,6 +70,7 @@
     text-align: center;
     width: 200px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
 }
 
 .card:hover {
@@ -102,23 +104,64 @@
 }
 
 /* Chart Container */
+/* Chart Container */
 .charts-row {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-around;
     width: 100%;
+    margin-top: 40px;
 }
 
 .chart-container {
-    width: 30%;
-    max-width: 400px;
-    margin: 20px 0;
+    width: 31%;
+    min-width: 300px;
+    height: 350px;
+    margin: 15px 0;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+/* Chart Title */
+.chart-title {
+    text-align: center;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #ffffff;
+}
+
+/* Make Canvas Take Full Space */
+.chart-container canvas {
+    width: 100% !important;
+    height: 300px !important;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+    .chart-container {
+        width: 45%;
+    }
+}
+
+@media (max-width: 768px) {
+    .chart-container {
+        width: 100%;
+    }
 }
 
 /* Sidebar */
 /* Dropdown Button */
 .dropdown-btn {
-    padding: 15px 25px; /* Adjust padding for better appearance */
-    font-size: 18px; /* Adjust font size */
+    padding: 15px 25px;
+    /* Adjust padding for better appearance */
+    font-size: 18px;
+    /* Adjust font size */
     color: white;
     background: none;
     border: none;
@@ -126,7 +169,8 @@
     cursor: pointer;
     outline: none;
     transition: background 0.3s;
-    width: 100%; /* Ensure the button takes full width */
+    width: 100%;
+    /* Ensure the button takes full width */
 }
 
 .dropdown-btn:hover {
@@ -136,7 +180,7 @@
 .dropdown-container {
     display: none;
     background-color: #eaeffbb0;
-    width: 100%; 
+    width: 100%;
     border-radius: 20px;
 }
 
@@ -150,4 +194,25 @@
 
 .dropdown-container a:hover {
     background-color: #575757;
+}
+
+/* Remove underlines from links */
+.no-underline,
+.no-underline:hover,
+.no-underline:focus,
+.no-underline:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Card link styling */
+.card-content h3 a {
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.card-content h3 a:hover {
+    color: #007BFF; /* Matches your card number color for consistency */
+    text-decoration: none;
 }

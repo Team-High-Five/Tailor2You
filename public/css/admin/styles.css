@@ -40,12 +40,82 @@ body {
     z-index: -1;
 }
 
+/* Header Container */
+.header-container {
+    background-color: rgba(26, 26, 26, 0.85); /* Black background with slight transparency */
+    backdrop-filter: blur(12px); /* Add blur effect */
+    padding: 1px 20px; /* Add padding for spacing */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
+    position: sticky; /* Make the header sticky */
+    top: 0;
+    z-index: 1000; /* Ensure it stays on top */
+}
+
 /* Header Section */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+}
+
+/* Logo */
+.logo img {
+    height: 50px; /* Adjust logo size */
+    object-fit: contain;
+}
+
+/* Icons Section */
+.icons-section {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Add spacing between icons */
+    size: 50px;
+}
+
+/* Notification, Email, and Logout Icons */
+.icon-link i {
+    font-size: 20px; /* Adjust icon size */
+    color: white; /* Ensure icons are visible on the black background */
+    cursor: pointer;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.icon-link i:hover {
+    color: var(--accent-color); /* Change color on hover */
+    transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+/* User Info */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Add spacing between text and avatar */
+    background: rgba(255, 255, 255, 0.1); /* Slight transparent background */
+    padding: 5px 10px;
+    border-radius: 25px; /* Rounded corners */
+    color: white; /* Ensure text is visible on the black background */
+}
+
+/* User Info Text */
+.user-info span {
+    font-size: 14px;
+    font-weight: 500;
+    color: white; /* Ensure text is visible on the black background */
+}
+
+/* User Avatar */
+.user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white; /* Add a white border around the avatar */
+    object-fit: cover;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.user-info:hover img {
+    transform: scale(1.1); /* Slightly enlarge on hover */
+    border-color: rgba(255, 255, 255, 0.6); /* Brighter border on hover */
 }
 
 .fas.fa-bell {
@@ -55,17 +125,6 @@ body {
 .logo {
     display: flex;
     align-items: center;
-}
-
-.logo img {
-    height: 40px;
-    margin-right: 10px;
-}
-
-.user-info {
-    display: flex;
-    align-items: flex-start;
-    flex-direction: column;
 }
 
 .user-info label,
@@ -86,10 +145,12 @@ body {
     align-items: center;
 }
 
+/* Adjust icon size in the profile section */
 .profile-section i {
-    font-size: 18px;
+    font-size: 24px; /* Icon size */
     margin-left: 20px;
     cursor: pointer;
+    color: white; /* Ensure icons are visible on the black background */
 }
 
 .profile-info {
@@ -193,6 +254,7 @@ body {
     font-size: 30px;
     cursor: pointer;
     color: #ffffff;
+    padding: 20px;
 }
 
 /* Main Content */
@@ -222,64 +284,47 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 30px;
-    width: 100%;
+    margin-top: 20px;
+    /* Adjust top margin as needed */
+}
+
+/* Search Container */
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: -60px;
 }
 
 /* Search Bar */
 .search-bar {
     display: flex;
     align-items: center;
-    background-color: #ffffff;
-    border-radius: 30px;
-    padding: 10px 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 50%;
-    max-width: 600px;
-    transition: box-shadow 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.1); /* Slight transparent background */
+    border-radius: 25px;
+    padding: 5px 15px;
+    width: 300px;
+    margin-top: 20px; /* Add margin to move it down */
 }
 
-.search-bar:hover {
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-}
-
-.search-input {
+.search-bar input {
     flex: 1;
     border: none;
-    outline: none;
-    font-size: 16px;
-    padding: 10px;
-    border-radius: 30px;
-    margin-right: 10px;
-    color: #333;
-    background-color: #f9f9f9;
-}
-
-.search-input::placeholder {
-    color: #aaa;
-}
-
-.search-button {
-    background-color: #007BFF;
+    background: transparent;
     color: white;
+    outline: none;
+    font-size: 14px;
+}
+
+.search-bar button {
+    background: none;
     border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: white;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.search-button:hover {
-    background-color: #0056b3;
-    transform: scale(1.1);
-}
-
-.search-button i {
-    font-size: 1rem;
+.search-bar button i {
+    font-size: 16px;
 }
 
 .complaint-form {
@@ -345,7 +390,7 @@ body {
 
 .user-table th:nth-child(5),
 .user-table td:nth-child(5) {
-    width: 10%;
+    width: 15%;
     /* Status column */
 }
 
@@ -442,7 +487,7 @@ body {
 }
 
 .user-info span {
-    color: #ffffff;
+    color: white; /* Ensure text is visible on the black background */
     font-weight: 600;
     font-size: 0.95rem;
     padding: 0 0.5rem;
@@ -452,7 +497,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid white; /* Optional: Add a white border around the profile picture */
     transition: border-color 0.3s ease, transform 0.3s ease;
     object-fit: cover;
 }
@@ -569,4 +614,34 @@ Dropdown Styling
 
 .btn-primary:hover {
     background-color: #0056b3; /* Darker blue */
+}
+
+/* Icons Section */
+.icons-section {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Increase the gap between icons */
+}
+
+/* Notification and Logout Icons */
+.icon-link i {
+    font-size: 20px; /* Adjust icon size */
+    color: white; /* Ensure icons are visible on the black background */
+    cursor: pointer;
+}
+
+/* User Info */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Add spacing between text and avatar */
+    color: white; /* Ensure text is visible on the black background */
+}
+
+.user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid white; /* Optional: Add a white border around the profile picture */
+    object-fit: cover;
 }

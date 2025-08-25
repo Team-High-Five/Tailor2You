@@ -22,7 +22,7 @@ class Fabrics extends Controller
 
         $this->view($view, $data);
     }
-    
+
     public function addNewFabric($user_id, $view, $controller)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -146,11 +146,11 @@ class Fabrics extends Controller
         }
     }
 
-    public function deleteFabric($fabric_id,$controller)
+    public function deleteFabric($fabric_id, $controller)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            if($this->fabricModel->checkFabricLinkOnDesign($fabric_id)) {
+            if ($this->fabricModel->checkFabricLinkOnDesign($fabric_id)) {
                 flash('fabric_message', 'Fabric cannot be deleted as it is used in a design', 'alert alert-danger');
                 redirect($controller . '/displayFabricStock');
             }
@@ -175,23 +175,24 @@ class Fabrics extends Controller
 
         if (empty($data['price'])) {
             $errors['price_err'] = 'Please enter price';
-        } elseif ($data['price'] < 0) {
-            $errors['price_err'] = 'Price cannot be negative';
+        } elseif (!is_numeric($data['price']) || floatval($data['price']) < 0) {
+            $errors['price_err'] = 'Price cannot be negative and must be a number';
         }
 
         if (empty($data['stock'])) {
             $errors['stock_err'] = 'Please enter stock quantity';
-        } elseif ($data['stock'] < 0) {
-            $errors['stock_err'] = 'Stock cannot be negative';
+        } elseif (!is_numeric($data['stock']) || floatval($data['stock']) < 0) {
+            $errors['stock_err'] = 'Stock cannot be negative and must be a number';
         }
 
         if (empty($data['colors'])) {
             $errors['color_err'] = 'Please select available colors';
         }
 
-        if (empty($data['image'])) {
+    
+        if (!isset($data['fabric_id']) && empty($data['image'])) {
             $errors['image_err'] = 'Please upload an image';
-        } elseif (strlen($data['image']) > 1048576) { // 1MB = 1048576 bytes
+        } elseif (!empty($data['image']) && strlen($data['image']) > 1048576) { // 1MB
             $errors['image_err'] = 'Image size cannot exceed 1MB';
         }
 

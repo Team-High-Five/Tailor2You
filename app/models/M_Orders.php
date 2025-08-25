@@ -527,4 +527,8 @@ class M_Orders
             return false;
         }
     }
+    public function getOrders() {
+        $this->db->query('SELECT * FROM orders');
+        return $this->db->resultSet();
+    }
 }

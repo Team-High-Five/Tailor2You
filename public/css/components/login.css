@@ -135,6 +135,49 @@ h2,
   color: var(--accent-color);
 }
 
+/* Add these styles to your login.css file */
+.recovery-text {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.recovery-links {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-light);
+}
+
+.recovery-links a {
+  color: var(--accent-color);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.recovery-links a:hover {
+  text-decoration: underline;
+}
+
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.alert-success {
+  background: rgba(46, 213, 115, 0.15);
+  color: #2ed573;
+  border: 1px solid rgba(46, 213, 115, 0.3);
+}
+
+.alert-danger {
+  background: rgba(255, 71, 87, 0.15);
+  color: #ff4757;
+  border: 1px solid rgba(255, 71, 87, 0.3);
+}
+
 /* Error Messages */
 .form-invalid {
   color: #ff6b6b;

@@ -303,7 +303,6 @@ CREATE TABLE `user_measurements` (
     CONSTRAINT `user_measurements_ibfk_2` FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
-
 -- -----------------------------------------------------
 -- 6. ORDER MANAGEMENT TABLES
 -- -----------------------------------------------------
@@ -415,7 +414,6 @@ CREATE TABLE `order_item_measurements` (
     FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE RESTRICT
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
-
 -- Create measurement ranges table
 CREATE TABLE `measurement_ranges` (
     `measurement_id` INT(11) NOT NULL,
@@ -426,78 +424,91 @@ CREATE TABLE `measurement_ranges` (
     FOREIGN KEY (`measurement_id`) REFERENCES `measurements` (`measurement_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4;
 
-
 --------------------------------------------------------
 -- 7. CART MANAGEMENT TABLES
 -- -----------------------------------------------------
 -- Create cart_items table
 CREATE TABLE `cart_items` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `user_id` INT(11) NOT NULL,
-  `design_id` INT(11) NOT NULL,
-  `fabric_id` INT(11) NOT NULL,
-  `color_id` INT(11) NOT NULL,
-  `quantity` INT(2) DEFAULT 1,
-  `added_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
-  FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE CASCADE,
-  FOREIGN KEY (`fabric_id`) REFERENCES `fabrics` (`fabric_id`) ON DELETE CASCADE,
-  FOREIGN KEY (`color_id`) REFERENCES `colors` (`color_id`) ON DELETE CASCADE
+    `id` INT(11) NOT NULL AUTO_INCREMENT,
+    `user_id` INT(11) NOT NULL,
+    `design_id` INT(11) NOT NULL,
+    `fabric_id` INT(11) NOT NULL,
+    `color_id` INT(11) NOT NULL,
+    `quantity` INT(2) DEFAULT 1,
+    `added_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`design_id`) REFERENCES `designs` (`design_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`fabric_id`) REFERENCES `fabrics` (`fabric_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`color_id`) REFERENCES `colors` (`color_id`) ON DELETE CASCADE
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
-
 
 -- SQL script for creating the `messages` table
 
 CREATE TABLE `messages` (
-  `message_id` int(11) NOT NULL,
-  `sender_id` int(11) NOT NULL,
-  `receiver_id` int(11) NOT NULL,
-  `text` text NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    `message_id` int(11) NOT NULL,
+    `sender_id` int(11) NOT NULL,
+    `receiver_id` int(11) NOT NULL,
+    `text` text NOT NULL,
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- Add primary key and indexes
 ALTER TABLE `messages`
-  ADD PRIMARY KEY (`message_id`),
-  ADD KEY `sender_id` (`sender_id`),
-  ADD KEY `receiver_id` (`receiver_id`);
+ADD PRIMARY KEY (`message_id`),
+ADD KEY `sender_id` (`sender_id`),
+ADD KEY `receiver_id` (`receiver_id`);
 
 -- Set AUTO_INCREMENT for the primary key
 ALTER TABLE `messages`
-  MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+MODIFY `message_id` int(11) NOT NULL AUTO_INCREMENT,
+AUTO_INCREMENT = 29;
 
 -- Add foreign key constraints
 ALTER TABLE `messages`
-  ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+ADD CONSTRAINT `messages_ibfk_1` FOREIGN KEY (`sender_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE,
+ADD CONSTRAINT `messages_ibfk_2` FOREIGN KEY (`receiver_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 
 COMMIT;
 
 -- SQL script for creating the `reviews` table
 
 CREATE TABLE `reviews` (
-  `review_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `review_text` text NOT NULL,
-  `rating` int(11) NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `status` enum('accepted','pending','rejected') DEFAULT 'pending',
-  `action` varchar(255) DEFAULT NULL,
-  `admin_notes` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+    `review_id` int(11) NOT NULL,
+    `user_id` int(11) NOT NULL,
+    `review_text` text NOT NULL,
+    `rating` int(11) NOT NULL,
+    `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+    `status` enum(
+        'accepted',
+        'pending',
+        'rejected'
+    ) DEFAULT 'pending',
+    `action` varchar(255) DEFAULT NULL,
+    `admin_notes` text DEFAULT NULL
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 -- Add primary key and indexes
 ALTER TABLE `reviews`
-  ADD PRIMARY KEY (`review_id`),
-  ADD KEY `user_id` (`user_id`);
+ADD PRIMARY KEY (`review_id`),
+ADD KEY `user_id` (`user_id`);
 
 -- Set AUTO_INCREMENT for the primary key
 ALTER TABLE `reviews`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT,
+AUTO_INCREMENT = 9;
 
 -- Add foreign key constraint
 ALTER TABLE `reviews`
-  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
+ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE CASCADE;
 
 COMMIT;
+
+CREATE TABLE IF NOT EXISTS password_resets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    token VARCHAR(255) NOT NULL,
+    expires_at DATETIME NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY unique_email (email)
+);

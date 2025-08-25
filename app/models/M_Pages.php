@@ -19,16 +19,38 @@ class M_Pages
         $this->db->query("SELECT user_id, CONCAT(first_name, ' ', last_name) AS name, bio, profile_pic FROM users WHERE user_type = 'tailor'");
         return $this->db->resultSet();
     }
-    public function getAllSellers()
+    public function getAllSellers($filters = [])
     {
-        $this->db->query("SELECT user_id, CONCAT(first_name, ' ', last_name) AS name, bio, profile_pic FROM users WHERE user_type = 'shopkeeper' OR user_type = 'tailor'");
+        $query = "SELECT user_id, CONCAT(first_name, ' ', last_name) AS name, bio, profile_pic, home_town, user_type ,category FROM users WHERE user_type IN ('shopkeeper', 'tailor')";
+
+        // Apply filters
+        if(!empty($filters['gender'])) {
+            $query .= " AND category = :gender";
+        }
+        if (!empty($filters['category'])) {
+            $query .= " AND user_type = :category";
+        }
+        if (!empty($filters['location'])) {
+            $query .= " AND home_town = :location";
+        }
+
+        $this->db->query($query);
+        if (!empty($filters['gender'])) {
+            $this->db->bind(':gender', $filters['gender']);
+        }
+        if (!empty($filters['category'])) {
+            $this->db->bind(':category', $filters['category']);
+        }
+        if (!empty($filters['location'])) {
+            $this->db->bind(':location', $filters['location']);
+        }
         return $this->db->resultSet();
     }
     public function getFeaturedDesigns()
     {
         $this->db->query("
             SELECT d.design_id, d.name, d.main_image, d.base_price, 
-                   u.user_id, CONCAT(u.first_name, ' ', u.last_name) as tailor_name
+            u.user_id, CONCAT(u.first_name, ' ', u.last_name) as tailor_name
             FROM designs as d
             JOIN users as u ON d.user_id = u.user_id
             WHERE d.status = 'active'
@@ -57,7 +79,7 @@ class M_Pages
     {
         $this->db->query("SELECT category_id FROM clothing_categories WHERE name = :name");
         $this->db->bind(':name', $categoryName);
-        $result= $this->db->single();
+        $result = $this->db->single();
 
         return $result ? $result->category_id : null;
     }

@@ -15,10 +15,19 @@ class Pages extends Controller
     {
         $featuredDesigns = $this->pageModel->getFeaturedDesigns(6);
 
+        // Load the M_Reviews model
+        $reviewModel = $this->model('M_Reviews');
+
+        // Fetch the latest accepted reviews (limit to 5 or any number you prefer)
+        $reviews = $reviewModel->getLatestReviews(5);
+
+        // Pass both designs and reviews to the view
         $data = [
             'title' => 'Home Page',
-            'designs' => $featuredDesigns
+            'designs' => $featuredDesigns,
+            'reviews' => $reviews
         ];
+
         $this->view('pages/v_home_page', $data);
     }
     public function notFound()
@@ -73,7 +82,7 @@ class Pages extends Controller
 
     public function womenSkirtCategories()
     {
-        $_SESSION['redirect_url'] ='pages/womenSkirtCategories';
+        $_SESSION['redirect_url'] = 'pages/womenSkirtCategories';
         $category_id = $this->pageModel->getCategoryByName('Skirt');
         $featuredDesigns = $this->pageModel->getDesignsByCategory($category_id);
         $data = [
@@ -145,7 +154,7 @@ class Pages extends Controller
 
     public function genderSel()
     {
-        $_SESSION['redirect_url'] ='pages/genderSel';
+        $_SESSION['redirect_url'] = 'pages/genderSel';
         $users = $this->pageModel->getUsers();
         $data = [
             'users' => $users
@@ -156,20 +165,23 @@ class Pages extends Controller
 
     public function tailorPage()
     {
-        $sellers = $this->pageModel->getAllSellers();
+        $filters = [
+            'gender' => $_GET['gender'] ?? '',
+            'category' => $_GET['category'] ?? '',
+            'location' => $_GET['location'] ?? ''
+        ];
 
-        // Add like counts and like status for each seller
+        $sellers = $this->pageModel->getAllSellers($filters);
+
         foreach ($sellers as $seller) {
             $seller->likeCount = $this->pageModel->getLikeCountByUserId($seller->user_id);
-            $seller->hasLiked = false;
-            if (isLoggedIn()) {
-                $seller->hasLiked = $this->pageModel->hasUserLikedTailor($_SESSION['user_id'], $seller->user_id);
-            }
+            $seller->hasLiked = isLoggedIn() ? $this->pageModel->hasUserLikedTailor($_SESSION['user_id'], $seller->user_id) : false;
         }
 
         $data = [
             'sellers' => $sellers
         ];
+
         $this->view('pages/v_meet_tailor', $data);
     }
     public function tailorProfile($id = null)

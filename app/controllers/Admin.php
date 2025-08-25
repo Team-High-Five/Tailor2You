@@ -7,11 +7,11 @@ class Admin extends Controller
 {
     private $orderModel;
     private $adminModel;
+    private $userModel;
 
     public function __construct()
     {
-        $this->userModel = $this->model('M_Users');
-        $this->adminModel = $this->model('M_Admin');
+        $this->adminModel = $this->model('M_Admin'); // Load the M_Admin model
         $this->orderModel = $this->model('M_Orders');
         $this->fabricModel = $this->model('M_Fabrics');
         $this->reviewModel = $this->model('M_Reviews');
@@ -24,21 +24,47 @@ class Admin extends Controller
 
     public function admindashboard()
     {
-        $adminModel = $this->model('M_Admin');
-        $fabricModel = $this->model('M_Fabrics'); // Load the M_Fabrics model
+        if (!isset($_SESSION['admin_id'])) {
+            redirect('users/login'); // Redirect to login page if not logged in
+        }
 
+        $adminId = $_SESSION['admin_id'];
+        $adminDetails = $this->adminModel->getUserById($adminId);
+
+        // Fetch counts
+        $userCount = $this->adminModel->getUserCount();
+        $orderCount = $this->adminModel->getOrderCount();
+        $inventoryCount = $this->adminModel->getInventoryCount();
+        $reviewCount = $this->adminModel->getReviewCount();
+
+        // Get user counts by type (needed for Chart 3)
+        $userCounts = $this->adminModel->getUserCountsByType();
+
+        // Pass data to the view
         $data = [
-            'userCount' => $adminModel->getUserCount(),
-            'orderCount' => $adminModel->getOrderCount(),
-            'inventoryCount' => $fabricModel->getFabricsCount(), // Fetch fabric count
-            'reviewCount' => $adminModel->getReviewCount(),
-            'userCounts' => $adminModel->getUserCountsByType()
+            'adminDetails' => $adminDetails,
+            'userCount' => $userCount,
+            'orderCount' => $orderCount,
+            'inventoryCount' => $inventoryCount,
+            'reviewCount' => $reviewCount,
+            'userCounts' => $userCounts
         ];
 
         $this->view('users/Admin/v_a_dashboard', $data);
     }
+    public function dashboard()
+    {
+        // Fetch admin details using the admin ID stored in the session
+        $adminId = $_SESSION['admin_id'];
+        $adminDetails = $this->userModel->getUserById($adminId);
 
-    
+        // Pass admin details to the view
+        $data = [
+            'adminDetails' => $adminDetails
+        ];
+
+        $this->view('admin/dashboard', $data);
+    }
 
     public function manageCustomer()
     {
@@ -197,7 +223,8 @@ class Admin extends Controller
         }
     }
 
-    public function editTailor($id) {
+    public function editTailor($id)
+    {
         $tailor = $this->adminModel->getUserById($id); // Fetch tailor by ID
         if (!$tailor) {
             flash('tailor_message', 'Tailor not found', 'alert alert-danger');
@@ -228,8 +255,8 @@ class Admin extends Controller
                 'birth_date' => trim($_POST['birth_date']),
                 'home_town' => trim($_POST['home_town']),
                 'address' => trim($_POST['address']),
-                'bio' => trim($_POST['bio']),
-                'category' => trim($_POST['category']),
+                'bio' => isset($_POST['bio']) ? trim($_POST['bio']) : '',  // Check if exists
+                'category' => isset($_POST['category']) ? trim($_POST['category']) : '',
                 'profile_pic' => $profilePic,
                 'status' => trim($_POST['status'])
             ];
@@ -367,7 +394,8 @@ class Admin extends Controller
         }
     }
 
-    public function viewAllUsers() {
+    public function viewAllUsers()
+    {
         // Fetch all users using the M_Admin model
         $users = $this->adminModel->getAllUsers();
 
@@ -436,17 +464,22 @@ class Admin extends Controller
         }
     }
 
-    public function displayAllOrders() {
-        // Fetch orders from the database
+    public function displayAllOrders()
+    {
+        // Load the M_Orders model
+        $this->orderModel = $this->model('M_Orders');
+
+        // Fetch all orders
         $orders = $this->orderModel->getOrders();
 
-        // Pass orders to the view
+        // Pass the orders to the view
         $data = [
             'orders' => $orders
         ];
 
         $this->view('users/Admin/v_a_viewAllOrders', $data);
     }
+
     public function viewComplaints()
     {
         $data = [];
@@ -463,10 +496,16 @@ class Admin extends Controller
 
     public function viewReviews()
     {
-        $data = [];
+        $reviewModel = $this->model('M_Reviews');
+        $reviews = $reviewModel->getAllReviews();
 
-        $this->view('users/Admin/v_a_viewReviews');
+        $data = [
+            'reviews' => $reviews
+        ];
+
+        $this->view('users/Admin/v_a_reviewSection', $data);
     }
+
     public function complaintsSection()
     {
         $this->view('users/Admin/v_a_complaintsSection');
@@ -477,7 +516,7 @@ class Admin extends Controller
         $this->view('users/Admin/v_a_generateReports');
     }
 
-    
+
 
     public function reviewSection()
     {
@@ -497,7 +536,8 @@ class Admin extends Controller
         $this->view('users/Admin/v_a_refundPayments');
     }
 
-    public function testConnection() {
+    public function testConnection()
+    {
         if ($this->adminModel->testDatabaseConnection()) {
             echo "Database connection is working.";
         } else {
@@ -505,42 +545,53 @@ class Admin extends Controller
         }
     }
 
-    public function viewReview($review_id) {
-        // Fetch review details from the model
-        $review = $this->adminModel->getReviewById($review_id);
+    public function viewReview($reviewId)
+    {
+        $review = $this->reviewModel->getReviewById($reviewId);
 
-        // Check if the review exists
-        if (!$review) {
-            flash('review_message', 'Review not found', 'alert alert-danger');
+        if ($review) {
+            // Create user name from first_name and last_name
+            $userName = isset($review->first_name) ? $review->first_name : '';
+            if (isset($review->last_name)) {
+                $userName .= ' ' . $review->last_name;
+            }
+            
+            $data = [
+                'review_id' => $review->review_id,
+                'review_text' => $review->review_text,
+                'rating' => $review->rating,
+                'created_at' => $review->created_at,
+                'status' => $review->status,
+                'user_name' => $userName ? $userName : 'Unknown User',
+                'user_id' => $review->user_id,
+                'email' => isset($review->email) ? $review->email : 'Not available',
+                'phone' => isset($review->phone_number) ? $review->phone_number : 'Not available',
+                'admin_notes' => isset($review->admin_notes) ? $review->admin_notes : ''
+            ];
+
+            $this->view('users/Admin/v_a_viewReviews', $data);
+        } else {
+            flash('review_message', 'Review not found.');
             redirect('admin/reviewSection');
         }
-
-        // Pass the review data to the view
-        $data = [
-            'review_id' => $review->review_id,
-            'review_text' => $review->review_text,
-            'rating' => $review->rating,
-            'created_at' => $review->created_at,
-            'status' => $review->status,
-            'admin_notes' => $review->admin_notes,
-            'user_id' => $review->user_id,
-            'user_name' => $review->user_name,
-            'email' => $review->email,
-            'phone' => $review->phone
-        ];
-
-        $this->view('users/Admin/v_a_viewReviews', $data);
     }
 
-    public function updateReviewStatus($review_id, $status) {
+    public function updateReviewStatus($review_id, $status = null)
+    {
+        // If status is not provided directly, get it from POST
+        if ($status === null && isset($_POST['status'])) {
+            $status = $_POST['status'];
+        }
+        
         // Validate the status
-        if (!in_array($status, ['accepted', 'rejected'])) {
+        if (!in_array($status, ['accepted', 'pending', 'rejected'])) {
             flash('review_message', 'Invalid status', 'alert alert-danger');
             redirect('admin/reviewSection');
         }
 
         // Get admin notes from the form
-        $admin_notes = isset($_POST['notes']) ? trim($_POST['notes']) : '';
+        $admin_notes = isset($_POST['notes']) ? trim($_POST['notes']) : 
+                      (isset($_POST['admin_notes']) ? trim($_POST['admin_notes']) : '');
 
         // Update the status and notes in the database
         if ($this->adminModel->updateReviewStatus($review_id, $status, $admin_notes)) {
@@ -552,7 +603,41 @@ class Admin extends Controller
         redirect('admin/reviewSection');
     }
 
-    public function inventoryManagement() {
+    public function updateReviewNotes()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $review_id = $_POST['review_id'];
+            $admin_notes = trim($_POST['admin_notes']);
+            $status = isset($_POST['status']) ? trim($_POST['status']) : null;
+            
+            $currentReview = $this->reviewModel->getReviewById($review_id);
+            
+            // If status is not provided, keep the current status
+            if ($status === null && $currentReview) {
+                $status = $currentReview->status;
+            }
+            
+            $success = $this->adminModel->updateReviewStatus($review_id, $status, $admin_notes);
+            
+            // For AJAX requests
+            if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
+                header('Content-Type: application/json');
+                echo json_encode(['success' => $success]);
+                exit;
+            }
+            
+            // For regular form submissions
+            if ($success) {
+                flash('review_message', 'Review notes updated successfully');
+            } else {
+                flash('review_message', 'Failed to update notes', 'alert alert-danger');
+            }
+            redirect('admin/reviewSection');
+        }
+    }
+
+    public function inventoryManagement()
+    {
         // Load the M_Fabrics model
         $fabricModel = $this->model('M_Fabrics');
 
@@ -568,7 +653,8 @@ class Admin extends Controller
         $this->view('users/Admin/v_a_inventoryManagement', $data);
     }
 
-    public function editFabric($fabricId) {
+    public function editFabric($fabricId)
+    {
         $fabricModel = $this->model('M_Fabrics');
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -603,7 +689,8 @@ class Admin extends Controller
         }
     }
 
-    public function deleteFabric($fabricId) {
+    public function deleteFabric($fabricId)
+    {
         $fabricModel = $this->model('M_Fabrics');
 
         if ($fabricModel->deleteFabric($fabricId)) {

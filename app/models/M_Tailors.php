@@ -484,41 +484,63 @@ class M_Tailors
             return false;
         }
     }
-    public function getRecentAppointments($tailorId, $status = 'pending')
+    public function getRecentAppointments($tailorId, $status = null)
     {
-        $this->db->query("SELECT a.*, 
-                      u.first_name as customer_first_name, 
-                      u.last_name as customer_last_name,
-                      a.created_at
-                      FROM appointments a
-                      JOIN users u ON a.customer_id = u.user_id
-                      WHERE a.tailor_shopkeeper_id = :tailor_id
-                      AND a.status = :status
-                      ORDER BY a.created_at DESC
-                      LIMIT 10");
+        // Base query with future date filter
+        $sql = "SELECT a.*, 
+                  u.first_name as customer_first_name, 
+                  u.last_name as customer_last_name,
+                  a.created_at
+                  FROM appointments a
+                  JOIN users u ON a.customer_id = u.user_id
+                  WHERE a.tailor_shopkeeper_id = :tailor_id";
 
+        // Only add status filter if provided
+        if ($status) {
+            $sql .= " AND a.status = :status";
+        }
+
+        // Prioritize upcoming appointments first
+        $sql .= " ORDER BY 
+              CASE WHEN a.appointment_date >= CURDATE() THEN 0 ELSE 1 END, 
+              a.appointment_date ASC, 
+              a.appointment_time ASC 
+              LIMIT 10";
+
+        $this->db->query($sql);
         $this->db->bind(':tailor_id', $tailorId);
-        $this->db->bind(':status', $status);
+
+        if ($status) {
+            $this->db->bind(':status', $status);
+        }
 
         return $this->db->resultSet();
     }
 
     /**
-     * Get recent orders
+     * Get recent orders with improved sorting
      */
-    public function getRecentOrders($tailorId, $status = 'order_placed')
+    public function getRecentOrders($tailorId, $status = null)
     {
-        $this->db->query("SELECT o.*,
-                      CONCAT(u.first_name, ' ', u.last_name) as customer_name
-                      FROM orders o
-                      JOIN users u ON o.customer_id = u.user_id
-                      WHERE o.tailor_id = :tailor_id
-                      AND o.status = :status
-                      ORDER BY o.order_date DESC
-                      LIMIT 10");
+        $sql = "SELECT o.*,
+                  CONCAT(u.first_name, ' ', u.last_name) as customer_name
+                  FROM orders o
+                  JOIN users u ON o.customer_id = u.user_id
+                  WHERE o.tailor_id = :tailor_id";
 
+        if ($status) {
+            $sql .= " AND o.status = :status";
+        }
+
+        $sql .= " ORDER BY o.order_date DESC
+              LIMIT 10";
+
+        $this->db->query($sql);
         $this->db->bind(':tailor_id', $tailorId);
-        $this->db->bind(':status', $status);
+
+        if ($status) {
+            $this->db->bind(':status', $status);
+        }
 
         return $this->db->resultSet();
     }

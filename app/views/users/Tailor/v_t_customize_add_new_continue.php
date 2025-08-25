@@ -197,6 +197,26 @@
         </div>
     </form>
 </div>
+<style>
+    .exit-btn {
+        background-color:transparent;
+        color: var(--text-color);
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        margin-top: 20px;
+    }
+    .exit-btn:hover {
+        background-color:var(--glass-color);
+        color:var(--text-mute);
+
+
+    }
+</style>
 
 <!-- Add Tab Navigation JavaScript -->
 <script>

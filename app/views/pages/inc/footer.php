@@ -89,7 +89,7 @@
 
             <div class="team-member">
                 <div class="team-img-container">
-                    <img src="<?php echo URLROOT; ?>/public/img/team/member4.jpg" alt="Team Member 4">
+                    <img src="<?php echo URLROOT; ?>/public/img/team/rangika.jpg" alt="Team Member 4">
                     <div class="overlay">
                         <div class="member-social">
                             <a href="#"><i class="fab fa-github"></i></a>

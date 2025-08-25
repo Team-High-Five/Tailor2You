@@ -86,36 +86,6 @@
     font-size: 1.1rem;
 }
 
-.product-card .buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
-    gap: 12px;
-}
-
-.product-card .buttons button {
-    flex: 1;
-    padding: 10px 15px;
-    border: 1px solid var(--accent-color);
-    border-radius: 8px;
-    cursor: pointer;
-    color: var(--text-light);
-    background: var(--secondary-color);
-    font-weight: 500;
-    transition: var(--transition);
-    position: relative;
-    overflow: hidden;
-}
-
-.product-card .buttons button:first-child {
-    background-color: var(--accent-color);
-    color: white;
-}
-
-.product-card .buttons button:hover {
-    background-color: var(--button-hover-bg);
-    transform: translateY(-2px);
-}
 
 .product-card .buttons button:first-child:hover {
     background-color: var(--accent-color);

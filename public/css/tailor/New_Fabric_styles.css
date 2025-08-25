@@ -1,12 +1,121 @@
+/* Scrollable Color Container */
+.color-scroll-container {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 8px;
+    background: rgba(var(--accent-color-rgb), 0.03);
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) rgba(var(--accent-color-rgb), 0.05);
+    margin-bottom: 10px;
+}
+
+/* Custom scrollbar for webkit browsers */
+.color-scroll-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.color-scroll-container::-webkit-scrollbar-track {
+    background: rgba(var(--accent-color-rgb), 0.05);
+    border-radius: 8px;
+}
+
+.color-scroll-container::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 8px;
+}
+
+/* Improved checkbox group within scrollable area */
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 8px;
+    padding: 4px;
+}
+
+/* Make color swatches more prominent and interactive */
+.checkbox-group label {
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+}
+
+.checkbox-group label:hover {
+    background: rgba(var(--accent-color-rgb), 0.1);
+    border-color: var(--border-color);
+}
+
+.checkbox-group input[type="checkbox"]:checked+label {
+    background: rgba(var(--accent-color-rgb), 0.15);
+    border-color: var(--accent-color);
+    font-weight: 500;
+}
+
+.color-swatch {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 6px;
+    transition: transform 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.checkbox-group label:hover .color-swatch {
+    transform: scale(1.15);
+}
+
 .add-new-fabric-container {
-    max-width: 600px;
-    margin: 2rem auto;
+
+    max-height: 80vh;
+    overflow-y: auto;
+    margin: 1rem auto;
     background: var(--white-color);
     border-radius: 12px;
     box-shadow: var(--shadow);
-    padding: 2rem;
+    padding: 0;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-color) rgba(var(--accent-color-rgb), 0.05);
 }
 
+/* Custom scrollbar for the container */
+.add-new-fabric-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.add-new-fabric-container::-webkit-scrollbar-track {
+    background: rgba(var(--accent-color-rgb), 0.05);
+    border-radius: 8px;
+}
+
+.add-new-fabric-container::-webkit-scrollbar-thumb {
+    background-color: var(--accent-color);
+    border-radius: 8px;
+}
+
+/* Keep modal header fixed at the top while scrolling */
+.add-new-fabric-container .modal-header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: var(--white-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Add padding to the content instead of the container */
+.add-new-fabric-content {
+    padding: 0 2rem 2rem;
+}
+
+/* Fix the fabric form container to have proper padding */
+.fabric-form-container {
+    padding: 1.5rem 0;
+}
+    
 .upload-section {
     text-align: center;
     margin-bottom: 2rem;
@@ -325,4 +434,58 @@ color-swatch[data-color="Navy Blue"] {
         font-size: 0.75rem;
         padding: 0.5rem;
     }
+}
+
+/* Color search input */
+.color-search {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 14px;
+    margin-bottom: 8px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%239d8ee0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    padding-right: 32px;
+}
+
+.color-search:focus {
+    border-color: var(--accent-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.2);
+}
+
+/* Control buttons */
+.color-selection-controls {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.micro-btn {
+    background: var(--card-gradient, linear-gradient(145deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.08)));
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--text-muted);
+}
+
+.micro-btn:hover {
+    background: rgba(var(--accent-color-rgb), 0.1);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+}
+
+/* Selected color counter */
+.selected-count {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
 }

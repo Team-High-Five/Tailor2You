@@ -1,133 +1,131 @@
-To improve the entire `README.md` section with proper structure and formatting, I'll rewrite it to enhance clarity, visual appeal, and professionalism. Here's an updated version of your README:
+# Tailor2You
+
+<p align="center">
+  <img src="./docs/readme-images/logo.png" alt="Tailor2You Logo" width="340" />
+</p>
+
+**Tailor2You** connects customers, tailors, and shopkeepers on a single platform. Manage appointments, fabric inventory, custom designs, orders, and feedback with a clean, responsive UI.
 
 ---
 
-# Tailor2You
+## 🎥 Demo
 
-![Tailor2You Logo](https://via.placeholder.com/600x200?text=Tailor2You+Logo)
-
-**Tailor2You** is an innovative web application designed to connect customers, tailors, and shopkeepers on a unified platform. The system provides tools for managing appointments, fabric inventory, custom designs, and more.
+<a href="https://youtu.be/3ureZbMAvfk" target="_blank" rel="noopener">
+  <img src="https://img.youtube.com/vi/3ureZbMAvfk/maxresdefault.jpg" alt="Watch Tailor2You Demo on YouTube" width="800" />
+</a>
 
 ---
 
 ## 🌟 Features
 
-### For Customers:
-- **Book Appointments**: Schedule appointments with tailors.
-- **Browse Designs**: Explore a wide range of tailoring designs.
-- **Order Customizations**: Customize designs with fabrics and measurements.
-- **Leave Feedback**: Rate and review tailors and shopkeepers.
+### For Customers
 
-### For Tailors:
-- **Manage Appointments**: View and manage customer appointments.
-- **Fabric Inventory**: Add, edit, and manage fabric stock.
-- **Portfolio Management**: Showcase your designs and completed projects.
-- **Order Management**: Track and manage customer orders.
+- Book appointments with tailors
+- Browse designs and customize with fabrics/measurements
+- Leave feedback and ratings
 
-### For Shopkeepers:
-- **Fabric Stock Management**: Manage fabric inventory and pricing.
-- **Customer Interaction**: Communicate with customers via chat.
-- **Sales Reports**: Generate reports for sales and inventory.
+### For Tailors
 
-### For Admins:
-- **User Management**: Manage tailors, shopkeepers, and customers.
-- **Review Moderation**: Approve or reject customer reviews.
-- **Reports**: Generate detailed reports for sales, refunds, and user activity.
+- Manage appointments and orders
+- Maintain fabric stock with colors, price-per-meter, images
+- Showcase portfolio and chat with customers
+
+### For Shopkeepers
+
+- Fabric stock and pricing management
+- Customer interactions and basic reporting
+
+### For Admins
+
+- User management and review moderation
+- Sales and activity reports
 
 ---
 
 ## 🖼️ Screenshots
 
-### Home Page
-![Home Page](https://via.placeholder.com/800x400?text=Home+Page)
-
-### Tailor Dashboard
-![Tailor Dashboard](https://via.placeholder.com/800x400?text=Tailor+Dashboard)
-
-### Fabric Inventory Management
-![Fabric Inventory](https://via.placeholder.com/800x400?text=Fabric+Inventory)
-
-### Appointment Booking
-![Appointment Booking](https://via.placeholder.com/800x400?text=Appointment+Booking)
+<p>
+  <img src="./docs/readme-images/landing.png" alt="Landing Page" width="49%" />
+</p>
+<p>
+  <img src="./docs/readme-images/tailor_dashboard.png" alt="Tailor Dashboard" width="49%" />
+</p>
+<p>
+  <img src="./docs/readme-images/tailor_dashboard.png" alt="Tailor Dashboard" width="49%" />
+</p>
+<p>
+  <img src="./docs/readme-images/fabrics.png" alt="Fabrics" width="49%" />
+</p>
+<p>
+  <img src="./docs/readme-images/tailor_custom.png" alt="Tailor Customization" width="49%" />
+</p>
+<p>
+  <img src="./docs/readme-images/dark_mode.png" alt="Dark Mode" width="49%" />
+</p>
+<p>
+  <img src="./docs/readme-images/cloths_custom.png" alt="Cloths Customization" width="49%" />
+</p>
 
 ---
 
-## 🎥 Demo Video
+## 🚀 Installation (XAMPP)
 
-[![Watch the Demo](https://via.placeholder.com/800x400?text=Watch+Demo+Video)](https://via.placeholder.com/demo-link)
+### Prerequisites
 
----
-
-## 🚀 Installation
-
-Follow these steps to set up the project locally:
-
-### Prerequisites:
-- PHP 7.4 or higher
+- PHP 7.4+ (or newer)
 - MySQL
 - Composer
-- XAMPP or WAMP for local server setup
+- XAMPP/WAMP
 
-### Steps:
-1. **Clone the Repository**:
+### Steps
+
+1. Clone the repository
+
    ```bash
    git clone https://github.com/Team-High-Five/Tailor2You.git
    ```
-2. **Set Up the Database**:
-   - Import the `database.sql` file located in the `db/` folder into your MySQL server.
-3. **Configure Environment**:
-   - Update the database credentials in `Config.php`:
-     ```php
-     define('DB_HOST', 'your-database-host');
-     define('DB_USER', 'your-database-username');
-     define('DB_PASS', 'your-database-password');
-     define('DB_NAME', 'your-database-name');
-     ```
-4. **Install Dependencies**:
+
+2. Import database schema (examples in `dev/`)
+
+   - `dev/Tables.sql` (and other `.sql` files if needed)
+
+3. Configure environment in `app/config/Config.php`
+
+   ```php
+   define('DB_HOST', 'your-db-host');
+   define('DB_USER', 'your-db-user');
+   define('DB_PASS', 'your-db-password');
+   define('DB_NAME', 'your-db-name');
+   ```
+
+4. Install PHP dependencies (if any)
+
    ```bash
    composer install
    ```
-5. **Run the Application**:
-   - Start your local server (e.g., XAMPP or WAMP).
-   - Place the project folder in the `htdocs` directory.
-   - Access the application at `http://localhost/Tailor2You`.
+
+5. Run
+   - Place the project under `htdocs`
+   - Start Apache/MySQL in XAMPP
+   - Visit: `http://localhost/Tailor2You/public` (or `http://localhost/Tailor2You` depending on your setup)
 
 ---
 
 ## 📖 Usage
 
-### Login Credentials:
-- **Admin**:
-  - Email: `admin@example.com`
-  - Password: `admin123`
-- **Tailor**:
-  - Email: `tailor@example.com`
-  - Password: `tailor123`
-- **Customer**:
-  - Email: `customer@example.com`
-  - Password: `customer123`
+Key pages (examples):
 
-### Key Pages:
-- **Home Page**: [http://localhost/Tailor2You/pages/index](http://localhost/Tailor2You/pages/index)
-- **Tailor Dashboard**: [http://localhost/Tailor2You/tailors/dashboard](http://localhost/Tailor2You/tailors/dashboard)
-- **Fabric Inventory**: [http://localhost/Tailor2You/fabrics/displayFabricStock](http://localhost/Tailor2You/fabrics/displayFabricStock)
+- Home: `http://localhost/Tailor2You/pages/index`
+- Tailor dashboard: `http://localhost/Tailor2You/tailors/dashboard`
+- Fabric stock: `http://localhost/Tailor2You/fabrics/displayFabricStock`
 
 ---
 
-## 🛠️ Technologies Used
+## 🛠️ Tech Stack
 
-### Frontend:
-- HTML5, CSS3, JavaScript
-- Bootstrap for responsive design
-- Chart.js for data visualization
-
-### Backend:
-- PHP (MVC Framework)
-- MySQL for database management
-
-### Libraries:
-- FPDF for generating PDF reports
-- Composer for dependency management
+- PHP (custom MVC), MySQL
+- HTML, CSS, JavaScript
+- FPDF (PDF), Composer (deps)
 
 ---
 
@@ -135,61 +133,36 @@ Follow these steps to set up the project locally:
 
 ```plaintext
 Tailor2You/
-├── db/                     # Database files
-├── public/                 # Public assets (CSS, JS, images)
-├── src/                    # PHP source code
-│   ├── controllers/        # MVC controllers
-│   ├── models/             # Database models
-│   └── views/              # HTML templates
-├── Config.php              # Configuration file
-├── README.md               # Project documentation
-└── ...
+├── app/
+│   ├── config/            # App configuration (DB, URLROOT, APPROOT)
+│   ├── controllers/       # Controllers
+│   ├── models/            # Data models
+│   └── views/             # View templates (PHP)
+├── public/                # Public assets (CSS, JS, images) + index.php
+├── dev/                   # SQL schemas and utilities
+├── docs/
+│   └── readme-images/     # Images used in this README
+└── README.MD
 ```
 
 ---
 
 ## 🤝 Contributing
 
-We welcome contributions! Follow these steps to contribute:
-
-1. **Fork the repository**.
-2. **Create a new branch**:
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-3. **Commit your changes**:
-   ```bash
-   git commit -m "Add your message here"
-   ```
-4. **Push to the branch**:
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-5. **Open a pull request**.
+1. Fork the repo
+2. Create a branch: `git checkout -b feature/your-feature`
+3. Commit: `git commit -m "feat: your change"`
+4. Push: `git push origin feature/your-feature`
+5. Open a PR
 
 ---
 
 ## 📧 Contact
 
-For any inquiries or support, please contact:
-
-- **Email**: [support@tailor2you.com](mailto:support@tailor2you.com)
-- **GitHub**: [@yourusername](https://github.com/yourusername)
+- Email: support@tailor2you.com
 
 ---
 
 ## 📜 License
 
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
-
----
-
-## 🌟 Acknowledgments
-
-- Special thanks to the development team for their hard work.
-- Icons by [RemixIcon](https://remixicon.com/).
-- Charts powered by [Chart.js](https://www.chartjs.org/).
-
----
-
-Would you like me to save this as the new `README.md` or customize specific sections further? Let me know!
+MIT — see [LICENSE](./LICENSE)

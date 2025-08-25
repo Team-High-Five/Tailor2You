@@ -138,6 +138,7 @@
     display: flex;
     flex-direction: column;
     background: var(--white-color);
+    overflow: hidden; /* Prevent scrolling on the outer container */
 }
 
 .chat-header {
@@ -172,6 +173,7 @@
     flex-direction: column;
     background: var(--white-color);
     scroll-behavior: smooth; /* Smooth scrolling for better UX */
+    max-height: calc(100% - 120px); /* Adjust based on your header and input heights */
 }
 
 .message {
@@ -211,6 +213,9 @@
 .message p {
     margin: 0;
     line-height: 1.4;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
 .message .message-time {
@@ -400,4 +405,181 @@
 .card-header, .card-body, .card-footer {
     position: relative;
     z-index: 1;
+}
+
+/* Modal Styles - Add to T_S_message.css */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 9999; /* Higher z-index to ensure it's on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s; /* Change from 2.60s to 0.3s */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.chat-modal-content {
+    background-color: #ffffff;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    animation: slideIn 0.3s;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Close Button */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close:hover,
+.close:focus {
+    color: #333;
+}
+
+/* Contact Container in Modal */
+.contact-container {
+    width: 100%;
+    max-height: 70vh;
+    overflow-y: auto;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+/* Contact List */
+.contact-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.contact-item {
+    border-bottom: 1px solid #eee;
+}
+
+.contact-item a {
+    display: flex;
+    padding: 15px;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    transition: background-color 0.2s;
+}
+
+.contact-item a:hover {
+    background-color: #f5f5f5;
+}
+
+.chat-user-icon {
+    width: 50px;
+    height: 50px;
+    background-color: #535a68;
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-right: 15px;
+}
+
+.sidebar-header {
+    background-color: #3b5998;
+    color: #ffffff;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* Fix for variable screen sizes */
+@media screen and (max-width: 768px) {
+    .chat-modal-content {
+        width: 95%;
+        margin: 15% auto;
+    }
+}
+
+/* Add this to your T_S_message.css */
+#newConversationBtn {
+    margin: 15px;
+    width: calc(100% - 30px);
+    background-color: blueviolet; /* Match your theme color */
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+#newConversationBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Add this to the bottom of your T_S_message.css file */
+
+/* Force modal to display properly when active */
+.modal.show {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Ensure maximum z-index */
+#contactModal {
+    z-index: 99999 !important; 
+}
+
+/* Better styling for the new conversation button */
+#newConversationBtn {
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 15px;
+    margin: 10px 15px;
+    width: calc(100% - 30px);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#newConversationBtn:hover {
+    background-color: #3a7bc8;
+}
+
+#newConversationBtn::before {
+    content: "+";
+    margin-right: 5px;
+    font-size: 18px;
+    font-weight: bold;
 }

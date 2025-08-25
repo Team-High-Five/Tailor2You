@@ -75,6 +75,132 @@ class Users extends Controller
         }
     }
 
+    public function forgotPassword()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Sanitize post data
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'email' => trim($_POST['email']),
+                'email_err' => '',
+            ];
+
+            // Validate Email
+            if (empty($data['email'])) {
+                $data['email_err'] = 'Please enter email';
+            } elseif (!$this->userModel->findUserByEmail($data['email'])) {
+                $data['email_err'] = 'No account found with that email';
+            }
+
+            // Make sure errors are empty
+            if (empty($data['email_err'])) {
+                // Generate token
+                $token = bin2hex(random_bytes(32));
+
+                // Save token and email to database
+                if ($this->userModel->saveResetToken($data['email'], $token)) {
+                    // Send email with reset link
+                    $resetLink = URLROOT . '/Users/resetPassword/' . $token;
+
+                    // For now, just display the link (in production, use mail() or a library)
+                    flash('forgot_password_message', 'Recovery link has been sent to your email address. <br>Link: <a href="' . $resetLink . '">' . $resetLink . '</a>', 'alert alert-success');
+
+                    redirect('Users/forgotPassword');
+                } else {
+                    flash('forgot_password_message', 'Something went wrong, please try again', 'alert alert-danger');
+                    redirect('Users/forgotPassword');
+                }
+            } else {
+                // Load view with errors
+                $this->view('users/v_forgot_password', $data);
+            }
+        } else {
+            // Init data
+            $data = [
+                'email' => '',
+                'email_err' => '',
+            ];
+
+            // Load view
+            $this->view('users/v_forgot_password', $data);
+        }
+    }
+
+    public function resetPassword($token = null)
+    {
+        // If token is null or empty, redirect to forgot password page
+        if ($token === null || empty($token)) {
+            redirect('Users/forgotPassword');
+        }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // Process form
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'token' => $token,
+                'password' => trim($_POST['password']),
+                'confirm_password' => trim($_POST['confirm_password']),
+                'password_err' => '',
+                'confirm_password_err' => '',
+                'token_err' => ''
+            ];
+
+            // Validate Password
+            if (empty($data['password'])) {
+                $data['password_err'] = 'Please enter password';
+            } elseif (strlen($data['password']) < 6) {
+                $data['password_err'] = 'Password must be at least 6 characters';
+            }
+
+            // Validate Confirm Password
+            if (empty($data['confirm_password'])) {
+                $data['confirm_password_err'] = 'Please confirm password';
+            } else {
+                if ($data['password'] != $data['confirm_password']) {
+                    $data['confirm_password_err'] = 'Passwords do not match';
+                }
+            }
+
+            // Check if token is valid
+            if (!$this->userModel->checkResetToken($token)) {
+                $data['token_err'] = 'Invalid or expired token';
+            }
+
+            // Make sure errors are empty
+            if (empty($data['password_err']) && empty($data['confirm_password_err']) && empty($data['token_err'])) {
+                // Update password
+                if ($this->userModel->resetPassword($token, $data['password'])) {
+                    flash('login_message', 'Your password has been reset successfully. You can now log in.', 'alert alert-success');
+                    redirect('Users/login');
+                } else {
+                    flash('reset_password_message', 'Something went wrong, please try again', 'alert alert-danger');
+                    $this->view('users/v_reset_password', $data);
+                }
+            } else {
+                // Load view with errors
+                $this->view('users/v_reset_password', $data);
+            }
+        } else {
+            // Check if token is valid
+            if (!$this->userModel->checkResetToken($token)) {
+                flash('forgot_password_message', 'Invalid or expired token', 'alert alert-danger');
+                redirect('Users/forgotPassword');
+            }
+
+            $data = [
+                'token' => $token,
+                'password' => '',
+                'confirm_password' => '',
+                'password_err' => '',
+                'confirm_password_err' => '',
+                'token_err' => ''
+            ];
+
+            $this->view('users/v_reset_password', $data);
+        }
+    }
     public function changePassword()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {

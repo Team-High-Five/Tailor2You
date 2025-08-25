@@ -7,6 +7,7 @@
   require_once APPROOT . '/views/users/Tailor/inc/sideBar.php';
   require_once APPROOT . '/views/users/Tailor/inc/topNavBar.php';
 } ?>
+
 <div class="main-content">
   <?php flash('appointment_message'); ?>
   <?php flash('appointment_error'); ?>
@@ -19,104 +20,104 @@
   <?php flash('reschedule_request_success'); ?>
   <?php flash('reschedule_request_rejected'); ?>
   <?php flash('reschedule_request_accepted'); ?>
-  <div class="appointment-list-container">
-    <div class="filter-bar">
-      <div class="filter-label">
-        <i class="fas fa-filter"></i> Filter Appointments
-      </div>
-      <select id="filter-date" class="filter-select">
-        <option value="">All Dates</option>
-        <option value="today">Today</option>
-        <option value="tomorrow">Tomorrow</option>
-        <option value="week">Next 7 Days</option>
-        <option value="month">Next 30 Days</option>
-      </select>
-      <select id="filter-time" class="filter-select">
-        <option value="">All Times</option>
-        <option value="morning">Morning (Before 12PM)</option>
-        <option value="afternoon">Afternoon (12PM-5PM)</option>
-        <option value="evening">Evening (After 5PM)</option>
-      </select>
-      <select id="filter-status" class="filter-select">
-        <option value="">All Statuses</option>
-        <option value="pending">Pending</option>
-        <option value="confirmed">Confirmed</option>
-        <option value="completed">Completed</option>
-        <option value="rejected">Rejected</option>
-      </select>
-      <button id="reset-filters" class="rst-btn">Reset</button>
-      <a href="<?php echo URLROOT; ?>/Tailors/displayCalendar" class="calendar-btn">
-        <i class="fas fa-calendar-alt"></i> Calendar
-      </a>
-    </div>
 
-    <div class="table-container">
-      <table class="appointment-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Status</th>
+  <div class="filter-bar">
+    <div class="filter-label">
+      <i class="fas fa-filter"></i> Filter Appointments
+    </div>
+    <select id="filter-date" class="filter-select">
+      <option value="">All Dates</option>
+      <option value="today">Today</option>
+      <option value="tomorrow">Tomorrow</option>
+      <option value="week">Next 7 Days</option>
+      <option value="month">Next 30 Days</option>
+    </select>
+    <select id="filter-time" class="filter-select">
+      <option value="">All Times</option>
+      <option value="morning">Morning (Before 12PM)</option>
+      <option value="afternoon">Afternoon (12PM-5PM)</option>
+      <option value="evening">Evening (After 5PM)</option>
+    </select>
+    <select id="filter-status" class="filter-select">
+      <option value="">All Statuses</option>
+      <option value="pending">Pending</option>
+      <option value="confirmed">Confirmed</option>
+      <option value="completed">Completed</option>
+      <option value="rejected">Rejected</option>
+    </select>
+    <button id="reset-filters" class="rst-btn">Reset</button>
+    <a href="<?php echo URLROOT; ?>/Tailors/displayCalendar" class="calendar-btn">
+      <i class="fas fa-calendar-alt"></i> Calendar
+    </a>
+  </div>
+
+  <div class="table-container">
+    <table class="appointment-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Status</th>
+          <?php if ($_SESSION['user_type'] == 'shopkeeper'): ?>
+            <th>Assign Tailor</th>
+          <?php endif; ?>
+        </tr>
+      </thead>
+      <tbody>
+        <?php foreach ($data['appointments'] as $appointment) :
+          // Format date for display
+          $displayDate = date('d M Y', strtotime($appointment->appointment_date));
+          // Get timestamp for easy date comparison
+          $dateTimestamp = strtotime($appointment->appointment_date);
+
+          // Format time for display
+          $displayTime = date('h:i a', strtotime($appointment->appointment_time));
+          // Get 24-hour format time for easy filtering
+          $hour24 = date('H', strtotime($appointment->appointment_time));
+
+          // Determine time period
+          $timePeriod = '';
+          if ($hour24 < 12) {
+            $timePeriod = 'morning';
+          } else if ($hour24 >= 12 && $hour24 < 17) {
+            $timePeriod = 'afternoon';
+          } else {
+            $timePeriod = 'evening';
+          }
+        ?>
+          <tr
+            data-date="<?php echo $appointment->appointment_date; ?>"
+            data-timestamp="<?php echo $dateTimestamp; ?>"
+            data-time="<?php echo $appointment->appointment_time; ?>"
+            data-time-period="<?php echo $timePeriod; ?>"
+            data-status="<?php echo strtolower($appointment->status); ?>">
+            <td><?php echo $appointment->appointment_id; ?></td>
+            <td><a href="<?php echo URLROOT; ?>/tailors/displayAppointmentDetails/<?php echo $appointment->appointment_id; ?>" class="appointment-link"><?php echo $appointment->first_name . ' ' . $appointment->last_name; ?></a></td>
+            <td><?php echo $displayDate; ?></td>
+            <td><?php echo $displayTime; ?></td>
+            <td><span class="status <?php echo strtolower($appointment->status); ?>"><?php echo ucfirst($appointment->status); ?></span></td>
             <?php if ($_SESSION['user_type'] == 'shopkeeper'): ?>
-              <th>Assign Tailor</th>
+              <td>
+                <form action="<?php echo URLROOT; ?>/shopkeepers/assignTailor/<?php echo $appointment->appointment_id; ?>" method="post">
+                  <select name="tailor_id" required>
+                    <option value="">Select Tailor</option>
+                    <?php foreach ($data['employees'] as $tailor) : ?>
+                      <option value="<?php echo $tailor->employee_id; ?>"><?php echo $tailor->last_name; ?></option>
+                    <?php endforeach; ?>
+                  </select>
+                  <button type="submit" class="assign-btn">Assign</button>
+                </form>
+              </td>
             <?php endif; ?>
           </tr>
-        </thead>
-        <tbody>
-          <?php foreach ($data['appointments'] as $appointment) :
-            // Format date for display
-            $displayDate = date('d M Y', strtotime($appointment->appointment_date));
-            // Get timestamp for easy date comparison
-            $dateTimestamp = strtotime($appointment->appointment_date);
-
-            // Format time for display
-            $displayTime = date('h:i a', strtotime($appointment->appointment_time));
-            // Get 24-hour format time for easy filtering
-            $hour24 = date('H', strtotime($appointment->appointment_time));
-
-            // Determine time period
-            $timePeriod = '';
-            if ($hour24 < 12) {
-              $timePeriod = 'morning';
-            } else if ($hour24 >= 12 && $hour24 < 17) {
-              $timePeriod = 'afternoon';
-            } else {
-              $timePeriod = 'evening';
-            }
-          ?>
-            <tr
-              data-date="<?php echo $appointment->appointment_date; ?>"
-              data-timestamp="<?php echo $dateTimestamp; ?>"
-              data-time="<?php echo $appointment->appointment_time; ?>"
-              data-time-period="<?php echo $timePeriod; ?>"
-              data-status="<?php echo strtolower($appointment->status); ?>">
-              <td><?php echo $appointment->appointment_id; ?></td>
-              <td><a href="<?php echo URLROOT; ?>/tailors/displayAppointmentDetails/<?php echo $appointment->appointment_id; ?>" class="appointment-link"><?php echo $appointment->first_name . ' ' . $appointment->last_name; ?></a></td>
-              <td><?php echo $displayDate; ?></td>
-              <td><?php echo $displayTime; ?></td>
-              <td><span class="status <?php echo strtolower($appointment->status); ?>"><?php echo ucfirst($appointment->status); ?></span></td>
-              <?php if ($_SESSION['user_type'] == 'shopkeeper'): ?>
-                <td>
-                  <form action="<?php echo URLROOT; ?>/shopkeepers/assignTailor/<?php echo $appointment->appointment_id; ?>" method="post">
-                    <select name="tailor_id" required>
-                      <option value="">Select Tailor</option>
-                      <?php foreach ($data['employees'] as $tailor) : ?>
-                        <option value="<?php echo $tailor->employee_id; ?>"><?php echo $tailor->last_name; ?></option>
-                      <?php endforeach; ?>
-                    </select>
-                    <button type="submit" class="assign-btn">Assign</button>
-                  </form>
-                </td>
-              <?php endif; ?>
-            </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
-      <div class="no-results" style="display: none;">No appointments match your filter criteria</div>
-    </div>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+    <div class="no-results" style="display: none;">No appointments match your filter criteria</div>
   </div>
+</div>
 </div>
 
 <!-- Modal Structure -->
@@ -167,12 +168,27 @@
     </div>
   </div>
 </div>
+<style>
+  .modal-body {
+    margin-top: 400px;
+
+  }
+</style>
 
 <script>
   document.querySelectorAll('.appointment-link').forEach(link => {
     link.addEventListener('click', function(event) {
       event.preventDefault();
-      document.getElementById('AppointmentCard').style.display = 'block';
+      const appointmentModal = document.getElementById('AppointmentCard');
+
+      // First show the modal
+      appointmentModal.style.display = 'flex';
+
+      // Then add the show class after a tiny delay to trigger animation
+      setTimeout(() => {
+        appointmentModal.classList.add('show');
+      }, 10);
+
       // Load the content of v_t_appointment_card.php into the modal
       fetch(this.href)
         .then(response => response.text())
@@ -184,17 +200,35 @@
 
   document.querySelectorAll('.close-btn').forEach(btn => {
     btn.addEventListener('click', function() {
-      document.getElementById('AppointmentCard').style.display = 'none';
-      document.getElementById('rescheduleAppointmentModal').style.display = 'none';
+      const appointmentModal = document.getElementById('AppointmentCard');
+      const rescheduleModal = document.getElementById('rescheduleAppointmentModal');
+
+      // Remove show class first to trigger animation
+      appointmentModal.classList.remove('show');
+      rescheduleModal.classList.remove('show');
+
+      // Hide after animation completes
+      setTimeout(() => {
+        appointmentModal.style.display = 'none';
+        rescheduleModal.style.display = 'none';
+      }, 300);
     });
   });
 
   window.addEventListener('click', function(event) {
     if (event.target == document.getElementById('AppointmentCard')) {
-      document.getElementById('AppointmentCard').style.display = 'none';
+      const appointmentModal = document.getElementById('AppointmentCard');
+      appointmentModal.classList.remove('show');
+      setTimeout(() => {
+        appointmentModal.style.display = 'none';
+      }, 300);
     }
     if (event.target == document.getElementById('rescheduleAppointmentModal')) {
-      document.getElementById('rescheduleAppointmentModal').style.display = 'none';
+      const rescheduleModal = document.getElementById('rescheduleAppointmentModal');
+      rescheduleModal.classList.remove('show');
+      setTimeout(() => {
+        rescheduleModal.style.display = 'none';
+      }, 300);
     }
   });
 
@@ -203,7 +237,12 @@
       event.preventDefault();
       const appointmentId = event.target.dataset.id;
       document.getElementById('reschedule-form').action = '<?php echo URLROOT; ?>/tailors/requestRescheduleAppointment/' + appointmentId;
-      document.getElementById('rescheduleAppointmentModal').style.display = 'block';
+
+      const rescheduleModal = document.getElementById('rescheduleAppointmentModal');
+      rescheduleModal.style.display = 'flex';
+      setTimeout(() => {
+        rescheduleModal.classList.add('show');
+      }, 10);
     }
   });
 </script>
